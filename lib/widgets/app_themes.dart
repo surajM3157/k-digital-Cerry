@@ -9,21 +9,25 @@ class AppThemes{
 
   {
 
-  return TextStyle(fontSize: 22,fontWeight: FontWeight.w400,fontFamily: appFontFamilyHeadings,color: AppColor.primaryColor);
+  return TextStyle(fontSize: 22,fontWeight: FontWeight.w400,fontFamily: appFontFamily,color: AppColor.primaryColor);
 }
 
   static TextStyle subtitleTextStyle()
 
   {
 
-  return TextStyle(fontSize: 14,fontWeight: FontWeight.w400,fontFamily: appFontFamilyHeadings,color: AppColor.black);
+  return TextStyle(fontSize: 14,fontWeight: FontWeight.w400,fontFamily: appFontFamily,color: AppColor.black);
 }
 
 static TextStyle labelTextStyle(){
-    return TextStyle(color: AppColor.white,fontSize: 14,fontWeight: FontWeight.w700,fontFamily: appFontFamilyBody);
+    return TextStyle(color: AppColor.white,fontSize: 14,fontWeight: FontWeight.w700,fontFamily: appFontFamily);
 }
 
 static TextStyle appBarTitleStyle(){
-    return TextStyle(fontSize: 20,fontWeight: FontWeight.w500,color: AppColor.primaryColor,fontFamily: appFontFamilyHeadings);
+    return TextStyle(fontSize: 20,fontWeight: FontWeight.w500,color: AppColor.primaryColor,fontFamily: appFontFamily);
+}
+
+static subtitle1TextStyle(){
+    return TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w400,fontSize: 16,color: AppColor.black);
 }
 }

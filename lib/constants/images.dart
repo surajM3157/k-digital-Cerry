@@ -6,12 +6,15 @@ class Images{
   static String forgotPassIllustration = 'assets/images/auth/forgot_pass_illustration.svg';
   static String otpIllustration = 'assets/images/auth/otp_illustration.svg';
   static String resetPassIllustration = 'assets/images/auth/reset_pass_illustration.svg';
+  static String logo = 'assets/images/logo.svg';
+  static String logoDark = 'assets/images/logo_dark.svg';
 
   //Home
   static String homeBanner = 'assets/images/home_banner.png';
   static String feedback = 'assets/images/feedback.svg';
   static String liveEventBanner = 'assets/images/live_event_banner.png';
   static String ticketBanner = 'assets/images/ticket_banner.png';
+  static String speakerHome = 'assets/images/speaker_home.png';
 
   //session
   static String sessionBanner = 'assets/images/session_banner.png';
@@ -78,5 +81,10 @@ class Images{
   static String requestNotificationIcon = 'assets/images/icons/request_notification_icon.svg';
   static String profileIcon = 'assets/images/icons/profile_icon.svg';
   static String notificationIcon = 'assets/images/icons/notification_icon.svg';
+  static String downArrowIcon = 'assets/images/icons/down_arrow_icon.svg';
+  static String agendaIcon = 'assets/images/icons/agenda_icon.svg';
+  static String speakerIcon = 'assets/images/icons/speaker_icon.svg';
+  static String sponsorIcon = 'assets/images/icons/sponsor_icon.svg';
+  static String crossArrowIcon = 'assets/images/icons/cross_arrow_icon.svg';
 
 }

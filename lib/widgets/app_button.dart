@@ -18,7 +18,12 @@ class AppButton extends StatelessWidget {
         height: 45,
         margin: EdgeInsets.symmetric(horizontal: 20),
         decoration: BoxDecoration(
-          color: AppColor.primaryColor,
+          // color: AppColor.primaryColor,
+            gradient: LinearGradient(
+              colors: [AppColor.primaryColor, AppColor.red],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+            ),
           borderRadius: BorderRadius.all(Radius.circular(8))
         ),
         child: Center(

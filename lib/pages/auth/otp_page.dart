@@ -7,6 +7,7 @@ import '../../constants/images.dart';
 import '../../route/route_names.dart';
 import '../../widgets/app_button.dart';
 import '../../widgets/app_themes.dart';
+import '../../widgets/gradient_text.dart';
 
 class OtpPage extends StatefulWidget {
   const OtpPage({super.key});
@@ -26,16 +27,23 @@ class _OtpPageState extends State<OtpPage> {
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Stack(
             children: [
               Stack(
                 alignment: Alignment.topLeft,
                 children: [
                   Container(
                       width: Get.width,
-                      color: AppColor.secondaryColor,
-                      child: SvgPicture.asset(Images.otpIllustration)),
+                      height: 252,
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [AppColor.primaryColor, AppColor.red],
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                        ),
+                      ),
+                      child: SvgPicture.asset(Images.logo)),
                   Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: InkWell(
@@ -46,85 +54,170 @@ class _OtpPageState extends State<OtpPage> {
                   )
                 ],
               ),
-              const SizedBox(height: 20,),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Text("Enter Verification Code",style: AppThemes.titleTextStyle(),),
-              ),
-              const SizedBox(height: 5,),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Text("Please enter the 4 digit code we sent to your email",style: AppThemes.subtitleTextStyle(),),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Text("at*****123@gmail.com to proceed",style: AppThemes.subtitleTextStyle(),),
-              ),
-              SizedBox(height: 20,),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                child: PinCodeTextField(
-                  enableActiveFill: true,
-                  appContext: context,
-                  length: 4,
-                  animationType: AnimationType.fade,
-                  textStyle: TextStyle(color: AppColor.white),
-                  pinTheme: PinTheme(
-                      selectedColor: AppColor.secondaryColor,
-                      shape: PinCodeFieldShape.box,
-                      activeColor: AppColor.secondaryColor,
-                      inactiveColor: AppColor.secondaryColor,
-                      borderRadius: BorderRadius.circular(5),
-                      fieldHeight: 70,
-                      fieldWidth: 66,
-                      activeFillColor: AppColor.secondaryColor,
-                      inactiveFillColor: AppColor.secondaryColor,
-                      selectedFillColor: AppColor.secondaryColor
-                  ),
-                  // focusNode: unitCodeCtrlFocusNode
-                  autoFocus: true,
-                  enablePinAutofill: true,
-                  cursorColor: AppColor.white,
-                  animationDuration:
-                  const Duration(milliseconds: 300),
-                  // enableActiveFill: true,
-                  controller: _codeController,
-                  // focusNode: unitCodeCtrlFocusNode,
-                  keyboardType: TextInputType.number,
-                  boxShadows:  [
-                    BoxShadow(
-                      offset: Offset(0, 1),
-                      color: AppColor.secondaryColor,
-                      blurRadius: 10,
-                    )
-                  ],
-                  onCompleted: (v)
-                  {
-                    otpCode = _codeController.text.toString();
-                    setState((){});
-                  },
-                  // onTap: () {
-                  //   print("Pressed");
-                  // },
-                  beforeTextPaste: (text) {
-                    //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
-                    //but you can show anything you want here, like your pop up saying wrong paste format or etc
-                    return true;
-                  },
-                  onChanged: (String value) {  },
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Text("Resend Code",style: AppThemes.subtitleTextStyle(),),
-              ),
-              SizedBox(height: 20,),
-              AppButton(title: "Verify", onTap: () {
-                Get.toNamed(Routes.resetPassword);
-              },),
+             Container(
+               margin: EdgeInsets.only(top: 230),
+               decoration: BoxDecoration(
+                   color: AppColor.white,
+                   borderRadius: BorderRadius.only(topLeft: Radius.circular(30),topRight: Radius.circular(30),
+                   )
+               ),
+               child: Column(
+                 crossAxisAlignment: CrossAxisAlignment.start,
+                 children: [
+                   const SizedBox(height: 20,),
+                   Padding(
+                     padding: const EdgeInsets.symmetric(horizontal: 20),
+                     child: GradientText(text:"Enter Verification Code",gradient: LinearGradient(
+                       colors: [AppColor.primaryColor, AppColor.red],
+                       begin: Alignment.topLeft,
+                       end: Alignment.bottomRight,
+                     ),style: AppThemes.titleTextStyle().copyWith(fontWeight: FontWeight.w600,fontSize: 24),),
+                   ),
+                   const SizedBox(height: 5,),
+                   Padding(
+                     padding: const EdgeInsets.symmetric(horizontal: 20),
+                     child: Text("Please enter the 4 digit code we sent to your email",style: AppThemes.subtitleTextStyle(),),
+                   ),
+                   Padding(
+                     padding: const EdgeInsets.symmetric(horizontal: 20),
+                     child: Text("at*****123@gmail.com to proceed",style: AppThemes.subtitleTextStyle(),),
+                   ),
+                   SizedBox(height: 20,),
+                   Padding(
+                     padding: EdgeInsets.symmetric(horizontal: 20),
+                     child: PinCodeTextField(
+                       enableActiveFill: true,
+                       appContext: context,
+                       length: 4,
+                       animationType: AnimationType.fade,
+                       textStyle: TextStyle(color: AppColor.primaryColor),
+                       pinTheme: PinTheme(
+                           selectedColor: AppColor.primaryColor,
+                           shape: PinCodeFieldShape.box,
+                           activeColor: AppColor.primaryColor,
+                           inactiveColor: AppColor.primaryColor,
+                           borderRadius: BorderRadius.circular(5),
+                           borderWidth: 2,
+                           fieldHeight: 70,
+                           fieldWidth: 66,
+                           activeFillColor: AppColor.white,
+                           inactiveFillColor: AppColor.white,
+                           selectedFillColor: AppColor.white
+                       ),
+                       // focusNode: unitCodeCtrlFocusNode
+                       autoFocus: true,
+                       enablePinAutofill: true,
+                       cursorColor: AppColor.primaryColor,
+                       animationDuration:
+                       const Duration(milliseconds: 300),
+                       // enableActiveFill: true,
+                       controller: _codeController,
+                       // focusNode: unitCodeCtrlFocusNode,
+                       keyboardType: TextInputType.number,
+                       boxShadows:  [
+                         BoxShadow(
+                           offset: Offset(0, 1),
+                           color: AppColor.secondaryColor,
+                           blurRadius: 10,
+                         )
+                       ],
+                       onCompleted: (v)
+                       {
+                         otpCode = _codeController.text.toString();
+                         setState((){});
+                       },
+                       // onTap: () {
+                       //   print("Pressed");
+                       // },
+                       beforeTextPaste: (text) {
+                         //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
+                         //but you can show anything you want here, like your pop up saying wrong paste format or etc
+                         return true;
+                       },
+                       onChanged: (String value) {  },
+                     ),
+                   ),
+                   Padding(
+                     padding: const EdgeInsets.symmetric(horizontal: 20),
+                     child: Text("Resend Code",style: AppThemes.subtitleTextStyle(),),
+                   ),
+                   SizedBox(height: 20,),
+                   AppButton(title: "Verify", onTap: () {
+                     Get.toNamed(Routes.resetPassword);
+                   },),
+                 ],
+               ),
+             )
             ],
           ),
         ),
+      ),
+    );
+  }
+
+
+  Widget otpField(){
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20),
+      child: Stack(
+        children: [
+          // Outer container with gradient border
+          Container(
+            height: 70, // Field height
+            width: 66 * 4, // Field width * number of fields (4 in this case)
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Color(0xFF1B1464), Color(0xFFCF2E2E)], // Gradient colors
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+              ),
+              borderRadius: BorderRadius.circular(5),
+            ),
+          ),
+          // PinCodeTextField
+          Padding(
+            padding: const EdgeInsets.all(2.0), // Padding to create space for the gradient
+            child: PinCodeTextField(
+              enableActiveFill: true,
+              appContext: context,
+              length: 4,
+              animationType: AnimationType.fade,
+              textStyle: TextStyle(color: AppColor.primaryColor),
+              pinTheme: PinTheme(
+                shape: PinCodeFieldShape.box,
+                borderRadius: BorderRadius.circular(5),
+                fieldHeight: 70,
+                fieldWidth: 66,
+                activeFillColor: AppColor.white,
+                inactiveFillColor: AppColor.white,
+                selectedFillColor: AppColor.white,
+                activeColor: Colors.transparent,
+                inactiveColor: Colors.transparent,
+                selectedColor: Colors.transparent,
+              ),
+              controller: _codeController,
+              autoFocus: true,
+              enablePinAutofill: true,
+              cursorColor: AppColor.primaryColor,
+              animationDuration: const Duration(milliseconds: 300),
+              keyboardType: TextInputType.number,
+              boxShadows: [
+                BoxShadow(
+                  offset: Offset(0, 1),
+                  color: AppColor.secondaryColor,
+                  blurRadius: 10,
+                )
+              ],
+              onCompleted: (v) {
+                otpCode = _codeController.text.toString();
+              },
+              beforeTextPaste: (text) {
+                return true;
+              },
+              onChanged: (String value) {},
+            ),
+          ),
+        ],
       ),
     );
   }

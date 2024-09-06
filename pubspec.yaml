@@ -114,3 +114,7 @@ flutter:
     - family: Poppins
       fonts:
         - asset: fonts/Poppins/Poppins-Regular.ttf
+
+    - family: OpenSans
+      fonts:
+        - asset: fonts/OpenSans/OpenSans-Regular.ttf

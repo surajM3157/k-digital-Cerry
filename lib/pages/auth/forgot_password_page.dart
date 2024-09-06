@@ -3,11 +3,13 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import '../../constants/colors.dart';
+import '../../constants/font_family.dart';
 import '../../constants/images.dart';
 import '../../route/route_names.dart';
 import '../../widgets/app_button.dart';
 import '../../widgets/app_textfield.dart';
 import '../../widgets/app_themes.dart';
+import '../../widgets/gradient_text.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({super.key});
@@ -25,16 +27,23 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Stack(
             children: [
               Stack(
                 alignment: Alignment.topLeft,
                 children: [
                   Container(
                       width: Get.width,
-                      color: AppColor.secondaryColor,
-                      child: SvgPicture.asset(Images.forgotPassIllustration)),
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      height: 252,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [AppColor.primaryColor, AppColor.red],
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                        ),
+                      ),
+                      child: SvgPicture.asset(Images.logo)),
                   Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: InkWell(
@@ -45,26 +54,65 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   )
                 ],
               ),
-              const SizedBox(height: 20,),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Text("Forgot Password",style: AppThemes.titleTextStyle(),),
-              ),
-              const SizedBox(height: 5,),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Text("You will receive a code via email.",style: AppThemes.subtitleTextStyle(),),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Text("Enter the email below to reset your password.",style: AppThemes.subtitleTextStyle(),),
-              ),
-              const SizedBox(height: 20,),
-              AppTextField(hintText: "Type Your Email Address", controller: _emailController,prefixIcon: Icon(Icons.email_outlined,color: Colors.black,),),
-              const SizedBox(height: 20,),
-              AppButton(title: "Send Reset Link", onTap: () {
-                Get.toNamed(Routes.otp);
-              },)
+              Container(
+                margin: EdgeInsets.only(top: 230),
+                decoration: BoxDecoration(
+                  color: AppColor.white,
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(30),topRight: Radius.circular(30),
+                  )
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 20,),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 40),
+                      child: GradientText(text:"Forgot Password",gradient: LinearGradient(
+                        colors: [AppColor.primaryColor, AppColor.red],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),style: AppThemes.titleTextStyle().copyWith(fontWeight: FontWeight.w600,fontSize: 24),),
+                    ),
+                    const SizedBox(height: 5,),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 40),
+                      child: Text("You will receive a code via email.",style: AppThemes.subtitleTextStyle(),),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 40),
+                      child: Text("Enter the email below to reset your password.",style: AppThemes.subtitleTextStyle(),),
+                    ),
+                    const SizedBox(height: 20,),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 40),
+                      child: Text("Email",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400,color: AppColor.primaryColor,fontFamily: appFontFamily),),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: TextFormField(
+                        controller: _emailController,
+                        cursorColor: AppColor.primaryColor,
+                        decoration: InputDecoration(
+                          suffixIcon: Icon(Icons.lock_outline,color: AppColor.primaryColor,),
+                          hintText: "Enter Email Address",
+                          hintStyle: TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
+                          filled: true,
+                          fillColor: AppColor.white,
+                          contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                          focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color:AppColor.greyTextField, width: 2.0)),
+                          enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color:AppColor.greyTextField, width: 2.0)),
+                          errorBorder: UnderlineInputBorder( borderSide: BorderSide(color: Colors.red, width: 2.0)),
+                          focusedErrorBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.red, width: 2.0)),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 30,),
+                    AppButton(title: "Send Reset Link", onTap: () {
+                      Get.toNamed(Routes.otp);
+                    },)
+                  ],
+                ),
+              )
             ],
           ),
         ),

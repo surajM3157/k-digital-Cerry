@@ -28,6 +28,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   int bottomNavbarIndex = 0;
   TextEditingController searchController = TextEditingController();
   TabController? _controller;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
 
   @override
   void initState() {
@@ -35,37 +37,39 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     super.initState();
   }
 
+  void _openDrawer() {
+    _scaffoldKey.currentState?.openDrawer(); // Open the drawer
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey, // Set the key to Scaffold
       backgroundColor: AppColor.white,
+      drawer: drawerWidget(),
       appBar: AppBar(
         toolbarHeight: bottomNavbarIndex == 3?120:null,
         elevation: 0,
-        leading:bottomNavbarIndex == 3?null:bottomNavbarIndex == 0? InkWell(
-          onTap: (){
-            Get.toNamed(Routes.profile);
-          },
-            child: SvgPicture.asset(Images.profileIcon,color: AppColor.white,)):InkWell(
-            onTap: (){
-              bottomNavbarIndex = 0;
-              setState(() {
-
-              });
-            },
-            child: Icon(Icons.arrow_back_ios,size: 20,color: AppColor.primaryColor,)),
+        automaticallyImplyLeading: false,
         actions: [
-          bottomNavbarIndex == 0?InkWell(
+          InkWell(
+              onTap: (){
+                Get.toNamed(Routes.profile);
+              },
+              child: SvgPicture.asset(Images.profileIcon,color: AppColor.white,)),
+          InkWell(
             onTap: (){
               Get.toNamed(Routes.notification);
             },
-              child: SvgPicture.asset(Images.notificationIcon,color: AppColor.white,)):SizedBox.shrink(),
+              child: SvgPicture.asset(Images.notificationIcon,color: AppColor.white,)),
+          InkWell(
+            onTap: _openDrawer,
+            child: Icon(Icons.menu,color: AppColor.white,)
+          ),
+          SizedBox(width: 20,)
         ],
-        backgroundColor:bottomNavbarIndex == 3?AppColor.secondaryColor:bottomNavbarIndex == 0? AppColor.primaryColor:AppColor.white,
-        title:bottomNavbarIndex == 0? Center(
-          child: Text('Home',style: AppThemes.titleTextStyle().copyWith(color: AppColor.white,),
-      ),
-        ):bottomNavbarIndex == 3?
+        backgroundColor:AppColor.primaryColor,
+        title:bottomNavbarIndex == 3?
         Column(
           children: [
             SizedBox(height: 10,),
@@ -124,10 +128,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               ]),
             )
           ],
-        ):Center(child: Padding(
-          padding: const EdgeInsets.only(right: 70),
-          child: Text(bottomNavbarIndex == 1?"Ticket":"Breakout Rooms",style:  AppThemes.appBarTitleStyle(),),
-        )),
+        ):SvgPicture.asset(Images.logo,height: 40,width: 147,)
     ),
       body: bottomNavbarIndex == 0?Home():bottomNavbarIndex == 1?Booking():bottomNavbarIndex == 2?Session():Delegates(tabController: _controller!,),
       bottomNavigationBar: bottomNavbar(),
@@ -135,54 +136,168 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   }
 
 
+  Widget drawerWidget(){
+    return SafeArea(
+      child: Drawer(
+        backgroundColor: AppColor.FFF4F4F4,
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            SizedBox(height: 30,),
+            Row(
+              children: [
+                SizedBox(width: 30,),
+                InkWell(
+                  onTap: (){
+                    Get.back();
+                  },
+                    child: Icon(Icons.arrow_back_ios,color: AppColor.primaryColor,)),
+                SizedBox(width: 20,),
+                SvgPicture.asset(Images.logoDark,height: 40,width: 147,)
+              ],
+            ),
+            SizedBox(height: 30,),
+            Container(
+              height: 48,
+              margin: EdgeInsets.symmetric(horizontal: 20),
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              width: Get.width,
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [AppColor.primaryColor, AppColor.red],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                borderRadius: BorderRadius.all(Radius.circular(8))
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("Conference",style: AppThemes.subtitle1TextStyle().copyWith(color:AppColor.white),),
+                  SvgPicture.asset(Images.downArrowIcon)
+                ],
+              ),
+            ),
+            SizedBox(height: 20,),
+            Row(
+              children: [
+                SizedBox(width: 20,),
+                SvgPicture.asset(Images.agendaIcon,height: 21,width: 21,),
+                SizedBox(width: 5,),
+                Text("Piwot 2024 Agenda",style: AppThemes.subtitle1TextStyle(),)
+              ],
+            ),
+            SizedBox(height: 20,),
+            Row(
+              children: [
+                SizedBox(width: 20,),
+                SvgPicture.asset(Images.speakerIcon,height: 21,width: 21,),
+                SizedBox(width: 5,),
+                Text("Speaker",style: AppThemes.subtitle1TextStyle(),)
+              ],
+            ),
+            SizedBox(height: 20,),
+            Row(
+              children: [
+                SizedBox(width: 20,),
+                SvgPicture.asset(Images.sponsorIcon,height: 21,width: 21,),
+                SizedBox(width: 5,),
+                Text("Sponsor",style: AppThemes.subtitle1TextStyle(),)
+              ],
+            ),
+            SizedBox(height: 30,),
+            Container(
+              height: 48,
+              margin: EdgeInsets.symmetric(horizontal: 20),
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              width: Get.width,
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [AppColor.primaryColor, AppColor.red],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius: BorderRadius.all(Radius.circular(8))
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("Festivities",style: AppThemes.subtitle1TextStyle().copyWith(color:AppColor.white),),
+                  SvgPicture.asset(Images.downArrowIcon)
+                ],
+              ),
+            ),
+            SizedBox(height: 20,),
+            Padding(
+              padding: const EdgeInsets.only(left: 20),
+              child: Text("Privacy Policy",style: AppThemes.subtitle1TextStyle(),),
+            ),
+            SizedBox(height: 20,),
+            Padding(
+              padding: const EdgeInsets.only(left: 20),
+              child: Text("Terms & Condition",style: AppThemes.subtitle1TextStyle(),),
+            ),
+            SizedBox(height: 20,),
+            Padding(
+              padding: const EdgeInsets.only(left: 20),
+              child: Text("Terms of Use",style: AppThemes.subtitle1TextStyle(),),
+            ),
+            SizedBox(height: 20,),
+            Padding(
+              padding: const EdgeInsets.only(left: 20),
+              child: Text("News",style: AppThemes.subtitle1TextStyle(),),
+            ),
+            SizedBox(height: 20,),
+            Padding(
+              padding: const EdgeInsets.only(left: 20),
+              child: Text("FAQ",style: AppThemes.subtitle1TextStyle(),),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      bottomNavbarIndex = index;
+    });
+  }
 
   Widget bottomNavbar(){
-    return CurvedNavigationBar(
-      key: bottomNavigationKey,
+    return BottomAppBar(
       color: AppColor.primaryColor,
-      backgroundColor: Colors.white,
-      buttonBackgroundColor: AppColor.bottomNavColor,
-      items: [
-        CurvedNavigationBarItem(
-          child:         Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SvgPicture.asset(bottomNavbarIndex==0?Images.homeSelectedIcon:Images.homeUnselectedIcon),
-          ),
-          label:bottomNavbarIndex == 0? 'Home':null,
-            labelStyle: AppThemes.labelTextStyle()
-        ),CurvedNavigationBarItem(
-          child:     Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SvgPicture.asset(bottomNavbarIndex==1?Images.bookingSelectedIcon:Images.bookingUnselectedIcon),
-          ),
-          label: bottomNavbarIndex == 1?'Booking':null,
-            labelStyle: AppThemes.labelTextStyle()
-        ),CurvedNavigationBarItem(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SvgPicture.asset(bottomNavbarIndex==2?Images.sessionSelectedIcon:Images.sessionUnselectedIcon),
-          ),
-          label: bottomNavbarIndex == 2?'Session':null,
-            labelStyle: AppThemes.labelTextStyle()
-        ),CurvedNavigationBarItem(
-          child:
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SvgPicture.asset(bottomNavbarIndex==3?Images.delegatesSelectedIcon:Images.delegatesUnselectedIcon),
-          ),
-          label: bottomNavbarIndex == 3?'Delegates':null,
-          labelStyle: AppThemes.labelTextStyle()
-        ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          _buildNavItem(Images.homeSelectedIcon, "Home", 0),
+          _buildNavItem(Images.bookingSelectedIcon, "Bookings", 1),
+          _buildNavItem(Images.sessionSelectedIcon, "Session", 2),
+          _buildNavItem(Images.delegatesSelectedIcon, "Delegates", 3),
+        ],
+      ),
+    );
+  }
 
-
-      ],
-      index: bottomNavbarIndex,
-      onTap: (index) {
-        bottomNavbarIndex = index;
-        setState(() {
-
-        });
-      },
+  Widget _buildNavItem(String icon, String label, int index) {
+    return InkWell(
+      onTap: () => _onItemTapped(index),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(height: 10,),
+          SvgPicture.asset(icon),
+          SizedBox(height: 10,),
+          Text(label,style: TextStyle(fontSize: 12,fontWeight: FontWeight.w600,fontFamily: appFontFamily,color: AppColor.white),),
+          SizedBox(height: 10,),
+          bottomNavbarIndex==index?Container(
+            height: 5,
+            width: 61,
+            color: AppColor.red,
+          ):SizedBox()
+        ],
+      ),
     );
   }
 
