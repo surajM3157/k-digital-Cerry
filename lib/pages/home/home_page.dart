@@ -122,7 +122,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               ],
             ):Padding(
               padding: const EdgeInsets.only(left: 10,bottom: 10),
-              child: SvgPicture.asset(Images.logo,height: 40,width: 147,),
+              child: Align(
+                alignment: Alignment.bottomLeft,
+                  child: SvgPicture.asset(Images.logo,height: 40,width: 147,)),
             ),
           ),
         automaticallyImplyLeading: false,
@@ -194,13 +196,18 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               ),
             ),
             SizedBox(height: 20,),
-            Row(
-              children: [
-                SizedBox(width: 20,),
-                SvgPicture.asset(Images.agendaIcon,height: 21,width: 21,),
-                SizedBox(width: 5,),
-                Text("Piwot 2024 Agenda",style: AppThemes.subtitle1TextStyle(),)
-              ],
+            InkWell(
+              onTap: (){
+                Get.toNamed(Routes.agenda);
+              },
+              child: Row(
+                children: [
+                  SizedBox(width: 20,),
+                  SvgPicture.asset(Images.agendaIcon,height: 21,width: 21,),
+                  SizedBox(width: 5,),
+                  Text("Piwot 2024 Agenda",style: AppThemes.subtitle1TextStyle(),)
+                ],
+              ),
             ),
             SizedBox(height: 20,),
             InkWell(

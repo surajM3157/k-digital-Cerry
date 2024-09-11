@@ -94,10 +94,10 @@ class _EventDetailsPageState extends State<EventDetailsPage>  with SingleTickerP
                           // ),
                           tabs: [
                              Tab(
-                              child: Text("Event Details",style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 20,color: AppColor.primaryColor),),
+                              child: Text("Event Details",style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 16,color: AppColor.primaryColor),),
                             ),
                              Tab(
-                               child: Text("Agenda",style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 20,color: AppColor.primaryColor),),
+                               child: Text("Agenda",style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 16,color: AppColor.primaryColor),),
                             ),
                           ],
                         ),

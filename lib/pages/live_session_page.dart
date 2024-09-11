@@ -7,6 +7,7 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import '../constants/colors.dart';
 import '../constants/images.dart';
+import '../widgets/gradient_text.dart';
 
 
 class LiveSessionPage extends StatefulWidget {
@@ -32,6 +33,24 @@ class _LiveSessionPageState extends State<LiveSessionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: AppColor.primaryColor,
+        title: Padding(
+          padding: const EdgeInsets.only(right: 60),
+          child: Center(child: SvgPicture.asset(Images.logo, height: 40,width: 147)),
+        ),
+        leading: InkWell(
+            onTap: (){
+              SystemChrome.setPreferredOrientations([
+                DeviceOrientation.portraitUp, // Locks the app to portrait mode
+                // DeviceOrientation.landscapeLeft, // Uncomment this line to lock to landscape mode
+                // DeviceOrientation.landscapeRight,
+              ]);
+              Get.back();
+            },
+            child: Icon(Icons.arrow_back_ios,size: 20,color: AppColor.white,)),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -75,28 +94,14 @@ class _LiveSessionPageState extends State<LiveSessionPage> {
                           },
                             child: SvgPicture.asset(Images.playBtnIcon)),
                       )),
-                  InkWell(
-                    onTap: (){
-                      SystemChrome.setPreferredOrientations([
-                        DeviceOrientation.portraitUp, // Locks the app to portrait mode
-                        // DeviceOrientation.landscapeLeft, // Uncomment this line to lock to landscape mode
-                        // DeviceOrientation.landscapeRight,
-                      ]);
-                      Get.back();
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Icon(Icons.arrow_back_ios,size: 24,color: AppColor.white,),
-                    ),
-                  ),
                 ],
               ),
               isPlay?SizedBox.shrink():SizedBox(height: 20,),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Text("Welcome Party",style: AppThemes.titleTextStyle().copyWith(
+                child: GradientText(text:"Welcome Party",style: AppThemes.titleTextStyle().copyWith(
                     fontWeight: FontWeight.w600,fontSize: 24
-                ),),
+                ), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]),),
               ),
               SizedBox(height: 20,),
               Padding(

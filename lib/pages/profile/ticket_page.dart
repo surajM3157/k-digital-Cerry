@@ -46,91 +46,113 @@ class _TicketPageState extends State<TicketPage> {
             ),),
           ),
           Container(
-            height: 423,
+            height: Get.height/1.4,
             width: Get.width,
-            margin: EdgeInsets.symmetric(horizontal: 20,vertical: 20),
+            margin: EdgeInsets.all(20),
+            padding: EdgeInsets.all(20),
             decoration: BoxDecoration(
-              border: Border.all(color: AppColor.black.withOpacity(0.27)),
-              borderRadius: BorderRadius.all(Radius.circular(12))
+                gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]),
+                borderRadius: BorderRadius.all(Radius.circular(12))
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: Stack(
+              alignment: Alignment.center,
               children: [
                 Container(
-                  width:Get.width,
-                  height: 70,
+                  height: Get.height,
+                  width: 288,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(topLeft: Radius.circular(12),topRight:Radius.circular(11) ),
-                    gradient:LinearGradient(
-                      colors: [AppColor.primaryColor, AppColor.red],
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                    ),
+                      color: AppColor.white,
+                      borderRadius: BorderRadius.all(Radius.circular(12))
                   ),
-                  child: Center(
-                    child: Text("Ticket Details",style: TextStyle(
-                      fontFamily: appFontFamily,fontSize: 20,fontWeight: FontWeight.w600,color: AppColor.white
-                    ),),
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 20),
-                  child: GradientText(text:"Event Name",style: AppThemes.subtitleTextStyle().copyWith(fontWeight: FontWeight.w600),gradient:LinearGradient(
-                    colors: [AppColor.primaryColor, AppColor.red],
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
-                  ),),
-                ),
-                SizedBox(height: 5,),
-                Padding(
-                  padding: const EdgeInsets.only(left: 20),
-                  child: Text("NETWORKING DINNER",style: AppThemes.subtitleTextStyle().copyWith(color: AppColor.FF161616),),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  children: [
-                   Column(
-                     crossAxisAlignment: CrossAxisAlignment.start,
-                     children: [
-                       Padding(
-                         padding: const EdgeInsets.only(left: 20),
-                         child: GradientText(text:"Time",style: AppThemes.subtitleTextStyle().copyWith(fontWeight: FontWeight.w600),gradient:LinearGradient(
-                           colors: [AppColor.primaryColor, AppColor.red],
-                           begin: Alignment.centerLeft,
-                           end: Alignment.centerRight,
-                         ),),
-                       ),
-                       SizedBox(height: 5,),
-                       Padding(
-                         padding: const EdgeInsets.only(left: 20),
-                         child: Text("10:00 AM",style: AppThemes.subtitleTextStyle().copyWith(color: AppColor.FF161616),),
-                       ),
-                     ],
-                   ),
-                    SizedBox(width: 80,),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        GradientText(text:"Date",style: AppThemes.subtitleTextStyle().copyWith(fontWeight: FontWeight.w600),gradient:LinearGradient(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ClipRRect(
+                        borderRadius:BorderRadius.only(topRight: Radius.circular(12),topLeft: Radius.circular(12)),
+                          child: Image.asset(Images.eventDetailsBanner)),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20),
+                        child: GradientText(text:"Event Name",style: AppThemes.subtitleTextStyle().copyWith(fontWeight: FontWeight.w600),gradient:LinearGradient(
                           colors: [AppColor.primaryColor, AppColor.red],
                           begin: Alignment.centerLeft,
                           end: Alignment.centerRight,
                         ),),
-                        SizedBox(height: 5,),
-                        Text("20 August 2024 ",style: AppThemes.subtitleTextStyle().copyWith(color: AppColor.FF161616),),
-                      ],
-                    )
-                  ],
+                      ),
+                      SizedBox(height: 5,),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20),
+                        child: Text("NETWORKING DINNER",style: AppThemes.subtitleTextStyle().copyWith(color: AppColor.FF161616),),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 20),
+                                child: GradientText(text:"Time",style: AppThemes.subtitleTextStyle().copyWith(fontWeight: FontWeight.w600),gradient:LinearGradient(
+                                  colors: [AppColor.primaryColor, AppColor.red],
+                                  begin: Alignment.centerLeft,
+                                  end: Alignment.centerRight,
+                                ),),
+                              ),
+                              SizedBox(height: 5,),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 20),
+                                child: Text("10:00 AM",style: AppThemes.subtitleTextStyle().copyWith(color: AppColor.FF161616),),
+                              ),
+                            ],
+                          ),
+                          SizedBox(width: 80,),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              GradientText(text:"Date",style: AppThemes.subtitleTextStyle().copyWith(fontWeight: FontWeight.w600),gradient:LinearGradient(
+                                colors: [AppColor.primaryColor, AppColor.red],
+                                begin: Alignment.centerLeft,
+                                end: Alignment.centerRight,
+                              ),),
+                              SizedBox(height: 5,),
+                              Text("20 August 2024 ",style: AppThemes.subtitleTextStyle().copyWith(color: AppColor.FF161616),),
+                            ],
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 50,
+                      ),
+                      Center(child: Image.asset(Images.qrCode,height: 106,width: 106,))
+                    ],
+                  ),
                 ),
-                SizedBox(
-                  height: 30,
-                ),
-                Center(child: Image.asset(Images.qrCode))
+                Positioned(
+                    left: -1,
+                    bottom: 80,
+                    child: Container(
+                      height: 40,
+                      width: 40,
+                      decoration:  BoxDecoration(
+                          color: AppColor.primaryColor,
+                          shape: BoxShape.circle
+                      ),
+                    )),
+                Positioned(
+                    right: -1,
+                    bottom: 80,
+                    child: Container(
+                      height: 40,
+                      width: 40,
+                      decoration:  BoxDecoration(
+                          color: AppColor.red,
+                          shape: BoxShape.circle
+                      ),
+                    )),
               ],
             ),
           ),

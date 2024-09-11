@@ -46,6 +46,8 @@ dependencies:
   step_progress_indicator: ^1.0.2
   youtube_player_flutter: ^8.1.2
   share_plus: ^7.2.2
+  carousel_slider: ^5.0.0
+  gradient_borders: ^1.0.1
 
 dev_dependencies:
   flutter_test:

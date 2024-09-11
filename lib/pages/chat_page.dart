@@ -33,10 +33,10 @@ class _ChatPageState extends State<ChatPage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
+
         backgroundColor: AppColor.secondaryColor,
         titleSpacing: -15,
         centerTitle: false,
-        toolbarHeight: 64,
         leading: InkWell(
             onTap: (){
               Get.back();
@@ -60,12 +60,6 @@ class _ChatPageState extends State<ChatPage> {
             )
           ],
         ),
-        actions: [
-          SvgPicture.asset(Images.callIcon),
-          SizedBox(width: 20,),
-          SvgPicture.asset(Images.videoIcon),
-          SizedBox(width: 20,),
-        ],
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -122,7 +116,11 @@ class _ChatPageState extends State<ChatPage> {
                   width: 48,
                   padding: EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: AppColor.primaryColor,
+                      gradient:LinearGradient(
+                        colors: [AppColor.primaryColor, AppColor.red],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
                     borderRadius: BorderRadius.circular(100)
                   ),
                   child: SvgPicture.asset(Images.sendIcon,),

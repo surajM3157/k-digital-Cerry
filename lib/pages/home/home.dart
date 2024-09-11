@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -21,13 +22,10 @@ class _HomeState extends State<Home> {
 
 
 
-  final List<String> sponsorItems = <String>[
-    Images.sponsor1,
-    Images.sponsor2,
-    Images.sponsor3,
-    Images.sponsor1,
-    Images.sponsor2,
-    Images.sponsor3,
+  final List<SponsorModel> sponsorItems = [
+    SponsorModel("Innovate Cap", Images.sponsor1),
+    SponsorModel("GlobalTech Solutions", Images.sponsor2),
+    SponsorModel("FutureVision Inc.", Images.sponsor3),
   ];
 
   final List<String> liveEventItems = <String>[
@@ -256,28 +254,65 @@ class _HomeState extends State<Home> {
   }
 
 
+  // Widget sponsorList(){
+  //   return Padding(
+  //     padding: const EdgeInsets.symmetric(horizontal: 10),
+  //     child: SizedBox(
+  //       height: 160,
+  //       child: ListView.separated(
+  //         padding: EdgeInsets.zero,
+  //         itemCount: sponsorItems.length,
+  //         scrollDirection: Axis.horizontal,
+  //         itemBuilder: (context,index){
+  //           return Column(
+  //             children: [
+  //               Image.asset(sponsorItems[index],height: 100,width: 100,),
+  //               SizedBox(height: 7,),
+  //               SizedBox(
+  //                   width:80,
+  //                   child: Text(sponsorNames[index],textAlign: TextAlign.center,
+  //                     style: TextStyle(fontWeight: FontWeight.w400,fontSize: 12,fontFamily: appFontFamilyBody,color: AppColor.primaryColor),
+  //                   ))
+  //             ],
+  //           );
+  //         }, separatorBuilder: (BuildContext context, int index) { return SizedBox(width: 10,); },),
+  //     ),
+  //   );
+  // }
   Widget sponsorList(){
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: SizedBox(
-        height: 160,
-        child: ListView.separated(
-          padding: EdgeInsets.zero,
-          itemCount: sponsorItems.length,
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (context,index){
-            return Column(
-              children: [
-                Image.asset(sponsorItems[index],height: 100,width: 100,),
-                SizedBox(height: 7,),
-                SizedBox(
-                    width:80,
-                    child: Text(sponsorNames[index],textAlign: TextAlign.center,
-                      style: TextStyle(fontWeight: FontWeight.w400,fontSize: 12,fontFamily: appFontFamilyBody,color: AppColor.primaryColor),
-                    ))
-              ],
-            );
-          }, separatorBuilder: (BuildContext context, int index) { return SizedBox(width: 10,); },),
+      child: CarouselSlider(
+        options: CarouselOptions(height: 160,
+          aspectRatio: 16/9,
+          viewportFraction: 0.34,
+          initialPage: 0,
+          enableInfiniteScroll: true,
+          reverse: false,
+          autoPlay: true,
+          autoPlayInterval: Duration(seconds: 3),
+          autoPlayAnimationDuration: Duration(milliseconds: 800),
+          autoPlayCurve: Curves.fastOutSlowIn,
+          enlargeCenterPage: true,
+          enlargeFactor: 0.03,
+          scrollDirection: Axis.horizontal,),
+        items: sponsorItems.map((item) {
+          return Builder(
+            builder: (BuildContext context) {
+              return Column(
+                children: [
+                  Image.asset(item.image,height: 100,width: 100,),
+                  SizedBox(height: 7,),
+                  SizedBox(
+                      width:80,
+                      child: Text(item.title,textAlign: TextAlign.center,
+                        style: TextStyle(fontWeight: FontWeight.w400,fontSize: 12,fontFamily: appFontFamilyBody,color: AppColor.primaryColor),
+                      ))
+                ],
+              );
+            },
+          );
+        }).toList(),
       ),
     );
   }
@@ -370,4 +405,11 @@ class _HomeState extends State<Home> {
       ],
     );
   }
+}
+
+class SponsorModel{
+  SponsorModel(this.title,this.image);
+
+  String image;
+  String title;
 }

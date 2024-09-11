@@ -16,12 +16,18 @@ class ChatBubble extends StatelessWidget {
         margin: EdgeInsets.symmetric(horizontal: 20,vertical: 20),
         padding: EdgeInsets.only(top: 20,bottom: 20,right: 20,left: 20),
         decoration: BoxDecoration(
-            color: isMe?AppColor.secondaryColor:AppColor.primaryColor,
+            color: isMe?AppColor.FFF9F8FF:null,
+            gradient:isMe?null:LinearGradient(
+              colors: [AppColor.primaryColor, AppColor.red],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+            ),
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(25),
             bottomRight: Radius.circular(25),
             bottomLeft:Radius.circular(25)
-          )
+          ),
+          border: isMe? Border.all(color: AppColor.black.withOpacity(0.10)):null
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import '../../constants/colors.dart';
 import '../../constants/font_family.dart';
+import '../../constants/images.dart';
 import '../../widgets/app_button.dart';
 import '../../widgets/app_textfield.dart';
 import '../../widgets/app_themes.dart';
+import '../../widgets/gradient_text.dart';
 
 class ChangePasswordPage extends StatefulWidget {
   const ChangePasswordPage({super.key});
@@ -28,22 +31,30 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
       backgroundColor: AppColor.white,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: AppColor.white,
-        title: Center(child: Padding(
+        backgroundColor: AppColor.primaryColor,
+        title: Padding(
           padding: const EdgeInsets.only(right: 60),
-          child: Text("Change Password",style:  AppThemes.appBarTitleStyle(),),
-        )),
+          child: Center(child: SvgPicture.asset(Images.logo, height: 40,width: 147)),
+        ),
         leading: InkWell(
             onTap: (){
               Get.back();
             },
-            child: Icon(Icons.arrow_back_ios,size: 20,color: AppColor.primaryColor,)),
+            child: Icon(Icons.arrow_back_ios,size: 20,color: AppColor.white,)),
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 50,),
+            SizedBox(height: 20,),
+            Center(
+              child: GradientText(text: "Change Password", style: TextStyle(fontWeight: FontWeight.w600,fontSize: 20,fontFamily: appFontFamily), gradient:LinearGradient(
+                colors: [AppColor.primaryColor, AppColor.red],
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+              ),),
+            ),
+            SizedBox(height: 20,),
             AppTextField(
               obscureText: isCurrent,
               hintText: "Type Current Password", controller: _currentPasswordController,prefixIcon: Icon(Icons.lock_outline,color: Colors.black,),suffixIcon: GestureDetector(

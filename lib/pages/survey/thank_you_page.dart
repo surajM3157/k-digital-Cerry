@@ -6,6 +6,7 @@ import 'package:piwotapp/widgets/app_button.dart';
 import 'package:get/get.dart';
 import '../../constants/images.dart';
 import '../../route/route_names.dart';
+import '../../widgets/gradient_text.dart';
 
 class ThankYouPage extends StatefulWidget {
   const ThankYouPage({super.key});
@@ -23,14 +24,28 @@ class _ThankYouPageState extends State<ThankYouPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Center(child: SvgPicture.asset(Images.successIcon)),
+            Container(
+              height: 175,width: 178,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [AppColor.primaryColor, AppColor.red],
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                ),
+                borderRadius: BorderRadius.all(Radius.circular(200))
+              ),
+                child: SvgPicture.asset(Images.successNotificationIcon)),
             SizedBox(height: 20,),
-            Text("Thank You !",style: TextStyle(fontSize: 27,fontWeight: FontWeight.w500,fontFamily: appFontFamilyHeadings,color: AppColor.primaryColor),),
+            GradientText(text:"Thank You !",style: TextStyle(fontSize: 27,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
+              colors: [AppColor.primaryColor, AppColor.red],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+            ),),
             SizedBox(height: 20,),
-            Text("We Appreciate your feedback",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500,fontFamily: appFontFamilyHeadings,color: AppColor.black),),
+            Text("We Appreciate your feedback",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600,fontFamily: appFontFamily,color: AppColor.black),),
             SizedBox(height: 10,),
-            Text("Your Feedback helps us improve ",style: TextStyle(fontSize: 18,fontWeight: FontWeight.w400,fontFamily: appFontFamilyBody,color: AppColor.black),),
-            Text("and serve you better.",style: TextStyle(fontSize: 18,fontWeight: FontWeight.w400,fontFamily: appFontFamilyBody,color: AppColor.black),),
+            Text("Your Feedback helps us improve ",style: TextStyle(fontSize: 18,fontWeight: FontWeight.w400,fontFamily: appFontFamily,color: AppColor.black),),
+            Text("and serve you better.",style: TextStyle(fontSize: 18,fontWeight: FontWeight.w400,fontFamily: appFontFamily,color: AppColor.black),),
             SizedBox(height: 20,),
             AppButton(title: "Back to Home", onTap: (){
               Get.offAllNamed(Routes.home);

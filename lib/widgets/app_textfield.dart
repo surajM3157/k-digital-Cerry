@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gradient_borders/input_borders/gradient_outline_input_border.dart';
 import 'package:piwotapp/constants/font_family.dart';
 
 import '../constants/colors.dart';
@@ -21,6 +22,7 @@ class AppTextField extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: TextFormField(
         readOnly: readOnly??false,
+
         controller: controller,
         obscureText: obscureText??false,
         onTap: onTap,
@@ -30,13 +32,12 @@ class AppTextField extends StatelessWidget {
           suffixIcon: suffixIcon,
           hintText: hintText,
           labelText: labelText,
-          labelStyle: TextStyle(color: Colors.black,fontFamily: appFontFamilyBody,fontWeight:FontWeight.w400,fontSize: 12),
-          hintStyle: TextStyle(color: Colors.black,fontFamily: appFontFamilyBody,fontWeight:FontWeight.w400,fontSize: 14),
-          fillColor: AppColor.secondaryColor,
-          filled: true,
+          labelStyle: TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
+          hintStyle: TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
+
           contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-          focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide(color:AppColor.secondaryColor)),
-          enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide(color:AppColor.secondaryColor)),
+          focusedBorder: GradientOutlineInputBorder(borderRadius: BorderRadius.circular(10.0), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]),width: 2),
+          enabledBorder: GradientOutlineInputBorder(borderRadius: BorderRadius.circular(10.0), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]),width: 2),
           errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide(color: Colors.red, width: 2.0)),
           focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide(color: Colors.red, width: 2.0)),
         ),

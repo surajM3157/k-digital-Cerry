@@ -4,6 +4,7 @@ import 'package:piwotapp/pages/auth/login_page.dart';
 import 'package:piwotapp/pages/auth/otp_page.dart';
 import 'package:piwotapp/pages/auth/reset_password_page.dart';
 import 'package:piwotapp/pages/chat_page.dart';
+import 'package:piwotapp/pages/event_agenda_page.dart';
 import 'package:piwotapp/pages/event_details_page.dart';
 import 'package:piwotapp/pages/home/home_page.dart';
 import 'package:piwotapp/pages/home/speaker_page.dart';
@@ -43,4 +44,5 @@ final getPages = [
   GetPage(name: Routes.chat, page: () => ChatPage()),
   GetPage(name: Routes.sponsor, page: () => SponsorPage()),
   GetPage(name: Routes.speaker, page: () => SpeakerPage()),
+  GetPage(name: Routes.agenda, page: () => EventAgendaPage()),
 ];

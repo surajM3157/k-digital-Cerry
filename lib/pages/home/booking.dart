@@ -8,6 +8,7 @@ import 'package:piwotapp/widgets/app_themes.dart';
 import 'package:piwotapp/widgets/my_seperator.dart';
 
 import '../../constants/images.dart';
+import '../../widgets/gradient_text.dart';
 
 class Booking extends StatefulWidget {
   const Booking({super.key});
@@ -19,126 +20,117 @@ class Booking extends StatefulWidget {
 class _BookingState extends State<Booking> {
   @override
   Widget build(BuildContext context) {
-    return ClipPath(
-      clipper: SemiRoundedClipper(),
-      child: Container(
-        height: Get.height,
-        width: Get.width,
-        margin: EdgeInsets.fromLTRB(20, 20, 20, 20),
-        decoration: BoxDecoration(
-          color: AppColor.secondaryColor,
-          borderRadius: BorderRadius.only(topRight: Radius.circular(10),topLeft: Radius.circular(10))
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              width: Get.width,
-                child: Image.asset(Images.ticketBanner,fit: BoxFit.cover,)),
-            SizedBox(height: 20,),
-            Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: Text("Event Name",style: TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamilyHeadings,fontSize: 14),),
+    return Container(
+      height: Get.height/1.4,
+      width: Get.width,
+      margin: EdgeInsets.all(20),
+      padding: EdgeInsets.all(20),
+      decoration: BoxDecoration(
+          gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]),
+          borderRadius: BorderRadius.all(Radius.circular(12))
+      ),
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Container(
+            height: Get.height,
+            width: 288,
+            decoration: BoxDecoration(
+                color: AppColor.white,
+                borderRadius: BorderRadius.all(Radius.circular(12))
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Text("Global Connect Conference Session 1",style: AppThemes.titleTextStyle().copyWith(color: AppColor.black),),
-            ),
-            SizedBox(height: 20,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                ClipRRect(
+                    borderRadius:BorderRadius.only(topRight: Radius.circular(12),topLeft: Radius.circular(12)),
+                    child: Image.asset(Images.eventDetailsBanner)),
+                SizedBox(
+                  height: 20,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20),
+                  child: GradientText(text:"Event Name",style: AppThemes.subtitleTextStyle().copyWith(fontWeight: FontWeight.w600),gradient:LinearGradient(
+                    colors: [AppColor.primaryColor, AppColor.red],
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                  ),),
+                ),
+                SizedBox(height: 5,),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20),
+                  child: Text("NETWORKING DINNER",style: AppThemes.subtitleTextStyle().copyWith(color: AppColor.FF161616),),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20),
-                      child: Text("Time",style: TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamilyHeadings,fontSize: 14),),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20),
+                          child: GradientText(text:"Time",style: AppThemes.subtitleTextStyle().copyWith(fontWeight: FontWeight.w600),gradient:LinearGradient(
+                            colors: [AppColor.primaryColor, AppColor.red],
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                          ),),
+                        ),
+                        SizedBox(height: 5,),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20),
+                          child: Text("10:00 AM",style: AppThemes.subtitleTextStyle().copyWith(color: AppColor.FF161616),),
+                        ),
+                      ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20),
-                      child: Text("10:00 AM",style: AppThemes.titleTextStyle().copyWith(color: AppColor.black),),
-                    ),
+                    SizedBox(width: 80,),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        GradientText(text:"Date",style: AppThemes.subtitleTextStyle().copyWith(fontWeight: FontWeight.w600),gradient:LinearGradient(
+                          colors: [AppColor.primaryColor, AppColor.red],
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                        ),),
+                        SizedBox(height: 5,),
+                        Text("20 August 2024 ",style: AppThemes.subtitleTextStyle().copyWith(color: AppColor.FF161616),),
+                      ],
+                    )
                   ],
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 20),
-                      child: Text("Date",style: TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamilyHeadings,fontSize: 14),),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 20),
-                      child: Text("20 August 2024 ",style: AppThemes.titleTextStyle().copyWith(color: AppColor.black),),
-                    ),
-                  ],
+                SizedBox(
+                  height: 50,
                 ),
+                Center(child: Image.asset(Images.qrCode,height: 106,width: 106,))
               ],
             ),
-            SizedBox(height: 20,),
-            MySeparator(color: AppColor.darkGrey,),
-            SizedBox(height: 50,),
-            Center(child: Image.asset(Images.qrCode))
-          ],
-        ),
+          ),
+          Positioned(
+              left: -1,
+              bottom: 80,
+              child: Container(
+                height: 40,
+                width: 40,
+                decoration:  BoxDecoration(
+                    color: AppColor.primaryColor,
+                    shape: BoxShape.circle
+                ),
+              )),
+          Positioned(
+              right: -1,
+              bottom: 80,
+              child: Container(
+                height: 40,
+                width: 40,
+                decoration:  BoxDecoration(
+                    color: AppColor.red,
+                    shape: BoxShape.circle
+                ),
+              )),
+        ],
       ),
     );
   }
 }
 
-class SemiRoundedClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    final radius = 20.0;
-    final path = Path();
-
-    // Start at the top-left corner
-    path.moveTo(radius, 0);
-
-    // Top-left curve
-    path.arcToPoint(
-      Offset(0, radius),
-      radius: Radius.circular(radius),
-      clockwise: false,
-    );
-
-    // Left edge
-    path.lineTo(0, size.height - radius);
-
-    // Bottom-left curve
-    path.arcToPoint(
-      Offset(radius, size.height),
-      radius: Radius.circular(radius),
-      clockwise: false,
-    );
-
-    // Bottom edge
-    path.lineTo(size.width - radius, size.height);
-
-    // Bottom-right curve
-    path.arcToPoint(
-      Offset(size.width, size.height - radius),
-      radius: Radius.circular(radius),
-      clockwise: false,
-    );
-
-    // Right edge
-    path.lineTo(size.width, radius);
-
-    // Top-right curve
-    path.arcToPoint(
-      Offset(size.width - radius, 0),
-      radius: Radius.circular(radius),
-      clockwise: false,
-    );
-
-    // Close the path
-    path.lineTo(radius, 0);
-
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
-}

@@ -21,7 +21,7 @@ class _SessionState extends State<Session> {
   
   
   List<SessionModel> sessions =[
-    SessionModel(title: "AI and Machine Learning in Business", image: Images.sessionBanner1, date: "16 August 2024", time: "10:00 am to 12:00 am"),
+    SessionModel(title: "Artificial Intelligence and Machine Learning in Business", image: Images.sessionBanner1, date: "16 August 2024", time: "10:00 am to 12:00 am"),
     SessionModel(title: "Innovation in Action: Transforming Ideas to Reality", image: Images.sessionBanner2, date: "16 August 2024", time: "10:00 am to 12:00 am"),
     SessionModel(title: "Future Tech Trends - The Next Wave of Innovation", image: Images.sessionBanner3, date: "16 August 2024", time: "10:00 am to 12:00 am"),
   ];

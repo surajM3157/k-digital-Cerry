@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:gradient_borders/input_borders/gradient_outline_input_border.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:piwotapp/widgets/app_button.dart';
@@ -112,11 +113,11 @@ class _EditProfilPageState extends State<EditProfilPage> {
               ),
             ),
             SizedBox(height: 80,),
-            GradientBorderTextField(hintText: "Type your Name",controller: nameController,labelText:""),
+            AppTextField(hintText: "Type your Name",controller: nameController,labelText:"Name"),
             SizedBox(height: 20,),
-            GradientBorderTextField(hintText: "Type your Email",controller: emailController,labelText:""),
+            AppTextField(hintText: "Type your Email",controller: emailController,labelText:"Email"),
             SizedBox(height: 20,),
-            GradientBorderTextField(
+            AppTextField(
                 readOnly: true,
                 onTap: () async {
                   DateTime? pickedDate = await showDatePicker(
@@ -149,70 +150,50 @@ class _EditProfilPageState extends State<EditProfilPage> {
                     });
                   } else {}
                 },
-                hintText: "Type your DOB",controller: dobController,labelText:""),
+                hintText: "Type your DOB",controller: dobController,labelText:"DOB"),
             SizedBox(height: 20,),
             Row(
               children: [
                 Flexible(
                   flex: 1,
-                    child: GradientBorderTextField(hintText: "Location",controller: emailController,labelText:"")),
+                    child: AppTextField(hintText: "Location",controller: emailController,labelText:"Location")),
                 Flexible(
                   flex: 1,
-                  child: Container(
-                    margin: EdgeInsets.only(left: 10,right: 20),
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [AppColor.primaryColor, AppColor.red], // Your gradient colors
-                      ),
-                      borderRadius: BorderRadius.circular(12.0), // Match the border radius
-                    ),
-                    padding: EdgeInsets.all(2), // Padding to show the gradient border
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: AppColor.white, // The background color of the dropdown
-                        borderRadius: BorderRadius.circular(10.0), // Match the outer border radius
-                      ),
-                      child: DropdownButtonFormField<String>(
-                        items: gender.map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                        onChanged: (value) {},
-                        dropdownColor: AppColor.white,
-                        iconSize: 30,
-                        decoration: InputDecoration(
-                          floatingLabelBehavior: FloatingLabelBehavior.always,
-                          hintText: "Gender",
-                          // labelText: "Gender",
-                          labelStyle:  TextStyle(
-                            color: AppColor.primaryColor, // Customize label color
-                            fontWeight: FontWeight.w400,
-                          ),
-                          hintStyle: TextStyle(
-                            color: Colors.black,
-                            fontFamily: appFontFamilyBody,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 14,
-                          ),
-                          contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide.none, // Remove standard borders
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide.none, // Remove standard borders
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(color: Colors.red, width: 2.0),
-                          ),
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(color: Colors.red, width: 2.0),
-                          ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 20),
+                    child: DropdownButtonFormField<String>(
+                      items: gender.map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      onChanged: (value) {},
+                      dropdownColor: AppColor.white,
+                      iconSize: 30,
+                      decoration: InputDecoration(
+                        hintText: "Gender",
+                        labelText: "Gender",
+                        labelStyle:  TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
+                        hintStyle: TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
+                        contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                        focusedBorder: GradientOutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          width: 2,
+                          gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]), // Remove standard borders
+                        ),
+                        enabledBorder: GradientOutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          width: 2,
+                          gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]), // Remove standard borders
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide(color: Colors.red, width: 2.0),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide(color: Colors.red, width: 2.0),
                         ),
                       ),
                     ),
@@ -221,71 +202,50 @@ class _EditProfilPageState extends State<EditProfilPage> {
               ],
             ),
             SizedBox(height: 20,),
-            GradientBorderTextField(hintText: "Type your Company Name",controller: companyController,labelText:""),
+            AppTextField(hintText: "Type your Company Name",controller: companyController,labelText:"Company Name"),
             SizedBox(height: 20,),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 20),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [AppColor.primaryColor, AppColor.red], // Your gradient colors
-                ),
-                borderRadius: BorderRadius.circular(12.0), // Match the border radius
-              ),
-              padding: EdgeInsets.all(2), // Padding to show the gradient border
-              child: Container(
-                decoration: BoxDecoration(
-                  color: AppColor.white, // The background color of the dropdown
-                  borderRadius: BorderRadius.circular(10.0), // Match the outer border radius
-                ),
-                child: DropdownButtonFormField<String>(
-                  items: items.map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                  onChanged: (value) {},
-                  dropdownColor: AppColor.white,
-                  iconSize: 30,
-                  decoration: InputDecoration(
-                    floatingLabelBehavior: FloatingLabelBehavior.always,
-                    hintText: "Select your Industry",
-                    labelText: "",
-                    labelStyle:  TextStyle(
-                      color: AppColor.primaryColor, // Customize label color
-                      fontWeight: FontWeight.w400,
-                    ),
-                    hintStyle: TextStyle(
-                      color: Colors.black,
-                      fontFamily: appFontFamilyBody,
-                      fontWeight: FontWeight.w400,
-                      fontSize: 14,
-                    ),
-                    contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                      borderSide: BorderSide.none, // Remove standard borders
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                      borderSide: BorderSide.none, // Remove standard borders
-                    ),
-                    errorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                      borderSide: BorderSide(color: Colors.red, width: 2.0),
-                    ),
-                    focusedErrorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                      borderSide: BorderSide(color: Colors.red, width: 2.0),
-                    ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: DropdownButtonFormField<String>(
+                items: items.map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+                onChanged: (value) {},
+                dropdownColor: AppColor.white,
+                iconSize: 30,
+                decoration: InputDecoration(
+                  hintText: "Select your Industry",
+                  labelText: "Industry",
+                  labelStyle:  TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
+                  hintStyle: TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
+                  contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                  focusedBorder: GradientOutlineInputBorder(
+                    width: 2,
+                    borderRadius: BorderRadius.circular(10.0), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]),
+                  ),
+                  enabledBorder: GradientOutlineInputBorder(
+                    width: 2,
+                    borderRadius: BorderRadius.circular(10.0),gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])
+                  ),
+                  errorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: BorderSide(color: Colors.red, width: 2.0),
+                  ),
+                  focusedErrorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: BorderSide(color: Colors.red, width: 2.0),
                   ),
                 ),
               ),
             ),
             SizedBox(height: 20,),
-            GradientBorderTextField(hintText: "Type your Designation",controller: designationController,labelText:""),
+            AppTextField(hintText: "Type your Designation",controller: designationController,labelText:"Designation"),
             SizedBox(height: 20,),
-            AppButton(title: "Update", onTap: (){})
+            AppButton(title: "Update", onTap: (){}),
+            SizedBox(height: 20,),
           ],
         ),
       ),
