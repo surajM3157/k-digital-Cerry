@@ -18,4 +18,6 @@ class Routes{
   static String feedback = '/feedback';
   static String contactUs = '/contact_us';
   static String chat = '/chat';
+  static String sponsor = '/sponsor';
+  static String speaker = '/speaker';
 }

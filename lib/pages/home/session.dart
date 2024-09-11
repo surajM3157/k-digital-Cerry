@@ -56,7 +56,7 @@ class _SessionState extends State<Session> {
               children: [
                 SizedBox(height: 10,),
                 Text(session.title,style: AppThemes.titleTextStyle().copyWith(
-                    fontSize: 20,fontWeight: FontWeight.w500
+                    fontSize: 20,fontWeight: FontWeight.w600
                 ),),
                 SizedBox(height: 20,),
                 Row(
@@ -109,7 +109,11 @@ class _SessionState extends State<Session> {
         height: 45,
         width: 150,
         decoration: BoxDecoration(
-            color: AppColor.primaryColor,
+            gradient: LinearGradient(
+              colors: [AppColor.primaryColor, AppColor.red],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
             borderRadius: BorderRadius.all(Radius.circular(8))
         ),
         child: Center(child: Text("Join Session",style: AppThemes.titleTextStyle().copyWith(color: AppColor.white,fontSize: 17),)),

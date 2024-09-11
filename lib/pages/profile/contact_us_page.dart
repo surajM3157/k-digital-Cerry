@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:piwotapp/widgets/app_button.dart';
 import '../../constants/colors.dart';
 import '../../constants/font_family.dart';
+import '../../constants/images.dart';
 import '../../widgets/app_themes.dart';
+import '../../widgets/gradient_text.dart';
 
 class ContactUsPage extends StatefulWidget {
   const ContactUsPage({super.key});
@@ -25,25 +28,37 @@ class _ContactUsPageState extends State<ContactUsPage> {
       backgroundColor: AppColor.white,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: AppColor.white,
-        title: Center(child: Padding(
+        backgroundColor: AppColor.primaryColor,
+        title: Padding(
           padding: const EdgeInsets.only(right: 60),
-          child: Text("Contact Us",style: AppThemes.appBarTitleStyle(),),
-        )),
+          child: Center(child: SvgPicture.asset(Images.logo, height: 40,width: 147)),
+        ),
         leading: InkWell(
             onTap: (){
               Get.back();
             },
-            child: Icon(Icons.arrow_back_ios,size: 20,color: AppColor.primaryColor,)),
+            child: Icon(Icons.arrow_back_ios,size: 20,color: AppColor.white,)),
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: 20,),
+            Center(
+              child: GradientText(text: "Contact Us", style: TextStyle(fontWeight: FontWeight.w600,fontSize: 20,fontFamily: appFontFamily), gradient:LinearGradient(
+                colors: [AppColor.primaryColor, AppColor.red],
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+              ),),
+            ),
+            SizedBox(height: 20,),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Text("Get in Touch",style: AppThemes.titleTextStyle().copyWith(fontSize: 20),),
+              child: GradientText(text:"Get in Touch",style: AppThemes.titleTextStyle().copyWith(fontSize: 18,fontWeight: FontWeight.w600), gradient:  LinearGradient(
+                colors: [AppColor.primaryColor, AppColor.red],
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+              ),),
             ),
             SizedBox(height: 10,),
             Padding(

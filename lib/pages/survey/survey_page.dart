@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:piwotapp/constants/colors.dart';
 import 'package:piwotapp/constants/font_family.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:get/get.dart';
 
+import '../../constants/images.dart';
 import '../../route/route_names.dart';
 import '../../widgets/app_themes.dart';
 import '../../widgets/custom_progress_indicator.dart';
@@ -40,16 +42,16 @@ class _SurveyPageState extends State<SurveyPage> {
       backgroundColor: AppColor.white,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: AppColor.white,
+        backgroundColor: AppColor.primaryColor,
         title: Padding(
           padding: const EdgeInsets.only(right: 60),
-          child: Center(child: Text("Survey",style:  AppThemes.appBarTitleStyle(),)),
+          child: Center(child: SvgPicture.asset(Images.logo, height: 40,width: 147)),
         ),
         leading: InkWell(
             onTap: (){
               Get.back();
             },
-            child: Icon(Icons.arrow_back_ios,size: 20,color: AppColor.primaryColor,)),
+            child: Icon(Icons.arrow_back_ios,size: 20,color: AppColor.white,)),
       ),
       body: SafeArea(
         child: Column(
@@ -108,15 +110,20 @@ class _SurveyPageState extends State<SurveyPage> {
         });
       },
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 30,vertical: 10),
+        height: 41,width: 105,
         decoration: BoxDecoration(
-            color: AppColor.primaryColor,
-            borderRadius: BorderRadius.all(Radius.circular(25)),
-            border: Border.all(color: AppColor.primaryColor)
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+          gradient: LinearGradient(
+            colors: [AppColor.primaryColor, AppColor.red],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
         ),
-        child: Text((questions.length-1) == index?"Finish":"Next",style: TextStyle(
-            color:AppColor.white,fontSize: 20,fontFamily: appFontFamilyHeadings,fontWeight: FontWeight.w400
-        ),),
+        child: Center(
+          child: Text((questions.length-1) == index?"Finish":"Next",style: TextStyle(
+              color:AppColor.white,fontSize: 20,fontFamily: appFontFamilyHeadings,fontWeight: FontWeight.w400
+          ),),
+        ),
       ),
     );
   }
@@ -132,15 +139,28 @@ class _SurveyPageState extends State<SurveyPage> {
         });
       },
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 30,vertical: 10),
+        width: 105,height: 41,
+        padding: EdgeInsets.all(1),
         decoration: BoxDecoration(
-            color: AppColor.white,
-            borderRadius: BorderRadius.all(Radius.circular(25)),
-            border: Border.all(color: AppColor.primaryColor)
+          borderRadius: BorderRadius.all(Radius.circular(11)),
+          gradient: LinearGradient(
+            colors: [AppColor.primaryColor, AppColor.red],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
         ),
-        child: Text("Back",style: TextStyle(
-            color:AppColor.primaryColor,fontSize: 20,fontFamily: appFontFamilyHeadings,fontWeight: FontWeight.w400
-        ),),
+        child: Container(
+          width: 103, height: 39,
+          decoration: BoxDecoration(
+              color: AppColor.white,
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+          ),
+          child: Center(
+            child: Text("Back",style: TextStyle(
+                color:AppColor.primaryColor,fontSize: 20,fontFamily: appFontFamilyHeadings,fontWeight: FontWeight.w400
+            ),),
+          ),
+        ),
       ),
     );
   }

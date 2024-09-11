@@ -6,6 +6,8 @@ import 'package:piwotapp/pages/auth/reset_password_page.dart';
 import 'package:piwotapp/pages/chat_page.dart';
 import 'package:piwotapp/pages/event_details_page.dart';
 import 'package:piwotapp/pages/home/home_page.dart';
+import 'package:piwotapp/pages/home/speaker_page.dart';
+import 'package:piwotapp/pages/home/sponsor_page.dart';
 import 'package:piwotapp/pages/live_session_page.dart';
 import 'package:piwotapp/pages/notification_page.dart';
 import 'package:piwotapp/pages/profile/change_password_page.dart';
@@ -39,4 +41,6 @@ final getPages = [
   GetPage(name: Routes.feedback, page: () => FeedbackPage()),
   GetPage(name: Routes.contactUs, page: () => ContactUsPage()),
   GetPage(name: Routes.chat, page: () => ChatPage()),
+  GetPage(name: Routes.sponsor, page: () => SponsorPage()),
+  GetPage(name: Routes.speaker, page: () => SpeakerPage()),
 ];

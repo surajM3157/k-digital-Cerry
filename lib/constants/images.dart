@@ -15,6 +15,7 @@ class Images{
   static String liveEventBanner = 'assets/images/live_event_banner.png';
   static String ticketBanner = 'assets/images/ticket_banner.png';
   static String speakerHome = 'assets/images/speaker_home.png';
+  static String eventDetailsBanner = 'assets/images/event_details_banner.png';
 
   //session
   static String sessionBanner = 'assets/images/session_banner.png';
@@ -22,17 +23,27 @@ class Images{
   static String sessionBanner1 = 'assets/images/session_banner1.png';
   static String sessionBanner2 = 'assets/images/session_banner2.png';
   static String sessionBanner3 = 'assets/images/session_banner3.png';
+  static String sessionBanner4 = 'assets/images/session_banner4.png';
 
 
   //Sponsors
   static String sponsor1 = 'assets/images/sponsors/sponsor1.png';
   static String sponsor2 = 'assets/images/sponsors/sponsor2.png';
   static String sponsor3 = 'assets/images/sponsors/sponsor3.png';
+  static String sponsorLogo1 = 'assets/images/sponsors/sponsor_logo1.png';
+  static String sponsorLogo2 = 'assets/images/sponsors/sponsor_logo2.png';
+  static String sponsorLogo3 = 'assets/images/sponsors/sponsor_logo3.png';
+  static String sponsorLogo4 = 'assets/images/sponsors/sponsor_logo4.png';
+  static String sponsorLogo5 = 'assets/images/sponsors/sponsor_logo5.png';
+  static String sponsorLogo6 = 'assets/images/sponsors/sponsor_logo6.png';
 
   //Speakers
   static String speaker1 = 'assets/images/speakers/speaker1.png';
   static String speaker2 = 'assets/images/speakers/speaker2.png';
   static String speaker3 = 'assets/images/speakers/speaker3.png';
+  static String speaker4 = 'assets/images/speakers/speaker4.png';
+  static String speaker5 = 'assets/images/speakers/speaker5.png';
+  static String speaker6 = 'assets/images/speakers/speaker6.png';
 
   //live event
   static String liveEvent1 = 'assets/images/live_event1.png';

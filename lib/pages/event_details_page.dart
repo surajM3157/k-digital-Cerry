@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:piwotapp/constants/colors.dart';
+import 'package:piwotapp/constants/font_family.dart';
 import 'package:piwotapp/widgets/app_themes.dart';
 import 'package:share_plus/share_plus.dart';
 import '../constants/images.dart';
 import '../widgets/custom_tabbar_indicator.dart';
+import '../widgets/gradient_text.dart';
 
 class EventDetailsPage extends StatefulWidget {
   const EventDetailsPage({super.key});
@@ -26,13 +29,26 @@ class _EventDetailsPageState extends State<EventDetailsPage>  with SingleTickerP
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: AppColor.primaryColor,
+        title: Padding(
+          padding: const EdgeInsets.only(right: 60),
+          child: Center(child: SvgPicture.asset(Images.logo, height: 40,width: 147)),
+        ),
+        leading: InkWell(
+            onTap: (){
+              Get.back();
+            },
+            child: Icon(Icons.arrow_back_ios,size: 20,color: AppColor.white,)),
+      ),
       body: SafeArea(
         child: Stack(
           children: [
             Container(
               width: Get.width,
                 height: 350,
-                child: Image.asset(Images.homeBanner,fit: BoxFit.cover,)),
+                child: Image.asset(Images.eventDetailsBanner,fit: BoxFit.cover,)),
             Container(
               margin: EdgeInsets.only(top: 310),
               decoration: BoxDecoration(
@@ -48,7 +64,7 @@ class _EventDetailsPageState extends State<EventDetailsPage>  with SingleTickerP
                   Container(
                     height:55,
                     decoration: BoxDecoration(
-                      color: AppColor.primaryColor,
+                      color: AppColor.white,
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(25),
                           topRight: Radius.circular(25)
@@ -60,10 +76,10 @@ class _EventDetailsPageState extends State<EventDetailsPage>  with SingleTickerP
                         TabBar(
                           controller: _controller,
                           labelStyle: AppThemes.subtitleTextStyle(),
-                          indicatorColor: AppColor.white,
+                          indicatorColor: AppColor.primaryColor,
                           indicatorSize: TabBarIndicatorSize.label,
                           indicator:CustomUnderlineTabIndicator(
-                            borderSide: BorderSide(width: 2.0, color: AppColor.white),
+                            borderSide: BorderSide(width: 2.0, color: AppColor.primaryColor),
                             insets:EdgeInsets.symmetric(vertical: -8),
                             borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(12.0),
@@ -78,10 +94,10 @@ class _EventDetailsPageState extends State<EventDetailsPage>  with SingleTickerP
                           // ),
                           tabs: [
                              Tab(
-                              text: 'Event Details',
+                              child: Text("Event Details",style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 20,color: AppColor.primaryColor),),
                             ),
                              Tab(
-                              text: 'Agenda',
+                               child: Text("Agenda",style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 20,color: AppColor.primaryColor),),
                             ),
                           ],
                         ),
@@ -105,7 +121,11 @@ class _EventDetailsPageState extends State<EventDetailsPage>  with SingleTickerP
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   SizedBox(height: 20,),
-                                  Text("Global Connect Conference Session 1",style: AppThemes.titleTextStyle().copyWith(
+                                  GradientText(text: "Global Connect Conference Session 1",gradient: LinearGradient(
+                                    colors: [AppColor.primaryColor, AppColor.red],
+                                    begin: Alignment.centerLeft,
+                                    end: Alignment.centerRight,
+                                  ),style: AppThemes.titleTextStyle().copyWith(
                                     fontWeight: FontWeight.w600,fontSize: 24
                                   ),),
                                   SizedBox(height: 20,),
@@ -115,7 +135,11 @@ class _EventDetailsPageState extends State<EventDetailsPage>  with SingleTickerP
                                     children: [
                                       Icon(Icons.date_range,size: 17,color: AppColor.primaryColor,),
                                       SizedBox(width: 5,),
-                                      Text("Date & Time",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor,fontWeight: FontWeight.w400),),
+                                      GradientText(text: "Date & Time",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor,fontWeight: FontWeight.w600), gradient: LinearGradient(
+                                        colors: [AppColor.primaryColor, AppColor.red],
+                                        begin: Alignment.centerLeft,
+                                        end: Alignment.centerRight,
+                                      ),),
                                     ],
                                   ),
                                   SizedBox(height: 10,),
@@ -145,7 +169,11 @@ class _EventDetailsPageState extends State<EventDetailsPage>  with SingleTickerP
                                     children: [
                                       Icon(Icons.location_on_outlined,size: 17,color: AppColor.primaryColor,),
                                       SizedBox(width: 5,),
-                                      Text("Location",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor,fontWeight: FontWeight.w400),),
+                                      GradientText(text:"Location",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor,fontWeight: FontWeight.w600),gradient: LinearGradient(
+                                        colors: [AppColor.primaryColor, AppColor.red],
+                                        begin: Alignment.centerLeft,
+                                        end: Alignment.centerRight,
+                                      ),),
                                     ],
                                   ),
                                   SizedBox(height: 10,),
@@ -170,7 +198,11 @@ class _EventDetailsPageState extends State<EventDetailsPage>  with SingleTickerP
                                     children: [
                                       Icon(Icons.currency_rupee,size: 17,color: AppColor.primaryColor,),
                                       SizedBox(width: 5,),
-                                      Text("Ticket Price",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor,fontWeight: FontWeight.w400),),
+                                      GradientText(text:"Ticket Price",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor,fontWeight: FontWeight.w600),gradient:LinearGradient(
+                                        colors: [AppColor.primaryColor, AppColor.red],
+                                        begin: Alignment.centerLeft,
+                                        end: Alignment.centerRight,
+                                      )),
                                     ],
                                   ),
                                   SizedBox(height: 10,),
@@ -241,30 +273,20 @@ class _EventDetailsPageState extends State<EventDetailsPage>  with SingleTickerP
                 ],
               ),
             ),
-            InkWell(
-              onTap: (){
-                Get.back();
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Icon(Icons.arrow_back_ios,size: 24,color: AppColor.white,),
-              ),
-            ),
-            Align(
-              alignment: Alignment.topRight,
-              child: InkWell(
-                onTap: ()async{
-
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Icon(Icons.share,size: 24,color: AppColor.white,),
-                ),
-              ),
-            ),
           ],
         ),
       ),
     );
   }
+
+  Widget buildBulletPoint(Widget text,) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text("• ", style: TextStyle(fontSize: 20)),
+        Expanded(child: text),
+      ],
+    );
+  }
+
 }

@@ -22,25 +22,48 @@ class _ProfilePageState extends State<ProfilePage> {
       backgroundColor: AppColor.white,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: AppColor.white,
-        title: Center(child: Padding(
-          padding: const EdgeInsets.only(right: 70),
-          child: Text("Profile",style:  AppThemes.appBarTitleStyle(),),
-        )),
+        backgroundColor: AppColor.primaryColor,
+        title: Padding(
+          padding: const EdgeInsets.only(right: 60),
+          child: Center(child: SvgPicture.asset(Images.logo, height: 40,width: 147)),
+        ),
         leading: InkWell(
-          onTap: (){
-            Get.back();
-          },
-            child: Icon(Icons.arrow_back_ios,size: 20,color: AppColor.primaryColor,)),
+            onTap: (){
+              Get.back();
+            },
+            child: Icon(Icons.arrow_back_ios,size: 20,color: AppColor.white,)),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 20,),
-            Center(child: ClipRRect(
-                borderRadius: BorderRadius.circular(100),
-                child: Image.asset(Images.profileImg,height: 154,width: 154,fit: BoxFit.fill,))),
-            SizedBox(height: 10,),
+          Container(
+            height: 250,width: Get.width,
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [AppColor.primaryColor, AppColor.red],
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                ),
+              borderRadius: BorderRadius.only(bottomRight: Radius.circular(170),bottomLeft: Radius.circular(170))
+            ),
+            child: Transform.translate(
+              offset: Offset(0, 60),
+              child: Container(
+                width: 60,height: 60,
+                decoration: BoxDecoration(
+                  color: AppColor.white,
+                  border: Border.all(color: AppColor.white),
+                  borderRadius: BorderRadius.all(Radius.circular(100))
+                ),
+                margin: EdgeInsets.fromLTRB(90, 50, 90,0),
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(200),
+                    child: Image.asset(Images.profileImg,height: 50,width: 50,fit: BoxFit.fill,)),
+              ),
+            ),
+          ),
+
+            SizedBox(height: 70,),
             Text("Victor Alvarez",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16,color: AppColor.primaryColor,fontFamily: appFontFamilyHeadings),),
             Text("victoralvatez@gmail.com",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 16,color: AppColor.black,fontFamily: appFontFamilyBody),),
             SizedBox(height: 7,),
@@ -51,13 +74,14 @@ class _ProfilePageState extends State<ProfilePage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SvgPicture.asset(Images.editIcon),
+                  SvgPicture.asset(Images.editIcon,color: AppColor.primaryColor,),
                   SizedBox(width: 5,),
                   Text("Edit Your Profile",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 12,color: AppColor.black,fontFamily: appFontFamilyBody),),
                 ],
               ),
             ),
             SizedBox(height: 20,),
+
             profileItems(Images.ticketIcon, "Ticket", (){
               Get.toNamed(Routes.ticket);
             }),
@@ -160,23 +184,39 @@ class _ProfilePageState extends State<ProfilePage> {
         width: Get.width,
         height: 56,
         margin: EdgeInsets.symmetric(horizontal: 20),
-        padding: EdgeInsets.symmetric(horizontal: 20),
         decoration: BoxDecoration(
-            color: AppColor.secondaryColor,
-            borderRadius: BorderRadius.all(Radius.circular(10))
+          gradient: LinearGradient(
+            colors: [AppColor.primaryColor, AppColor.red],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.circular(12),
+
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
+        child: Padding(
+          padding: const EdgeInsets.all(2.0), // This is the border thickness
+          child: Container(
+            width: Get.width,
+            height: 56,
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            decoration: BoxDecoration(
+              color: Colors.white, // Inner container color
+              borderRadius: BorderRadius.circular(10), // Match the outer radius
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                SvgPicture.asset(icon),
-                SizedBox(width: 10,),
-                Text(title,style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400,color: AppColor.primaryColor,fontFamily: appFontFamilyBody),)
+                Row(
+                  children: [
+                    SvgPicture.asset(icon),
+                    SizedBox(width: 10,),
+                    Text(title,style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400,color: AppColor.primaryColor,fontFamily: appFontFamilyBody),)
+                  ],
+                ),
+                Icon(Icons.arrow_forward_ios,size: 16,color: AppColor.primaryColor,)
               ],
             ),
-            Icon(Icons.arrow_forward_ios,size: 16,color: AppColor.primaryColor,)
-          ],
+          ),
         ),
       ),
     );

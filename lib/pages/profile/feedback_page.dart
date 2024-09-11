@@ -1,11 +1,14 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:piwotapp/widgets/app_button.dart';
 import 'package:piwotapp/widgets/app_textfield.dart';
 import 'package:piwotapp/widgets/app_themes.dart';
 import '../../constants/colors.dart';
 import '../../constants/font_family.dart';
+import '../../constants/images.dart';
+import '../../widgets/gradient_text.dart';
 
 class FeedbackPage extends StatefulWidget {
   const FeedbackPage({super.key});
@@ -25,64 +28,75 @@ class _FeedbackPageState extends State<FeedbackPage> {
       backgroundColor: AppColor.white,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: AppColor.white,
-        title: Center(child: Padding(
+        backgroundColor: AppColor.primaryColor,
+        title: Padding(
           padding: const EdgeInsets.only(right: 60),
-          child: Text("Feedback",style: AppThemes.appBarTitleStyle(),),
-        )),
+          child: Center(child: SvgPicture.asset(Images.logo, height: 40,width: 147)),
+        ),
         leading: InkWell(
             onTap: (){
               Get.back();
             },
-            child: Icon(Icons.arrow_back_ios,size: 20,color: AppColor.primaryColor,)),
+            child: Icon(Icons.arrow_back_ios,size: 20,color: AppColor.white,)),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: 20,),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Text("Share Your Feedback",style: AppThemes.titleTextStyle().copyWith(fontSize: 20),),
-          ),
-          SizedBox(height: 10,),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Text("We would love to hear your feedback! Let us know how we’re doing or if you have any suggestions.",style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400,fontFamily: appFontFamilyBody,color: AppColor.mediumGrey),),
-          ),
-          SizedBox(height: 20,),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Text("How was your Experience",style: AppThemes.titleTextStyle().copyWith(fontSize: 20),),
-          ),
-          SizedBox(height: 10,),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: ratingsRow(),
-          ),
-          SizedBox(height: 30,),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: TextFormField(
-              controller: messageController,
-              maxLines: 5,
-              cursorColor: AppColor.primaryColor,
-              decoration: InputDecoration(
-                alignLabelWithHint: true,
-                hintText: "Enter your feedback",
-                labelText: "Feedback",
-                labelStyle: TextStyle(color: Colors.black,fontFamily: appFontFamilyBody,fontWeight:FontWeight.w400,fontSize: 14),
-                hintStyle: TextStyle(color: Colors.black,fontFamily: appFontFamilyBody,fontWeight:FontWeight.w400,fontSize: 14),
-                contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide(color:AppColor.primaryColor,width: 2)),
-                enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide(color:AppColor.primaryColor,width: 2)),
-                errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide(color: Colors.red, width: 2.0)),
-                focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide(color: Colors.red, width: 2.0)),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: 20,),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: GradientText(text: "Share Your Feedback",style: AppThemes.titleTextStyle().copyWith(fontSize: 20,fontWeight: FontWeight.w600), gradient: LinearGradient(
+                colors: [AppColor.primaryColor, AppColor.red],
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+              ),
               ),
             ),
-          ),
-          SizedBox(height: 30,),
-          AppButton(title: "Submit", onTap: (){})
-        ],
+            SizedBox(height: 10,),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Text("We would love to hear your feedback! Let us know how we’re doing or if you have any suggestions.",style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400,fontFamily: appFontFamilyBody,color: AppColor.mediumGrey),),
+            ),
+            SizedBox(height: 20,),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: GradientText(text:"How was your Experience",style: AppThemes.titleTextStyle().copyWith(fontSize: 20,fontWeight: FontWeight.w600),gradient: LinearGradient(
+                colors: [AppColor.primaryColor, AppColor.red],
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+              ),),
+            ),
+            SizedBox(height: 10,),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: ratingsRow(),
+            ),
+            SizedBox(height: 30,),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: TextFormField(
+                controller: messageController,
+                maxLines: 5,
+                cursorColor: AppColor.primaryColor,
+                decoration: InputDecoration(
+                  alignLabelWithHint: true,
+                  hintText: "Enter your feedback",
+                  labelText: "Feedback",
+                  labelStyle: TextStyle(color: Colors.black,fontFamily: appFontFamilyBody,fontWeight:FontWeight.w400,fontSize: 14),
+                  hintStyle: TextStyle(color: Colors.black,fontFamily: appFontFamilyBody,fontWeight:FontWeight.w400,fontSize: 14),
+                  contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                  focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide(color:AppColor.primaryColor,width: 2)),
+                  enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide(color:AppColor.primaryColor,width: 2)),
+                  errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide(color: Colors.red, width: 2.0)),
+                  focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide(color: Colors.red, width: 2.0)),
+                ),
+              ),
+            ),
+            SizedBox(height: 30,),
+            AppButton(title: "Submit", onTap: (){})
+          ],
+        ),
       ),
     );
   }

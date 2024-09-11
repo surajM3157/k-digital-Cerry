@@ -40,20 +40,19 @@ class _DelegatesState extends State<Delegates> {
           ListView.separated(itemBuilder: (context,index){
             return Padding(
               padding: index ==0? EdgeInsets.only(top: 20):index ==delegates.length-1?EdgeInsets.only(bottom: 20):EdgeInsets.zero,
-              child: chatListItem(name: delegates[index].name, message: delegates[index].message, profile: delegates[index].profile),
-            );
-          }, separatorBuilder: (context, index){
-            return SizedBox(height: 20,);
-          }, itemCount: delegates.length),
-          ListView.separated(itemBuilder: (context,index){
-            return Padding(
-              padding: index ==0? EdgeInsets.only(top: 20):index ==delegates.length-1?EdgeInsets.only(bottom: 20):EdgeInsets.zero,
               child: inviteDelegateList(delegates[index]),
             );
           }, separatorBuilder: (context,index){
             return SizedBox(height: 20,);
           }, itemCount: delegates.length),
-
+          ListView.separated(itemBuilder: (context,index){
+            return Padding(
+              padding: index ==0? EdgeInsets.only(top: 20):index ==delegates.length-1?EdgeInsets.only(bottom: 20):EdgeInsets.zero,
+              child: chatListItem(name: delegates[index].name, message: delegates[index].message, profile: delegates[index].profile),
+            );
+          }, separatorBuilder: (context, index){
+            return SizedBox(height: 20,);
+          }, itemCount: delegates.length),
           ListView.separated(itemBuilder: (context,index){
             return Padding(
               padding: index ==0? EdgeInsets.only(top: 20):index ==delegates.length-1?EdgeInsets.only(bottom: 20):EdgeInsets.zero,
@@ -207,25 +206,37 @@ class _DelegatesState extends State<Delegates> {
             },
             child: Container(
               width: Get.width/1.5,
-              padding: EdgeInsets.symmetric(horizontal: 20,vertical: 20),
+              padding: EdgeInsets.all(1),
               decoration: BoxDecoration(
-                  color: AppColor.secondaryColor,
-                  borderRadius: BorderRadius.circular(15)
+                  borderRadius: BorderRadius.circular(16),
+                gradient:  LinearGradient(
+                  colors: [AppColor.primaryColor, AppColor.red],
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                ),
               ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(name,style: TextStyle(
-                      fontFamily: appFontFamilyHeadings,fontWeight: FontWeight.w500,
-                      fontSize: 12,color: AppColor.black
-                  )),
-                  SizedBox(height: 5,),
-                  Text(message,style: TextStyle(
-                      fontFamily: appFontFamilyBody,fontWeight: FontWeight.w500,
-                      fontSize: 14,color: AppColor.black
-                  )),
-                ],
+              child: Container(
+                width: Get.width/1.5,
+                padding: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+                decoration: BoxDecoration(
+                    color: AppColor.white,
+                    borderRadius: BorderRadius.circular(15)
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(name,style: TextStyle(
+                        fontFamily: appFontFamilyHeadings,fontWeight: FontWeight.w600,
+                        fontSize: 14,color: AppColor.FF161616
+                    )),
+                    SizedBox(height: 5,),
+                    Text(message,style: TextStyle(
+                        fontFamily: appFontFamilyBody,fontWeight: FontWeight.w400,
+                        fontSize: 14,color: AppColor.FF161616
+                    )),
+                  ],
+                ),
               ),
             ),
           )

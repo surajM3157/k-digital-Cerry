@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../constants/colors.dart';
+
 class CustomProgressIndicator extends StatelessWidget {
   final int totalSteps;
   final int currentStep;
@@ -35,7 +37,12 @@ class CustomProgressIndicator extends StatelessWidget {
         margin: EdgeInsets.symmetric(horizontal: padding / 2),
         height: size,
         decoration: BoxDecoration(
-          color: isActive ? selectedColor : unselectedColor,
+          color: isActive ? null : unselectedColor,
+          gradient: isActive ?LinearGradient(
+            colors: [AppColor.primaryColor, AppColor.red],
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+          ):null,
           borderRadius: BorderRadius.all(roundedEdges),
         ),
       ),
