@@ -121,7 +121,7 @@ class _SurveyPageState extends State<SurveyPage> {
         ),
         child: Center(
           child: Text((questions.length-1) == index?"Finish":"Next",style: TextStyle(
-              color:AppColor.white,fontSize: 20,fontFamily: appFontFamilyHeadings,fontWeight: FontWeight.w400
+              color:AppColor.white,fontSize: 20,fontFamily: appFontFamily,fontWeight: FontWeight.w400
           ),),
         ),
       ),
@@ -157,7 +157,7 @@ class _SurveyPageState extends State<SurveyPage> {
           ),
           child: Center(
             child: Text("Back",style: TextStyle(
-                color:AppColor.primaryColor,fontSize: 20,fontFamily: appFontFamilyHeadings,fontWeight: FontWeight.w400
+                color:AppColor.primaryColor,fontSize: 20,fontFamily: appFontFamily,fontWeight: FontWeight.w400
             ),),
           ),
         ),
@@ -171,7 +171,7 @@ class _SurveyPageState extends State<SurveyPage> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Text(questions[index].question,
-            style: TextStyle(fontFamily: appFontFamilyHeadings,fontWeight: FontWeight.w500,fontSize: 20,color: AppColor.primaryColor),
+            style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w500,fontSize: 20,color: AppColor.primaryColor),
           ),
         ),
         SizedBox(height: 20,),
@@ -184,7 +184,7 @@ class _SurveyPageState extends State<SurveyPage> {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: RadioListTile(
               contentPadding:EdgeInsets.zero,
-              title: Text(questions[index].options[radioIndex],style: TextStyle(fontSize: 20,fontWeight: FontWeight.w400,fontFamily: appFontFamilyHeadings,color: AppColor.primaryColor),),
+              title: Text(questions[index].options[radioIndex],style: TextStyle(fontSize: 20,fontWeight: FontWeight.w400,fontFamily: appFontFamily,color: AppColor.primaryColor),),
               value: questions[index].options[radioIndex],
               activeColor: AppColor.primaryColor,
               groupValue: questions[index].selectedRadio,

@@ -83,7 +83,7 @@ class _NotificationPageState extends State<NotificationPage> {
                         borderRadius: BorderRadius.circular(15)
                     ),
                     child: Text("Your Event will start in 1 hour",style: TextStyle(
-                      fontFamily: appFontFamilyHeadings,fontWeight: FontWeight.w400,
+                      fontFamily: appFontFamily,fontWeight: FontWeight.w400,
                       fontSize: 14,color: AppColor.black
                     ),),
                   ),
@@ -128,8 +128,8 @@ class _NotificationPageState extends State<NotificationPage> {
                       color: AppColor.white,
                         borderRadius: BorderRadius.circular(15)
                     ),
-                    child: Text("Your Password has been changed sucessfully",style: TextStyle(
-                        fontFamily: appFontFamilyHeadings,fontWeight: FontWeight.w400,
+                    child: Text("Your Password has been changed successfully",style: TextStyle(
+                        fontFamily: appFontFamily,fontWeight: FontWeight.w400,
                         fontSize: 14,color: AppColor.black
                     )),
                   ),
@@ -175,7 +175,7 @@ class _NotificationPageState extends State<NotificationPage> {
                         borderRadius: BorderRadius.circular(15)
                     ),
                     child: Text("You have one friend request",style: TextStyle(
-                        fontFamily: appFontFamilyHeadings,fontWeight: FontWeight.w400,
+                        fontFamily: appFontFamily,fontWeight: FontWeight.w400,
                         fontSize: 14,color: AppColor.black
                     )),
                   ),
@@ -221,7 +221,7 @@ class _NotificationPageState extends State<NotificationPage> {
                         borderRadius: BorderRadius.circular(15)
                     ),
                     child: Text("You have one friend request",style: TextStyle(
-                        fontFamily: appFontFamilyHeadings,fontWeight: FontWeight.w400,
+                        fontFamily: appFontFamily,fontWeight: FontWeight.w400,
                         fontSize: 14,color: AppColor.black
                     )),
                   ),
@@ -266,8 +266,8 @@ class _NotificationPageState extends State<NotificationPage> {
                         color: AppColor.white,
                         borderRadius: BorderRadius.circular(15)
                     ),
-                    child: Text("Your Password has been changed sucessfully",style: TextStyle(
-                        fontFamily: appFontFamilyHeadings,fontWeight: FontWeight.w400,
+                    child: Text("Your Password has been changed successfully",style: TextStyle(
+                        fontFamily: appFontFamily,fontWeight: FontWeight.w400,
                         fontSize: 14,color: AppColor.black
                     )),
                   ),

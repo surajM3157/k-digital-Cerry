@@ -1,5 +1,5 @@
-const appFontFamilyHeadings = "Poppins";
-
-const appFontFamilyBody = "Lato";
+// const appFontFamilyHeadings = "Poppins";
+//
+// const appFontFamilyBody = "Lato";
 
 const appFontFamily = "OpenSans";

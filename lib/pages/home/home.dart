@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:piwotapp/pages/home/sponsor_page.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../constants/colors.dart';
 import '../../constants/font_family.dart';
@@ -28,6 +29,8 @@ class _HomeState extends State<Home> {
     SponsorModel("FutureVision Inc.", Images.sponsor3),
   ];
 
+  final PageController _pageController = PageController();
+
   final List<String> liveEventItems = <String>[
     Images.liveEvent1,
     Images.liveEvent2,
@@ -52,57 +55,7 @@ class _HomeState extends State<Home> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 20,),
-          Container(
-              width: Get.width,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [AppColor.primaryColor, AppColor.red],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-              ),
-            child:Column(
-              children: [
-                SizedBox(height: 10,),
-                SvgPicture.asset(Images.logo,height: 44,width: 126,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Image.asset(Images.speakerHome,height: 200,width: 145,fit: BoxFit.fitHeight,),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text("NETWORKING",style: TextStyle(fontSize: 34,fontWeight: FontWeight.w400,color: AppColor.white,fontFamily: appFontFamily),),
-                        Text("DINNER",style: TextStyle(fontSize: 34,fontWeight: FontWeight.w400,color: AppColor.white,fontFamily: appFontFamily),),
-                        Container(
-                          width: 183,
-                          height: 2,
-                          color: AppColor.red,
-                        ),
-                        SizedBox(height: 10,),
-                        Text("17 January 2025",style: AppThemes.subtitle1TextStyle().copyWith(color:AppColor.white),),
-                        SizedBox(height: 10,),
-                        InkWell(
-                          onTap: (){
-                            Get.toNamed(Routes.eventDetails);
-                          },
-                          child: Container(
-                            height: 32,
-                            width: 117,
-                            decoration: BoxDecoration(
-                              color: AppColor.red,
-                              borderRadius: BorderRadius.all(Radius.circular(10))
-                            ),
-                            child: Center(child: Text("View Details",style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 14,color: AppColor.white),)),
-                          ),
-                        )
-                      ],
-                    )
-                  ],
-                ),
-              ],
-            )
-            ,),
+         bannerCarousel(),
           SizedBox(height: 20,),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -192,6 +145,206 @@ class _HomeState extends State<Home> {
     );
   }
 
+  Widget banner(){
+    return Container(
+      width: Get.width,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [AppColor.primaryColor, AppColor.red],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+      ),
+      child:Column(
+        children: [
+          SizedBox(height: 10,),
+          SvgPicture.asset(Images.logo,height: 44,width: 126,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Image.asset(Images.speakerHome,height: 200,width: 145,fit: BoxFit.fitHeight,),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("NETWORKING",style: TextStyle(fontSize: 34,fontWeight: FontWeight.w400,color: AppColor.white,fontFamily: appFontFamily),),
+                  Text("DINNER",style: TextStyle(fontSize: 34,fontWeight: FontWeight.w400,color: AppColor.white,fontFamily: appFontFamily),),
+                  Container(
+                    width: 183,
+                    height: 2,
+                    color: AppColor.red,
+                  ),
+                  SizedBox(height: 10,),
+                  Text("17 January 2025",style: AppThemes.subtitle1TextStyle().copyWith(color:AppColor.white),),
+                  SizedBox(height: 10,),
+                  InkWell(
+                    onTap: (){
+                      Get.toNamed(Routes.eventDetails);
+                    },
+                    child: Container(
+                      height: 32,
+                      width: 117,
+                      decoration: BoxDecoration(
+                          color: AppColor.red,
+                          borderRadius: BorderRadius.all(Radius.circular(10))
+                      ),
+                      child: Center(child: Text("View Details",style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 14,color: AppColor.white),)),
+                    ),
+                  )
+                ],
+              )
+            ],
+          ),
+        ],
+      )
+      ,);
+  }
+
+  // Indicator widget
+  Widget buildIndicator() => SmoothPageIndicator(
+    controller: _pageController,
+    count: items.length,
+    effect: WormEffect(
+      dotWidth: 10,
+      dotHeight: 10,
+      activeDotColor: AppColor.primaryColor,
+      dotColor: AppColor.primaryColor,
+      paintStyle: PaintingStyle.stroke
+    ),
+  );
+
+  int activeIndex =0;
+
+  List<Widget> items = [
+    Container(
+      width: Get.width,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [AppColor.primaryColor, AppColor.red],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+      ),
+      child:Column(
+        children: [
+          SizedBox(height: 10,),
+          SvgPicture.asset(Images.logo,height: 44,width: 126,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Image.asset(Images.speakerHome,height: 200,width: 145,fit: BoxFit.fitHeight,),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("NETWORKING",style: TextStyle(fontSize: 34,fontWeight: FontWeight.w400,color: AppColor.white,fontFamily: appFontFamily),),
+                  Text("DINNER",style: TextStyle(fontSize: 34,fontWeight: FontWeight.w400,color: AppColor.white,fontFamily: appFontFamily),),
+                  Container(
+                    width: 183,
+                    height: 2,
+                    color: AppColor.red,
+                  ),
+                  SizedBox(height: 10,),
+                  Text("17 January 2025",style: AppThemes.subtitle1TextStyle().copyWith(color:AppColor.white),),
+                  SizedBox(height: 10,),
+                  InkWell(
+                    onTap: (){
+                      Get.toNamed(Routes.eventDetails);
+                    },
+                    child: Container(
+                      height: 32,
+                      width: 117,
+                      decoration: BoxDecoration(
+                          color: AppColor.red,
+                          borderRadius: BorderRadius.all(Radius.circular(10))
+                      ),
+                      child: Center(child: Text("View Details",style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 14,color: AppColor.white),)),
+                    ),
+                  )
+                ],
+              )
+            ],
+          ),
+        ],
+      )
+      ,),
+    Container(
+      width: Get.width,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [AppColor.primaryColor, AppColor.red],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+      ),
+      child:Column(
+        children: [
+          SizedBox(height: 10,),
+          SvgPicture.asset(Images.logo,height: 44,width: 126,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Image.asset(Images.speakerHome,height: 200,width: 145,fit: BoxFit.fitHeight,),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("NETWORKING",style: TextStyle(fontSize: 34,fontWeight: FontWeight.w400,color: AppColor.white,fontFamily: appFontFamily),),
+                  Text("DINNER",style: TextStyle(fontSize: 34,fontWeight: FontWeight.w400,color: AppColor.white,fontFamily: appFontFamily),),
+                  Container(
+                    width: 183,
+                    height: 2,
+                    color: AppColor.red,
+                  ),
+                  SizedBox(height: 10,),
+                  Text("17 January 2025",style: AppThemes.subtitle1TextStyle().copyWith(color:AppColor.white),),
+                  SizedBox(height: 10,),
+                  InkWell(
+                    onTap: (){
+                      Get.toNamed(Routes.eventDetails);
+                    },
+                    child: Container(
+                      height: 32,
+                      width: 117,
+                      decoration: BoxDecoration(
+                          color: AppColor.red,
+                          borderRadius: BorderRadius.all(Radius.circular(10))
+                      ),
+                      child: Center(child: Text("View Details",style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 14,color: AppColor.white),)),
+                    ),
+                  )
+                ],
+              )
+            ],
+          ),
+        ],
+      )
+      ,)
+  ];
+
+  Widget bannerCarousel(){
+    return  Column(
+      children: [
+        SizedBox(
+          height: 254,
+          child: PageView.builder(
+            controller: _pageController,
+            scrollDirection: Axis.horizontal,
+            itemCount: items.length,
+              itemBuilder: (context, index){
+            return GestureDetector(
+              onTap: (){
+                activeIndex = index;
+                setState(() {
+
+                });
+              },
+                child: items[index]);
+          }),
+        ),
+        SizedBox(height: 16),
+        buildIndicator(),
+      ],
+    );
+  }
+
   Widget liveEventList(){
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -271,7 +424,7 @@ class _HomeState extends State<Home> {
   //               SizedBox(
   //                   width:80,
   //                   child: Text(sponsorNames[index],textAlign: TextAlign.center,
-  //                     style: TextStyle(fontWeight: FontWeight.w400,fontSize: 12,fontFamily: appFontFamilyBody,color: AppColor.primaryColor),
+  //                     style: TextStyle(fontWeight: FontWeight.w400,fontSize: 12,fontFamily: appFontFamily,color: AppColor.primaryColor),
   //                   ))
   //             ],
   //           );
@@ -306,7 +459,7 @@ class _HomeState extends State<Home> {
                   SizedBox(
                       width:80,
                       child: Text(item.title,textAlign: TextAlign.center,
-                        style: TextStyle(fontWeight: FontWeight.w400,fontSize: 12,fontFamily: appFontFamilyBody,color: AppColor.primaryColor),
+                        style: TextStyle(fontWeight: FontWeight.w400,fontSize: 12,fontFamily: appFontFamily,color: AppColor.primaryColor),
                       ))
                 ],
               );
@@ -347,9 +500,9 @@ class _HomeState extends State<Home> {
                     borderRadius: BorderRadius.circular(100),
                       child: Image.asset(index ==0?Images.speaker1:index ==1?Images.speaker2:Images.speaker3,height: 80,width: 80,fit: BoxFit.fill,)),
                   SizedBox(height: 5,),
-                  Text(index==0?"Sophia thompson":index==1?"David Kim":"Dr. Rob Carter",style: TextStyle(fontFamily: appFontFamilyHeadings,color: AppColor.white,fontSize: 16,fontWeight: FontWeight.w500),),SizedBox(height: 5,),
-                  Text(index==1?"VP of Engineering":"CEO",style: TextStyle(fontFamily: appFontFamilyBody,color: AppColor.white,fontSize: 12,fontWeight: FontWeight.w500),),
-                  Text(index==1?"Elevate Industries":"InnovateCorp",style: TextStyle(fontFamily: appFontFamilyBody,color: AppColor.white,fontSize: 12,fontWeight: FontWeight.w500),),
+                  Text(index==0?"Sophia thompson":index==1?"David Kim":"Dr. Rob Carter",style: TextStyle(fontFamily: appFontFamily,color: AppColor.white,fontSize: 16,fontWeight: FontWeight.w500),),SizedBox(height: 5,),
+                  Text(index==1?"VP of Engineering":"CEO",style: TextStyle(fontFamily: appFontFamily,color: AppColor.white,fontSize: 12,fontWeight: FontWeight.w500),),
+                  Text(index==1?"Elevate Industries":"InnovateCorp",style: TextStyle(fontFamily: appFontFamily,color: AppColor.white,fontSize: 12,fontWeight: FontWeight.w500),),
                 ],
               ),
             );
@@ -357,6 +510,8 @@ class _HomeState extends State<Home> {
       ),
     );
   }
+
+
 
   Widget viewDetailsButton(){
     return InkWell(

@@ -349,12 +349,12 @@ class _DelegatesState extends State<Delegates> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(name,style: TextStyle(
-                        fontFamily: appFontFamilyHeadings,fontWeight: FontWeight.w600,
+                        fontFamily: appFontFamily,fontWeight: FontWeight.w600,
                         fontSize: 14,color: AppColor.FF161616
                     )),
                     SizedBox(height: 5,),
                     Text(message,style: TextStyle(
-                        fontFamily: appFontFamilyBody,fontWeight: FontWeight.w400,
+                        fontFamily: appFontFamily,fontWeight: FontWeight.w400,
                         fontSize: 14,color: AppColor.FF161616
                     )),
                   ],

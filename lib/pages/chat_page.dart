@@ -54,8 +54,8 @@ class _ChatPageState extends State<ChatPage> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("William John",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16,fontFamily: appFontFamilyHeadings,color: AppColor.primaryColor),),
-                Text("Last Seen 2:10 pm ago",style: TextStyle(fontFamily: appFontFamilyBody,fontSize: 10,fontWeight: FontWeight.w400,color: AppColor.black),)
+                Text("William John",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16,fontFamily: appFontFamily,color: AppColor.primaryColor),),
+                Text("Last Seen 2:10 pm ago",style: TextStyle(fontFamily: appFontFamily,fontSize: 10,fontWeight: FontWeight.w400,color: AppColor.black),)
               ],
             )
           ],
@@ -84,8 +84,8 @@ class _ChatPageState extends State<ChatPage> {
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.emoji_emotions_outlined,color: AppColor.primaryColor,),
                     hintText: "Type here",
-                    labelStyle: TextStyle(color: Colors.black,fontFamily: appFontFamilyBody,fontWeight:FontWeight.w400,fontSize: 12),
-                    hintStyle: TextStyle(color: Colors.black,fontFamily: appFontFamilyBody,fontWeight:FontWeight.w400,fontSize: 14),
+                    labelStyle: TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 12),
+                    hintStyle: TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
                     fillColor: AppColor.secondaryColor,
                     filled: true,
                     contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),

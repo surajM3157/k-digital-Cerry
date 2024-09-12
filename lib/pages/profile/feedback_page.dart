@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:gradient_borders/input_borders/gradient_outline_input_border.dart';
 import 'package:piwotapp/widgets/app_button.dart';
 import 'package:piwotapp/widgets/app_textfield.dart';
 import 'package:piwotapp/widgets/app_themes.dart';
@@ -56,7 +57,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
             SizedBox(height: 10,),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Text("We would love to hear your feedback! Let us know how we’re doing or if you have any suggestions.",style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400,fontFamily: appFontFamilyBody,color: AppColor.mediumGrey),),
+              child: Text("We would love to hear your feedback! Let us know how we’re doing or if you have any suggestions.",style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400,fontFamily: appFontFamily,color: AppColor.mediumGrey),),
             ),
             SizedBox(height: 20,),
             Padding(
@@ -83,11 +84,11 @@ class _FeedbackPageState extends State<FeedbackPage> {
                   alignLabelWithHint: true,
                   hintText: "Enter your feedback",
                   labelText: "Feedback",
-                  labelStyle: TextStyle(color: Colors.black,fontFamily: appFontFamilyBody,fontWeight:FontWeight.w400,fontSize: 14),
-                  hintStyle: TextStyle(color: Colors.black,fontFamily: appFontFamilyBody,fontWeight:FontWeight.w400,fontSize: 14),
+                  labelStyle: TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
+                  hintStyle: TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
                   contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                  focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide(color:AppColor.primaryColor,width: 2)),
-                  enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide(color:AppColor.primaryColor,width: 2)),
+                  focusedBorder: GradientOutlineInputBorder(borderRadius: BorderRadius.circular(10.0), width: 2,gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])),
+                  enabledBorder: GradientOutlineInputBorder(borderRadius: BorderRadius.circular(10.0), width: 2,gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])),
                   errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide(color: Colors.red, width: 2.0)),
                   focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide(color: Colors.red, width: 2.0)),
                 ),
@@ -125,7 +126,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
               children: [
                 Text("😢",style: TextStyle(fontSize: 30)),
                 SizedBox(height: 5,),
-                Text("Terrible",style: TextStyle(fontSize: 12,fontWeight: FontWeight.w400,fontFamily: appFontFamilyBody,color: AppColor.black),)
+                Text("Terrible",style: TextStyle(fontSize: 12,fontWeight: FontWeight.w400,fontFamily: appFontFamily,color: AppColor.black),)
               ],
             ),
           ),
@@ -150,7 +151,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
               children: [
                 Text("🙁",style: TextStyle(fontSize: 30)),
                 SizedBox(height: 5,),
-                Text("Bad",style: TextStyle(fontSize: 12,fontWeight: FontWeight.w400,fontFamily: appFontFamilyBody,color: AppColor.black),)
+                Text("Bad",style: TextStyle(fontSize: 12,fontWeight: FontWeight.w400,fontFamily: appFontFamily,color: AppColor.black),)
               ],
             ),
           ),
@@ -175,7 +176,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
               children: [
                 Text("🙂",style: TextStyle(fontSize: 30)),
                 SizedBox(height: 5,),
-                Text("Good",style: TextStyle(fontSize: 12,fontWeight: FontWeight.w400,fontFamily: appFontFamilyBody,color: AppColor.black),)
+                Text("Good",style: TextStyle(fontSize: 12,fontWeight: FontWeight.w400,fontFamily: appFontFamily,color: AppColor.black),)
               ],
             ),
           ),
@@ -200,7 +201,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
               children: [
                 Text("😊",style: TextStyle(fontSize: 30)),
                 SizedBox(height: 5,),
-                Text("Awesome",style: TextStyle(fontSize: 12,fontWeight: FontWeight.w400,fontFamily: appFontFamilyBody,color: AppColor.black),)
+                Text("Awesome",style: TextStyle(fontSize: 12,fontWeight: FontWeight.w400,fontFamily: appFontFamily,color: AppColor.black),)
               ],
             ),
           ),

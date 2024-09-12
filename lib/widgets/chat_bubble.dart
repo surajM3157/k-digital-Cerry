@@ -38,7 +38,7 @@ class ChatBubble extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  message,style: TextStyle(fontFamily: appFontFamilyBody,fontWeight: FontWeight.w400,
+                  message,style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w400,
                   fontSize: 15,color: isMe?AppColor.black:AppColor.white
                 ),
                 ),
@@ -50,7 +50,7 @@ class ChatBubble extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  timeStamp,style: TextStyle(fontFamily: appFontFamilyBody,fontWeight: FontWeight.w400,
+                  timeStamp,style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w400,
                   fontSize: 8,color: isMe?AppColor.black:AppColor.white
                 ),
                 ),

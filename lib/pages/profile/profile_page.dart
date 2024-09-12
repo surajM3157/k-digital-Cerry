@@ -64,8 +64,8 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
 
             SizedBox(height: 70,),
-            Text("Victor Alvarez",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16,color: AppColor.primaryColor,fontFamily: appFontFamilyHeadings),),
-            Text("victoralvatez@gmail.com",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 16,color: AppColor.black,fontFamily: appFontFamilyBody),),
+            Text("Victor Alvarez",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16,color: AppColor.primaryColor,fontFamily: appFontFamily),),
+            Text("victoralvatez@gmail.com",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 16,color: AppColor.black,fontFamily: appFontFamily),),
             SizedBox(height: 7,),
             GestureDetector(
               onTap: (){
@@ -76,7 +76,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 children: [
                   SvgPicture.asset(Images.editIcon,color: AppColor.primaryColor,),
                   SizedBox(width: 5,),
-                  Text("Edit Your Profile",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 12,color: AppColor.black,fontFamily: appFontFamilyBody),),
+                  Text("Edit Your Profile",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 12,color: AppColor.black,fontFamily: appFontFamily),),
                 ],
               ),
             ),
@@ -101,6 +101,7 @@ class _ProfilePageState extends State<ProfilePage> {
             profileItems(Images.logoutIcon, "Logout", (){
               logoutAlert();
             }),
+            SizedBox(height: 20,),
           ],
         ),
       ),
@@ -122,7 +123,7 @@ class _ProfilePageState extends State<ProfilePage> {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text("Are you sure you want to log out?",style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500,fontFamily: appFontFamilyHeadings,color: AppColor.mediumGrey),),
+          Text("Are you sure you want to log out?",style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500,fontFamily: appFontFamily,color: AppColor.mediumGrey),),
           SizedBox(height: 20,),
           InkWell(
             onTap: (){
@@ -138,7 +139,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               child: Center(
                 child: Text(
-                  "Logout",style: TextStyle(color: AppColor.white,fontSize: 16,fontWeight: FontWeight.w500,fontFamily: appFontFamilyHeadings),
+                  "Logout",style: TextStyle(color: AppColor.white,fontSize: 16,fontWeight: FontWeight.w500,fontFamily: appFontFamily),
                 ),
               ),
             ),
@@ -159,7 +160,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               child: Center(
                 child: Text(
-                  "Cancel",style: TextStyle(color: AppColor.black,fontSize: 16,fontWeight: FontWeight.w500,fontFamily: appFontFamilyHeadings),
+                  "Cancel",style: TextStyle(color: AppColor.black,fontSize: 16,fontWeight: FontWeight.w500,fontFamily: appFontFamily),
                 ),
               ),
             ),
@@ -210,7 +211,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   children: [
                     SvgPicture.asset(icon),
                     SizedBox(width: 10,),
-                    Text(title,style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400,color: AppColor.primaryColor,fontFamily: appFontFamilyBody),)
+                    Text(title,style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400,color: AppColor.primaryColor,fontFamily: appFontFamily),)
                   ],
                 ),
                 Icon(Icons.arrow_forward_ios,size: 16,color: AppColor.primaryColor,)
