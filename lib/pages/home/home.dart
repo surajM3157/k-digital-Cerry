@@ -162,12 +162,12 @@ class _HomeState extends State<Home> {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Image.asset(Images.speakerHome,height: 200,width: 145,fit: BoxFit.fitHeight,),
+              Image.asset(Images.speakerHome,height: 200,width: 130,fit: BoxFit.fitHeight,),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("NETWORKING",style: TextStyle(fontSize: 34,fontWeight: FontWeight.w400,color: AppColor.white,fontFamily: appFontFamily),),
-                  Text("DINNER",style: TextStyle(fontSize: 34,fontWeight: FontWeight.w400,color: AppColor.white,fontFamily: appFontFamily),),
+                  Text("NETWORKING",style: TextStyle(fontSize: 30,fontWeight: FontWeight.w400,color: AppColor.white,fontFamily: appFontFamily),),
+                  Text("DINNER",style: TextStyle(fontSize: 30,fontWeight: FontWeight.w400,color: AppColor.white,fontFamily: appFontFamily),),
                   Container(
                     width: 183,
                     height: 2,
@@ -231,7 +231,7 @@ class _HomeState extends State<Home> {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Image.asset(Images.speakerHome,height: 200,width: 145,fit: BoxFit.fitHeight,),
+              Image.asset(Images.speakerHome,height: 200,width: 135,fit: BoxFit.fitHeight,),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -282,7 +282,7 @@ class _HomeState extends State<Home> {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Image.asset(Images.speakerHome,height: 200,width: 145,fit: BoxFit.fitHeight,),
+              Image.asset(Images.speakerHome,height: 200,width: 135,fit: BoxFit.fitHeight,),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

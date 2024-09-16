@@ -107,18 +107,27 @@ class _LiveSessionPageState extends State<LiveSessionPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    SvgPicture.asset(Images.likeIcon,),
-                    SizedBox(width: 5,),
-                    Text("24.4 k",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor),),
-                    SizedBox(width: 10,),
-                    SvgPicture.asset(Images.dislikeIcon,),
-                    SizedBox(width: 5,),
-                    Text("10",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor),),
-                    SizedBox(width: 50,),
-                    Image.asset(Images.participantsIcon,),
-                    SizedBox(width: 5,),
-                    Text("2K Participants",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor),),
+                   Row(
+                     children: [
+                       SvgPicture.asset(Images.likeIcon,),
+                       SizedBox(width: 5,),
+                       Text("24.4 k",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor),),
+                       SizedBox(width: 10,),
+                       SvgPicture.asset(Images.dislikeIcon,),
+                       SizedBox(width: 5,),
+                       Text("10",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor),),
+
+                     ],
+                   ),
+                    Row(
+                      children: [
+                        Image.asset(Images.participantsIcon,),
+                        SizedBox(width: 5,),
+                        Text("2K Participants",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor),),
+                      ],
+                    )
                   ],
                 ),
               ),

@@ -97,5 +97,6 @@ class Images{
   static String speakerIcon = 'assets/images/icons/speaker_icon.svg';
   static String sponsorIcon = 'assets/images/icons/sponsor_icon.svg';
   static String crossArrowIcon = 'assets/images/icons/cross_arrow_icon.svg';
+  static String cancelIcon = 'assets/images/icons/cancel_icon.png';
 
 }

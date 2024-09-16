@@ -43,110 +43,115 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       key: _scaffoldKey, // Set the key to Scaffold
       backgroundColor: AppColor.white,
       drawer: drawerWidget(),
-      appBar: AppBar(
-        toolbarHeight: bottomNavbarIndex == 3?123:null,
-          flexibleSpace: FlexibleSpaceBar(
-            titlePadding: EdgeInsets.zero, // Removes the padding
-            title: bottomNavbarIndex == 3?
-            Column(
-              children: [
-                Container(
-                  color: AppColor.primaryColor,
-                  padding: EdgeInsets.only(top: 30,left: 10,right: 10,bottom: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SvgPicture.asset(Images.logo,height: 40,width: 147,),
-                      Row(
-                        children: [
-                          InkWell(
-                              onTap: (){
-                                Get.toNamed(Routes.profile);
-                              },
-                              child: SvgPicture.asset(Images.profileIcon,color: AppColor.white,)),
-                          InkWell(
-                              onTap: (){
-                                Get.toNamed(Routes.notification);
-                              },
-                              child: SvgPicture.asset(Images.notificationIcon,color: AppColor.white,)),
-                          InkWell(
-                              onTap: _openDrawer,
-                              child: Icon(Icons.menu,color: AppColor.white,)
-                          ),
-                        ],
-                      )
-                    ],
+      appBar: PreferredSize(
+        preferredSize: bottomNavbarIndex == 3? Size.fromHeight(screenHeight * 0.152):Size.fromHeight(screenHeight * 0.08),
+        child: AppBar(
+          // toolbarHeight: bottomNavbarIndex == 3?screenHeight*0.152:null,
+            flexibleSpace: FlexibleSpaceBar(
+              titlePadding: EdgeInsets.zero, // Removes the padding
+              title: bottomNavbarIndex == 3?
+              Column(
+                children: [
+                  Container(
+                    color: AppColor.primaryColor,
+                    padding: EdgeInsets.only(top: 30,left: 10,right: 10,bottom: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SvgPicture.asset(Images.logo,height: 40,width: 147,),
+                        Row(
+                          children: [
+                            InkWell(
+                                onTap: (){
+                                  Get.toNamed(Routes.profile);
+                                },
+                                child: SvgPicture.asset(Images.profileIcon,color: AppColor.white,)),
+                            InkWell(
+                                onTap: (){
+                                  Get.toNamed(Routes.notification);
+                                },
+                                child: SvgPicture.asset(Images.notificationIcon,color: AppColor.white,)),
+                            InkWell(
+                                onTap: _openDrawer,
+                                child: Icon(Icons.menu,color: AppColor.white,)
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
                   ),
-                ),
-                SizedBox(height: 20,),
-                Container(
-                  width: Get.width,
-                  color: AppColor.white,
-                  padding: EdgeInsets.only(left: 10,right: 10),
-                  child: TabBar(
-                      controller: _controller,
-                      labelPadding: EdgeInsets.symmetric(horizontal: 25),
-                      indicatorColor: AppColor.primaryColor,
-                      indicator:CustomUnderlineTabIndicator(
-                        borderSide: BorderSide(width: 3.0, color: AppColor.primaryColor),
-                        insets:EdgeInsets.symmetric(vertical: -8),
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(12.0),
-                          topRight: Radius.circular(12.0),
+                  SizedBox(height: 20,),
+                  Container(
+                    width: Get.width,
+                    color: AppColor.white,
+                    // padding: EdgeInsets.only(left: 10,right: 10),
+                    child: TabBar(
+                        controller: _controller,
+                        labelPadding: EdgeInsets.symmetric(horizontal: 25),
+                        indicatorColor: AppColor.primaryColor,
+                        indicator:CustomUnderlineTabIndicator(
+                          borderSide: BorderSide(width: 3.0, color: AppColor.primaryColor),
+                          insets:EdgeInsets.symmetric(vertical: -8),
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(12.0),
+                            topRight: Radius.circular(12.0),
+                          ),
                         ),
-                      ),
-                      // UnderlineTabIndicator(
-                      //   insets: EdgeInsets.symmetric(vertical: -8),
-                      //   borderSide: BorderSide(color: AppColor.primaryColor, width: 4.0),
-                      //
-                      // ),
-                      tabs: [
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 20),
-                          child: Text("Delegates",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor)),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 20),
-                          child: Text("Chat",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor),),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 20),
-                          child: Text("Request",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor)),
-                        ),
-                      ]),
-                )
-              ],
-            ):Padding(
-              padding: const EdgeInsets.only(left: 10,bottom: 10),
-              child: Align(
-                alignment: Alignment.bottomLeft,
-                  child: SvgPicture.asset(Images.logo,height: 40,width: 147,)),
+                        // UnderlineTabIndicator(
+                        //   insets: EdgeInsets.symmetric(vertical: -8),
+                        //   borderSide: BorderSide(color: AppColor.primaryColor, width: 4.0),
+                        //
+                        // ),
+                        tabs: [
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 17),
+                            child: Text("Delegates",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor)),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 17),
+                            child: Text("Chat",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor),),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 17),
+                            child: Text("Request",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor)),
+                          ),
+                        ]),
+                  )
+                ],
+              ):Padding(
+                padding: const EdgeInsets.only(left: 10,bottom: 10),
+                child: Align(
+                  alignment: Alignment.bottomLeft,
+                    child: SvgPicture.asset(Images.logo,height: 40,width: 147,)),
+              ),
             ),
-          ),
-        automaticallyImplyLeading: false,
-        actions:bottomNavbarIndex == 3?null: [
-          InkWell(
+          automaticallyImplyLeading: false,
+          actions:bottomNavbarIndex == 3?null: [
+            InkWell(
+                onTap: (){
+                  Get.toNamed(Routes.profile);
+                },
+                child: SvgPicture.asset(Images.profileIcon,color: AppColor.white,)),
+            InkWell(
               onTap: (){
-                Get.toNamed(Routes.profile);
+                Get.toNamed(Routes.notification);
               },
-              child: SvgPicture.asset(Images.profileIcon,color: AppColor.white,)),
-          InkWell(
-            onTap: (){
-              Get.toNamed(Routes.notification);
-            },
-              child: SvgPicture.asset(Images.notificationIcon,color: AppColor.white,)),
-          InkWell(
-            onTap: _openDrawer,
-            child: Icon(Icons.menu,color: AppColor.white,)
-          ),
-          SizedBox(width: 20,)
-        ],
-        backgroundColor:bottomNavbarIndex == 3?AppColor.white:AppColor.primaryColor,
+                child: SvgPicture.asset(Images.notificationIcon,color: AppColor.white,)),
+            InkWell(
+              onTap: _openDrawer,
+              child: Icon(Icons.menu,color: AppColor.white,)
+            ),
+            SizedBox(width: 20,)
+          ],
+          backgroundColor:bottomNavbarIndex == 3?AppColor.white:AppColor.primaryColor,
     ),
+      ),
       body: bottomNavbarIndex == 0?Home():bottomNavbarIndex == 1?Booking():bottomNavbarIndex == 2?Session():Delegates(tabController: _controller!,),
       bottomNavigationBar: bottomNavbar(),
     );

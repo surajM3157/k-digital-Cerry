@@ -132,7 +132,7 @@ class _TicketPageState extends State<TicketPage> {
                   ),
                 ),
                 Positioned(
-                    left: -1,
+                    left: -7,
                     bottom: 80,
                     child: Container(
                       height: 40,
@@ -143,7 +143,7 @@ class _TicketPageState extends State<TicketPage> {
                       ),
                     )),
                 Positioned(
-                    right: -1,
+                    right: -7,
                     bottom: 80,
                     child: Container(
                       height: 40,
