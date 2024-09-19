@@ -64,13 +64,9 @@ class _SessionDetailsPageState extends State<SessionDetailsPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SizedBox(height: 20,),
-                          GradientText(text:widget.title??"",style: AppThemes.titleTextStyle().copyWith(
+                          Text(widget.title??"",style: AppThemes.titleTextStyle().copyWith(
                               fontWeight: FontWeight.w600,fontSize: 24
-                          ),gradient:LinearGradient(
-                            colors: [AppColor.primaryColor, AppColor.red],
-                            begin: Alignment.centerLeft,
-                            end: Alignment.centerRight,
-                          )),
+                          ),),
                           SizedBox(height: 20,),
                           Text("Bridging Innovation and Collaboration Worldwide. Connecting Minds, Shaping the Future.",style:AppThemes.subtitleTextStyle().copyWith(fontSize: 16)),
                           SizedBox(height: 20,),

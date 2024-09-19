@@ -36,8 +36,14 @@ class AppTextField extends StatelessWidget {
           hintStyle: TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
 
           contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-          focusedBorder: GradientOutlineInputBorder(borderRadius: BorderRadius.circular(10.0), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]),width: 2),
-          enabledBorder: GradientOutlineInputBorder(borderRadius: BorderRadius.circular(10.0), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]),width: 2),
+          focusedBorder:  OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.0),
+              borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
+          ),
+          enabledBorder:  OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.0),
+              borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
+          ),
           errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide(color: Colors.red, width: 2.0)),
           focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide(color: Colors.red, width: 2.0)),
         ),

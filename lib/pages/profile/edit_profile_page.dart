@@ -51,201 +51,195 @@ class _EditProfilPageState extends State<EditProfilPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColor.white,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: AppColor.primaryColor,
-        title: Padding(
-          padding: const EdgeInsets.only(right: 60),
-          child: Center(child: SvgPicture.asset(Images.logo, height: 40,width: 147)),
-        ),
-        leading: InkWell(
-            onTap: (){
-              Get.back();
-            },
-            child: Icon(Icons.arrow_back_ios,size: 20,color: AppColor.white,)),
-      ),
       body: SingleChildScrollView(
-        child: Column(
+        child: Stack(
           children: [
-            Container(
-              height: 250,width: Get.width,
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [AppColor.primaryColor, AppColor.red],
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
+            Column(
+              children: [
+                Container(
+                  height: 250,width: Get.width,
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [AppColor.primaryColor, AppColor.red],
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                      ),
+                      borderRadius: BorderRadius.only(bottomRight: Radius.circular(170),bottomLeft: Radius.circular(170))
                   ),
-                  borderRadius: BorderRadius.only(bottomRight: Radius.circular(170),bottomLeft: Radius.circular(170))
-              ),
-              child: Transform.translate(
-                offset: Offset(100, 120),
-                child: Stack(
+                  child: Column(
+                    children: [
+                      SizedBox(height: 50,),
+                      Center(child: SvgPicture.asset(Images.logo, height: 40,width: 147)),
+
+                    ],
+                  ),
+                ),
+                SizedBox(height: 80,),
+                AppTextField(hintText: "Type your Name",controller: nameController,labelText:"Name"),
+                SizedBox(height: 20,),
+                AppTextField(hintText: "Type your Email",controller: emailController,labelText:"Email"),
+                SizedBox(height: 20,),
+                AppTextField(
+                    readOnly: true,
+                    onTap: () async {
+                      DateTime? pickedDate = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(1900),
+                          //DateTime.now() - not to allow to choose before today.
+                          lastDate: DateTime.now(),
+                          builder: (BuildContext? context, Widget? child){
+                            return Theme(
+                                data: ThemeData.light().copyWith(
+                                  primaryColor: AppColor.primaryColor,
+                                  primaryColorLight: AppColor.primaryColor,
+                                  colorScheme: ColorScheme.light(primary: AppColor.primaryColor),
+                                  buttonTheme: ButtonThemeData(
+                                      textTheme: ButtonTextTheme.primary
+                                  ),
+                                ),
+                                child: child!);
+                          }
+                      );
+                      if (pickedDate != null) {
+                        print(pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+
+                        String formattedDate = DateFormat('dd/MM/yyyy').format(pickedDate);
+                        print(formattedDate); //formatted date output using intl package =>  2021-03-16
+                        setState(() {
+
+                          dobController.text = formattedDate; //set output date to TextField value.
+                        });
+                      } else {}
+                    },
+                    hintText: "Type your DOB",controller: dobController,labelText:"DOB"),
+                SizedBox(height: 20,),
+                Row(
                   children: [
-                    Container(
-                      width: 191,height: 195,
-                      decoration: BoxDecoration(
-                          color: AppColor.white,
-                          border: Border.all(color: AppColor.white),
-                          borderRadius: BorderRadius.all(Radius.circular(100))
-                      ),
-                      child: ClipRRect(
-                          borderRadius: BorderRadius.circular(200),
-                          child: Image.asset(Images.profileImg,height: 200,width: 200,fit: BoxFit.fill,)),
-                    ),
-                    Positioned(
-                      bottom: 50,
-                      left: 120,
-                      child: Container(
-                        height: 54,width: 54,
-                        decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [AppColor.primaryColor, AppColor.red],
-                              begin: Alignment.centerLeft,
-                              end: Alignment.centerRight,
+                    Flexible(
+                      flex: 1,
+                        child: AppTextField(hintText: "Location",controller: emailController,labelText:"Location")),
+                    Flexible(
+                      flex: 1,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 20),
+                        child: DropdownButtonFormField<String>(
+                          items: gender.map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          onChanged: (value) {},
+                          dropdownColor: AppColor.white,
+                          iconSize: 30,
+                          decoration: InputDecoration(
+                            hintText: "Gender",
+                            labelText: "Gender",
+                            labelStyle:  TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
+                            hintStyle: TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
+                            contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                                borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
                             ),
-                            borderRadius: BorderRadius.all(Radius.circular(50))
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              borderSide: BorderSide(color: Colors.red, width: 2.0),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              borderSide: BorderSide(color: Colors.red, width: 2.0),
+                            ),
+                          ),
                         ),
-                        child: Icon(Icons.camera_alt_outlined,color: AppColor.white,size: 30,),
                       ),
-                    )
+                    ),
                   ],
                 ),
-              ),
-            ),
-            SizedBox(height: 80,),
-            AppTextField(hintText: "Type your Name",controller: nameController,labelText:"Name"),
-            SizedBox(height: 20,),
-            AppTextField(hintText: "Type your Email",controller: emailController,labelText:"Email"),
-            SizedBox(height: 20,),
-            AppTextField(
-                readOnly: true,
-                onTap: () async {
-                  DateTime? pickedDate = await showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime(1900),
-                      //DateTime.now() - not to allow to choose before today.
-                      lastDate: DateTime.now(),
-                      builder: (BuildContext? context, Widget? child){
-                        return Theme(
-                            data: ThemeData.light().copyWith(
-                              primaryColor: AppColor.primaryColor,
-                              primaryColorLight: AppColor.primaryColor,
-                              colorScheme: ColorScheme.light(primary: AppColor.primaryColor),
-                              buttonTheme: ButtonThemeData(
-                                  textTheme: ButtonTextTheme.primary
-                              ),
-                            ),
-                            child: child!);
-                      }
-                  );
-                  if (pickedDate != null) {
-                    print(pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
-
-                    String formattedDate = DateFormat('dd/MM/yyyy').format(pickedDate);
-                    print(formattedDate); //formatted date output using intl package =>  2021-03-16
-                    setState(() {
-
-                      dobController.text = formattedDate; //set output date to TextField value.
-                    });
-                  } else {}
-                },
-                hintText: "Type your DOB",controller: dobController,labelText:"DOB"),
-            SizedBox(height: 20,),
-            Row(
-              children: [
-                Flexible(
-                  flex: 1,
-                    child: AppTextField(hintText: "Location",controller: emailController,labelText:"Location")),
-                Flexible(
-                  flex: 1,
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 20),
-                    child: DropdownButtonFormField<String>(
-                      items: gender.map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                      onChanged: (value) {},
-                      dropdownColor: AppColor.white,
-                      iconSize: 30,
-                      decoration: InputDecoration(
-                        hintText: "Gender",
-                        labelText: "Gender",
-                        labelStyle:  TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
-                        hintStyle: TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
-                        contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                        focusedBorder: GradientOutlineInputBorder(
+                SizedBox(height: 20,),
+                AppTextField(hintText: "Type your Company Name",controller: companyController,labelText:"Company Name"),
+                SizedBox(height: 20,),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: DropdownButtonFormField<String>(
+                    items: items.map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (value) {},
+                    dropdownColor: AppColor.white,
+                    iconSize: 30,
+                    decoration: InputDecoration(
+                      hintText: "Select your Industry",
+                      labelText: "Industry",
+                      labelStyle:  TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
+                      hintStyle: TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
+                      contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                      focusedBorder:  OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
-                          width: 2,
-                          gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]), // Remove standard borders
-                        ),
-                        enabledBorder: GradientOutlineInputBorder(
+                          borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
+                      ),
+                      enabledBorder:  OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
-                          width: 2,
-                          gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]), // Remove standard borders
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: Colors.red, width: 2.0),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: Colors.red, width: 2.0),
-                        ),
+                          borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: BorderSide(color: Colors.red, width: 2.0),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: BorderSide(color: Colors.red, width: 2.0),
                       ),
                     ),
                   ),
                 ),
+                SizedBox(height: 20,),
+                AppTextField(hintText: "Type your Designation",controller: designationController,labelText:"Designation"),
+                SizedBox(height: 20,),
+                AppButton(title: "Update", onTap: (){}),
+                SizedBox(height: 20,),
               ],
             ),
-            SizedBox(height: 20,),
-            AppTextField(hintText: "Type your Company Name",controller: companyController,labelText:"Company Name"),
-            SizedBox(height: 20,),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: DropdownButtonFormField<String>(
-                items: items.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-                onChanged: (value) {},
-                dropdownColor: AppColor.white,
-                iconSize: 30,
-                decoration: InputDecoration(
-                  hintText: "Select your Industry",
-                  labelText: "Industry",
-                  labelStyle:  TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
-                  hintStyle: TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
-                  contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                  focusedBorder: GradientOutlineInputBorder(
-                    width: 2,
-                    borderRadius: BorderRadius.circular(10.0), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]),
-                  ),
-                  enabledBorder: GradientOutlineInputBorder(
-                    width: 2,
-                    borderRadius: BorderRadius.circular(10.0),gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])
-                  ),
-                  errorBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                    borderSide: BorderSide(color: Colors.red, width: 2.0),
-                  ),
-                  focusedErrorBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                    borderSide: BorderSide(color: Colors.red, width: 2.0),
-                  ),
-                ),
+            Container(
+              width: 188,height: 188,
+              margin: EdgeInsets.only(left: 100,top: 120),
+              decoration: BoxDecoration(
+                  color: AppColor.white,
+                  border: Border.all(color: AppColor.white),
+                  borderRadius: BorderRadius.all(Radius.circular(100))
+              ),
+              child: ClipRRect(
+                  borderRadius: BorderRadius.circular(200),
+                  child: Image.asset(Images.profileImg,height: 188,width: 188,fit: BoxFit.fill,)),
+            ),
+            GestureDetector(
+              onTap: (){
+                Get.back();
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(left: 20,top: 60),
+                child: Icon(Icons.arrow_back_ios,color: AppColor.white,),
               ),
             ),
-            SizedBox(height: 20,),
-            AppTextField(hintText: "Type your Designation",controller: designationController,labelText:"Designation"),
-            SizedBox(height: 20,),
-            AppButton(title: "Update", onTap: (){}),
-            SizedBox(height: 20,),
+            Positioned(
+              left: 240,
+              top: 250,
+              child: Container(
+                height: 54,width: 54,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])
+                  ),
+                  child: Icon(Icons.camera_alt_outlined,color: AppColor.white,size: 30,)),
+            )
           ],
         ),
       ),

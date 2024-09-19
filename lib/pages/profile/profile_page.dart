@@ -20,88 +20,163 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColor.white,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: AppColor.primaryColor,
-        title: Padding(
-          padding: const EdgeInsets.only(right: 60),
-          child: Center(child: SvgPicture.asset(Images.logo, height: 40,width: 147)),
-        ),
-        leading: InkWell(
-            onTap: (){
-              Get.back();
-            },
-            child: Icon(Icons.arrow_back_ios,size: 20,color: AppColor.white,)),
-      ),
       body: SingleChildScrollView(
-        child: Column(
+        child: Stack(
           children: [
-          Container(
-            height: 250,width: Get.width,
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [AppColor.primaryColor, AppColor.red],
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                ),
-              borderRadius: BorderRadius.only(bottomRight: Radius.circular(170),bottomLeft: Radius.circular(170))
-            ),
-            child: Transform.translate(
-              offset: Offset(0, 60),
-              child: Container(
-                width: 60,height: 60,
+            Column(
+              children: [
+              Container(
+                height: 250,width: Get.width,
                 decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [AppColor.primaryColor, AppColor.red],
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                    ),
+                  borderRadius: BorderRadius.only(bottomRight: Radius.circular(170),bottomLeft: Radius.circular(170))
+                ),
+                child: Column(
+                  children: [
+                    SizedBox(height: 50,),
+                    Center(child: SvgPicture.asset(Images.logo, height: 40,width: 147)),
+
+                  ],
+                ),
+              ),
+
+                SizedBox(height: 80,),
+                Text("Victor Alvarez",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16,color: AppColor.primaryColor,fontFamily: appFontFamily),),
+                Text("victoralvatez@gmail.com",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 16,color: AppColor.black,fontFamily: appFontFamily),),
+                SizedBox(height: 7,),
+                GestureDetector(
+                  onTap: (){
+                    Get.toNamed(Routes.editProfile);
+                  },
+                  child: Container(
+                    height: 32,width: 107,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: AppColor.primaryColor
+                    ),
+                    child: Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(Images.editIcon,color: AppColor.white,),
+                          SizedBox(width: 5,),
+                          Text("Edit Profile",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 12,color: AppColor.white,fontFamily: appFontFamily),),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20,),
+                GestureDetector(
+                  onTap: (){
+                    Get.toNamed(Routes.ticket);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            SvgPicture.asset(Images.ticketIcon),
+                            SizedBox(width: 20,),
+                            Text("Ticket",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400,color: AppColor.primaryColor,fontFamily: appFontFamily),)
+                          ],
+                        ),
+                        Icon(Icons.arrow_forward_ios,size: 16,color: AppColor.primaryColor,)
+                      ],
+                    ),
+                  ),
+                ),
+                Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
+                GestureDetector(
+                  onTap: (){
+                    Get.toNamed(Routes.contactUs);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            SvgPicture.asset(Images.contactIcon),
+                            SizedBox(width: 20,),
+                            Text("Contact Us",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400,color: AppColor.primaryColor,fontFamily: appFontFamily),)
+                          ],
+                        ),
+                        Icon(Icons.arrow_forward_ios,size: 16,color: AppColor.primaryColor,)
+                      ],
+                    ),
+                  ),
+                ),
+                Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
+                GestureDetector(
+                  onTap: (){
+                    Get.toNamed(Routes.feedback);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            SvgPicture.asset(Images.feedbackIcon),
+                            SizedBox(width: 20,),
+                            Text("Feedback",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400,color: AppColor.primaryColor,fontFamily: appFontFamily),)
+                          ],
+                        ),
+                        Icon(Icons.arrow_forward_ios,size: 16,color: AppColor.primaryColor,)
+                      ],
+                    ),
+                  ),
+                ),
+                Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
+                GestureDetector(
+                  onTap: (){
+                    logoutAlert();
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
+                    child: Row(
+                      children: [
+                        SvgPicture.asset(Images.logoutIcon,color: AppColor.red,),
+                        SizedBox(width: 20,),
+                        Text("Logout",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400,color: AppColor.red,fontFamily: appFontFamily),)
+                      ],
+                    ),
+                  ),
+                ),
+                Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
+                SizedBox(height: 20,),
+              ],
+            ),
+            Container(
+              width: 200,height: 200,
+              margin: EdgeInsets.only(left: 90,top: 110),
+              decoration: BoxDecoration(
                   color: AppColor.white,
                   border: Border.all(color: AppColor.white),
                   borderRadius: BorderRadius.all(Radius.circular(100))
-                ),
-                margin: EdgeInsets.fromLTRB(90, 50, 90,0),
-                child: ClipRRect(
-                    borderRadius: BorderRadius.circular(200),
-                    child: Image.asset(Images.profileImg,height: 50,width: 50,fit: BoxFit.fill,)),
               ),
+              child: ClipRRect(
+                  borderRadius: BorderRadius.circular(200),
+                  child: Image.asset(Images.profileImg,height: 192,width: 192,fit: BoxFit.fill,)),
             ),
-          ),
-
-            SizedBox(height: 70,),
-            Text("Victor Alvarez",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16,color: AppColor.primaryColor,fontFamily: appFontFamily),),
-            Text("victoralvatez@gmail.com",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 16,color: AppColor.black,fontFamily: appFontFamily),),
-            SizedBox(height: 7,),
             GestureDetector(
               onTap: (){
-                Get.toNamed(Routes.editProfile);
+                Get.back();
               },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SvgPicture.asset(Images.editIcon,color: AppColor.primaryColor,),
-                  SizedBox(width: 5,),
-                  Text("Edit Your Profile",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 12,color: AppColor.black,fontFamily: appFontFamily),),
-                ],
+              child: Padding(
+                padding: const EdgeInsets.only(left: 20,top: 60),
+                child: Icon(Icons.arrow_back_ios,color: AppColor.white,),
               ),
-            ),
-            SizedBox(height: 20,),
-
-            profileItems(Images.ticketIcon, "Ticket", (){
-              Get.toNamed(Routes.ticket);
-            }),
-            SizedBox(height: 20,),
-            profileItems(Images.contactIcon, "Contact Us", (){
-              Get.toNamed(Routes.contactUs);
-            }),
-            SizedBox(height: 20,),
-            profileItems(Images.lockIcon, "Change Password", (){
-              Get.toNamed(Routes.changePassword);
-            }),
-            SizedBox(height: 20,),
-            profileItems(Images.feedbackIcon, "Feedback", (){
-              Get.toNamed(Routes.feedback);
-            }),
-            SizedBox(height: 20,),
-            profileItems(Images.logoutIcon, "Logout", (){
-              logoutAlert();
-            }),
-            SizedBox(height: 20,),
+            )
           ],
         ),
       ),

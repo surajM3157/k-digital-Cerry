@@ -41,11 +41,11 @@ class _SessionState extends State<Session> {
       children: [
         Container(
           width: Get.width,
-          height: 400,
           margin: EdgeInsets.all(10),
           padding: EdgeInsets.only(bottom: 20,top: 200),
           decoration: BoxDecoration(
               color: AppColor.lightestGrey,
+              border: Border.all(color: AppColor.black.withOpacity(0.13)),
               borderRadius: BorderRadius.all(Radius.circular(20))
           ),
           child: Padding(
@@ -60,22 +60,18 @@ class _SessionState extends State<Session> {
                 ),),
                 SizedBox(height: 20,),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
-                      children: [
-                        Icon(Icons.date_range,size: 17,color: AppColor.primaryColor,),
-                        SizedBox(width: 5,),
-                        Text(session.date,style: AppThemes.labelTextStyle().copyWith(color: AppColor.black,fontWeight: FontWeight.w400),)
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Icon(Icons.access_time_filled,size: 17,color: AppColor.primaryColor,),
-                        SizedBox(width: 5,),
-                        Text(session.time,style: AppThemes.labelTextStyle().copyWith(color: AppColor.black,fontWeight: FontWeight.w400),)
-                      ],
-                    ),
+                    Icon(Icons.date_range,size: 17,color: AppColor.primaryColor,),
+                    SizedBox(width: 5,),
+                    Text(session.date,style: AppThemes.labelTextStyle().copyWith(color: AppColor.black,fontWeight: FontWeight.w400),)
+                  ],
+                ),
+                SizedBox(height: 20,),
+                Row(
+                  children: [
+                    Icon(Icons.access_time_filled,size: 17,color: AppColor.primaryColor,),
+                    SizedBox(width: 5,),
+                    Text(session.time,style: AppThemes.labelTextStyle().copyWith(color: AppColor.black,fontWeight: FontWeight.w400),)
                   ],
                 ),
                 SizedBox(height: 20,),
@@ -107,7 +103,7 @@ class _SessionState extends State<Session> {
       },
       child: Container(
         height: 45,
-        width: 150,
+        width: Get.width - 42,
         decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [AppColor.primaryColor, AppColor.red],

@@ -32,20 +32,22 @@ class _NotificationPageState extends State<NotificationPage> {
             },
             child: Icon(Icons.arrow_back_ios,size: 20,color: AppColor.white,)),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
-        child: ListView(
-          children: [
-            Center(
-              child: GradientText(text:"Notification",style: TextStyle(fontWeight: FontWeight.w600,fontFamily: appFontFamily,fontSize: 20), gradient: LinearGradient(
-                colors: [AppColor.primaryColor, AppColor.red],
-                begin: Alignment.centerLeft,
-                end: Alignment.centerRight,
-              ),
-              ),
+      body: ListView(
+        children: [
+          SizedBox(height: 20,),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: GradientText(text:"Notification",style: TextStyle(fontWeight: FontWeight.w600,fontFamily: appFontFamily,fontSize: 20), gradient: LinearGradient(
+              colors: [AppColor.primaryColor, AppColor.red],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
             ),
-            SizedBox(height: 20,),
-            Row(
+            ),
+          ),
+          SizedBox(height: 20,),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
               children: [
                 Container(
                   height: 58,
@@ -66,32 +68,25 @@ class _NotificationPageState extends State<NotificationPage> {
                 SizedBox(width: 20,),
                 Container(
                   width: Get.width/1.5,
-                  padding: EdgeInsets.all(1),
+                  padding: EdgeInsets.symmetric(horizontal: 20,vertical: 20),
                   decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [AppColor.primaryColor, AppColor.red],
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                      ),
-                      borderRadius: BorderRadius.circular(16)
+                    color: AppColor.white,
+                      borderRadius: BorderRadius.circular(15)
                   ),
-                  child: Container(
-                    width: Get.width/1.5,
-                    padding: EdgeInsets.symmetric(horizontal: 20,vertical: 20),
-                    decoration: BoxDecoration(
-                      color: AppColor.white,
-                        borderRadius: BorderRadius.circular(15)
-                    ),
-                    child: Text("Your Event will start in 1 hour",style: TextStyle(
-                      fontFamily: appFontFamily,fontWeight: FontWeight.w400,
-                      fontSize: 14,color: AppColor.black
-                    ),),
-                  ),
+                  child: Text("Your Event will start in 1 hour",style: TextStyle(
+                    fontFamily: appFontFamily,fontWeight: FontWeight.w400,
+                    fontSize: 14,color: AppColor.black
+                  ),),
                 )
               ],
             ),
-            SizedBox(height: 20,),
-            Row(
+          ),
+          SizedBox(height: 10,),
+          Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
+          SizedBox(height: 10,),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
               children: [
                 Container(
                   height: 58,
@@ -112,32 +107,25 @@ class _NotificationPageState extends State<NotificationPage> {
                 SizedBox(width: 20,),
                 Container(
                   width: Get.width/1.5,
-                  padding: EdgeInsets.all(1),
+                  padding: EdgeInsets.symmetric(horizontal: 20,vertical: 20),
                   decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [AppColor.primaryColor, AppColor.red],
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                      ),
-                      borderRadius: BorderRadius.circular(16)
+                    color: AppColor.white,
+                      borderRadius: BorderRadius.circular(15)
                   ),
-                  child: Container(
-                    width: Get.width/1.5,
-                    padding: EdgeInsets.symmetric(horizontal: 20,vertical: 20),
-                    decoration: BoxDecoration(
-                      color: AppColor.white,
-                        borderRadius: BorderRadius.circular(15)
-                    ),
-                    child: Text("Your Password has been changed successfully",style: TextStyle(
-                        fontFamily: appFontFamily,fontWeight: FontWeight.w400,
-                        fontSize: 14,color: AppColor.black
-                    )),
-                  ),
+                  child: Text("Your Password has been changed successfully",style: TextStyle(
+                      fontFamily: appFontFamily,fontWeight: FontWeight.w400,
+                      fontSize: 14,color: AppColor.black
+                  )),
                 )
               ],
             ),
-            SizedBox(height: 20,),
-            Row(
+          ),
+          SizedBox(height: 10,),
+          Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
+          SizedBox(height: 10,),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
               children: [
                 Container(
                   height: 58,
@@ -158,32 +146,25 @@ class _NotificationPageState extends State<NotificationPage> {
                 SizedBox(width: 20,),
                 Container(
                   width: Get.width/1.5,
-                  padding: EdgeInsets.all(1),
+                  padding: EdgeInsets.symmetric(horizontal: 20,vertical: 20),
                   decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [AppColor.primaryColor, AppColor.red],
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                      ),
-                      borderRadius: BorderRadius.circular(16)
+                    color: AppColor.white,
+                      borderRadius: BorderRadius.circular(15)
                   ),
-                  child: Container(
-                    width: Get.width/1.5,
-                    padding: EdgeInsets.symmetric(horizontal: 20,vertical: 20),
-                    decoration: BoxDecoration(
-                      color: AppColor.white,
-                        borderRadius: BorderRadius.circular(15)
-                    ),
-                    child: Text("You have one friend request",style: TextStyle(
-                        fontFamily: appFontFamily,fontWeight: FontWeight.w400,
-                        fontSize: 14,color: AppColor.black
-                    )),
-                  ),
+                  child: Text("You have one friend request",style: TextStyle(
+                      fontFamily: appFontFamily,fontWeight: FontWeight.w400,
+                      fontSize: 14,color: AppColor.black
+                  )),
                 )
               ],
             ),
-            SizedBox(height: 20,),
-            Row(
+          ),
+          SizedBox(height: 10,),
+          Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
+          SizedBox(height: 10,),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
               children: [
                 Container(
                   height: 58,
@@ -204,32 +185,25 @@ class _NotificationPageState extends State<NotificationPage> {
                 SizedBox(width: 20,),
                 Container(
                   width: Get.width/1.5,
-                  padding: EdgeInsets.all(1),
+                  padding: EdgeInsets.symmetric(horizontal: 20,vertical: 20),
                   decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [AppColor.primaryColor, AppColor.red],
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                      ),
-                      borderRadius: BorderRadius.circular(16)
+                    color: AppColor.white,
+                      borderRadius: BorderRadius.circular(15)
                   ),
-                  child: Container(
-                    width: Get.width/1.5,
-                    padding: EdgeInsets.symmetric(horizontal: 20,vertical: 20),
-                    decoration: BoxDecoration(
-                      color: AppColor.white,
-                        borderRadius: BorderRadius.circular(15)
-                    ),
-                    child: Text("You have one friend request",style: TextStyle(
-                        fontFamily: appFontFamily,fontWeight: FontWeight.w400,
-                        fontSize: 14,color: AppColor.black
-                    )),
-                  ),
+                  child: Text("You have one friend request",style: TextStyle(
+                      fontFamily: appFontFamily,fontWeight: FontWeight.w400,
+                      fontSize: 14,color: AppColor.black
+                  )),
                 )
               ],
             ),
-            SizedBox(height: 20,),
-            Row(
+          ),
+          SizedBox(height: 10,),
+          Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
+          SizedBox(height: 10,),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
               children: [
                 Container(
                   height: 58,
@@ -250,32 +224,23 @@ class _NotificationPageState extends State<NotificationPage> {
                 SizedBox(width: 20,),
                 Container(
                   width: Get.width/1.5,
-                  padding: EdgeInsets.all(1),
+                  padding: EdgeInsets.symmetric(horizontal: 20,vertical: 20),
                   decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [AppColor.primaryColor, AppColor.red],
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                      ),
-                      borderRadius: BorderRadius.circular(16)
+                      color: AppColor.white,
+                      borderRadius: BorderRadius.circular(15)
                   ),
-                  child: Container(
-                    width: Get.width/1.5,
-                    padding: EdgeInsets.symmetric(horizontal: 20,vertical: 20),
-                    decoration: BoxDecoration(
-                        color: AppColor.white,
-                        borderRadius: BorderRadius.circular(15)
-                    ),
-                    child: Text("Your Password has been changed successfully",style: TextStyle(
-                        fontFamily: appFontFamily,fontWeight: FontWeight.w400,
-                        fontSize: 14,color: AppColor.black
-                    )),
-                  ),
-                )
+                  child: Text("Your Password has been changed successfully",style: TextStyle(
+                      fontFamily: appFontFamily,fontWeight: FontWeight.w400,
+                      fontSize: 14,color: AppColor.black
+                  )),
+                ),
               ],
             ),
-          ],
-        ),
+          ),
+          SizedBox(height: 10,),
+          Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
+          SizedBox(height: 10,),
+        ],
       ),
     );
   }

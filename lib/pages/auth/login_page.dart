@@ -63,6 +63,11 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   SizedBox(height: 30,),
                   Padding(
+                    padding: const EdgeInsets.only(left: 20),
+                    child: Text("Enter your phone number",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400,fontFamily: appFontFamily,color: AppColor.primaryColor),),
+                  ),
+                  SizedBox(height: 10,),
+                  Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: TextFormField(
                       controller: _phoneNumberController,
@@ -71,11 +76,10 @@ class _LoginPageState extends State<LoginPage> {
                       keyboardType: TextInputType.phone,
                       decoration: InputDecoration(
                         counterText: '',
-                        hintText: "Enter your phone number",
-                        labelText: "Phone Number",
-                        prefixIcon: Icon(Icons.call,color: AppColor.primaryColor,),
+                        hintText: "+91 987065****",
+                        prefixIcon: Icon(Icons.call,color: AppColor.FFA2A2A2,),
                         labelStyle: TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
-                        hintStyle: TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
+                        hintStyle: TextStyle(color: AppColor.FFA2A2A2,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
                         contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
                         focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: AppColor.primaryColor)),
                         enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: AppColor.primaryColor)),

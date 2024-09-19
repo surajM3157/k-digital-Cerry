@@ -78,8 +78,14 @@ class _ContactUsPageState extends State<ContactUsPage> {
                   labelStyle: TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
                   hintStyle: TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
                   contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                  focusedBorder: GradientOutlineInputBorder(borderRadius: BorderRadius.circular(10.0),width: 2, gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])),
-                  enabledBorder: GradientOutlineInputBorder(borderRadius: BorderRadius.circular(10.0), width: 2, gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])),
+                  focusedBorder:  OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
+                  ),
                   errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide(color: Colors.red, width: 2.0)),
                   focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide(color: Colors.red, width: 2.0)),
                 ),
@@ -98,8 +104,14 @@ class _ContactUsPageState extends State<ContactUsPage> {
                   labelStyle: TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
                   hintStyle: TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
                   contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                  focusedBorder: GradientOutlineInputBorder(borderRadius: BorderRadius.circular(10.0),width: 2, gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])),
-                  enabledBorder: GradientOutlineInputBorder(borderRadius: BorderRadius.circular(10.0), width: 2, gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])),
+                  focusedBorder:  OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
+                  ),
+                  enabledBorder:  OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
+                  ),
                   errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide(color: Colors.red, width: 2.0)),
                   focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide(color: Colors.red, width: 2.0)),
                 ),
@@ -118,8 +130,14 @@ class _ContactUsPageState extends State<ContactUsPage> {
                   labelStyle: TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
                   hintStyle: TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
                   contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                  focusedBorder: GradientOutlineInputBorder(borderRadius: BorderRadius.circular(10.0),width: 2, gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])),
-                  enabledBorder: GradientOutlineInputBorder(borderRadius: BorderRadius.circular(10.0), width: 2, gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])),
+                  focusedBorder:  OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
+                  ),
+                  enabledBorder:  OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
+                  ),
                   errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide(color: Colors.red, width: 2.0)),
                   focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide(color: Colors.red, width: 2.0)),
                 ),
@@ -144,8 +162,14 @@ class _ContactUsPageState extends State<ContactUsPage> {
                   labelStyle: TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
                   hintStyle: TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
                   contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                  focusedBorder: GradientOutlineInputBorder(borderRadius: BorderRadius.circular(10.0),width: 2, gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])),
-                  enabledBorder: GradientOutlineInputBorder(borderRadius: BorderRadius.circular(10.0), width: 2, gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])),
+                  focusedBorder:  OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
+                  ),
+                  enabledBorder:  OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
+                  ),
                   errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide(color: Colors.red, width: 2.0)),
                   focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide(color: Colors.red, width: 2.0)),
                 ),

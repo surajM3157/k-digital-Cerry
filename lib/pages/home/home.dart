@@ -546,7 +546,7 @@ class _HomeState extends State<Home> {
             ),
             borderRadius: BorderRadius.all(Radius.circular(8))
         ),
-        child: Center(child: Text("Take the Survey",style: AppThemes.titleTextStyle().copyWith(color: AppColor.white,fontSize: 17),)),
+        child: Center(child: Text("Let\'s Go",style: AppThemes.titleTextStyle().copyWith(color: AppColor.white,fontSize: 17),)),
       ),
     );
   }
