@@ -30,4 +30,14 @@ static TextStyle appBarTitleStyle(){
 static subtitle1TextStyle(){
     return TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w400,fontSize: 16,color: AppColor.black);
 }
+
+static  Widget buildBulletPoint(Widget text,) {
+  return Row(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      const Text("• ", style: TextStyle(fontSize: 20)),
+      text,
+    ],
+  );
+}
 }

@@ -1,13 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:piwotapp/constants/colors.dart';
 import 'package:piwotapp/constants/images.dart';
 import 'package:get/get.dart';
 import 'package:piwotapp/pages/session_details_page.dart';
-import 'package:piwotapp/screen_navigation.dart';
 import 'package:piwotapp/widgets/app_themes.dart';
-
-import '../../route/route_names.dart';
 
 
 class Session extends StatefulWidget {
@@ -41,12 +37,12 @@ class _SessionState extends State<Session> {
       children: [
         Container(
           width: Get.width,
-          margin: EdgeInsets.all(10),
-          padding: EdgeInsets.only(bottom: 20,top: 200),
+          margin: const EdgeInsets.all(10),
+          padding: const EdgeInsets.only(bottom: 20,top: 200),
           decoration: BoxDecoration(
               color: AppColor.lightestGrey,
               border: Border.all(color: AppColor.black.withOpacity(0.13)),
-              borderRadius: BorderRadius.all(Radius.circular(20))
+              borderRadius: const BorderRadius.all(Radius.circular(20))
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -54,27 +50,27 @@ class _SessionState extends State<Session> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                SizedBox(height: 10,),
+                const SizedBox(height: 10,),
                 Text(session.title,style: AppThemes.titleTextStyle().copyWith(
                     fontSize: 20,fontWeight: FontWeight.w600
                 ),),
-                SizedBox(height: 20,),
+                const SizedBox(height: 20,),
                 Row(
                   children: [
                     Icon(Icons.date_range,size: 17,color: AppColor.primaryColor,),
-                    SizedBox(width: 5,),
+                    const SizedBox(width: 5,),
                     Text(session.date,style: AppThemes.labelTextStyle().copyWith(color: AppColor.black,fontWeight: FontWeight.w400),)
                   ],
                 ),
-                SizedBox(height: 20,),
+                const SizedBox(height: 20,),
                 Row(
                   children: [
                     Icon(Icons.access_time_filled,size: 17,color: AppColor.primaryColor,),
-                    SizedBox(width: 5,),
+                    const SizedBox(width: 5,),
                     Text(session.time,style: AppThemes.labelTextStyle().copyWith(color: AppColor.black,fontWeight: FontWeight.w400),)
                   ],
                 ),
-                SizedBox(height: 20,),
+                const SizedBox(height: 20,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -88,9 +84,9 @@ class _SessionState extends State<Session> {
         Container(
             width: Get.width,
             height: 200,
-            margin: EdgeInsets.all(10),
+            margin: const EdgeInsets.all(10),
             child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(20)),
+                borderRadius: const BorderRadius.all(Radius.circular(20)),
                 child: Image.asset(session.image,fit: BoxFit.cover,))),
       ],
     );
@@ -110,7 +106,7 @@ class _SessionState extends State<Session> {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
-            borderRadius: BorderRadius.all(Radius.circular(8))
+            borderRadius: const BorderRadius.all(Radius.circular(8))
         ),
         child: Center(child: Text("Join Session",style: AppThemes.titleTextStyle().copyWith(color: AppColor.white,fontSize: 17),)),
       ),

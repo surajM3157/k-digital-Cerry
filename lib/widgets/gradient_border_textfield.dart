@@ -4,7 +4,7 @@ import '../constants/colors.dart';
 
 class GradientBorderTextField extends StatelessWidget {
 
-  GradientBorderTextField({required this.labelText, required this.hintText, required this.controller,this.readOnly,this.onTap});
+  GradientBorderTextField({super.key, required this.labelText, required this.hintText, required this.controller,this.readOnly,this.onTap});
 
   String hintText;
   String labelText;
@@ -15,8 +15,8 @@ class GradientBorderTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20),
-      padding: EdgeInsets.all(2),
+      margin: const EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.all(2),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.0),
         gradient: LinearGradient(
@@ -30,7 +30,7 @@ class GradientBorderTextField extends StatelessWidget {
           borderRadius: BorderRadius.circular(10.0),
           color: AppColor.white, // Background color for the inner container
         ),
-        padding: EdgeInsets.all(2), // Adjust this for the border thickness
+        padding: const EdgeInsets.all(2), // Adjust this for the border thickness
         child: TextFormField(
           onTap: onTap,
           controller: controller,
@@ -46,12 +46,12 @@ class GradientBorderTextField extends StatelessWidget {
                 fontWeight: FontWeight.w400,
               ),
             ),
-            hintStyle: TextStyle(
+            hintStyle: const TextStyle(
               color: Colors.black,
               fontWeight: FontWeight.w400,
               fontSize: 14,
             ),
-            contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+            contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10.0),
               borderSide: BorderSide.none, // Border is handled by the container

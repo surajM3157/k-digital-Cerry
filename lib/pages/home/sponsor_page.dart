@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:piwotapp/constants/font_family.dart';
-import 'package:piwotapp/widgets/app_themes.dart';
 import 'package:piwotapp/widgets/gradient_text.dart';
 import '../../constants/colors.dart';
 import '../../constants/images.dart';
@@ -42,30 +41,30 @@ class _SponsorPageState extends State<SponsorPage> {
         children: [
           Padding(
             padding: const EdgeInsets.all(10),
-            child: GradientText(text: "Sponsor", style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
+            child: GradientText(text: "Sponsor", style: const TextStyle(fontSize: 20,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
               colors: [AppColor.primaryColor, AppColor.red],
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
             )),
           ),
-          SizedBox(height: 10,),
+          const SizedBox(height: 10,),
           Expanded(
-            child: GridView.builder(gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+            child: GridView.builder(gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
               itemBuilder: (_, index) => Container
                 (
-                margin: EdgeInsets.all(10),
+                margin: const EdgeInsets.all(10),
                 height: 143,width: 155,
                 decoration: BoxDecoration(
                   color: AppColor.FFFFFDFD,
-                    borderRadius: BorderRadius.all(Radius.circular(8),),
+                    borderRadius: const BorderRadius.all(Radius.circular(8),),
                 border: Border.all(color: AppColor.grey)),
                 child: Column(
                   children: [
-                    SizedBox(height: 20,),
+                    const SizedBox(height: 20,),
                     Text(sponsors[index].title,style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w400,fontSize: 12,color: AppColor.black),),
-                    SizedBox(height: 50,),
+                    const SizedBox(height: 50,),
                     Center(
-                      child: Container(
+                      child: SizedBox(
                         height: 50,width: 100,
                         child: Image.asset(sponsors[index].icon,fit: BoxFit.fill,),
                       ),

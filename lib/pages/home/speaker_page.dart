@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -47,15 +45,15 @@ class _SpeakerPageState extends State<SpeakerPage> {
           children: [
             Padding(
               padding: const EdgeInsets.all(10),
-              child: GradientText(text: "Paniit - 2024 SPEAKERS ", style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
+              child: GradientText(text: "Paniit - 2024 SPEAKERS ", style: const TextStyle(fontSize: 20,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
                 colors: [AppColor.primaryColor, AppColor.red],
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
               )),
             ),
-            SizedBox(height: 10,),
+            const SizedBox(height: 10,),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
               child: TextFormField(
                 controller: searchController,
                 cursorColor: AppColor.primaryColor,
@@ -66,7 +64,7 @@ class _SpeakerPageState extends State<SpeakerPage> {
                     height: 60,width: 80,
                     decoration: BoxDecoration(
                       color: AppColor.primaryColor,
-                      borderRadius: BorderRadius.only(topRight: Radius.circular(8),bottomRight: Radius.circular(8))
+                      borderRadius: const BorderRadius.only(topRight: Radius.circular(8),bottomRight: Radius.circular(8))
                     ),
                     child: Center(child: Icon(Icons.search_rounded,color: AppColor.white,)),
                   ),
@@ -75,10 +73,10 @@ class _SpeakerPageState extends State<SpeakerPage> {
                 ),
               ),
             ),
-            SizedBox(height: 10,),
+            const SizedBox(height: 10,),
             ListView.builder(
               shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               itemCount: speakers.length,
                 itemBuilder: (context,index){
               return GestureDetector(
@@ -91,9 +89,9 @@ class _SpeakerPageState extends State<SpeakerPage> {
                     Container(
                       width: Get.width,
                       height: 325,
-                      margin: EdgeInsets.all(10),
+                      margin: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          borderRadius: const BorderRadius.all(Radius.circular(10)),
                           gradient: LinearGradient(
                             colors: [AppColor.primaryColor, AppColor.red],
                             begin: Alignment.centerLeft,
@@ -104,11 +102,11 @@ class _SpeakerPageState extends State<SpeakerPage> {
                     ),
                     Container(
                       height: 89,
-                      margin: EdgeInsets.symmetric(horizontal: 20),
+                      margin: const EdgeInsets.symmetric(horizontal: 20),
                       width: Get.width,
                       decoration: BoxDecoration(
                           color: AppColor.black.withOpacity(0.85),
-                          borderRadius: BorderRadius.all(Radius.circular(10))
+                          borderRadius: const BorderRadius.all(Radius.circular(10))
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -138,7 +136,7 @@ class _SpeakerPageState extends State<SpeakerPage> {
       // required properties in this widget
       isScrollControlled: true,
       context: context,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(32.0)),
       ),
         backgroundColor: Colors.transparent,
@@ -154,14 +152,14 @@ class _SpeakerPageState extends State<SpeakerPage> {
               height: Get.height/1.5,
               decoration: BoxDecoration(
                 color: AppColor.white,
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(32),topRight: Radius.circular(32))
+                borderRadius: const BorderRadius.only(topLeft: Radius.circular(32),topRight: Radius.circular(32))
               ),
-              padding: EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 30,),
+                    const SizedBox(height: 30,),
                     Container(
                       width: 148,height: 156,
                       decoration: BoxDecoration(
@@ -170,21 +168,21 @@ class _SpeakerPageState extends State<SpeakerPage> {
                       ),
                       child: Image.asset(image,fit: BoxFit.fitHeight,),
                     ),
-                    SizedBox(height: 10,),
+                    const SizedBox(height: 10,),
                     Row(
                       children: [
                         Icon(Icons.flag,color: AppColor.FF050505,),
-                        SizedBox(width: 5,),
+                        const SizedBox(width: 5,),
                         Text("India",style: TextStyle(fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w400,color: AppColor.FF444444),)
                       ],
                     ),
-                    SizedBox(height: 20,),
+                    const SizedBox(height: 20,),
                     Text(title,style: TextStyle(fontFamily: appFontFamily,fontSize: 16,fontWeight: FontWeight.w700,color: AppColor.FF050505),),
-                    SizedBox(height: 10,),
+                    const SizedBox(height: 10,),
                     Text(subtitle,style: TextStyle(fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.primaryColor),),
-                    SizedBox(height: 30,),
+                    const SizedBox(height: 30,),
                     Text(body,style: TextStyle(fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w400,color: AppColor.FF050505),),
-                    SizedBox(height: 20,)
+                    const SizedBox(height: 20,)
                   ],
                 ),
               ),

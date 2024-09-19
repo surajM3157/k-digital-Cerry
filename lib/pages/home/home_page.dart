@@ -1,5 +1,4 @@
 import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
-import 'package:curved_labeled_navigation_bar/curved_navigation_bar_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:piwotapp/constants/colors.dart';
@@ -33,7 +32,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
   @override
   void initState() {
-    _controller = new TabController(length: 3, vsync: this);
+    _controller =  TabController(length: 3, vsync: this);
     super.initState();
   }
 
@@ -60,7 +59,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 children: [
                   Container(
                     color: AppColor.primaryColor,
-                    padding: EdgeInsets.only(top: 30,left: 10,right: 10,bottom: 10),
+                    padding: const EdgeInsets.only(top: 30,left: 10,right: 10,bottom: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -86,19 +85,19 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                       ],
                     ),
                   ),
-                  SizedBox(height: 20,),
+                  const SizedBox(height: 20,),
                   Container(
                     width: Get.width,
                     color: AppColor.white,
                     // padding: EdgeInsets.only(left: 10,right: 10),
                     child: TabBar(
                         controller: _controller,
-                        labelPadding: EdgeInsets.symmetric(horizontal: 25),
+                        labelPadding: const EdgeInsets.symmetric(horizontal: 25),
                         indicatorColor: AppColor.primaryColor,
                         indicator:CustomUnderlineTabIndicator(
                           borderSide: BorderSide(width: 3.0, color: AppColor.primaryColor),
-                          insets:EdgeInsets.symmetric(vertical: -8),
-                          borderRadius: BorderRadius.only(
+                          insets:const EdgeInsets.symmetric(vertical: -8),
+                          borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(12.0),
                             topRight: Radius.circular(12.0),
                           ),
@@ -147,12 +146,12 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               onTap: _openDrawer,
               child: Icon(Icons.menu,color: AppColor.white,)
             ),
-            SizedBox(width: 20,)
+            const SizedBox(width: 20,)
           ],
           backgroundColor:bottomNavbarIndex == 3?AppColor.white:AppColor.primaryColor,
     ),
       ),
-      body: bottomNavbarIndex == 0?Home():bottomNavbarIndex == 1?Booking():bottomNavbarIndex == 2?Session():Delegates(tabController: _controller!,),
+      body: bottomNavbarIndex == 0?const Home():bottomNavbarIndex == 1?const Booking():bottomNavbarIndex == 2?const Session():Delegates(tabController: _controller!,),
       bottomNavigationBar: bottomNavbar(),
     );
   }
@@ -165,24 +164,24 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            SizedBox(height: 30,),
+            const SizedBox(height: 30,),
             Row(
               children: [
-                SizedBox(width: 30,),
+                const SizedBox(width: 30,),
                 InkWell(
                   onTap: (){
                     Get.back();
                   },
                     child: Icon(Icons.arrow_back_ios,color: AppColor.primaryColor,)),
-                SizedBox(width: 20,),
+                const SizedBox(width: 20,),
                 SvgPicture.asset(Images.logoDark,height: 40,width: 147,)
               ],
             ),
-            SizedBox(height: 30,),
+            const SizedBox(height: 30,),
             Container(
               height: 48,
-              margin: EdgeInsets.symmetric(horizontal: 20),
-              padding: EdgeInsets.symmetric(horizontal: 10),
+              margin: const EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
               width: Get.width,
               decoration: BoxDecoration(
                   gradient: LinearGradient(
@@ -190,7 +189,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
-                borderRadius: BorderRadius.all(Radius.circular(8))
+                borderRadius: const BorderRadius.all(Radius.circular(8))
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -200,53 +199,53 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 ],
               ),
             ),
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
             InkWell(
               onTap: (){
                 Get.toNamed(Routes.agenda);
               },
               child: Row(
                 children: [
-                  SizedBox(width: 20,),
+                  const SizedBox(width: 20,),
                   SvgPicture.asset(Images.agendaIcon,height: 21,width: 21,),
-                  SizedBox(width: 5,),
+                  const SizedBox(width: 5,),
                   Text("Piwot 2024 Agenda",style: AppThemes.subtitle1TextStyle(),)
                 ],
               ),
             ),
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
             InkWell(
               onTap: (){
                 Get.toNamed(Routes.speaker);
               },
               child: Row(
                 children: [
-                  SizedBox(width: 20,),
+                  const SizedBox(width: 20,),
                   SvgPicture.asset(Images.speakerIcon,height: 21,width: 21,),
-                  SizedBox(width: 5,),
+                  const SizedBox(width: 5,),
                   Text("Speaker",style: AppThemes.subtitle1TextStyle(),)
                 ],
               ),
             ),
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
             InkWell(
               onTap: (){
                 Get.toNamed(Routes.sponsor);
               },
               child: Row(
                 children: [
-                  SizedBox(width: 20,),
+                  const SizedBox(width: 20,),
                   SvgPicture.asset(Images.sponsorIcon,height: 21,width: 21,),
-                  SizedBox(width: 5,),
+                  const SizedBox(width: 5,),
                   Text("Sponsor",style: AppThemes.subtitle1TextStyle(),)
                 ],
               ),
             ),
-            SizedBox(height: 30,),
+            const SizedBox(height: 30,),
             Container(
               height: 48,
-              margin: EdgeInsets.symmetric(horizontal: 20),
-              padding: EdgeInsets.symmetric(horizontal: 10),
+              margin: const EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
               width: Get.width,
               decoration: BoxDecoration(
                   gradient: LinearGradient(
@@ -254,7 +253,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
-                  borderRadius: BorderRadius.all(Radius.circular(8))
+                  borderRadius: const BorderRadius.all(Radius.circular(8))
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -264,27 +263,27 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 ],
               ),
             ),
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
             Padding(
               padding: const EdgeInsets.only(left: 20),
               child: Text("Privacy Policy",style: AppThemes.subtitle1TextStyle(),),
             ),
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
             Padding(
               padding: const EdgeInsets.only(left: 20),
               child: Text("Terms & Condition",style: AppThemes.subtitle1TextStyle(),),
             ),
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
             Padding(
               padding: const EdgeInsets.only(left: 20),
               child: Text("Terms of Use",style: AppThemes.subtitle1TextStyle(),),
             ),
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
             Padding(
               padding: const EdgeInsets.only(left: 20),
               child: Text("News",style: AppThemes.subtitle1TextStyle(),),
             ),
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
             Padding(
               padding: const EdgeInsets.only(left: 20),
               child: Text("FAQ",style: AppThemes.subtitle1TextStyle(),),
@@ -323,16 +322,16 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SizedBox(height: 10,),
+          const SizedBox(height: 10,),
           SvgPicture.asset(icon),
-          SizedBox(height: 10,),
+          const SizedBox(height: 10,),
           Text(label,style: TextStyle(fontSize: 12,fontWeight: FontWeight.w600,fontFamily: appFontFamily,color: AppColor.white),),
-          SizedBox(height: 10,),
+          const SizedBox(height: 10,),
           bottomNavbarIndex==index?Container(
             height: 5,
             width: 61,
             color: AppColor.red,
-          ):SizedBox()
+          ):const SizedBox()
         ],
       ),
     );

@@ -1,18 +1,14 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:gradient_borders/input_borders/gradient_outline_input_border.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:piwotapp/widgets/app_button.dart';
 import 'package:piwotapp/widgets/app_textfield.dart';
-import 'package:piwotapp/widgets/gradient_border_textfield.dart';
 import '../../constants/colors.dart';
 import '../../constants/font_family.dart';
 import '../../constants/images.dart';
-import '../../widgets/app_themes.dart';
 
 class EditProfilPage extends StatefulWidget {
   const EditProfilPage({super.key});
@@ -64,21 +60,21 @@ class _EditProfilPageState extends State<EditProfilPage> {
                         begin: Alignment.centerLeft,
                         end: Alignment.centerRight,
                       ),
-                      borderRadius: BorderRadius.only(bottomRight: Radius.circular(170),bottomLeft: Radius.circular(170))
+                      borderRadius: const BorderRadius.only(bottomRight: Radius.circular(170),bottomLeft: Radius.circular(170))
                   ),
                   child: Column(
                     children: [
-                      SizedBox(height: 50,),
+                      const SizedBox(height: 50,),
                       Center(child: SvgPicture.asset(Images.logo, height: 40,width: 147)),
 
                     ],
                   ),
                 ),
-                SizedBox(height: 80,),
+                const SizedBox(height: 80,),
                 AppTextField(hintText: "Type your Name",controller: nameController,labelText:"Name"),
-                SizedBox(height: 20,),
+                const SizedBox(height: 20,),
                 AppTextField(hintText: "Type your Email",controller: emailController,labelText:"Email"),
-                SizedBox(height: 20,),
+                const SizedBox(height: 20,),
                 AppTextField(
                     readOnly: true,
                     onTap: () async {
@@ -94,7 +90,7 @@ class _EditProfilPageState extends State<EditProfilPage> {
                                   primaryColor: AppColor.primaryColor,
                                   primaryColorLight: AppColor.primaryColor,
                                   colorScheme: ColorScheme.light(primary: AppColor.primaryColor),
-                                  buttonTheme: ButtonThemeData(
+                                  buttonTheme: const ButtonThemeData(
                                       textTheme: ButtonTextTheme.primary
                                   ),
                                 ),
@@ -113,7 +109,7 @@ class _EditProfilPageState extends State<EditProfilPage> {
                       } else {}
                     },
                     hintText: "Type your DOB",controller: dobController,labelText:"DOB"),
-                SizedBox(height: 20,),
+                const SizedBox(height: 20,),
                 Row(
                   children: [
                     Flexible(
@@ -137,8 +133,8 @@ class _EditProfilPageState extends State<EditProfilPage> {
                             hintText: "Gender",
                             labelText: "Gender",
                             labelStyle:  TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
-                            hintStyle: TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
-                            contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                            hintStyle: const TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
+                            contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
                             focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                                 borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
@@ -149,11 +145,11 @@ class _EditProfilPageState extends State<EditProfilPage> {
                             ),
                             errorBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0),
-                              borderSide: BorderSide(color: Colors.red, width: 2.0),
+                              borderSide: const BorderSide(color: Colors.red, width: 2.0),
                             ),
                             focusedErrorBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0),
-                              borderSide: BorderSide(color: Colors.red, width: 2.0),
+                              borderSide: const BorderSide(color: Colors.red, width: 2.0),
                             ),
                           ),
                         ),
@@ -161,9 +157,9 @@ class _EditProfilPageState extends State<EditProfilPage> {
                     ),
                   ],
                 ),
-                SizedBox(height: 20,),
+                const SizedBox(height: 20,),
                 AppTextField(hintText: "Type your Company Name",controller: companyController,labelText:"Company Name"),
-                SizedBox(height: 20,),
+                const SizedBox(height: 20,),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: DropdownButtonFormField<String>(
@@ -180,8 +176,8 @@ class _EditProfilPageState extends State<EditProfilPage> {
                       hintText: "Select your Industry",
                       labelText: "Industry",
                       labelStyle:  TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
-                      hintStyle: TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
-                      contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                      hintStyle: const TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
+                      contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
                       focusedBorder:  OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
                           borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
@@ -192,29 +188,29 @@ class _EditProfilPageState extends State<EditProfilPage> {
                       ),
                       errorBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.0),
-                        borderSide: BorderSide(color: Colors.red, width: 2.0),
+                        borderSide: const BorderSide(color: Colors.red, width: 2.0),
                       ),
                       focusedErrorBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.0),
-                        borderSide: BorderSide(color: Colors.red, width: 2.0),
+                        borderSide: const BorderSide(color: Colors.red, width: 2.0),
                       ),
                     ),
                   ),
                 ),
-                SizedBox(height: 20,),
+                const SizedBox(height: 20,),
                 AppTextField(hintText: "Type your Designation",controller: designationController,labelText:"Designation"),
-                SizedBox(height: 20,),
+                const SizedBox(height: 20,),
                 AppButton(title: "Update", onTap: (){}),
-                SizedBox(height: 20,),
+                const SizedBox(height: 20,),
               ],
             ),
             Container(
               width: 188,height: 188,
-              margin: EdgeInsets.only(left: 100,top: 120),
+              margin: const EdgeInsets.only(left: 100,top: 120),
               decoration: BoxDecoration(
                   color: AppColor.white,
                   border: Border.all(color: AppColor.white),
-                  borderRadius: BorderRadius.all(Radius.circular(100))
+                  borderRadius: const BorderRadius.all(Radius.circular(100))
               ),
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(200),
@@ -257,7 +253,7 @@ class _EditProfilPageState extends State<EditProfilPage> {
             builder: (context, setstate) {
               return Container(
                 padding: const EdgeInsets.all(10),
-                margin: EdgeInsets.only(top: 1),
+                margin: const EdgeInsets.only(top: 1),
                 height: 80,
                 alignment: Alignment.topLeft,
                 child: Row(
@@ -268,19 +264,19 @@ class _EditProfilPageState extends State<EditProfilPage> {
                         child: GestureDetector(
                           onTap: () async {
                             await _imgFromCamera();
-                            Navigator.pop(context);
+                            Get.back();
                           },
-                          child: Row(
+                          child: const Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Icon(
+                              Icon(
                                 Icons.camera_alt,
                                 color: Colors.black,
                               ),
-                              const SizedBox(
+                              SizedBox(
                                 width: 10,
                               ),
-                              const Text(
+                              Text(
                                 "Camera",
                                 style: TextStyle(color: Colors.black, fontSize: 15),
                               )
@@ -294,9 +290,9 @@ class _EditProfilPageState extends State<EditProfilPage> {
                         child: GestureDetector(
                           onTap: () async {
                             await _imgFromGallery();
-                            Navigator.pop(context);
+                            Get.back();
                           },
-                          child: Row(
+                          child: const Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Icon(Icons.upload,color: Colors.black),
@@ -304,7 +300,7 @@ class _EditProfilPageState extends State<EditProfilPage> {
                               SizedBox(
                                 width: 10,
                               ),
-                              const Text(
+                              Text(
                                 "Upload",
                                 style: TextStyle(color: Colors.black, fontSize: 15),
                               )
@@ -370,14 +366,14 @@ class GradientDropdownFormField extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              gradient: LinearGradient(
+              gradient: const LinearGradient(
                 colors: [Colors.blue, Colors.purple], // Gradient colors
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
             ),
             child: Container(
-              padding: EdgeInsets.all(2), // Padding for the gradient border thickness
+              padding: const EdgeInsets.all(2), // Padding for the gradient border thickness
               decoration: BoxDecoration(
                 color: Colors.white, // Background color for Dropdown
                 borderRadius: BorderRadius.circular(10),
@@ -395,11 +391,11 @@ class GradientDropdownFormField extends StatelessWidget {
                 decoration: InputDecoration(
                   hintText: "Select your Industry",
                   labelText: "Industry",
-                  labelStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 12),
-                  hintStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 14),
+                  labelStyle: const TextStyle(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 12),
+                  hintStyle: const TextStyle(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 14),
                   fillColor: Colors.white,
                   filled: true,
-                  contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                  contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
                     borderSide: BorderSide.none, // Border is handled by the container

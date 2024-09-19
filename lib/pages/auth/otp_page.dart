@@ -34,7 +34,7 @@ class _OtpPageState extends State<OtpPage> {
                 Container(
                     width: Get.width,
                     height: 300,
-                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [AppColor.primaryColor, AppColor.red],
@@ -54,10 +54,10 @@ class _OtpPageState extends State<OtpPage> {
               ],
             ),
            Container(
-             margin: EdgeInsets.only(top: 280),
+             margin: const EdgeInsets.only(top: 280),
              decoration: BoxDecoration(
                  color: AppColor.white,
-                 borderRadius: BorderRadius.only(topLeft: Radius.circular(30),topRight: Radius.circular(30),
+                 borderRadius: const BorderRadius.only(topLeft: Radius.circular(30),topRight: Radius.circular(30),
                  )
              ),
              child: Column(
@@ -81,9 +81,9 @@ class _OtpPageState extends State<OtpPage> {
                    padding: const EdgeInsets.symmetric(horizontal: 20),
                    child: Text('mobile number to continue."',style: AppThemes.subtitleTextStyle(),),
                  ),
-                 SizedBox(height: 20,),
+                 const SizedBox(height: 20,),
                  Padding(
-                   padding: EdgeInsets.symmetric(horizontal: 20),
+                   padding: const EdgeInsets.symmetric(horizontal: 20),
                    child: PinCodeTextField(
                      enableActiveFill: true,
                      appContext: context,
@@ -117,7 +117,7 @@ class _OtpPageState extends State<OtpPage> {
                      keyboardType: TextInputType.number,
                      boxShadows:  [
                        BoxShadow(
-                         offset: Offset(0, 1),
+                         offset: const Offset(0, 1),
                          color: AppColor.secondaryColor,
                          blurRadius: 10,
                        )
@@ -142,7 +142,7 @@ class _OtpPageState extends State<OtpPage> {
                    padding: const EdgeInsets.symmetric(horizontal: 20),
                    child: Text("Resend Code",style: AppThemes.subtitleTextStyle(),),
                  ),
-                 SizedBox(height: 20,),
+                 const SizedBox(height: 20,),
                  AppButton(title: "Verify", onTap: () {
                    Get.offAllNamed(Routes.home);
                  },),
@@ -158,7 +158,7 @@ class _OtpPageState extends State<OtpPage> {
 
   Widget otpField(){
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Stack(
         children: [
           // Outer container with gradient border
@@ -166,8 +166,8 @@ class _OtpPageState extends State<OtpPage> {
             height: 70, // Field height
             width: 66 * 4, // Field width * number of fields (4 in this case)
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Color(0xFF1B1464), Color(0xFFCF2E2E)], // Gradient colors
+              gradient:  LinearGradient(
+                colors: [AppColor.primaryColor, AppColor.red], // Gradient colors
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
               ),
@@ -203,7 +203,7 @@ class _OtpPageState extends State<OtpPage> {
               keyboardType: TextInputType.number,
               boxShadows: [
                 BoxShadow(
-                  offset: Offset(0, 1),
+                  offset: const Offset(0, 1),
                   color: AppColor.secondaryColor,
                   blurRadius: 10,
                 )

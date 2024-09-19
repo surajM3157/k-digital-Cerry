@@ -2,12 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:piwotapp/constants/colors.dart';
 import 'package:piwotapp/constants/font_family.dart';
-import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:get/get.dart';
-
 import '../../constants/images.dart';
 import '../../route/route_names.dart';
-import '../../widgets/app_themes.dart';
 import '../../widgets/custom_progress_indicator.dart';
 
 class SurveyPage extends StatefulWidget {
@@ -56,11 +53,11 @@ class _SurveyPageState extends State<SurveyPage> {
       body: SafeArea(
         child: Column(
           children: [
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: CustomProgressIndicator(
-                  totalSteps: 5, currentStep: index, size: 20, padding: 6, selectedColor: AppColor.primaryColor, unselectedColor: AppColor.secondaryColor, roundedEdges: Radius.circular(10)),
+                  totalSteps: 5, currentStep: index, size: 20, padding: 6, selectedColor: AppColor.primaryColor, unselectedColor: AppColor.secondaryColor, roundedEdges: const Radius.circular(10)),
             ),
             // SizedBox(height: 20,),
             //
@@ -76,9 +73,9 @@ class _SurveyPageState extends State<SurveyPage> {
             //     roundedEdges: Radius.circular(10),
             //   ),
             // ),
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
            questionItem(),
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Row(
@@ -112,7 +109,7 @@ class _SurveyPageState extends State<SurveyPage> {
       child: Container(
         height: 41,width: 105,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
           gradient: LinearGradient(
             colors: [AppColor.primaryColor, AppColor.red],
             begin: Alignment.topLeft,
@@ -140,9 +137,9 @@ class _SurveyPageState extends State<SurveyPage> {
       },
       child: Container(
         width: 105,height: 41,
-        padding: EdgeInsets.all(1),
+        padding: const EdgeInsets.all(1),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(11)),
+          borderRadius: const BorderRadius.all(Radius.circular(11)),
           gradient: LinearGradient(
             colors: [AppColor.primaryColor, AppColor.red],
             begin: Alignment.topLeft,
@@ -153,7 +150,7 @@ class _SurveyPageState extends State<SurveyPage> {
           width: 103, height: 39,
           decoration: BoxDecoration(
               color: AppColor.white,
-              borderRadius: BorderRadius.all(Radius.circular(10)),
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
           ),
           child: Center(
             child: Text("Back",style: TextStyle(
@@ -174,11 +171,11 @@ class _SurveyPageState extends State<SurveyPage> {
             style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w500,fontSize: 20,color: AppColor.primaryColor),
           ),
         ),
-        SizedBox(height: 20,),
+        const SizedBox(height: 20,),
         ListView.builder(
           itemCount: questions[index].options.length,
           shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context,radioIndex){
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -191,7 +188,7 @@ class _SurveyPageState extends State<SurveyPage> {
               onChanged: (String? value) {
                 print(value!);
                 setState(() {
-                  questions[index].selectedRadio = value!;
+                  questions[index].selectedRadio = value;
                 });
 
               },

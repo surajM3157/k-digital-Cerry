@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:piwotapp/constants/font_family.dart';
+import 'package:piwotapp/widgets/app_themes.dart';
 import '../constants/colors.dart';
 import '../constants/images.dart';
 import '../widgets/gradient_text.dart';
@@ -35,16 +36,16 @@ class _EventAgendaPageState extends State<EventAgendaPage> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(height: 10,),
+              const SizedBox(height: 10,),
               Center(
-                child: GradientText(text:"Agenda",style: TextStyle(fontWeight: FontWeight.w600,fontFamily: appFontFamily,fontSize: 20), gradient: LinearGradient(
+                child: GradientText(text:"Agenda",style: const TextStyle(fontWeight: FontWeight.w600,fontFamily: appFontFamily,fontSize: 20), gradient: LinearGradient(
                   colors: [AppColor.primaryColor, AppColor.red],
                   begin: Alignment.centerLeft,
                   end: Alignment.centerRight,
                 ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Row(
@@ -54,7 +55,7 @@ class _EventAgendaPageState extends State<EventAgendaPage> {
                   Container(
                     height: 35,width: 99,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      borderRadius: const BorderRadius.all(Radius.circular(8)),
                       gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red],
                         begin: Alignment.centerLeft,end: Alignment.centerRight
                       )
@@ -67,9 +68,9 @@ class _EventAgendaPageState extends State<EventAgendaPage> {
                   ),
                   Container(
                     height: 35,width: 99,
-                    padding: EdgeInsets.all(1),
+                    padding: const EdgeInsets.all(1),
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(9)),
+                        borderRadius: const BorderRadius.all(Radius.circular(9)),
                         gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red],
                             begin: Alignment.centerLeft,end: Alignment.centerRight
                         )
@@ -77,7 +78,7 @@ class _EventAgendaPageState extends State<EventAgendaPage> {
                     child: Container(
                       height: 35,width: 99,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderRadius: const BorderRadius.all(Radius.circular(8)),
                         color: AppColor.white
                       ),
                       child: Center(
@@ -89,9 +90,9 @@ class _EventAgendaPageState extends State<EventAgendaPage> {
                   ),
                   Container(
                     height: 35,width: 99,
-                    padding: EdgeInsets.all(1),
+                    padding: const EdgeInsets.all(1),
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(9)),
+                        borderRadius: const BorderRadius.all(Radius.circular(9)),
                         gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red],
                             begin: Alignment.centerLeft,end: Alignment.centerRight
                         )
@@ -99,7 +100,7 @@ class _EventAgendaPageState extends State<EventAgendaPage> {
                     child: Container(
                       height: 35,width: 99,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderRadius: const BorderRadius.all(Radius.circular(8)),
                         color: AppColor.white
                       ),
                       child: Center(
@@ -111,7 +112,7 @@ class _EventAgendaPageState extends State<EventAgendaPage> {
                   ),
                 ],
               ),
-              SizedBox(height: 20,),
+              const SizedBox(height: 20,),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -122,7 +123,7 @@ class _EventAgendaPageState extends State<EventAgendaPage> {
                         height: 10,width: 10,
                         decoration: BoxDecoration(
                             color: AppColor.primaryColor,
-                            borderRadius: BorderRadius.all(Radius.circular(5))
+                            borderRadius: const BorderRadius.all(Radius.circular(5))
                         ),
                       ),
                       Container(height: 132,width: 1,color: AppColor.primaryColor,),
@@ -130,7 +131,7 @@ class _EventAgendaPageState extends State<EventAgendaPage> {
                         height: 10,width: 10,
                         decoration: BoxDecoration(
                             color: AppColor.primaryColor,
-                            borderRadius: BorderRadius.all(Radius.circular(5))
+                            borderRadius: const BorderRadius.all(Radius.circular(5))
                         ),
                       ),
                       Container(height: 132,width: 1,color: AppColor.primaryColor,),
@@ -138,7 +139,7 @@ class _EventAgendaPageState extends State<EventAgendaPage> {
                         height: 10,width: 10,
                         decoration: BoxDecoration(
                             color: AppColor.primaryColor,
-                            borderRadius: BorderRadius.all(Radius.circular(5))
+                            borderRadius: const BorderRadius.all(Radius.circular(5))
                         ),
                       ),
                       Container(height: 132,width: 1,color: AppColor.primaryColor,),
@@ -146,70 +147,70 @@ class _EventAgendaPageState extends State<EventAgendaPage> {
                         height: 10,width: 10,
                         decoration: BoxDecoration(
                             color: AppColor.primaryColor,
-                            borderRadius: BorderRadius.all(Radius.circular(5))
+                            borderRadius: const BorderRadius.all(Radius.circular(5))
                         ),
                       ),
                       Container(height: 132,width: 1,color: AppColor.primaryColor,),
                     ],
                   ),
-                  SizedBox(width: 10,),
+                  const SizedBox(width: 10,),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height: 7,),
+                      const SizedBox(height: 7,),
                       Text("11:00 Am",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 12,color: AppColor.FF161616,fontFamily: appFontFamily),),
-                      SizedBox(height: 20,),
+                      const SizedBox(height: 20,),
                       Text("Arrival and Welcome Drinks",style: TextStyle(fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.FF161616),),
-                      SizedBox(height: 10,),
-                      buildBulletPoint(Text('Guests arrive and check-in.',style: TextStyle(
+                      const SizedBox(height: 10,),
+                      AppThemes.buildBulletPoint(Text('Guests arrive and check-in.',style: TextStyle(
                         fontWeight: FontWeight.w400,fontSize: 14,fontFamily: appFontFamily,color: AppColor.FF161616
                       ),)),
-                      buildBulletPoint(Text('Welcome drinks and light appetizers served.',style: TextStyle(
+                      AppThemes.buildBulletPoint(Text('Welcome drinks and light appetizers served.',style: TextStyle(
                         fontWeight: FontWeight.w400,fontSize: 14,fontFamily: appFontFamily,color: AppColor.FF161616
                       ),)),
-                      buildBulletPoint(Text('Informal mingling.',style: TextStyle(
+                      AppThemes.buildBulletPoint(Text('Informal mingling.',style: TextStyle(
                         fontWeight: FontWeight.w400,fontSize: 14,fontFamily: appFontFamily,color: AppColor.FF161616
                       ),)),
-                      SizedBox(height: 7,),
+                      const SizedBox(height: 7,),
                       Text("12:00 Pm",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 12,color: AppColor.FF161616,fontFamily: appFontFamily),),
-                      SizedBox(height: 20,),
+                      const SizedBox(height: 20,),
                       Text("Opening Remarks",style: TextStyle(fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.FF161616),),
-                      SizedBox(height: 10,),
-                      buildBulletPoint(Text('Host welcomes guests.',style: TextStyle(
+                      const SizedBox(height: 10,),
+                      AppThemes.buildBulletPoint(Text('Host welcomes guests.',style: TextStyle(
                           fontWeight: FontWeight.w400,fontSize: 14,fontFamily: appFontFamily,color: AppColor.FF161616
                       ),)),
-                      buildBulletPoint(Text('Brief introduction to the purpose of the dinner.',style: TextStyle(
+                      AppThemes.buildBulletPoint(Text('Brief introduction to the purpose of the dinner.',style: TextStyle(
                           fontWeight: FontWeight.w400,fontSize: 14,fontFamily: appFontFamily,color: AppColor.FF161616
                       ),)),
-                      buildBulletPoint(Text('Overview of the evening\'s agenda.',style: TextStyle(
+                      AppThemes.buildBulletPoint(Text('Overview of the evening\'s agenda.',style: TextStyle(
                           fontWeight: FontWeight.w400,fontSize: 14,fontFamily: appFontFamily,color: AppColor.FF161616
                       ),)),
-                      SizedBox(height: 7,),
+                      const SizedBox(height: 7,),
                       Text("01:00 Pm",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 12,color: AppColor.FF161616,fontFamily: appFontFamily),),
-                      SizedBox(height: 20,),
+                      const SizedBox(height: 20,),
                       Text("Opening Remarks",style: TextStyle(fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.FF161616),),
-                      SizedBox(height: 10,),
-                      buildBulletPoint(Text('Host welcomes guests.',style: TextStyle(
+                      const SizedBox(height: 10,),
+                      AppThemes.buildBulletPoint(Text('Host welcomes guests.',style: TextStyle(
                           fontWeight: FontWeight.w400,fontSize: 14,fontFamily: appFontFamily,color: AppColor.FF161616
                       ),)),
-                      buildBulletPoint(Text('Brief introduction to the purpose of the dinner.',style: TextStyle(
+                      AppThemes.buildBulletPoint(Text('Brief introduction to the purpose of the dinner.',style: TextStyle(
                           fontWeight: FontWeight.w400,fontSize: 14,fontFamily: appFontFamily,color: AppColor.FF161616
                       ),)),
-                      buildBulletPoint(Text('Overview of the evening\'s agenda.',style: TextStyle(
+                      AppThemes.buildBulletPoint(Text('Overview of the evening\'s agenda.',style: TextStyle(
                           fontWeight: FontWeight.w400,fontSize: 14,fontFamily: appFontFamily,color: AppColor.FF161616
                       ),)),
-                      SizedBox(height: 7,),
+                      const SizedBox(height: 7,),
                       Text("02:00 Pm",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 12,color: AppColor.FF161616,fontFamily: appFontFamily),),
-                      SizedBox(height: 20,),
+                      const SizedBox(height: 20,),
                       Text("Networking",style: TextStyle(fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.FF161616),),
-                      SizedBox(height: 10,),
-                      buildBulletPoint(Text('Introduction of the speaker.',style: TextStyle(
+                      const SizedBox(height: 10,),
+                      AppThemes.buildBulletPoint(Text('Introduction of the speaker.',style: TextStyle(
                           fontWeight: FontWeight.w400,fontSize: 14,fontFamily: appFontFamily,color: AppColor.FF161616
                       ),)),
-                      buildBulletPoint(Text('Talk on a networking relevant industry topic.',style: TextStyle(
+                      AppThemes.buildBulletPoint(Text('Talk on a networking relevant industry topic.',style: TextStyle(
                           fontWeight: FontWeight.w400,fontSize: 14,fontFamily: appFontFamily,color: AppColor.FF161616
                       ),)),
-                      buildBulletPoint(Text('Brief Q&A session (if time allows).',style: TextStyle(
+                      AppThemes.buildBulletPoint(Text('Brief Q&A session (if time allows).',style: TextStyle(
                           fontWeight: FontWeight.w400,fontSize: 14,fontFamily: appFontFamily,color: AppColor.FF161616
                       ),)),
                     ],
@@ -223,13 +224,5 @@ class _EventAgendaPageState extends State<EventAgendaPage> {
     );
   }
 
-  Widget buildBulletPoint(Widget text,) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text("• ", style: TextStyle(fontSize: 20)),
-        text,
-      ],
-    );
-  }
+
 }

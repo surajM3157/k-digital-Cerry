@@ -5,7 +5,6 @@ import 'package:piwotapp/constants/font_family.dart';
 import 'package:piwotapp/route/route_names.dart';
 import 'package:piwotapp/widgets/app_themes.dart';
 import 'package:get/get.dart';
-
 import '../../constants/images.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -33,21 +32,21 @@ class _ProfilePageState extends State<ProfilePage> {
                       begin: Alignment.centerLeft,
                       end: Alignment.centerRight,
                     ),
-                  borderRadius: BorderRadius.only(bottomRight: Radius.circular(170),bottomLeft: Radius.circular(170))
+                  borderRadius: const BorderRadius.only(bottomRight: Radius.circular(170),bottomLeft: Radius.circular(170))
                 ),
                 child: Column(
                   children: [
-                    SizedBox(height: 50,),
+                    const SizedBox(height: 50,),
                     Center(child: SvgPicture.asset(Images.logo, height: 40,width: 147)),
 
                   ],
                 ),
               ),
 
-                SizedBox(height: 80,),
+                const SizedBox(height: 80,),
                 Text("Victor Alvarez",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16,color: AppColor.primaryColor,fontFamily: appFontFamily),),
                 Text("victoralvatez@gmail.com",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 16,color: AppColor.black,fontFamily: appFontFamily),),
-                SizedBox(height: 7,),
+                const SizedBox(height: 7,),
                 GestureDetector(
                   onTap: (){
                     Get.toNamed(Routes.editProfile);
@@ -63,14 +62,14 @@ class _ProfilePageState extends State<ProfilePage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SvgPicture.asset(Images.editIcon,color: AppColor.white,),
-                          SizedBox(width: 5,),
+                          const SizedBox(width: 5,),
                           Text("Edit Profile",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 12,color: AppColor.white,fontFamily: appFontFamily),),
                         ],
                       ),
                     ),
                   ),
                 ),
-                SizedBox(height: 20,),
+                const SizedBox(height: 20,),
                 GestureDetector(
                   onTap: (){
                     Get.toNamed(Routes.ticket);
@@ -83,7 +82,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         Row(
                           children: [
                             SvgPicture.asset(Images.ticketIcon),
-                            SizedBox(width: 20,),
+                            const SizedBox(width: 20,),
                             Text("Ticket",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400,color: AppColor.primaryColor,fontFamily: appFontFamily),)
                           ],
                         ),
@@ -105,7 +104,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         Row(
                           children: [
                             SvgPicture.asset(Images.contactIcon),
-                            SizedBox(width: 20,),
+                            const SizedBox(width: 20,),
                             Text("Contact Us",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400,color: AppColor.primaryColor,fontFamily: appFontFamily),)
                           ],
                         ),
@@ -127,7 +126,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         Row(
                           children: [
                             SvgPicture.asset(Images.feedbackIcon),
-                            SizedBox(width: 20,),
+                            const SizedBox(width: 20,),
                             Text("Feedback",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400,color: AppColor.primaryColor,fontFamily: appFontFamily),)
                           ],
                         ),
@@ -146,23 +145,23 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: Row(
                       children: [
                         SvgPicture.asset(Images.logoutIcon,color: AppColor.red,),
-                        SizedBox(width: 20,),
+                        const SizedBox(width: 20,),
                         Text("Logout",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400,color: AppColor.red,fontFamily: appFontFamily),)
                       ],
                     ),
                   ),
                 ),
                 Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
-                SizedBox(height: 20,),
+                const SizedBox(height: 20,),
               ],
             ),
             Container(
               width: 200,height: 200,
-              margin: EdgeInsets.only(left: 90,top: 110),
+              margin: const EdgeInsets.only(left: 90,top: 110),
               decoration: BoxDecoration(
                   color: AppColor.white,
                   border: Border.all(color: AppColor.white),
-                  borderRadius: BorderRadius.all(Radius.circular(100))
+                  borderRadius: const BorderRadius.all(Radius.circular(100))
               ),
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(200),
@@ -188,7 +187,7 @@ class _ProfilePageState extends State<ProfilePage> {
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(32.0)),
+        borderRadius: const BorderRadius.all(Radius.circular(32.0)),
         side: BorderSide(
           color: AppColor.lightGrey, // Border color
           width: 2.0,               // Border width
@@ -199,7 +198,7 @@ class _ProfilePageState extends State<ProfilePage> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text("Are you sure you want to log out?",style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500,fontFamily: appFontFamily,color: AppColor.mediumGrey),),
-          SizedBox(height: 20,),
+          const SizedBox(height: 20,),
           InkWell(
             onTap: (){
               Get.offAllNamed(Routes.login);
@@ -207,10 +206,10 @@ class _ProfilePageState extends State<ProfilePage> {
             child: Container(
               width: Get.width,
               height: 45,
-              margin: EdgeInsets.symmetric(horizontal: 20),
+              margin: const EdgeInsets.symmetric(horizontal: 20),
               decoration: BoxDecoration(
                   color: AppColor.red,
-                  borderRadius: BorderRadius.all(Radius.circular(8))
+                  borderRadius: const BorderRadius.all(Radius.circular(8))
               ),
               child: Center(
                 child: Text(
@@ -219,7 +218,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
           ),
-          SizedBox(height: 10,),
+          const SizedBox(height: 10,),
           InkWell(
             onTap: (){
               Get.back();
@@ -227,11 +226,11 @@ class _ProfilePageState extends State<ProfilePage> {
             child: Container(
               width: Get.width,
               height: 45,
-              margin: EdgeInsets.symmetric(horizontal: 20),
+              margin: const EdgeInsets.symmetric(horizontal: 20),
               decoration: BoxDecoration(
                   color: AppColor.white,
                   border: Border.all(color: AppColor.black,width: 1),
-                  borderRadius: BorderRadius.all(Radius.circular(8))
+                  borderRadius: const BorderRadius.all(Radius.circular(8))
               ),
               child: Center(
                 child: Text(
@@ -259,7 +258,7 @@ class _ProfilePageState extends State<ProfilePage> {
       child: Container(
         width: Get.width,
         height: 56,
-        margin: EdgeInsets.symmetric(horizontal: 20),
+        margin: const EdgeInsets.symmetric(horizontal: 20),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [AppColor.primaryColor, AppColor.red],
@@ -274,7 +273,7 @@ class _ProfilePageState extends State<ProfilePage> {
           child: Container(
             width: Get.width,
             height: 56,
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             decoration: BoxDecoration(
               color: Colors.white, // Inner container color
               borderRadius: BorderRadius.circular(10), // Match the outer radius
@@ -285,7 +284,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 Row(
                   children: [
                     SvgPicture.asset(icon),
-                    SizedBox(width: 10,),
+                    const SizedBox(width: 10,),
                     Text(title,style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400,color: AppColor.primaryColor,fontFamily: appFontFamily),)
                   ],
                 ),

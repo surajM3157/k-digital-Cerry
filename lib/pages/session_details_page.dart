@@ -45,16 +45,16 @@ class _SessionDetailsPageState extends State<SessionDetailsPage> {
         child: SingleChildScrollView(
           child: Stack(
             children: [
-              Container(
+              SizedBox(
                   width: Get.width,
                   height: 390,
 
                   child: Image.asset(widget.image??"",fit: BoxFit.cover,)),
               Container(
-                margin: EdgeInsets.only(top: 350),
+                margin: const EdgeInsets.only(top: 350),
                 decoration: BoxDecoration(
                   color: AppColor.white,
-                  borderRadius: BorderRadius.only(topRight: Radius.circular(25),topLeft: Radius.circular(25))
+                  borderRadius: const BorderRadius.only(topRight: Radius.circular(25),topLeft: Radius.circular(25))
                 ),
                 child: Column(
                   children: [
@@ -63,17 +63,17 @@ class _SessionDetailsPageState extends State<SessionDetailsPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(height: 20,),
+                          const SizedBox(height: 20,),
                           Text(widget.title??"",style: AppThemes.titleTextStyle().copyWith(
                               fontWeight: FontWeight.w600,fontSize: 24
                           ),),
-                          SizedBox(height: 20,),
+                          const SizedBox(height: 20,),
                           Text("Bridging Innovation and Collaboration Worldwide. Connecting Minds, Shaping the Future.",style:AppThemes.subtitleTextStyle().copyWith(fontSize: 16)),
-                          SizedBox(height: 20,),
+                          const SizedBox(height: 20,),
                           Row(
                             children: [
                               Icon(Icons.date_range,size: 17,color: AppColor.primaryColor,),
-                              SizedBox(width: 5,),
+                              const SizedBox(width: 5,),
                               GradientText(text:"Date & Time",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor,fontWeight: FontWeight.w600),gradient:LinearGradient(
                                 colors: [AppColor.primaryColor, AppColor.red],
                                 begin: Alignment.centerLeft,
@@ -81,7 +81,7 @@ class _SessionDetailsPageState extends State<SessionDetailsPage> {
                               )),
                             ],
                           ),
-                          SizedBox(height: 10,),
+                          const SizedBox(height: 10,),
                           Padding(
                             padding: const EdgeInsets.only(left: 20),
                             child: Text("22 September 2024 , Tuesday",style: AppThemes.subtitleTextStyle(),),
@@ -94,11 +94,11 @@ class _SessionDetailsPageState extends State<SessionDetailsPage> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 20,),
+                    const SizedBox(height: 20,),
                     Container(width: Get.width,
                       height: 1,color: AppColor.primaryColor,
                     ),
-                    SizedBox(height: 20,),
+                    const SizedBox(height: 20,),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Column(
@@ -107,7 +107,7 @@ class _SessionDetailsPageState extends State<SessionDetailsPage> {
                           Row(
                             children: [
                               Icon(Icons.location_on_outlined,size: 17,color: AppColor.primaryColor,),
-                              SizedBox(width: 5,),
+                              const SizedBox(width: 5,),
                               GradientText(text:"Location",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor,fontWeight: FontWeight.w600),gradient:LinearGradient(
                                 colors: [AppColor.primaryColor, AppColor.red],
                                 begin: Alignment.centerLeft,
@@ -115,7 +115,7 @@ class _SessionDetailsPageState extends State<SessionDetailsPage> {
                               )),
                             ],
                           ),
-                          SizedBox(height: 10,),
+                          const SizedBox(height: 10,),
                           Padding(
                             padding: const EdgeInsets.only(left: 20),
                             child: Text("Indian Institute of Technology Delhi, Hauz Khas, Delhi 110016.",style: AppThemes.subtitleTextStyle(),),
@@ -123,11 +123,11 @@ class _SessionDetailsPageState extends State<SessionDetailsPage> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 20,),
+                    const SizedBox(height: 20,),
                     Container(width: Get.width,
                       height: 1,color: AppColor.primaryColor,
                     ),
-                    SizedBox(height: 20,),
+                    const SizedBox(height: 20,),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Column(
@@ -136,7 +136,7 @@ class _SessionDetailsPageState extends State<SessionDetailsPage> {
                           Row(
                             children: [
                               Icon(Icons.currency_rupee,size: 17,color: AppColor.primaryColor,),
-                              SizedBox(width: 5,),
+                              const SizedBox(width: 5,),
                               GradientText(text:"Ticket Price",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor,fontWeight: FontWeight.w600),gradient:LinearGradient(
                                 colors: [AppColor.primaryColor, AppColor.red],
                                 begin: Alignment.centerLeft,
@@ -144,7 +144,7 @@ class _SessionDetailsPageState extends State<SessionDetailsPage> {
                               )),
                             ],
                           ),
-                          SizedBox(height: 10,),
+                          const SizedBox(height: 10,),
                           Padding(
                             padding: const EdgeInsets.only(left: 20),
                             child: Text("3000/- per ticket",style: AppThemes.subtitleTextStyle(),),
@@ -152,11 +152,11 @@ class _SessionDetailsPageState extends State<SessionDetailsPage> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 20,),
+                    const SizedBox(height: 20,),
                     Container(width: Get.width,
                       height: 1,color: AppColor.primaryColor,
                     ),
-                    SizedBox(height: 20,),
+                    const SizedBox(height: 20,),
                   ],
                 ),
               ),

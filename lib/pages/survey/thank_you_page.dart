@@ -32,21 +32,21 @@ class _ThankYouPageState extends State<ThankYouPage> {
                   begin: Alignment.centerLeft,
                   end: Alignment.centerRight,
                 ),
-                borderRadius: BorderRadius.all(Radius.circular(200))
+                borderRadius: const BorderRadius.all(Radius.circular(200))
               ),
                 child: SvgPicture.asset(Images.successNotificationIcon)),
-            SizedBox(height: 20,),
-            GradientText(text:"Thank You !",style: TextStyle(fontSize: 27,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
+            const SizedBox(height: 20,),
+            GradientText(text:"Thank You !",style: const TextStyle(fontSize: 27,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
               colors: [AppColor.primaryColor, AppColor.red],
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
             ),),
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
             Text("We Appreciate your feedback",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600,fontFamily: appFontFamily,color: AppColor.black),),
-            SizedBox(height: 10,),
+            const SizedBox(height: 10,),
             Text("Your Feedback helps us improve ",style: TextStyle(fontSize: 18,fontWeight: FontWeight.w400,fontFamily: appFontFamily,color: AppColor.black),),
             Text("and serve you better.",style: TextStyle(fontSize: 18,fontWeight: FontWeight.w400,fontFamily: appFontFamily,color: AppColor.black),),
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
             AppButton(title: "Back to Home", onTap: (){
               Get.offAllNamed(Routes.home);
             })

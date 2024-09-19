@@ -22,9 +22,9 @@ class _LiveSessionPageState extends State<LiveSessionPage> {
 
   bool isPlay = false;
 
-  YoutubePlayerController _controller = YoutubePlayerController(
+  final YoutubePlayerController _controller = YoutubePlayerController(
     initialVideoId: 'HhEoZTw1m9A',
-    flags: YoutubePlayerFlags(
+    flags: const YoutubePlayerFlags(
       autoPlay: true,
       mute: true,
     ),
@@ -67,22 +67,22 @@ class _LiveSessionPageState extends State<LiveSessionPage> {
               return Column(
                 children: [
                   player,
-                  SizedBox(height: 50,),
+                  const SizedBox(height: 50,),
                 ],
               );
           },
           ):
-                  Container(
+                  SizedBox(
                       width: Get.width,
                       height: 390,
 
                       child: ClipRRect(
-                              borderRadius: BorderRadius.only(
+                              borderRadius: const BorderRadius.only(
                                 bottomRight: Radius.circular(25),
                                 bottomLeft: Radius.circular(25),
                               ),
                           child: Image.asset(Images.liveEventBanner,fit: BoxFit.cover,))),
-                  isPlay?SizedBox.shrink():Align(
+                  isPlay?const SizedBox.shrink():Align(
                     alignment: Alignment.topCenter,
                       child: Padding(
                         padding: const EdgeInsets.only(top: 150),
@@ -96,14 +96,14 @@ class _LiveSessionPageState extends State<LiveSessionPage> {
                       )),
                 ],
               ),
-              isPlay?SizedBox.shrink():SizedBox(height: 20,),
+              isPlay?const SizedBox.shrink():const SizedBox(height: 20,),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: GradientText(text:"Welcome Party",style: AppThemes.titleTextStyle().copyWith(
                     fontWeight: FontWeight.w600,fontSize: 24
                 ), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]),),
               ),
-              SizedBox(height: 20,),
+              const SizedBox(height: 20,),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
@@ -112,11 +112,11 @@ class _LiveSessionPageState extends State<LiveSessionPage> {
                    Row(
                      children: [
                        SvgPicture.asset(Images.likeIcon,),
-                       SizedBox(width: 5,),
+                       const SizedBox(width: 5,),
                        Text("24.4 k",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor),),
-                       SizedBox(width: 10,),
+                       const SizedBox(width: 10,),
                        SvgPicture.asset(Images.dislikeIcon,),
-                       SizedBox(width: 5,),
+                       const SizedBox(width: 5,),
                        Text("10",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor),),
 
                      ],
@@ -124,14 +124,14 @@ class _LiveSessionPageState extends State<LiveSessionPage> {
                     Row(
                       children: [
                         Image.asset(Images.participantsIcon,),
-                        SizedBox(width: 5,),
+                        const SizedBox(width: 5,),
                         Text("2K Participants",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor),),
                       ],
                     )
                   ],
                 ),
               ),
-              SizedBox(height: 20,),
+              const SizedBox(height: 20,),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Text("Bridging Innovation and Collaboration Worldwide. Connecting Minds, Shaping the Future.",style: AppThemes.subtitleTextStyle().copyWith(fontSize: 16),),

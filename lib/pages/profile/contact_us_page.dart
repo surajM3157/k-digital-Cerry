@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:gradient_borders/input_borders/gradient_outline_input_border.dart';
 import 'package:piwotapp/widgets/app_button.dart';
 import '../../constants/colors.dart';
 import '../../constants/font_family.dart';
@@ -44,15 +43,15 @@ class _ContactUsPageState extends State<ContactUsPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
             Center(
-              child: GradientText(text: "Contact Us", style: TextStyle(fontWeight: FontWeight.w600,fontSize: 20,fontFamily: appFontFamily), gradient:LinearGradient(
+              child: GradientText(text: "Contact Us", style: const TextStyle(fontWeight: FontWeight.w600,fontSize: 20,fontFamily: appFontFamily), gradient:LinearGradient(
                 colors: [AppColor.primaryColor, AppColor.red],
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
               ),),
             ),
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: GradientText(text:"Get in Touch",style: AppThemes.titleTextStyle().copyWith(fontSize: 18,fontWeight: FontWeight.w600), gradient:  LinearGradient(
@@ -61,12 +60,12 @@ class _ContactUsPageState extends State<ContactUsPage> {
                 end: Alignment.centerRight,
               ),),
             ),
-            SizedBox(height: 10,),
+            const SizedBox(height: 10,),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Text("We’d love to hear from you! Share your questions , and we’ll get back to you as soon as possible.",style:  TextStyle(fontSize: 14,fontWeight: FontWeight.w400,fontFamily: appFontFamily,color: AppColor.mediumGrey),),
             ),
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: TextFormField(
@@ -75,9 +74,9 @@ class _ContactUsPageState extends State<ContactUsPage> {
                 decoration: InputDecoration(
                   hintText: "Enter your name",
                   labelText: "Name",
-                  labelStyle: TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
-                  hintStyle: TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
-                  contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                  labelStyle: const TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
+                  hintStyle: const TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
+                  contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
                   focusedBorder:  OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
                       borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
@@ -86,12 +85,12 @@ class _ContactUsPageState extends State<ContactUsPage> {
                       borderRadius: BorderRadius.circular(10.0),
                       borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
                   ),
-                  errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide(color: Colors.red, width: 2.0)),
-                  focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide(color: Colors.red, width: 2.0)),
+                  errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: const BorderSide(color: Colors.red, width: 2.0)),
+                  focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: const BorderSide(color: Colors.red, width: 2.0)),
                 ),
               ),
             ),
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: TextFormField(
@@ -101,9 +100,9 @@ class _ContactUsPageState extends State<ContactUsPage> {
                   hintText: "Enter your email",
                   labelText: "Email",
                   prefixIcon: Icon(Icons.email_outlined,color: AppColor.primaryColor,),
-                  labelStyle: TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
-                  hintStyle: TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
-                  contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                  labelStyle: const TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
+                  hintStyle: const TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
+                  contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
                   focusedBorder:  OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
                       borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
@@ -112,12 +111,12 @@ class _ContactUsPageState extends State<ContactUsPage> {
                       borderRadius: BorderRadius.circular(10.0),
                       borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
                   ),
-                  errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide(color: Colors.red, width: 2.0)),
-                  focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide(color: Colors.red, width: 2.0)),
+                  errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: const BorderSide(color: Colors.red, width: 2.0)),
+                  focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: const BorderSide(color: Colors.red, width: 2.0)),
                 ),
               ),
             ),
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: TextFormField(
@@ -127,9 +126,9 @@ class _ContactUsPageState extends State<ContactUsPage> {
                   hintText: "Enter your phone number",
                   labelText: "Phone Number",
                   prefixIcon: Icon(Icons.call,color: AppColor.primaryColor,),
-                  labelStyle: TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
-                  hintStyle: TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
-                  contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                  labelStyle: const TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
+                  hintStyle: const TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
+                  contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
                   focusedBorder:  OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
                       borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
@@ -138,17 +137,17 @@ class _ContactUsPageState extends State<ContactUsPage> {
                       borderRadius: BorderRadius.circular(10.0),
                       borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
                   ),
-                  errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide(color: Colors.red, width: 2.0)),
-                  focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide(color: Colors.red, width: 2.0)),
+                  errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: const BorderSide(color: Colors.red, width: 2.0)),
+                  focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: const BorderSide(color: Colors.red, width: 2.0)),
                 ),
               ),
             ),
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Text("Message",style: AppThemes.titleTextStyle().copyWith(fontSize: 20),),
             ),
-            SizedBox(height: 10,),
+            const SizedBox(height: 10,),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: TextFormField(
@@ -159,9 +158,9 @@ class _ContactUsPageState extends State<ContactUsPage> {
                   alignLabelWithHint: true,
                   hintText: "Enter your message",
                   labelText: "Write your message",
-                  labelStyle: TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
-                  hintStyle: TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
-                  contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                  labelStyle:  TextStyle(color: AppColor.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
+                  hintStyle:  TextStyle(color: AppColor.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
+                  contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
                   focusedBorder:  OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
                       borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
@@ -170,14 +169,14 @@ class _ContactUsPageState extends State<ContactUsPage> {
                       borderRadius: BorderRadius.circular(10.0),
                       borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
                   ),
-                  errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide(color: Colors.red, width: 2.0)),
-                  focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide(color: Colors.red, width: 2.0)),
+                  errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: const BorderSide(color: Colors.red, width: 2.0)),
+                  focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: const BorderSide(color: Colors.red, width: 2.0)),
                 ),
               ),
             ),
-            SizedBox(height: 30,),
+            const SizedBox(height: 30,),
             AppButton(title: "Send Message", onTap: (){}),
-            SizedBox(height: 20,)
+            const SizedBox(height: 20,)
           ],
         ),
       ),

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class GradientPinCodeField extends StatefulWidget {
+  const GradientPinCodeField({super.key});
+
   @override
   _GradientPinCodeFieldState createState() => _GradientPinCodeFieldState();
 }
@@ -13,7 +15,7 @@ class _GradientPinCodeFieldState extends State<GradientPinCodeField> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Gradient PinCode Field'),
+        title: const Text('Gradient PinCode Field'),
       ),
       body: Center(
         child: Padding(
@@ -27,7 +29,7 @@ class _GradientPinCodeFieldState extends State<GradientPinCodeField> {
             cursorColor: Colors.black,
             enableActiveFill: true,
             autoFocus: true,
-            textStyle: TextStyle(color: Colors.black),
+            textStyle: const TextStyle(color: Colors.black),
             pinTheme: PinTheme(
               shape: PinCodeFieldShape.box,
               borderRadius: BorderRadius.circular(10),
@@ -40,7 +42,7 @@ class _GradientPinCodeFieldState extends State<GradientPinCodeField> {
               inactiveFillColor: Colors.white,
               selectedFillColor: Colors.white,
             ),
-            boxShadows: [
+            boxShadows: const [
               BoxShadow(
                 offset: Offset(0, 1),
                 color: Colors.black12,
@@ -55,7 +57,7 @@ class _GradientPinCodeFieldState extends State<GradientPinCodeField> {
               return true;
             },
             // Create custom decoration for each pin field
-            pastedTextStyle: TextStyle(color: Colors.green),
+            pastedTextStyle: const TextStyle(color: Colors.green),
           ),
         ),
       ),
@@ -66,7 +68,7 @@ class _GradientPinCodeFieldState extends State<GradientPinCodeField> {
   Widget buildGradientBorder(Widget child) {
     return Container(
       decoration: BoxDecoration(
-        gradient: LinearGradient(
+        gradient: const LinearGradient(
           colors: [Color(0xFF1B1464), Color(0xFFCF2E2E)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,

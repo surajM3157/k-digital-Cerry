@@ -11,7 +11,7 @@ class CustomProgressIndicator extends StatelessWidget {
   final Color unselectedColor;
   final Radius roundedEdges;
 
-  CustomProgressIndicator({
+  const CustomProgressIndicator({super.key,
     required this.totalSteps,
     required this.currentStep,
     required this.size,

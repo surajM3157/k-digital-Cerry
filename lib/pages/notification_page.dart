@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import '../constants/colors.dart';
 import '../constants/font_family.dart';
 import '../constants/images.dart';
-import '../widgets/app_themes.dart';
 import '../widgets/gradient_text.dart';
 
 class NotificationPage extends StatefulWidget {
@@ -34,17 +33,17 @@ class _NotificationPageState extends State<NotificationPage> {
       ),
       body: ListView(
         children: [
-          SizedBox(height: 20,),
+          const SizedBox(height: 20,),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: GradientText(text:"Notification",style: TextStyle(fontWeight: FontWeight.w600,fontFamily: appFontFamily,fontSize: 20), gradient: LinearGradient(
+            child: GradientText(text:"Notification",style: const TextStyle(fontWeight: FontWeight.w600,fontFamily: appFontFamily,fontSize: 20), gradient: LinearGradient(
               colors: [AppColor.primaryColor, AppColor.red],
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
             ),
             ),
           ),
-          SizedBox(height: 20,),
+          const SizedBox(height: 20,),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Row(
@@ -65,10 +64,10 @@ class _NotificationPageState extends State<NotificationPage> {
                     child: SvgPicture.asset(Images.eventNotificationIcon),
                   ),
                 ),
-                SizedBox(width: 20,),
+                const SizedBox(width: 20,),
                 Container(
                   width: Get.width/1.5,
-                  padding: EdgeInsets.symmetric(horizontal: 20,vertical: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
                   decoration: BoxDecoration(
                     color: AppColor.white,
                       borderRadius: BorderRadius.circular(15)
@@ -81,9 +80,9 @@ class _NotificationPageState extends State<NotificationPage> {
               ],
             ),
           ),
-          SizedBox(height: 10,),
+          const SizedBox(height: 10,),
           Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
-          SizedBox(height: 10,),
+          const SizedBox(height: 10,),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Row(
@@ -104,10 +103,10 @@ class _NotificationPageState extends State<NotificationPage> {
                     child: SvgPicture.asset(Images.successNotificationIcon),
                   ),
                 ),
-                SizedBox(width: 20,),
+                const SizedBox(width: 20,),
                 Container(
                   width: Get.width/1.5,
-                  padding: EdgeInsets.symmetric(horizontal: 20,vertical: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
                   decoration: BoxDecoration(
                     color: AppColor.white,
                       borderRadius: BorderRadius.circular(15)
@@ -120,9 +119,9 @@ class _NotificationPageState extends State<NotificationPage> {
               ],
             ),
           ),
-          SizedBox(height: 10,),
+          const SizedBox(height: 10,),
           Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
-          SizedBox(height: 10,),
+          const SizedBox(height: 10,),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Row(
@@ -143,10 +142,10 @@ class _NotificationPageState extends State<NotificationPage> {
                     child: SvgPicture.asset(Images.requestNotificationIcon),
                   ),
                 ),
-                SizedBox(width: 20,),
+                const SizedBox(width: 20,),
                 Container(
                   width: Get.width/1.5,
-                  padding: EdgeInsets.symmetric(horizontal: 20,vertical: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
                   decoration: BoxDecoration(
                     color: AppColor.white,
                       borderRadius: BorderRadius.circular(15)
@@ -159,9 +158,9 @@ class _NotificationPageState extends State<NotificationPage> {
               ],
             ),
           ),
-          SizedBox(height: 10,),
+          const SizedBox(height: 10,),
           Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
-          SizedBox(height: 10,),
+          const SizedBox(height: 10,),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Row(
@@ -182,10 +181,10 @@ class _NotificationPageState extends State<NotificationPage> {
                     child: SvgPicture.asset(Images.requestNotificationIcon),
                   ),
                 ),
-                SizedBox(width: 20,),
+                const SizedBox(width: 20,),
                 Container(
                   width: Get.width/1.5,
-                  padding: EdgeInsets.symmetric(horizontal: 20,vertical: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
                   decoration: BoxDecoration(
                     color: AppColor.white,
                       borderRadius: BorderRadius.circular(15)
@@ -198,9 +197,9 @@ class _NotificationPageState extends State<NotificationPage> {
               ],
             ),
           ),
-          SizedBox(height: 10,),
+          const SizedBox(height: 10,),
           Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
-          SizedBox(height: 10,),
+          const SizedBox(height: 10,),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Row(
@@ -221,10 +220,10 @@ class _NotificationPageState extends State<NotificationPage> {
                     child: SvgPicture.asset(Images.successNotificationIcon),
                   ),
                 ),
-                SizedBox(width: 20,),
+                const SizedBox(width: 20,),
                 Container(
                   width: Get.width/1.5,
-                  padding: EdgeInsets.symmetric(horizontal: 20,vertical: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
                   decoration: BoxDecoration(
                       color: AppColor.white,
                       borderRadius: BorderRadius.circular(15)
@@ -237,9 +236,9 @@ class _NotificationPageState extends State<NotificationPage> {
               ],
             ),
           ),
-          SizedBox(height: 10,),
+          const SizedBox(height: 10,),
           Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
-          SizedBox(height: 10,),
+          const SizedBox(height: 10,),
         ],
       ),
     );

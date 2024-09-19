@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
 import '../../constants/colors.dart';
 import 'package:get/get.dart';
-
 import '../../constants/font_family.dart';
 import '../../constants/images.dart';
 import '../../widgets/app_themes.dart';
 import '../../widgets/gradient_text.dart';
-import '../../widgets/my_seperator.dart';
 
 class TicketPage extends StatefulWidget {
   const TicketPage({super.key});
@@ -37,9 +34,9 @@ class _TicketPageState extends State<TicketPage> {
       ),
       body: Column(
         children: [
-          SizedBox(height: 20,),
+          const SizedBox(height: 20,),
           Center(
-            child: GradientText(text: "Ticket", style: TextStyle(fontWeight: FontWeight.w600,fontSize: 20,fontFamily: appFontFamily), gradient:LinearGradient(
+            child: GradientText(text: "Ticket", style: const TextStyle(fontWeight: FontWeight.w600,fontSize: 20,fontFamily: appFontFamily), gradient:LinearGradient(
               colors: [AppColor.primaryColor, AppColor.red],
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
@@ -48,11 +45,11 @@ class _TicketPageState extends State<TicketPage> {
           Container(
             height: Get.height/1.5,
             width: Get.width,
-            margin: EdgeInsets.all(20),
-            padding: EdgeInsets.all(20),
+            margin: const EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
                 gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]),
-                borderRadius: BorderRadius.all(Radius.circular(12))
+                borderRadius: const BorderRadius.all(Radius.circular(12))
             ),
             child: Stack(
               alignment: Alignment.center,
@@ -62,20 +59,20 @@ class _TicketPageState extends State<TicketPage> {
                   width: 288,
                   decoration: BoxDecoration(
                       color: AppColor.white,
-                      borderRadius: BorderRadius.all(Radius.circular(12))
+                      borderRadius: const BorderRadius.all(Radius.circular(12))
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       ClipRRect(
-                        borderRadius:BorderRadius.only(topRight: Radius.circular(12),topLeft: Radius.circular(12)),
+                        borderRadius:const BorderRadius.only(topRight: Radius.circular(12),topLeft: Radius.circular(12)),
                           child: Image.asset(Images.eventDetailsBanner)),
                      Row(
                        crossAxisAlignment: CrossAxisAlignment.end,
                        children: [
                          Column(
                            crossAxisAlignment: CrossAxisAlignment.start,
-                           children: [ SizedBox(
+                           children: [ const SizedBox(
                              height: 20,
                            ),
                              Padding(
@@ -86,12 +83,12 @@ class _TicketPageState extends State<TicketPage> {
                                  end: Alignment.centerRight,
                                ),),
                              ),
-                             SizedBox(height: 5,),
+                             const SizedBox(height: 5,),
                              Padding(
                                padding: const EdgeInsets.only(left: 20),
                                child: Text("NETWORKING DINNER",style: AppThemes.subtitleTextStyle().copyWith(color: AppColor.FF161616),),
                              ),
-                             SizedBox(
+                             const SizedBox(
                                height: 20,
                              ),
                              Padding(
@@ -102,12 +99,12 @@ class _TicketPageState extends State<TicketPage> {
                                  end: Alignment.centerRight,
                                ),),
                              ),
-                             SizedBox(height: 5,),
+                             const SizedBox(height: 5,),
                              Padding(
                                padding: const EdgeInsets.only(left: 20),
                                child: Text("10:00 AM",style: AppThemes.subtitleTextStyle().copyWith(color: AppColor.FF161616),),
                              ),
-                             SizedBox(height: 20,),
+                             const SizedBox(height: 20,),
                              Padding(
                                padding: const EdgeInsets.only(left: 20),
                                child: GradientText(text:"Date",style: AppThemes.subtitleTextStyle().copyWith(fontWeight: FontWeight.w600),gradient:LinearGradient(
@@ -116,7 +113,7 @@ class _TicketPageState extends State<TicketPage> {
                                  end: Alignment.centerRight,
                                ),),
                              ),
-                             SizedBox(height: 5,),
+                             const SizedBox(height: 5,),
                              Padding(
                                padding: const EdgeInsets.only(left: 20),
                                child: Text("20 August 2024 ",style: AppThemes.subtitleTextStyle().copyWith(color: AppColor.FF161616),),

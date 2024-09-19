@@ -5,7 +5,7 @@ class GradientText extends StatelessWidget {
   final TextStyle style;
   final LinearGradient gradient;
 
-  GradientText({
+  const GradientText({super.key,
     required this.text,
     required this.style,
     required this.gradient,

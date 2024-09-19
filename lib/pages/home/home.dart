@@ -2,9 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:piwotapp/pages/home/sponsor_page.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
 import '../../constants/colors.dart';
 import '../../constants/font_family.dart';
 import '../../constants/images.dart';
@@ -54,33 +52,33 @@ class _HomeState extends State<Home> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 20,),
+          const SizedBox(height: 20,),
          bannerCarousel(),
-          SizedBox(height: 20,),
+          const SizedBox(height: 20,),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: GradientText(text: "Sponsor",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
+            child: GradientText(text: "Sponsor",style: const TextStyle(fontSize: 20,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
               colors: [AppColor.primaryColor, AppColor.red],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),),
           ),
-          SizedBox(height: 10,),
+          const SizedBox(height: 10,),
           sponsorList(),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: GradientText(text: "Speaker",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
+            child: GradientText(text: "Speaker",style: const TextStyle(fontSize: 20,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
               colors: [AppColor.primaryColor, AppColor.red],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),),
           ),
-          SizedBox(height: 10,),
+          const SizedBox(height: 10,),
           speakerList(),
-          SizedBox(height: 10,),
+          const SizedBox(height: 10,),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: GradientText(text: "About PAN IIT Alumni India",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
+            child: GradientText(text: "About PAN IIT Alumni India",style: const TextStyle(fontSize: 20,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
               colors: [AppColor.primaryColor, AppColor.red],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -98,23 +96,23 @@ class _HomeState extends State<Home> {
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: buildBulletPoint(Text("With a legacy of excellence in education and a commitment to shaping the future, PAN IIT Alumni India connects over a million IITians, creating opportunities for knowledge sharing, professional growth, and meaningful contributions to society.", style: AppThemes.subtitleTextStyle())),
           ),
-          SizedBox(height: 10,),
+          const SizedBox(height: 10,),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: GradientText(text: "Live Events",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
+            child: GradientText(text: "Live Events",style: const TextStyle(fontSize: 20,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
               colors: [AppColor.primaryColor, AppColor.red],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),),
           ),
-          SizedBox(height: 10,),
+          const SizedBox(height: 10,),
           liveEventList(),
           Container(
             width: Get.width,
-            margin: EdgeInsets.all(10),
+            margin: const EdgeInsets.all(10),
             height: 210,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
               color: AppColor.FF3A2E88.withOpacity(0.15)
             ),
             child: Padding(
@@ -132,7 +130,7 @@ class _HomeState extends State<Home> {
                       Text("We'd love to hear about",style: AppThemes.subtitleTextStyle()),
                       Text("your recent experience",style: AppThemes.subtitleTextStyle()),
                       Text("with our services",style: AppThemes.subtitleTextStyle()),
-                      SizedBox(height: 10,),
+                      const SizedBox(height: 10,),
                       surveyButton()
                     ],
                   )
@@ -157,7 +155,7 @@ class _HomeState extends State<Home> {
       ),
       child:Column(
         children: [
-          SizedBox(height: 10,),
+          const SizedBox(height: 10,),
           SvgPicture.asset(Images.logo,height: 44,width: 126,),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -173,9 +171,9 @@ class _HomeState extends State<Home> {
                     height: 2,
                     color: AppColor.red,
                   ),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   Text("17 January 2025",style: AppThemes.subtitle1TextStyle().copyWith(color:AppColor.white),),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   InkWell(
                     onTap: (){
                       Get.toNamed(Routes.eventDetails);
@@ -185,7 +183,7 @@ class _HomeState extends State<Home> {
                       width: 117,
                       decoration: BoxDecoration(
                           color: AppColor.red,
-                          borderRadius: BorderRadius.all(Radius.circular(10))
+                          borderRadius: const BorderRadius.all(Radius.circular(10))
                       ),
                       child: Center(child: Text("View Details",style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 14,color: AppColor.white),)),
                     ),
@@ -226,7 +224,7 @@ class _HomeState extends State<Home> {
       ),
       child:Column(
         children: [
-          SizedBox(height: 10,),
+          const SizedBox(height: 10,),
           SvgPicture.asset(Images.logo,height: 44,width: 126,),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -242,9 +240,9 @@ class _HomeState extends State<Home> {
                     height: 2,
                     color: AppColor.red,
                   ),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   Text("17 January 2025",style: AppThemes.subtitle1TextStyle().copyWith(color:AppColor.white),),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   InkWell(
                     onTap: (){
                       Get.toNamed(Routes.eventDetails);
@@ -254,7 +252,7 @@ class _HomeState extends State<Home> {
                       width: 117,
                       decoration: BoxDecoration(
                           color: AppColor.red,
-                          borderRadius: BorderRadius.all(Radius.circular(10))
+                          borderRadius: const BorderRadius.all(Radius.circular(10))
                       ),
                       child: Center(child: Text("View Details",style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 14,color: AppColor.white),)),
                     ),
@@ -277,7 +275,7 @@ class _HomeState extends State<Home> {
       ),
       child:Column(
         children: [
-          SizedBox(height: 10,),
+          const SizedBox(height: 10,),
           SvgPicture.asset(Images.logo,height: 44,width: 126,),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -293,9 +291,9 @@ class _HomeState extends State<Home> {
                     height: 2,
                     color: AppColor.red,
                   ),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   Text("17 January 2025",style: AppThemes.subtitle1TextStyle().copyWith(color:AppColor.white),),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   InkWell(
                     onTap: (){
                       Get.toNamed(Routes.eventDetails);
@@ -305,7 +303,7 @@ class _HomeState extends State<Home> {
                       width: 117,
                       decoration: BoxDecoration(
                           color: AppColor.red,
-                          borderRadius: BorderRadius.all(Radius.circular(10))
+                          borderRadius: const BorderRadius.all(Radius.circular(10))
                       ),
                       child: Center(child: Text("View Details",style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 14,color: AppColor.white),)),
                     ),
@@ -339,7 +337,7 @@ class _HomeState extends State<Home> {
                 child: items[index]);
           }),
         ),
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
         buildIndicator(),
       ],
     );
@@ -362,11 +360,11 @@ class _HomeState extends State<Home> {
                 children: [
                   Container(
                     height: 205,width: 203,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(8)),
                     ),
                     child: ClipRRect(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderRadius: const BorderRadius.all(Radius.circular(8)),
                         child: Image.asset(liveEventItems[index],height: 203,width: 204,fit: BoxFit.fill,)),
                   ),
                   Padding(
@@ -381,13 +379,13 @@ class _HomeState extends State<Home> {
                           width: 98,
                           decoration: BoxDecoration(
                             color: AppColor.red,
-                            borderRadius: BorderRadius.all(Radius.circular(8))
+                            borderRadius: const BorderRadius.all(Radius.circular(8))
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text("Event Details",style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w400,fontSize: 10,color: AppColor.white),),
-                              SizedBox(width: 2,),
+                              const SizedBox(width: 2,),
                               SvgPicture.asset(Images.crossArrowIcon)
                             ],
                           ),
@@ -398,7 +396,7 @@ class _HomeState extends State<Home> {
                 ],
               ));
         }, separatorBuilder: (BuildContext context, int index){
-          return SizedBox(
+          return const SizedBox(
             width: 10,
           );
         }, itemCount: liveEventItems.length),
@@ -443,8 +441,8 @@ class _HomeState extends State<Home> {
           enableInfiniteScroll: true,
           reverse: false,
           autoPlay: true,
-          autoPlayInterval: Duration(seconds: 3),
-          autoPlayAnimationDuration: Duration(milliseconds: 800),
+          autoPlayInterval: const Duration(seconds: 3),
+          autoPlayAnimationDuration: const Duration(milliseconds: 800),
           autoPlayCurve: Curves.fastOutSlowIn,
           enlargeCenterPage: true,
           enlargeFactor: 0.03,
@@ -455,7 +453,7 @@ class _HomeState extends State<Home> {
               return Column(
                 children: [
                   Image.asset(item.image,height: 100,width: 100,),
-                  SizedBox(height: 7,),
+                  const SizedBox(height: 7,),
                   SizedBox(
                       width:80,
                       child: Text(item.title,textAlign: TextAlign.center,
@@ -490,7 +488,7 @@ class _HomeState extends State<Home> {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-                  borderRadius: BorderRadius.all(Radius.circular(15))
+                  borderRadius: const BorderRadius.all(Radius.circular(15))
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -499,14 +497,14 @@ class _HomeState extends State<Home> {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(100),
                       child: Image.asset(index ==0?Images.speaker1:index ==1?Images.speaker2:Images.speaker3,height: 80,width: 80,fit: BoxFit.fill,)),
-                  SizedBox(height: 5,),
-                  Text(index==0?"Sophia thompson":index==1?"David Kim":"Dr. Rob Carter",style: TextStyle(fontFamily: appFontFamily,color: AppColor.white,fontSize: 16,fontWeight: FontWeight.w500),),SizedBox(height: 5,),
+                  const SizedBox(height: 5,),
+                  Text(index==0?"Sophia thompson":index==1?"David Kim":"Dr. Rob Carter",style: TextStyle(fontFamily: appFontFamily,color: AppColor.white,fontSize: 16,fontWeight: FontWeight.w500),),const SizedBox(height: 5,),
                   Text(index==1?"VP of Engineering":"CEO",style: TextStyle(fontFamily: appFontFamily,color: AppColor.white,fontSize: 12,fontWeight: FontWeight.w500),),
                   Text(index==1?"Elevate Industries":"InnovateCorp",style: TextStyle(fontFamily: appFontFamily,color: AppColor.white,fontSize: 12,fontWeight: FontWeight.w500),),
                 ],
               ),
             );
-          }, separatorBuilder: (BuildContext context, int index) { return SizedBox(width: 10,); },),
+          }, separatorBuilder: (BuildContext context, int index) { return const SizedBox(width: 10,); },),
       ),
     );
   }
@@ -523,7 +521,7 @@ class _HomeState extends State<Home> {
         width: 127,
         decoration: BoxDecoration(
             color: AppColor.primaryColor,
-            borderRadius: BorderRadius.all(Radius.circular(8))
+            borderRadius: const BorderRadius.all(Radius.circular(8))
         ),
         child: Center(child: Text("View Details",style: AppThemes.titleTextStyle().copyWith(color: AppColor.white,fontSize: 17),)),
       ),
@@ -544,9 +542,9 @@ class _HomeState extends State<Home> {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
-            borderRadius: BorderRadius.all(Radius.circular(8))
+            borderRadius: const BorderRadius.all(Radius.circular(8))
         ),
-        child: Center(child: Text("Let\'s Go",style: AppThemes.titleTextStyle().copyWith(color: AppColor.white,fontSize: 17),)),
+        child: Center(child: Text("Let's Go",style: AppThemes.titleTextStyle().copyWith(color: AppColor.white,fontSize: 17),)),
       ),
     );
   }
@@ -555,7 +553,7 @@ class _HomeState extends State<Home> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("• ", style: TextStyle(fontSize: 20)),
+        const Text("• ", style: TextStyle(fontSize: 20)),
         Expanded(child: text),
       ],
     );

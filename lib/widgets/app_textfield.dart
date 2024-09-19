@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gradient_borders/input_borders/gradient_outline_input_border.dart';
 import 'package:piwotapp/constants/font_family.dart';
-
 import '../constants/colors.dart';
 
 class AppTextField extends StatelessWidget {
@@ -33,9 +31,9 @@ class AppTextField extends StatelessWidget {
           hintText: hintText,
           labelText: labelText,
           labelStyle: TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
-          hintStyle: TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
+          hintStyle: const TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
 
-          contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+          contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
           focusedBorder:  OutlineInputBorder(
               borderRadius: BorderRadius.circular(10.0),
               borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
@@ -44,8 +42,8 @@ class AppTextField extends StatelessWidget {
               borderRadius: BorderRadius.circular(10.0),
               borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
           ),
-          errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide(color: Colors.red, width: 2.0)),
-          focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide(color: Colors.red, width: 2.0)),
+          errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: const BorderSide(color: Colors.red, width: 2.0)),
+          focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: const BorderSide(color: Colors.red, width: 2.0)),
         ),
       ),
     );

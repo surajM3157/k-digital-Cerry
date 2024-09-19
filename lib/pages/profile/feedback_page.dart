@@ -1,10 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:gradient_borders/input_borders/gradient_outline_input_border.dart';
 import 'package:piwotapp/widgets/app_button.dart';
-import 'package:piwotapp/widgets/app_textfield.dart';
 import 'package:piwotapp/widgets/app_themes.dart';
 import '../../constants/colors.dart';
 import '../../constants/font_family.dart';
@@ -44,7 +41,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: GradientText(text: "Share Your Feedback",style: AppThemes.titleTextStyle().copyWith(fontSize: 20,fontWeight: FontWeight.w600), gradient: LinearGradient(
@@ -54,12 +51,12 @@ class _FeedbackPageState extends State<FeedbackPage> {
               ),
               ),
             ),
-            SizedBox(height: 10,),
+            const SizedBox(height: 10,),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Text("We would love to hear your feedback! Let us know how we’re doing or if you have any suggestions.",style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400,fontFamily: appFontFamily,color: AppColor.mediumGrey),),
             ),
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: GradientText(text:"How was your Experience",style: AppThemes.titleTextStyle().copyWith(fontSize: 20,fontWeight: FontWeight.w600),gradient: LinearGradient(
@@ -68,12 +65,12 @@ class _FeedbackPageState extends State<FeedbackPage> {
                 end: Alignment.centerRight,
               ),),
             ),
-            SizedBox(height: 10,),
+            const SizedBox(height: 10,),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: ratingsRow(),
             ),
-            SizedBox(height: 30,),
+            const SizedBox(height: 30,),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: TextFormField(
@@ -84,9 +81,9 @@ class _FeedbackPageState extends State<FeedbackPage> {
                   alignLabelWithHint: true,
                   hintText: "Enter your feedback",
                   labelText: "Feedback",
-                  labelStyle: TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
-                  hintStyle: TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
-                  contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                  labelStyle: const TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
+                  hintStyle: const TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
+                  contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
                   focusedBorder:  OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
                       borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
@@ -95,12 +92,12 @@ class _FeedbackPageState extends State<FeedbackPage> {
                       borderRadius: BorderRadius.circular(10.0),
                       borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
                   ),
-                  errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide(color: Colors.red, width: 2.0)),
-                  focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: BorderSide(color: Colors.red, width: 2.0)),
+                  errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: const BorderSide(color: Colors.red, width: 2.0)),
+                  focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: const BorderSide(color: Colors.red, width: 2.0)),
                 ),
               ),
             ),
-            SizedBox(height: 30,),
+            const SizedBox(height: 30,),
             AppButton(title: "Submit", onTap: (){})
           ],
         ),
@@ -130,8 +127,8 @@ class _FeedbackPageState extends State<FeedbackPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text("😢",style: TextStyle(fontSize: 30)),
-                SizedBox(height: 5,),
+                const Text("😢",style: TextStyle(fontSize: 30)),
+                const SizedBox(height: 5,),
                 Text("Terrible",style: TextStyle(fontSize: 12,fontWeight: FontWeight.w400,fontFamily: appFontFamily,color: AppColor.black),)
               ],
             ),
@@ -155,8 +152,8 @@ class _FeedbackPageState extends State<FeedbackPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text("🙁",style: TextStyle(fontSize: 30)),
-                SizedBox(height: 5,),
+                const Text("🙁",style: TextStyle(fontSize: 30)),
+                const SizedBox(height: 5,),
                 Text("Bad",style: TextStyle(fontSize: 12,fontWeight: FontWeight.w400,fontFamily: appFontFamily,color: AppColor.black),)
               ],
             ),
@@ -180,8 +177,8 @@ class _FeedbackPageState extends State<FeedbackPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text("🙂",style: TextStyle(fontSize: 30)),
-                SizedBox(height: 5,),
+                const Text("🙂",style: TextStyle(fontSize: 30)),
+                const SizedBox(height: 5,),
                 Text("Good",style: TextStyle(fontSize: 12,fontWeight: FontWeight.w400,fontFamily: appFontFamily,color: AppColor.black),)
               ],
             ),
@@ -205,8 +202,8 @@ class _FeedbackPageState extends State<FeedbackPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text("😊",style: TextStyle(fontSize: 30)),
-                SizedBox(height: 5,),
+                const Text("😊",style: TextStyle(fontSize: 30)),
+                const SizedBox(height: 5,),
                 Text("Awesome",style: TextStyle(fontSize: 12,fontWeight: FontWeight.w400,fontFamily: appFontFamily,color: AppColor.black),)
               ],
             ),

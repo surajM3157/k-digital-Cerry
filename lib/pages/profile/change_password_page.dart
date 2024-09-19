@@ -6,7 +6,6 @@ import '../../constants/font_family.dart';
 import '../../constants/images.dart';
 import '../../widgets/app_button.dart';
 import '../../widgets/app_textfield.dart';
-import '../../widgets/app_themes.dart';
 import '../../widgets/gradient_text.dart';
 
 class ChangePasswordPage extends StatefulWidget {
@@ -18,9 +17,9 @@ class ChangePasswordPage extends StatefulWidget {
 
 class _ChangePasswordPageState extends State<ChangePasswordPage> {
 
-  TextEditingController _currentPasswordController = TextEditingController();
-  TextEditingController _newPasswordController = TextEditingController();
-  TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _currentPasswordController = TextEditingController();
+  final TextEditingController _newPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
   bool isCurrent = true;
   bool isNew = true;
   bool isConfirm = true;
@@ -46,18 +45,18 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
             Center(
-              child: GradientText(text: "Change Password", style: TextStyle(fontWeight: FontWeight.w600,fontSize: 20,fontFamily: appFontFamily), gradient:LinearGradient(
+              child: GradientText(text: "Change Password", style: const TextStyle(fontWeight: FontWeight.w600,fontSize: 20,fontFamily: appFontFamily), gradient:LinearGradient(
                 colors: [AppColor.primaryColor, AppColor.red],
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
               ),),
             ),
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
             AppTextField(
               obscureText: isCurrent,
-              hintText: "Type Current Password", controller: _currentPasswordController,prefixIcon: Icon(Icons.lock_outline,color: Colors.black,),suffixIcon: GestureDetector(
+              hintText: "Type Current Password", controller: _currentPasswordController,prefixIcon: const Icon(Icons.lock_outline,color: Colors.black,),suffixIcon: GestureDetector(
               onTap: (){
                 isCurrent = !isCurrent;
                 setState(() {
@@ -69,7 +68,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
 
             AppTextField(
               obscureText: isNew,
-              hintText: "Type New Password", controller: _newPasswordController,prefixIcon: Icon(Icons.lock_outline,color: Colors.black,),suffixIcon: GestureDetector(
+              hintText: "Type New Password", controller: _newPasswordController,prefixIcon: const Icon(Icons.lock_outline,color: Colors.black,),suffixIcon: GestureDetector(
               onTap: (){
                 isNew = !isNew;
                 setState(() {
@@ -80,7 +79,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
             const SizedBox(height: 20,),
             AppTextField(
               obscureText: isConfirm,
-              hintText: "Re-enter New Password", controller: _confirmPasswordController,prefixIcon: Icon(Icons.lock_outline,color: Colors.black,),suffixIcon: GestureDetector(
+              hintText: "Re-enter New Password", controller: _confirmPasswordController,prefixIcon: const Icon(Icons.lock_outline,color: Colors.black,),suffixIcon: GestureDetector(
               onTap: (){
                 isConfirm = !isConfirm;
                 setState(() {
