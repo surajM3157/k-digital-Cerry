@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:piwotapp/constants/colors.dart';
@@ -15,6 +16,9 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+
+  bool isNotificationOn = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,8 +49,9 @@ class _ProfilePageState extends State<ProfilePage> {
 
                 const SizedBox(height: 80,),
                 Text("Victor Alvarez",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16,color: AppColor.primaryColor,fontFamily: appFontFamily),),
+                const SizedBox(height: 4,),
                 Text("victoralvatez@gmail.com",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 16,color: AppColor.black,fontFamily: appFontFamily),),
-                const SizedBox(height: 7,),
+                const SizedBox(height: 16,),
                 GestureDetector(
                   onTap: (){
                     Get.toNamed(Routes.editProfile);
@@ -61,7 +66,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SvgPicture.asset(Images.editIcon,color: AppColor.white,),
+                          SvgPicture.asset(Images.editIcon,color: AppColor.white,height: 12,width: 12,),
                           const SizedBox(width: 5,),
                           Text("Edit Profile",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 12,color: AppColor.white,fontFamily: appFontFamily),),
                         ],
@@ -69,13 +74,13 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 20,),
+                const SizedBox(height: 16,),
                 GestureDetector(
                   onTap: (){
                     Get.toNamed(Routes.ticket);
                   },
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
+                    padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 18),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -83,7 +88,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           children: [
                             SvgPicture.asset(Images.ticketIcon),
                             const SizedBox(width: 20,),
-                            Text("Ticket",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400,color: AppColor.primaryColor,fontFamily: appFontFamily),)
+                            Text("QR Code Badge",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400,color: AppColor.primaryColor,fontFamily: appFontFamily),)
                           ],
                         ),
                         Icon(Icons.arrow_forward_ios,size: 16,color: AppColor.primaryColor,)
@@ -97,7 +102,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     Get.toNamed(Routes.contactUs);
                   },
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
+                    padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 18),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -119,7 +124,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     Get.toNamed(Routes.feedback);
                   },
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
+                    padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 18),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -136,12 +141,114 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
                 Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          SvgPicture.asset(Images.profileNotificationIcon),
+                          const SizedBox(width: 20,),
+                          Text("Notification",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400,color: AppColor.primaryColor,fontFamily: appFontFamily),)
+                        ],
+                      ),
+                      Transform.scale(
+                        scale: 0.7,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20.0),
+                            color: isNotificationOn
+                                ? AppColor.primaryColor
+                                : AppColor.primaryColor,
+                          ),
+                          child: CupertinoSwitch(
+                            value: isNotificationOn,
+                            activeColor: AppColor.white,
+                            trackColor: AppColor.white,
+                            thumbColor: AppColor.primaryColor,
+                            onChanged: (v) => setState(() {
+                              isNotificationOn = v;
+                            }),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
+                GestureDetector(
+                  onTap: (){
+                    Get.toNamed(Routes.feedback);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 18),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            SvgPicture.asset(Images.privacyPolicyIcon),
+                            const SizedBox(width: 20,),
+                            Text("Privacy Policy",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400,color: AppColor.primaryColor,fontFamily: appFontFamily),)
+                          ],
+                        ),
+                        Icon(Icons.arrow_forward_ios,size: 16,color: AppColor.primaryColor,)
+                      ],
+                    ),
+                  ),
+                ),
+                Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
+                GestureDetector(
+                  onTap: (){
+                    Get.toNamed(Routes.feedback);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 18),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            SvgPicture.asset(Images.termsConditionIcon),
+                            const SizedBox(width: 20,),
+                            Text("Terms and Conditions",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400,color: AppColor.primaryColor,fontFamily: appFontFamily),)
+                          ],
+                        ),
+                        Icon(Icons.arrow_forward_ios,size: 16,color: AppColor.primaryColor,)
+                      ],
+                    ),
+                  ),
+                ),
+                Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
+                GestureDetector(
+                  onTap: (){
+                    Get.toNamed(Routes.feedback);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 18),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            SvgPicture.asset(Images.faqIcon),
+                            const SizedBox(width: 20,),
+                            Text("Frequently Asked Questions",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400,color: AppColor.primaryColor,fontFamily: appFontFamily),)
+                          ],
+                        ),
+                        Icon(Icons.arrow_forward_ios,size: 16,color: AppColor.primaryColor,)
+                      ],
+                    ),
+                  ),
+                ),
+                Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
                 GestureDetector(
                   onTap: (){
                     logoutAlert();
                   },
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
+                    padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 18),
                     child: Row(
                       children: [
                         SvgPicture.asset(Images.logoutIcon,color: AppColor.red,),
@@ -158,14 +265,15 @@ class _ProfilePageState extends State<ProfilePage> {
             Container(
               width: 200,height: 200,
               margin: const EdgeInsets.only(left: 90,top: 110),
+              padding: EdgeInsets.all(50),
               decoration: BoxDecoration(
                   color: AppColor.white,
-                  border: Border.all(color: AppColor.white),
+                  border: Border.all(color: AppColor.grey),
                   borderRadius: const BorderRadius.all(Radius.circular(100))
               ),
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(200),
-                  child: Image.asset(Images.profileImg,height: 192,width: 192,fit: BoxFit.fill,)),
+                  child: Image.asset(Images.profileDefault,height: 64,width: 64,fit: BoxFit.fill,)),
             ),
             GestureDetector(
               onTap: (){

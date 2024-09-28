@@ -58,6 +58,23 @@ class Images{
   static String profile5 = 'assets/images/profile/profile5.png';
   static String profile6 = 'assets/images/profile/profile6.png';
   static String profileImg = 'assets/images/profile/profile_img.png';
+  static String profileDefault = 'assets/images/profile/profile_default.png';
+  static String profileNotificationIcon = 'assets/images/profile/notification_icon.svg';
+  static String privacyPolicyIcon = 'assets/images/profile/privacy_policy_icon.svg';
+  static String faqIcon = 'assets/images/profile/faq_icon.svg';
+  static String termsConditionIcon = 'assets/images/profile/terms_condition_icon.svg';
+
+  //about
+  static String attendeesIcon = "assets/images/about/attendees_icon.svg";
+  static String conferenceIcon = "assets/images/about/conference_icon.svg";
+  static String aboutSpeakersIcon = "assets/images/about/about_speakers_icon.svg";
+  static String firesidesIcon = "assets/images/about/firesides_icon.svg";
+  static String startupConclaveIcon = "assets/images/about/startup_conclave_icon.svg";
+  static String startupIcon = "assets/images/about/startup_icon.svg";
+  static String investorsIcon = "assets/images/about/investors_icon.svg";
+  static String hackathonIcon = "assets/images/about/hackathon_icon.svg";
+  static String exhibitorsIcon = "assets/images/about/exhibitors_icon.svg";
+  static String representativeIcon = "assets/images/about/representative_icon.svg";
 
   //icons
   static String qrCode = 'assets/images/icons/qr_code.png';
@@ -79,6 +96,8 @@ class Images{
   static String sessionSelectedIcon = 'assets/images/icons/session_selected_icon.svg';
   static String delegatesUnselectedIcon = 'assets/images/icons/delegates_unselected_icon.svg';
   static String delegatesSelectedIcon = 'assets/images/icons/delegates_selected_icon.svg';
+  static String chatIcon = 'assets/images/icons/chat_icon.svg';
+  static String aboutIcon = 'assets/images/icons/about_icon.svg';
   static String ticketIcon = 'assets/images/icons/ticket_icon.svg';
   static String contactIcon = 'assets/images/icons/contact_icon.svg';
   static String feedbackIcon = 'assets/images/icons/feedback_icon.svg';
@@ -98,5 +117,10 @@ class Images{
   static String sponsorIcon = 'assets/images/icons/sponsor_icon.svg';
   static String crossArrowIcon = 'assets/images/icons/cross_arrow_icon.svg';
   static String cancelIcon = 'assets/images/icons/cancel_icon.png';
+  static String piwotAgendaIcon = 'assets/images/icons/piwot_agenda_icon.svg';
+  static String surveyIcon = 'assets/images/icons/survey_icon.svg';
+  static String floorPlanIcon = 'assets/images/icons/floor_plan_icon.svg';
+  static String homeConferenceIcon = 'assets/images/icons/home_conference_icon.svg';
+  static String homeSpeakerIcon = 'assets/images/icons/home_speaker_icon.svg';
 
 }

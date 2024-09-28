@@ -36,7 +36,7 @@ static  Widget buildBulletPoint(Widget text,) {
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       const Text("• ", style: TextStyle(fontSize: 20)),
-      text,
+      Expanded(child: text),
     ],
   );
 }

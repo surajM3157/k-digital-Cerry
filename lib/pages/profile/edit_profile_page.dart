@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:piwotapp/widgets/app_button.dart';
 import 'package:piwotapp/widgets/app_textfield.dart';
 import '../../constants/colors.dart';
@@ -25,18 +26,36 @@ class _EditProfilPageState extends State<EditProfilPage> {
   TextEditingController companyController = TextEditingController();
   TextEditingController designationController = TextEditingController();
   TextEditingController dobController = TextEditingController();
+  TextEditingController locationController = TextEditingController();
 
   final picker = ImagePicker();
   File? _image;
   bool tapCamera = false;
   bool tapGallery = false;
+  String? _gender;
+  String? _isAlumni;
 
-  var items = [
-    'Industry 1',
-    'Industry 2',
-    'Industry 3',
-    'Industry 4',
-    'Industry 5',
+  String selectedPrefix ="Mr";
+  String selectedCode = "+91";
+
+  var countryItems = [
+    'India',
+    'USA',
+    'Japan',
+    'South Korea',
+    'Nepal',
+  ];
+
+  var iitItems =[
+    "IIT Delhi","IIT Mumbai", "IIT Chennai", "IIT Kharagpur", "IIT Guwahati"
+  ];
+
+  var iitBatchItems =[
+    "1970","1971","1972","1973",
+    "1974","1975","1976","1977",
+    "1978","1979","1980","1981",
+    "1982","1983","1984","1985",
+    "1986","1987","1988","1989"
   ];
 
   var gender = [
@@ -51,6 +70,7 @@ class _EditProfilPageState extends State<EditProfilPage> {
         child: Stack(
           children: [
             Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
                   height: 250,width: Get.width,
@@ -71,10 +91,48 @@ class _EditProfilPageState extends State<EditProfilPage> {
                   ),
                 ),
                 const SizedBox(height: 80,),
-                AppTextField(hintText: "Type your Name",controller: nameController,labelText:"Name"),
-                const SizedBox(height: 20,),
+                AppTextField(hintText: "Type your Name",controller: nameController,labelText:"Name",prefixIcon: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton<String>(
+                        value: selectedPrefix,
+                        items: ['Mr', 'Ms', 'Mrs'].map((String prefix) {
+                          return DropdownMenuItem<String>(
+                            value: prefix,
+                            child: Text(prefix,style: TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),),
+                          );
+                        }).toList(),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            selectedPrefix = newValue!;
+                          });
+                        },
+                      ),
+                    )),),
+                const SizedBox(height: 25,),
                 AppTextField(hintText: "Type your Email",controller: emailController,labelText:"Email"),
-                const SizedBox(height: 20,),
+                const SizedBox(height: 25,),
+                AppTextField(hintText: "Type Phone number",controller: emailController,labelText:"Phone Number",prefixIcon: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton<String>(
+                        value: selectedCode,
+                        items: ['+91', '+1', '+3'].map((String prefix) {
+                          return DropdownMenuItem<String>(
+                            value: prefix,
+                            child: Text(prefix,style: TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),),
+                          );
+                        }).toList(),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            selectedCode = newValue!;
+                          });
+                        },
+                      ),
+                    )),),
+                const SizedBox(height: 25,),
+                genderWidget(),
+                const SizedBox(height: 25,),
                 AppTextField(
                     readOnly: true,
                     onTap: () async {
@@ -109,61 +167,17 @@ class _EditProfilPageState extends State<EditProfilPage> {
                       } else {}
                     },
                     hintText: "Type your DOB",controller: dobController,labelText:"DOB"),
-                const SizedBox(height: 20,),
-                Row(
-                  children: [
-                    Flexible(
-                      flex: 1,
-                        child: AppTextField(hintText: "Location",controller: emailController,labelText:"Location")),
-                    Flexible(
-                      flex: 1,
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 20),
-                        child: DropdownButtonFormField<String>(
-                          items: gender.map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                          onChanged: (value) {},
-                          dropdownColor: AppColor.white,
-                          iconSize: 30,
-                          decoration: InputDecoration(
-                            hintText: "Gender",
-                            labelText: "Gender",
-                            labelStyle:  TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
-                            hintStyle: const TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
-                            contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                                borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
-                            ),
-                            errorBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide: const BorderSide(color: Colors.red, width: 2.0),
-                            ),
-                            focusedErrorBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide: const BorderSide(color: Colors.red, width: 2.0),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20,),
+                const SizedBox(height: 25,),
+                AppTextField(hintText: "Type your Designation",controller: designationController,labelText:"Designation"),
+                const SizedBox(height: 25,),
                 AppTextField(hintText: "Type your Company Name",controller: companyController,labelText:"Company Name"),
-                const SizedBox(height: 20,),
+                const SizedBox(height: 25,),
+                AppTextField(hintText: "Type your city",controller: locationController,labelText:"Town/City"),
+                const SizedBox(height: 25,),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: DropdownButtonFormField<String>(
-                    items: items.map<DropdownMenuItem<String>>((String value) {
+                    items: countryItems.map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
                         child: Text(value),
@@ -173,8 +187,8 @@ class _EditProfilPageState extends State<EditProfilPage> {
                     dropdownColor: AppColor.white,
                     iconSize: 30,
                     decoration: InputDecoration(
-                      hintText: "Select your Industry",
-                      labelText: "Industry",
+                      hintText: "Select your Country",
+                      labelText: "Country/Region",
                       labelStyle:  TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
                       hintStyle: const TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
                       contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
@@ -197,24 +211,111 @@ class _EditProfilPageState extends State<EditProfilPage> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 20,),
-                AppTextField(hintText: "Type your Designation",controller: designationController,labelText:"Designation"),
-                const SizedBox(height: 20,),
+                const SizedBox(height: 25,),
+                isAlumniWidget(),
+                const SizedBox(height: 25,),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Text("If Yes, Please Select Your IIT: ",style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,color: AppColor.primaryColor,fontSize: 14),),
+                ),
+                SizedBox(height: 10,),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: DropdownButtonFormField<String>(
+                    items: iitItems.map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (value) {},
+                    dropdownColor: AppColor.white,
+                    iconSize: 30,
+                    decoration: InputDecoration(
+                      hintText: "Select your IIT",
+                      labelText: "IIT",
+                      labelStyle:  TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
+                      hintStyle: const TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
+                      contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                      focusedBorder:  OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
+                      ),
+                      enabledBorder:  OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: const BorderSide(color: Colors.red, width: 2.0),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: const BorderSide(color: Colors.red, width: 2.0),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 25,),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: DropdownButtonFormField<String>(
+                    items: iitBatchItems.map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (value) {},
+                    dropdownColor: AppColor.white,
+                    iconSize: 30,
+                    decoration: InputDecoration(
+                      hintText: "Select your batch",
+                      labelText: "Batch",
+                      labelStyle:  TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
+                      hintStyle: const TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
+                      contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                      focusedBorder:  OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
+                      ),
+                      enabledBorder:  OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: const BorderSide(color: Colors.red, width: 2.0),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: const BorderSide(color: Colors.red, width: 2.0),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 30,),
                 AppButton(title: "Update", onTap: (){}),
-                const SizedBox(height: 20,),
+                const SizedBox(height: 30,),
               ],
             ),
-            Container(
-              width: 188,height: 188,
-              margin: const EdgeInsets.only(left: 100,top: 120),
-              decoration: BoxDecoration(
-                  color: AppColor.white,
-                  border: Border.all(color: AppColor.white),
-                  borderRadius: const BorderRadius.all(Radius.circular(100))
+            GestureDetector(
+              onTap: (){
+                pickImageFromCameraAndGallery();
+              },
+              child: Container(
+                width: 188,height: 188,
+                margin: const EdgeInsets.only(left: 100,top: 120),
+                padding: _image != null?null:EdgeInsets.all(50),
+                decoration: BoxDecoration(
+                    color: AppColor.white,
+                    border: Border.all(color: AppColor.grey),
+                    borderRadius: const BorderRadius.all(Radius.circular(100))
+                ),
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(200),
+                    child: _image != null?Image.file(_image!, fit: BoxFit.fill,):Image.asset(Images.profileDefault,height: 64,width: 64,fit: BoxFit.cover,)),
               ),
-              child: ClipRRect(
-                  borderRadius: BorderRadius.circular(200),
-                  child: Image.asset(Images.profileImg,height: 188,width: 188,fit: BoxFit.fill,)),
             ),
             GestureDetector(
               onTap: (){
@@ -242,6 +343,113 @@ class _EditProfilPageState extends State<EditProfilPage> {
     );
   }
 
+  Widget isAlumniWidget(){
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 17),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("Are you an alumnis of any IIT?",style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,color: AppColor.primaryColor,fontSize: 14),),
+          Row(
+            children: [
+              Row(
+                children: [
+                  Radio<String>(
+                    value: 'Yes',
+                    activeColor: AppColor.primaryColor,
+                    groupValue: _isAlumni,
+                    onChanged: (String? value) {
+                      setState(() {
+                        _isAlumni = value;
+                      });
+                    },
+                  ),
+                  Text('Yes',style: TextStyle(fontSize: 14,fontWeight: FontWeight.w600,fontFamily: appFontFamily,color: AppColor.black),),
+                ],
+              ),
+              Row(
+                children: [
+                  Radio<String>(
+                    value: 'No',
+                    activeColor: AppColor.primaryColor,
+                    groupValue: _isAlumni,
+                    onChanged: (String? value) {
+                      setState(() {
+                        _isAlumni = value;
+                      });
+                    },
+                  ),
+                  Text('No',style: TextStyle(fontSize: 14,fontWeight: FontWeight.w600,fontFamily: appFontFamily,color: AppColor.black),),
+                ],
+              ),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget genderWidget(){
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 17),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("Gender",style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,color: AppColor.primaryColor,fontSize: 14),),
+         Row(
+           children: [
+             Row(
+               children: [
+                 Radio<String>(
+                   value: 'Male',
+                   activeColor: AppColor.primaryColor,
+                   groupValue: _gender,
+                   onChanged: (String? value) {
+                     setState(() {
+                       _gender = value;
+                     });
+                   },
+                 ),
+                 Text('Male',style: TextStyle(fontSize: 14,fontWeight: FontWeight.w600,fontFamily: appFontFamily,color: AppColor.black),),
+               ],
+             ),
+             Row(
+               children: [
+                 Radio<String>(
+                   value: 'Female',
+                   activeColor: AppColor.primaryColor,
+                   groupValue: _gender,
+                   onChanged: (String? value) {
+                     setState(() {
+                       _gender = value;
+                     });
+                   },
+                 ),
+                 Text('Female',style: TextStyle(fontSize: 14,fontWeight: FontWeight.w600,fontFamily: appFontFamily,color: AppColor.black),),
+               ],
+             ),
+             Row(
+               children: [
+                 Radio<String>(
+                   value: 'Other',
+                   activeColor: AppColor.primaryColor,
+                   groupValue: _gender,
+                   onChanged: (String? value) {
+                     setState(() {
+                       _gender = value;
+                     });
+                   },
+                 ),
+                 Text('Other',style: TextStyle(fontSize: 14,fontWeight: FontWeight.w600,fontFamily: appFontFamily,color: AppColor.black),),
+               ],
+             ),
+           ],
+         )
+        ],
+      ),
+    );
+  }
+  
   pickImageFromCameraAndGallery() {
     return showModalBottomSheet(
         shape: const RoundedRectangleBorder(
@@ -350,62 +558,3 @@ class _EditProfilPageState extends State<EditProfilPage> {
   }
 }
 
-
-
-class GradientDropdownFormField extends StatelessWidget {
-  final List<String> items;
-
-  GradientDropdownFormField({Key? key, required this.items}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              gradient: const LinearGradient(
-                colors: [Colors.blue, Colors.purple], // Gradient colors
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-            ),
-            child: Container(
-              padding: const EdgeInsets.all(2), // Padding for the gradient border thickness
-              decoration: BoxDecoration(
-                color: Colors.white, // Background color for Dropdown
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: DropdownButtonFormField<String>(
-                items: items.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-                onChanged: (value) {},
-                dropdownColor: Colors.white,
-                iconSize: 30,
-                decoration: InputDecoration(
-                  hintText: "Select your Industry",
-                  labelText: "Industry",
-                  labelStyle: const TextStyle(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 12),
-                  hintStyle: const TextStyle(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 14),
-                  fillColor: Colors.white,
-                  filled: true,
-                  contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                    borderSide: BorderSide.none, // Border is handled by the container
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}

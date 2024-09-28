@@ -108,7 +108,7 @@ class _SessionState extends State<Session> {
             ),
             borderRadius: const BorderRadius.all(Radius.circular(8))
         ),
-        child: Center(child: Text("Join Session",style: AppThemes.titleTextStyle().copyWith(color: AppColor.white,fontSize: 17),)),
+        child: Center(child: Text("View Details",style: AppThemes.titleTextStyle().copyWith(color: AppColor.white,fontSize: 17),)),
       ),
     );
   }
