@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:piwotapp/pages/session_details_page.dart';
 import 'package:piwotapp/widgets/app_themes.dart';
 
+import '../../constants/font_family.dart';
+
 
 class Session extends StatefulWidget {
   const Session({super.key});
@@ -21,14 +23,129 @@ class _SessionState extends State<Session> {
     SessionModel(title: "Innovation in Action: Transforming Ideas to Reality", image: Images.sessionBanner2, date: "16 August 2024", time: "10:00 am to 12:00 am"),
     SessionModel(title: "Future Tech Trends - The Next Wave of Innovation", image: Images.sessionBanner3, date: "16 August 2024", time: "10:00 am to 12:00 am"),
   ];
-  
+
+  List<String> items = [];
+
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        itemCount: sessions.length,
-        itemBuilder: (context,index){
-      return sessionItem(sessions[index]);
-    });
+    return Column(
+      children: [
+        const SizedBox(height: 20,),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+
+            Container(
+              height: 35,width: 99,
+              decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(8)),
+                  gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red],
+                      begin: Alignment.centerLeft,end: Alignment.centerRight
+                  )
+              ),
+              child: Center(
+                child: Text("17 Jan",style: TextStyle(
+                    fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.white
+                ),),
+              ),
+            ),
+            Container(
+              height: 35,width: 99,
+              padding: const EdgeInsets.all(1),
+              decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(9)),
+                  gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red],
+                      begin: Alignment.centerLeft,end: Alignment.centerRight
+                  )
+              ),
+              child: Container(
+                height: 35,width: 99,
+                decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(8)),
+                    color: AppColor.white
+                ),
+                child: Center(
+                  child: Text("18 Jan",style: TextStyle(
+                      fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.FF161616
+                  ),),
+                ),
+              ),
+            ),
+            Container(
+              height: 35,width: 99,
+              padding: const EdgeInsets.all(1),
+              decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(9)),
+                  gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red],
+                      begin: Alignment.centerLeft,end: Alignment.centerRight
+                  )
+              ),
+              child: Container(
+                height: 35,width: 99,
+                decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(8)),
+                    color: AppColor.white
+                ),
+                child: Center(
+                  child: Text("19 Jan",style: TextStyle(
+                      fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.FF161616
+                  ),),
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 20,),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: DropdownButtonFormField<String>(
+            iconEnabledColor: AppColor.primaryColor,
+            iconDisabledColor: AppColor.primaryColor,
+            items: items.map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+            onChanged: (value) {},
+            iconSize: 30,
+            decoration: InputDecoration(
+              hintText: "Topics",
+              labelText: "Topics",
+              fillColor: AppColor.FFD9D6FD.withOpacity(0.28),
+              filled: true,
+              labelStyle:  TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 16),
+              hintStyle:  TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 16),
+              contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+              focusedBorder:  OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
+              ),
+              enabledBorder:  OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
+              ),
+              errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: const BorderSide(color: Colors.red, width: 2.0),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: const BorderSide(color: Colors.red, width: 2.0),
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 20,),
+        Expanded(
+          child: ListView.builder(
+              itemCount: sessions.length,
+              itemBuilder: (context,index){
+            return sessionItem(sessions[index]);
+          }),
+        ),
+      ],
+    );
   }
 
 

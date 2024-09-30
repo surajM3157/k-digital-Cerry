@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:piwotapp/constants/colors.dart';
 import 'package:get/get.dart';
+import 'package:piwotapp/widgets/app_textfield.dart';
 import '../../constants/font_family.dart';
 import '../../constants/images.dart';
 import '../../route/route_names.dart';
@@ -29,28 +30,47 @@ class _DelegatesState extends State<Delegates> {
     ChatModel(name: "James parke", message: "Hi", profile: Images.profile4,isInvited: false),
     ChatModel(name: "Lucas anderson", message: "Good Morning", profile: Images.profile5,isInvited: false),
   ];
-  
+
+  TextEditingController searchDelegateController = TextEditingController();
+  TextEditingController searchChatController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return TabBarView(
       controller: widget.tabController,
         children: [
-          ListView.separated(itemBuilder: (context,index){
-            return Padding(
-              padding: index ==0? const EdgeInsets.only(top: 20):index ==delegates.length-1?const EdgeInsets.only(bottom: 20):EdgeInsets.zero,
-              child: inviteDelegateList(delegates[index]),
-            );
-          }, separatorBuilder: (context,index){
-            return const SizedBox.shrink();
-          }, itemCount: delegates.length),
-          ListView.separated(itemBuilder: (context,index){
-            return Padding(
-              padding: index ==0? const EdgeInsets.only(top: 20):index ==delegates.length-1?const EdgeInsets.only(bottom: 20):EdgeInsets.zero,
-              child: chatListItem(name: delegates[index].name, message: delegates[index].message, profile: delegates[index].profile),
-            );
-          }, separatorBuilder: (context, index){
-            return const SizedBox(height: 20,);
-          }, itemCount: delegates.length),
+          Column(
+            children: [
+              const SizedBox(height: 20,),
+              AppTextField(hintText: "Search Delegates",controller: searchDelegateController,prefixIcon: Icon(Icons.search,color: AppColor.FF9B9B9B,),),
+              Expanded(
+                child: ListView.separated(itemBuilder: (context,index){
+                  return Padding(
+                    padding: index ==0? const EdgeInsets.only(top: 16):index ==delegates.length-1?const EdgeInsets.only(bottom: 16):EdgeInsets.zero,
+                    child: inviteDelegateList(delegates[index]),
+                  );
+                }, separatorBuilder: (context,index){
+                  return const SizedBox.shrink();
+                }, itemCount: delegates.length),
+              ),
+            ],
+          ),
+          Column(
+            children: [
+              const SizedBox(height: 20,),
+              AppTextField(hintText: "Search Delegates",controller: searchChatController,prefixIcon: Icon(Icons.search,color: AppColor.FF9B9B9B,),),
+              Expanded(
+                child: ListView.separated(itemBuilder: (context,index){
+                  return Padding(
+                    padding: index ==0? const EdgeInsets.only(top: 20):index ==delegates.length-1?const EdgeInsets.only(bottom: 20):EdgeInsets.zero,
+                    child: chatListItem(name: delegates[index].name, message: delegates[index].message, profile: delegates[index].profile),
+                  );
+                }, separatorBuilder: (context, index){
+                  return const SizedBox(height: 20,);
+                }, itemCount: delegates.length),
+              ),
+            ],
+          ),
           ListView.separated(itemBuilder: (context,index){
             return Padding(
               padding: index ==0? const EdgeInsets.only(top: 20):index ==delegates.length-1?const EdgeInsets.only(bottom: 20):EdgeInsets.zero,
@@ -175,7 +195,7 @@ class _DelegatesState extends State<Delegates> {
     return Container(
       height: 182,
       width: Get.width,
-      margin: const EdgeInsets.all(10),
+      margin: const EdgeInsets.symmetric(horizontal: 16,vertical: 10),
       decoration: BoxDecoration(
         color: AppColor.white,
           border: Border.all(color: AppColor.black.withOpacity(0.12)),

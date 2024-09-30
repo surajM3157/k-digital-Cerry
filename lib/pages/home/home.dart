@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:piwotapp/pages/home/home_page.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../constants/colors.dart';
 import '../../constants/font_family.dart';
@@ -86,14 +87,21 @@ class _HomeState extends State<Home> {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),),
-                GradientText(text: "View More",style: const TextStyle(fontSize: 12,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
-                  colors: [AppColor.primaryColor, AppColor.red],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),),
+                InkWell(
+                  onTap: (){
+                    Get.offAll(HomePage(bottomNavIndex: 4));
+                    print("to home page");
+                  },
+                  child: GradientText(text: "View More",style: const TextStyle(fontSize: 12,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
+                    colors: [AppColor.primaryColor, AppColor.red],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),),
+                ),
               ],
             ),
           ),
+          const SizedBox(height: 16,),
           aboutEvent(),
           const SizedBox(height: 16,),
           Container(
@@ -372,7 +380,61 @@ class _HomeState extends State<Home> {
               ),
             ),
           ),
+          Container(
+            width: Get.width,
+            margin: EdgeInsets.all(16),
+            height: 208,
+            padding: EdgeInsets.only(left: 16),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]),
+              borderRadius: BorderRadius.circular(8)
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Column(
+                  children: [
+                    SizedBox(height: 18,),
+                    SvgPicture.asset(Images.logo,height: 40,width: 116,),
+                    SizedBox(height: 50,),
+                    Text("PANIIT - 2025\nEvent",textAlign: TextAlign.center,style: TextStyle(
+                      fontWeight: FontWeight.w700,fontSize: 22,color: AppColor.white,fontFamily: appFontFamily
+                    ),)
+                  ],
+                ),
+                Image.asset(Images.bannerIcon),
+              ],
+            ),
+          ),
+          const SizedBox(height: 4,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SvgPicture.asset(Images.facebookIcon),
+              const SizedBox(width: 20,),
+              SvgPicture.asset(Images.instagramIcon),
+              const SizedBox(width: 20,),
+              SvgPicture.asset(Images.linkedinIcon),
+              const SizedBox(width: 20,),
+              SvgPicture.asset(Images.twitterIcon),
+            ],
+          ),
           const SizedBox(height: 20,),
+
+          Container(
+            width: Get.width,height: 52,
+            margin: EdgeInsets.symmetric(horizontal: 16),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(50),
+              gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])
+            ),
+            child: Center(
+              child: Text("Direction To Venue",style: TextStyle(fontFamily: appFontFamily,fontSize: 16,fontWeight: FontWeight.w600,color: AppColor.white),
+              ),
+            ),
+          ),
+          const SizedBox(height: 50,),
         ],
       ),
     );
@@ -440,85 +502,85 @@ class _HomeState extends State<Home> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-            padding: EdgeInsets.all(1),
+            padding: const EdgeInsets.all(1),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(9),
               gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])
             ),
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 16,vertical: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 16),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(9),
                 color: AppColor.white
               ),
               child: Column(
                 children: [
-                  GradientText(text: '113',style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 20), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]),),
-                  SizedBox(height: 5,),
-                  GradientText(text:"DAYS",style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 10), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]))
+                  GradientText(text: '113',style: const TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 20), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]),),
+                  const SizedBox(height: 5,),
+                  GradientText(text:"DAYS",style: const TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 10), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]))
                 ],
               ),
             ),
           ),
           Container(
-            padding: EdgeInsets.all(1),
+            padding: const EdgeInsets.all(1),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(9),
               gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])
             ),
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 16,vertical: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 16),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(9),
                 color: AppColor.white
               ),
               child: Column(
                 children: [
-                  GradientText(text:'23',style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 20), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])),
-                  SizedBox(height: 5,),
-                  GradientText(text:"HOURS",style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 10), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]))
+                  GradientText(text:'23',style: const TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 20), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])),
+                  const SizedBox(height: 5,),
+                  GradientText(text:"HOURS",style: const TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 10), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]))
                 ],
               ),
             ),
           ),
           Container(
-            padding: EdgeInsets.all(1),
+            padding: const EdgeInsets.all(1),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(9),
               gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])
             ),
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 16,vertical: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 16),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(9),
                 color: AppColor.white
               ),
               child: Column(
                 children: [
-                  GradientText(text:'60',style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 20), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])),
-                  SizedBox(height: 5,),
+                  GradientText(text:'60',style: const TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 20), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])),
+                  const SizedBox(height: 5,),
                   GradientText(text:"MINUTES",style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 10,color: AppColor.primaryColor), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]))
                 ],
               ),
             ),
           ),
           Container(
-            padding: EdgeInsets.all(1),
+            padding: const EdgeInsets.all(1),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(9),
               gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])
             ),
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 16,vertical: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 16),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(9),
                 color: AppColor.white
               ),
               child: Column(
                 children: [
-                  GradientText(text:'60',style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 20), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])),
-                  SizedBox(height: 5,),
-                  GradientText(text:"SECONDS",style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 10), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]))
+                  GradientText(text:'60',style: const TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 20), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])),
+                  const SizedBox(height: 5,),
+                  GradientText(text:"SECONDS",style: const TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 10), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]))
                 ],
               ),
             ),
@@ -534,66 +596,79 @@ class _HomeState extends State<Home> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
-            padding: EdgeInsets.all(1),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(9),
-                gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])
-            ),
+          GestureDetector(
+            onTap: (){
+              Get.offAll(HomePage(bottomNavIndex: 1));
+            },
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 30,vertical: 16),
+              padding: EdgeInsets.all(1),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(9),
-                  color: AppColor.white
+                  gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])
               ),
-              child: Column(
-                children: [
-                  SvgPicture.asset(Images.sponsorIcon),
-                  SizedBox(height: 10,),
-                  GradientText(text:"Delegates",style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 10), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]))
-                ],
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 30,vertical: 16),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(9),
+                    color: AppColor.white
+                ),
+                child: Column(
+                  children: [
+                    SvgPicture.asset(Images.sponsorIcon),
+                    SizedBox(height: 10,),
+                    GradientText(text:"Delegates",style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 10), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]))
+                  ],
+                ),
               ),
             ),
           ),
-          Container(
-            padding: EdgeInsets.all(1),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(9),
-                gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])
-            ),
+          GestureDetector(
+            onTap: (){
+              Get.offAll(HomePage(bottomNavIndex: 3));
+            },
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 30,vertical: 16),
+              padding: EdgeInsets.all(1),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(9),
-                  color: AppColor.white
+                  gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])
               ),
-              child: Column(
-                children: [
-                  SvgPicture.asset(Images.piwotAgendaIcon),
-                  SizedBox(height: 10,),
-                  GradientText(text:"Agenda",style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 10), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]))
-                ],
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 16),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(9),
+                    color: AppColor.white
+                ),
+                child: Column(
+                  children: [
+                    SvgPicture.asset(Images.piwotAgendaIcon),
+                    const SizedBox(height: 10,),
+                    GradientText(text:"Agenda",style: const TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 10), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]))
+                  ],
+                ),
               ),
             ),
           ),
-          Container(
-            padding: EdgeInsets.all(1),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(9),
-                gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])
-            ),
+          GestureDetector(
+            onTap: (){},
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 30,vertical: 16),
+              padding: EdgeInsets.all(1),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(9),
-                  color: AppColor.white
+                  gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])
               ),
-              child: Column(
-                children: [
-                  SvgPicture.asset(Images.floorPlanIcon),
-                  SizedBox(height: 10,),
-                  GradientText(text:"Floor Plan",style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 10), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]))
-                ],
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 16),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(9),
+                    color: AppColor.white
+                ),
+                child: Column(
+                  children: [
+                    SvgPicture.asset(Images.floorPlanIcon),
+                    const SizedBox(height: 10,),
+                    GradientText(text:"Floor Plan",style: const TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 10), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]))
+                  ],
+                ),
               ),
             ),
           ),
@@ -603,7 +678,32 @@ class _HomeState extends State<Home> {
   }
 
   Widget aboutEvent(){
-    return SizedBox();
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: SizedBox(
+        height: 160,
+        child: ListView.separated(
+          scrollDirection: Axis.horizontal,
+            itemBuilder: (context,index){
+          return Container(
+            height: 139,width: 139,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(9),
+              border: Border.all(color: AppColor.primaryColor)
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Image.asset(index==0?Images.homeConferenceIcon:index==1?Images.homeSpeakerIcon:Images.homeAttendanceIcon,height: 50,width: 50,),
+                SizedBox(height: 16,),
+                Text(index==0?"2 Days\nConference":index==1?"200\nSpeaker":"300\nAttendence",style: TextStyle(fontSize: 14,fontFamily: appFontFamily,fontWeight: FontWeight.w600,color: AppColor.primaryColor),textAlign: TextAlign.center,)
+              ],
+            ),
+          );
+        }, separatorBuilder: (BuildContext context, int index) { return SizedBox(width: 10,); }, itemCount: 3,),
+      ),
+    );
   }
 
   // Indicator widget
@@ -888,35 +988,30 @@ class _HomeState extends State<Home> {
           itemCount: 3,
           scrollDirection: Axis.horizontal,
           itemBuilder: (context,index){
-            return GestureDetector(
-              onTap: (){
-                Get.toNamed(Routes.speaker);
-              },
-              child: Container(
-                height: 150,
-                width: 173,
-                decoration: BoxDecoration(
-                    color: AppColor.secondaryColor,
-                    gradient: LinearGradient(
-                  colors: [AppColor.primaryColor, AppColor.red],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                    borderRadius: const BorderRadius.all(Radius.circular(15))
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(100),
-                        child: Image.asset(index ==0?Images.speaker1:index ==1?Images.speaker2:Images.speaker3,height: 80,width: 80,fit: BoxFit.fill,)),
-                    const SizedBox(height: 5,),
-                    Text(index==0?"Sophia thompson":index==1?"David Kim":"Dr. Rob Carter",style: TextStyle(fontFamily: appFontFamily,color: AppColor.white,fontSize: 16,fontWeight: FontWeight.w500),),const SizedBox(height: 5,),
-                    Text(index==1?"VP of Engineering":"CEO",style: TextStyle(fontFamily: appFontFamily,color: AppColor.white,fontSize: 12,fontWeight: FontWeight.w500),),
-                    Text(index==1?"Elevate Industries":"InnovateCorp",style: TextStyle(fontFamily: appFontFamily,color: AppColor.white,fontSize: 12,fontWeight: FontWeight.w500),),
-                  ],
-                ),
+            return Container(
+              height: 150,
+              width: 173,
+              decoration: BoxDecoration(
+                  color: AppColor.secondaryColor,
+                  gradient: LinearGradient(
+                colors: [AppColor.primaryColor, AppColor.red],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+                  borderRadius: const BorderRadius.all(Radius.circular(15))
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(100),
+                      child: Image.asset(index ==0?Images.homeSpeaker1:index ==1?Images.homeSpeaker2:Images.homeSpeaker3,height: 80,width: 80,fit: BoxFit.fill,)),
+                  const SizedBox(height: 5,),
+                  Text(index==0?"Dr. Bharat\nBalasubramanian":index==1?"Dr. R.A. Mashelkar":"Dr. Sudhir Jain",style: TextStyle(fontFamily: appFontFamily,color: AppColor.white,fontSize: 16,fontWeight: FontWeight.w500),textAlign: TextAlign.center,),
+                  const SizedBox(height: 16,),
+                  Text(index==0?"Executive Director":index == 1?"Former Director General":"Vice Chancellor",style: TextStyle(fontFamily: appFontFamily,color: AppColor.white,fontSize: 12,fontWeight: FontWeight.w500),),
+                ],
               ),
             );
           }, separatorBuilder: (BuildContext context, int index) { return const SizedBox(width: 16,); },),

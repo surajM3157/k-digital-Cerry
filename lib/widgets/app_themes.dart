@@ -31,6 +31,13 @@ static subtitle1TextStyle(){
     return TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w400,fontSize: 16,color: AppColor.black);
 }
 
+static aboutCardTitleTextStyle(){
+    return TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 15,color: AppColor.white);
+}
+static aboutCardSubtitleTextStyle(){
+    return TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 10,color: AppColor.white);
+}
+
 static  Widget buildBulletPoint(Widget text,) {
   return Row(
     crossAxisAlignment: CrossAxisAlignment.start,

@@ -44,6 +44,23 @@ class Images{
   static String speaker4 = 'assets/images/speakers/speaker4.png';
   static String speaker5 = 'assets/images/speakers/speaker5.png';
   static String speaker6 = 'assets/images/speakers/speaker6.png';
+  static String speaker_1 = 'assets/images/speakers/speaker_1.png';
+  static String speaker_2 = 'assets/images/speakers/speaker_2.png';
+  static String speaker_3 = 'assets/images/speakers/speaker_3.png';
+  static String speaker_4 = 'assets/images/speakers/speaker_4.png';
+  static String speaker_5 = 'assets/images/speakers/speaker_5.png';
+  static String speaker_6 = 'assets/images/speakers/speaker_6.png';
+  static String speaker_7 = 'assets/images/speakers/speaker_7.png';
+  static String speaker_8 = 'assets/images/speakers/speaker_8.png';
+  static String speaker_9 = 'assets/images/speakers/speaker_9.png';
+  static String speaker_10 = 'assets/images/speakers/speaker_10.png';
+  static String speaker_11 = 'assets/images/speakers/speaker_11.png';
+  static String speaker_12 = 'assets/images/speakers/speaker_12.png';
+  static String speaker_13 = 'assets/images/speakers/speaker_13.png';
+  static String homeSpeaker1 = 'assets/images/speakers/home_speaker1.png';
+  static String homeSpeaker2 = 'assets/images/speakers/home_speaker2.png';
+  static String homeSpeaker3 = 'assets/images/speakers/home_speaker3.png';
+  static String homeSpeaker4 = 'assets/images/speakers/home_speaker4.png';
 
   //live event
   static String liveEvent1 = 'assets/images/live_event1.png';
@@ -65,16 +82,39 @@ class Images{
   static String termsConditionIcon = 'assets/images/profile/terms_condition_icon.svg';
 
   //about
-  static String attendeesIcon = "assets/images/about/attendees_icon.svg";
-  static String conferenceIcon = "assets/images/about/conference_icon.svg";
-  static String aboutSpeakersIcon = "assets/images/about/about_speakers_icon.svg";
-  static String firesidesIcon = "assets/images/about/firesides_icon.svg";
-  static String startupConclaveIcon = "assets/images/about/startup_conclave_icon.svg";
-  static String startupIcon = "assets/images/about/startup_icon.svg";
-  static String investorsIcon = "assets/images/about/investors_icon.svg";
-  static String hackathonIcon = "assets/images/about/hackathon_icon.svg";
-  static String exhibitorsIcon = "assets/images/about/exhibitors_icon.svg";
-  static String representativeIcon = "assets/images/about/representative_icon.svg";
+  static String attendeesIcon = "assets/images/about/attendees_icon.png";
+  static String conferenceIcon = "assets/images/about/conference_icon.png";
+  static String aboutSpeakersIcon = "assets/images/about/about_speakers_icon.png";
+  static String firesidesIcon = "assets/images/about/firesides_icon.png";
+  static String startupConclaveIcon = "assets/images/about/startup_conclave_icon.png";
+  static String startupIcon = "assets/images/about/startup_icon.png";
+  static String investorsIcon = "assets/images/about/investors_icon.png";
+  static String hackathonIcon = "assets/images/about/hackathon_icon.png";
+  static String exhibitorsIcon = "assets/images/about/exhibition_icon.png";
+  static String representativeIcon = "assets/images/about/representative_icon.png";
+
+  static String aboutBanner = "assets/images/about/about_banner.png";
+  static String about1 = "assets/images/about/about1.png";
+  static String about2 = "assets/images/about/about2.png";
+  static String about3 = "assets/images/about/about3.png";
+
+
+  ////office Bearers
+  static String officeBearer1 = "assets/images/about/office_bearer1.png";
+  static String officeBearer2 = "assets/images/about/office_bearer2.png";
+  static String officeBearer3 = "assets/images/about/office_bearer3.png";
+  static String officeBearer4 = "assets/images/about/office_bearer4.png";
+
+  ////organiser
+  static String organiser1 = "assets/images/about/organiser1.png";
+  static String organiser2 = "assets/images/about/organiser2.png";
+  static String organiser3 = "assets/images/about/organiser3.png";
+  static String organiser4 = "assets/images/about/organiser4.png";
+  static String organiser5 = "assets/images/about/organiser5.png";
+  static String organiser6 = "assets/images/about/organiser6.png";
+  static String organiser7 = "assets/images/about/organiser7.png";
+  static String organiser8 = "assets/images/about/organiser8.png";
+
 
   //icons
   static String qrCode = 'assets/images/icons/qr_code.png';
@@ -120,7 +160,13 @@ class Images{
   static String piwotAgendaIcon = 'assets/images/icons/piwot_agenda_icon.svg';
   static String surveyIcon = 'assets/images/icons/survey_icon.svg';
   static String floorPlanIcon = 'assets/images/icons/floor_plan_icon.svg';
-  static String homeConferenceIcon = 'assets/images/icons/home_conference_icon.svg';
-  static String homeSpeakerIcon = 'assets/images/icons/home_speaker_icon.svg';
+  static String homeConferenceIcon = 'assets/images/icons/home_conference_icon.png';
+  static String homeSpeakerIcon = 'assets/images/icons/home_speaker_icon.png';
+  static String homeAttendanceIcon = 'assets/images/icons/home_attendance_icon.png';
+  static String bannerIcon = 'assets/images/icons/banner_icon.png';
+  static String facebookIcon = 'assets/images/icons/facebook_icon.svg';
+  static String instagramIcon = 'assets/images/icons/instagram_icon.svg';
+  static String linkedinIcon = 'assets/images/icons/linkedin_icon.svg';
+  static String twitterIcon = 'assets/images/icons/twitter_icon.svg';
 
 }

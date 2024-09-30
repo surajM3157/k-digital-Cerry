@@ -32,7 +32,7 @@ class _EditProfilPageState extends State<EditProfilPage> {
   File? _image;
   bool tapCamera = false;
   bool tapGallery = false;
-  String? _gender;
+  String? _gender = "Male";
   String? _isAlumni;
 
   String selectedPrefix ="Mr";
@@ -105,6 +105,11 @@ class _EditProfilPageState extends State<EditProfilPage> {
                         onChanged: (String? newValue) {
                           setState(() {
                             selectedPrefix = newValue!;
+                            if(selectedPrefix == "Ms"||selectedPrefix == "Mrs"){
+                              _gender = "Female";
+                            }else{
+                              _gender = "Male";
+                            }
                           });
                         },
                       ),

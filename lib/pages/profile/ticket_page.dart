@@ -36,7 +36,7 @@ class _TicketPageState extends State<TicketPage> {
         children: [
           const SizedBox(height: 20,),
           Center(
-            child: GradientText(text: "Ticket", style: const TextStyle(fontWeight: FontWeight.w600,fontSize: 20,fontFamily: appFontFamily), gradient:LinearGradient(
+            child: GradientText(text: "QR Code Badge", style: const TextStyle(fontWeight: FontWeight.w600,fontSize: 20,fontFamily: appFontFamily), gradient:LinearGradient(
               colors: [AppColor.primaryColor, AppColor.red],
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,

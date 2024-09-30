@@ -15,7 +15,9 @@ import '../../widgets/custom_tabbar_indicator.dart';
 import 'home.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+
+  int bottomNavIndex;
+   HomePage({super.key,required this.bottomNavIndex});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -35,7 +37,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
   @override
   void initState() {
     _controller =  TabController(length: 3, vsync: this);
-    _aboutController =  TabController(length: 4, vsync: this);
+    _aboutController =  TabController(length: 2, vsync: this);
+    bottomNavbarIndex = widget.bottomNavIndex;
     super.initState();
   }
 
@@ -46,7 +49,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
-
     return Scaffold(
       key: _scaffoldKey, // Set the key to Scaffold
       backgroundColor: AppColor.white,
@@ -166,7 +168,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                     // padding: EdgeInsets.only(left: 10,right: 10),
                     child: TabBar(
                         controller: _aboutController,
-                        isScrollable: true,
+                        indicatorSize: TabBarIndicatorSize.label,
                         labelPadding: const EdgeInsets.symmetric(horizontal: 25),
                         indicatorColor: AppColor.primaryColor,
                         indicator:CustomUnderlineTabIndicator(
@@ -190,14 +192,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                           Padding(
                             padding: const EdgeInsets.only(bottom: 17),
                             child: Text("About Us",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor),),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 17),
-                            child: Text("Office Bearers",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor)),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 17),
-                            child: Text("Organization Team",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor)),
                           ),
                         ]),
                   )
@@ -225,7 +219,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
           backgroundColor:bottomNavbarIndex == 1||bottomNavbarIndex == 4?AppColor.white:AppColor.primaryColor,
     ),
       ),
-      body: bottomNavbarIndex == 0?const Home():bottomNavbarIndex == 1?Delegates(tabController: _controller!,):bottomNavbarIndex == 2?const Session():bottomNavbarIndex == 3?const Agenda():About(tabController: _aboutController!),
+      body: bottomNavbarIndex == 0?const Home():bottomNavbarIndex == 1?Delegates(tabController: _controller!,):bottomNavbarIndex == 2?const Session():bottomNavbarIndex == 3?const Agenda():bottomNavbarIndex == 4?About(tabController: _aboutController!):SizedBox(),
       bottomNavigationBar:bottomNavbar(),
     );
   }
@@ -385,6 +379,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
             const SizedBox(height: 20,),
             InkWell(
               onTap: (){
+                Get.toNamed(Routes.contactUs);
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -407,6 +402,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
             const SizedBox(height: 20,),
             InkWell(
               onTap: (){
+                Get.toNamed(Routes.survey);
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
