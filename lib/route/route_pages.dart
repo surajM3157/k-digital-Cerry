@@ -17,6 +17,7 @@ import 'package:piwotapp/pages/profile/edit_profile_page.dart';
 import 'package:piwotapp/pages/profile/feedback_page.dart';
 import 'package:piwotapp/pages/profile/profile_page.dart';
 import 'package:piwotapp/pages/profile/ticket_page.dart';
+import 'package:piwotapp/pages/splash/splash_page.dart';
 import 'package:piwotapp/pages/survey/survey_page.dart';
 import 'package:piwotapp/pages/survey/thank_you_page.dart';
 import 'package:piwotapp/route/route_names.dart';
@@ -24,6 +25,7 @@ import 'package:piwotapp/route/route_names.dart';
 import '../pages/session_details_page.dart';
 
 final getPages = [
+  GetPage(name: Routes.splash, page: () => SplashPage()),
   GetPage(name: Routes.login, page: () => LoginPage()),
   GetPage(name: Routes.forgotPassword, page: () => ForgotPasswordPage()),
   GetPage(name: Routes.resetPassword, page: () => ResetPasswordPage()),

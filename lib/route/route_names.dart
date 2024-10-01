@@ -1,5 +1,7 @@
 class Routes{
 
+  static String splash = '/splash';
+
   static String login = '/login';
   static String forgotPassword = '/forgot_password';
   static String otp = '/otp';

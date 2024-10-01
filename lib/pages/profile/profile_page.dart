@@ -179,7 +179,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
                 GestureDetector(
                   onTap: (){
-                    Get.toNamed(Routes.feedback);
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 18),
@@ -201,7 +200,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
                 GestureDetector(
                   onTap: (){
-                    Get.toNamed(Routes.feedback);
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 18),
@@ -223,7 +221,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
                 GestureDetector(
                   onTap: (){
-                    Get.toNamed(Routes.feedback);
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 18),

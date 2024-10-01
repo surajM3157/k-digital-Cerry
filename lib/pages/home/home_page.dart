@@ -73,7 +73,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                             child: Icon(Icons.menu,color: AppColor.white,)
                         ),
                         SizedBox(width: 20,),
-                        SvgPicture.asset(Images.logo,height: 40,width: 147,),
+                        GestureDetector(
+                          onTap: (){
+                            Get.offAllNamed(Routes.home);
+                          },
+                            child: SvgPicture.asset(Images.logo,height: 40,width: 147,)),
                         Row(
                           children: [
                             InkWell(
@@ -143,7 +147,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                             child: Icon(Icons.menu,color: AppColor.white,)
                         ),
                         SizedBox(width: 20,),
-                        SvgPicture.asset(Images.logo,height: 40,width: 147,),
+                        GestureDetector(
+                            onTap: (){
+                              Get.offAllNamed(Routes.home);
+                            },
+                            child: SvgPicture.asset(Images.logo,height: 40,width: 147,)),
                         Row(
                           children: [
                             InkWell(
@@ -200,7 +208,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                 padding: const EdgeInsets.only(left: 10,bottom: 10),
                 child: Align(
                   alignment: Alignment.bottomCenter,
-                    child: SvgPicture.asset(Images.logo,height: 40,width: 147,)),
+                    child: GestureDetector(
+                        onTap: (){
+                          Get.offAllNamed(Routes.home);
+                        },
+                        child: SvgPicture.asset(Images.logo,height: 40,width: 147,))),
               ),
             ),
           automaticallyImplyLeading: bottomNavbarIndex == 1||bottomNavbarIndex == 4?false:true,

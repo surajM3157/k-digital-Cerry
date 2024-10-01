@@ -140,6 +140,7 @@ class _EditProfilPageState extends State<EditProfilPage> {
                 const SizedBox(height: 25,),
                 AppTextField(
                     readOnly: true,
+                    suffixIcon: Icon(Icons.date_range,color: AppColor.primaryColor,),
                     onTap: () async {
                       DateTime? pickedDate = await showDatePicker(
                           context: context,
@@ -218,13 +219,13 @@ class _EditProfilPageState extends State<EditProfilPage> {
                 ),
                 const SizedBox(height: 25,),
                 isAlumniWidget(),
-                const SizedBox(height: 25,),
-                Padding(
+                _isAlumni == "Yes"?const SizedBox(height: 25,):SizedBox.shrink(),
+                _isAlumni == "Yes"?Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Text("If Yes, Please Select Your IIT: ",style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,color: AppColor.primaryColor,fontSize: 14),),
-                ),
-                SizedBox(height: 10,),
-                Padding(
+                ):SizedBox.shrink(),
+                _isAlumni == "Yes"?SizedBox(height: 10,):SizedBox.shrink(),
+                _isAlumni == "Yes"?Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: DropdownButtonFormField<String>(
                     items: iitItems.map<DropdownMenuItem<String>>((String value) {
@@ -260,9 +261,9 @@ class _EditProfilPageState extends State<EditProfilPage> {
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 25,),
-                Padding(
+                ):SizedBox.shrink(),
+                _isAlumni == "Yes"?const SizedBox(height: 25,):SizedBox.shrink(),
+                _isAlumni == "Yes"? Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: DropdownButtonFormField<String>(
                     items: iitBatchItems.map<DropdownMenuItem<String>>((String value) {
@@ -298,7 +299,7 @@ class _EditProfilPageState extends State<EditProfilPage> {
                       ),
                     ),
                   ),
-                ),
+                ):SizedBox.shrink(),
                 const SizedBox(height: 30,),
                 AppButton(title: "Update", onTap: (){}),
                 const SizedBox(height: 30,),
