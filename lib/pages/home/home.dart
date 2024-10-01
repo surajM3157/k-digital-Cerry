@@ -113,9 +113,9 @@ class _HomeState extends State<Home> {
             ),
             child: Column(
               children: [
-                SizedBox(height: 23,),
+                const SizedBox(height: 23,),
                 Text("PANIIT 2025 Highlights",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w700,fontFamily: appFontFamily,color: AppColor.white),),
-                SizedBox(height: 26,),
+                const SizedBox(height: 26,),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Row(
@@ -170,7 +170,7 @@ class _HomeState extends State<Home> {
                     ],
                   ),
                 ),
-                SizedBox(height: 16,),
+                const SizedBox(height: 16,),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Row(
@@ -224,7 +224,7 @@ class _HomeState extends State<Home> {
                     ],
                   ),
                 ),
-                SizedBox(height: 16,),
+                const SizedBox(height: 16,),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Row(
@@ -278,7 +278,7 @@ class _HomeState extends State<Home> {
                     ],
                   ),
                 ),
-                SizedBox(height: 20,)
+                const SizedBox(height: 20,)
               ],
             ),
           ),
@@ -382,9 +382,9 @@ class _HomeState extends State<Home> {
           ),
           Container(
             width: Get.width,
-            margin: EdgeInsets.all(16),
+            margin: const EdgeInsets.all(16),
             height: 208,
-            padding: EdgeInsets.only(left: 16),
+            padding: const EdgeInsets.only(left: 16),
             decoration: BoxDecoration(
               gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]),
               borderRadius: BorderRadius.circular(8)
@@ -395,9 +395,9 @@ class _HomeState extends State<Home> {
               children: [
                 Column(
                   children: [
-                    SizedBox(height: 18,),
+                    const SizedBox(height: 18,),
                     SvgPicture.asset(Images.logo,height: 40,width: 116,),
-                    SizedBox(height: 50,),
+                    const SizedBox(height: 50,),
                     Text("PANIIT - 2025\nEvent",textAlign: TextAlign.center,style: TextStyle(
                       fontWeight: FontWeight.w700,fontSize: 22,color: AppColor.white,fontFamily: appFontFamily
                     ),)
@@ -424,7 +424,7 @@ class _HomeState extends State<Home> {
 
           Container(
             width: Get.width,height: 52,
-            margin: EdgeInsets.symmetric(horizontal: 16),
+            margin: const EdgeInsets.symmetric(horizontal: 16),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(50),
               gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])
@@ -601,13 +601,13 @@ class _HomeState extends State<Home> {
               Get.offAll(HomePage(bottomNavIndex: 1));
             },
             child: Container(
-              padding: EdgeInsets.all(1),
+              padding: const EdgeInsets.all(1),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(9),
                   gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])
               ),
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 30,vertical: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 16),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(9),
                     color: AppColor.white
@@ -615,8 +615,8 @@ class _HomeState extends State<Home> {
                 child: Column(
                   children: [
                     SvgPicture.asset(Images.sponsorIcon),
-                    SizedBox(height: 10,),
-                    GradientText(text:"Delegates",style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 10), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]))
+                    const SizedBox(height: 10,),
+                    GradientText(text:"Delegates",style: const TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 10), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]))
                   ],
                 ),
               ),
@@ -627,7 +627,7 @@ class _HomeState extends State<Home> {
               Get.offAll(HomePage(bottomNavIndex: 3));
             },
             child: Container(
-              padding: EdgeInsets.all(1),
+              padding: const EdgeInsets.all(1),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(9),
                   gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])
@@ -651,7 +651,7 @@ class _HomeState extends State<Home> {
           GestureDetector(
             onTap: (){},
             child: Container(
-              padding: EdgeInsets.all(1),
+              padding: const EdgeInsets.all(1),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(9),
                   gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])
@@ -696,12 +696,12 @@ class _HomeState extends State<Home> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Image.asset(index==0?Images.homeConferenceIcon:index==1?Images.homeSpeakerIcon:Images.homeAttendanceIcon,height: 50,width: 50,),
-                SizedBox(height: 16,),
+                const SizedBox(height: 16,),
                 Text(index==0?"2 Days\nConference":index==1?"200\nSpeaker":"300\nAttendence",style: TextStyle(fontSize: 14,fontFamily: appFontFamily,fontWeight: FontWeight.w600,color: AppColor.primaryColor),textAlign: TextAlign.center,)
               ],
             ),
           );
-        }, separatorBuilder: (BuildContext context, int index) { return SizedBox(width: 10,); }, itemCount: 3,),
+        }, separatorBuilder: (BuildContext context, int index) { return const SizedBox(width: 10,); }, itemCount: 3,),
       ),
     );
   }
@@ -883,7 +883,7 @@ class _HomeState extends State<Home> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Text(index==0?"Digital Product":index==1?"Innovation Nexus":"Tech Innovator",style: TextStyle(color: AppColor.white,fontSize: 14,fontWeight: FontWeight.w600,fontFamily: appFontFamily),),
-                        SizedBox(height: 8,),
+                        const SizedBox(height: 8,),
                         Container(
                           height: 26,
                           width: 98,

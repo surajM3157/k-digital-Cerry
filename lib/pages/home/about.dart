@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:piwotapp/constants/colors.dart';
 import 'package:piwotapp/constants/font_family.dart';
 import 'package:piwotapp/widgets/app_themes.dart';
 import 'package:piwotapp/widgets/gradient_text.dart';
-
 import '../../constants/images.dart';
 
 class About extends StatefulWidget {
@@ -24,10 +22,10 @@ class _AboutState extends State<About> {
         controller: widget.tabController,
         children: [
           ListView(
-            padding: EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             children: [
-              SizedBox(height: 26,),
-              GradientText(text: "About Event", style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])),
+              const SizedBox(height: 26,),
+              GradientText(text: "About Event", style: const TextStyle(fontSize: 16,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])),
               const SizedBox(height: 12,),
               AppThemes.buildBulletPoint(Text("Innovation drives prosperity, societal progress, and breakthroughs. Welcome to ‘PIWOT – World of Technology,’ led by PanIIT Alumni India and powered by global IIT alumni brilliance. Here, participants forge ideas, products, and services for global impact.",style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w400,fontSize: 14,color: AppColor.FF161616),)),
               AppThemes.buildBulletPoint(Text("In an era of relentless evolution, we stand as torchbearers, fostering the invaluable art of innovation—a vital skill for businesses, governments, and individuals.",style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w400,fontSize: 14,color: AppColor.FF161616))),
@@ -35,7 +33,7 @@ class _AboutState extends State<About> {
               const SizedBox(height: 26,),
               GridView.count(
                 shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
                 crossAxisCount: 2,children: [
@@ -54,12 +52,12 @@ class _AboutState extends State<About> {
             ],
           ),
           ListView(
-            padding: EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             children: [
-              SizedBox(height: 26,),
-              Center(child: GradientText(text: "About PANIIT", style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]))),
+              const SizedBox(height: 26,),
+              Center(child: GradientText(text: "About PANIIT", style: const TextStyle(fontSize: 16,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]))),
               const SizedBox(height: 11,),
-              Container(
+              SizedBox(
                 height: 175,width: Get.width,
 
                   child: ClipRRect(
@@ -68,10 +66,10 @@ class _AboutState extends State<About> {
               const SizedBox(height: 32,),
               Row(
                 children: [
-                  Expanded(
+                  const Expanded(
 
                       child: Text("PanIIT is a body of alumni, formed to give back to the society and the nation; it is a global community of over 400,000 alumni from all the IITs.")),
-                  SizedBox(width: 14,),
+                  const SizedBox(width: 14,),
                   Expanded(child: ClipRRect(
                     borderRadius: BorderRadius.circular(8),
                       child: Image.asset(Images.about1)))
@@ -83,8 +81,8 @@ class _AboutState extends State<About> {
                   Expanded(child: ClipRRect(
                       borderRadius: BorderRadius.circular(8),
                       child: Image.asset(Images.about2))),
-                  SizedBox(width: 14,),
-                  Expanded(
+                  const SizedBox(width: 14,),
+                  const Expanded(
                       child: Text("It aims to empower the IIT alumni community to drive positive change and transformation in society through innovation.")),
 
                 ],
@@ -92,21 +90,21 @@ class _AboutState extends State<About> {
               const SizedBox(height: 24,),
               Row(
                 children: [
-                  Expanded(
+                  const Expanded(
 
                       child: Text("Social impact initiatives by PanIIT paint a large canvas and have become strong movements. Each alumni body has an impact area and a role to play, and complements others.")),
-                  SizedBox(width: 14,),
+                  const SizedBox(width: 14,),
                   Expanded(child: ClipRRect(
                       borderRadius: BorderRadius.circular(8),
                       child: Image.asset(Images.about3)))
                 ],
               ),
               const SizedBox(height: 32,),
-              Center(child: GradientText(text: "Office Bearers", style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]))),
+              Center(child: GradientText(text: "Office Bearers", style: const TextStyle(fontSize: 16,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]))),
               const SizedBox(height: 15,),
               GridView.count(
                 shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
                 crossAxisCount: 2,children: [
@@ -116,11 +114,11 @@ class _AboutState extends State<About> {
                 aboutCard(title: "Ashok Kumar",image: Images.officeBearer4,subtitle: "General Secretary"),
               ],),
               const SizedBox(height: 30,),
-              Center(child: GradientText(text: "Summit Organising Team", style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]))),
+              Center(child: GradientText(text: "Summit Organising Team", style: const TextStyle(fontSize: 16,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]))),
               const SizedBox(height: 15,),
               GridView.count(
                 shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
                 crossAxisCount: 2,children: [
@@ -142,7 +140,7 @@ class _AboutState extends State<About> {
 
   Widget cardWidget({required String title, required String image}){
     return  Container(
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
         gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]),
@@ -152,7 +150,7 @@ class _AboutState extends State<About> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Image.asset(image,height: 70,width: 75,),
-          SizedBox(height: 15,),
+          const SizedBox(height: 15,),
           Text(title,style: AppThemes.aboutCardTitleTextStyle(),textAlign: TextAlign.center,),
         ],
       ),
@@ -161,7 +159,7 @@ class _AboutState extends State<About> {
 
   Widget aboutCard({required String title, required String image, required String subtitle}){
     return  Container(
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
         gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]),
@@ -170,14 +168,14 @@ class _AboutState extends State<About> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Container(
+          SizedBox(
             height: 81,width: 81,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(50),
                   child: Image.asset(image,fit:BoxFit.fill,))),
-          SizedBox(height: 5,),
+          const SizedBox(height: 5,),
           Text(title,style: AppThemes.aboutCardTitleTextStyle(),textAlign: TextAlign.center,),
-          SizedBox(height: 5,),
+          const SizedBox(height: 5,),
           Text(subtitle,style: AppThemes.aboutCardSubtitleTextStyle(),textAlign: TextAlign.center,),
         ],
       ),

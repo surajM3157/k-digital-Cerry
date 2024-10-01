@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-
 import '../../constants/colors.dart';
 import '../../constants/font_family.dart';
 import '../../constants/images.dart';
 import '../../widgets/app_button.dart';
-import '../../widgets/app_textfield.dart';
 import '../../widgets/app_themes.dart';
 import '../../widgets/gradient_text.dart';
 
@@ -36,7 +34,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                   Container(
                       width: Get.width,
                       height: 252,
-                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: [AppColor.primaryColor, AppColor.red],
@@ -56,10 +54,10 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                 ],
               ),
              Container(
-               margin: EdgeInsets.only(top: 230),
+               margin: const EdgeInsets.only(top: 230),
                decoration: BoxDecoration(
                    color: AppColor.white,
-                   borderRadius: BorderRadius.only(topLeft: Radius.circular(30),topRight: Radius.circular(30),
+                   borderRadius: const BorderRadius.only(topLeft: Radius.circular(30),topRight: Radius.circular(30),
                    )
                ),
                child: Column(
@@ -88,14 +86,14 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                        decoration: InputDecoration(
                          suffixIcon: Icon(Icons.remove_red_eye_outlined,color: AppColor.primaryColor,),
                          hintText: "Type your new password",
-                         hintStyle: TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
+                         hintStyle: const TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
                          filled: true,
                          fillColor: AppColor.white,
-                         contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                         contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
                          focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color:AppColor.greyTextField, width: 2.0)),
                          enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color:AppColor.greyTextField, width: 2.0)),
-                         errorBorder: UnderlineInputBorder( borderSide: BorderSide(color: Colors.red, width: 2.0)),
-                         focusedErrorBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.red, width: 2.0)),
+                         errorBorder: const UnderlineInputBorder( borderSide: BorderSide(color: Colors.red, width: 2.0)),
+                         focusedErrorBorder: const UnderlineInputBorder(borderSide: BorderSide(color: Colors.red, width: 2.0)),
                        ),
                      ),
                    ),
@@ -108,19 +106,19 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                      padding: const EdgeInsets.symmetric(horizontal: 20),
                      child: TextFormField(
                        obscureText: true,
-                       controller: _passwordController,
+                       controller: _confirmPasswordController,
                        cursorColor: AppColor.primaryColor,
                        decoration: InputDecoration(
                          suffixIcon: Icon(Icons.remove_red_eye_outlined,color: AppColor.primaryColor,),
                          hintText: "Confirm your new password",
-                         hintStyle: TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
+                         hintStyle: const TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
                          filled: true,
                          fillColor: AppColor.white,
-                         contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                         contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
                          focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color:AppColor.greyTextField, width: 2.0)),
                          enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color:AppColor.greyTextField, width: 2.0)),
-                         errorBorder: UnderlineInputBorder( borderSide: BorderSide(color: Colors.red, width: 2.0)),
-                         focusedErrorBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.red, width: 2.0)),
+                         errorBorder: const UnderlineInputBorder( borderSide: BorderSide(color: Colors.red, width: 2.0)),
+                         focusedErrorBorder: const UnderlineInputBorder(borderSide: BorderSide(color: Colors.red, width: 2.0)),
                        ),
                      ),
                    ),

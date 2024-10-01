@@ -4,7 +4,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:piwotapp/widgets/app_button.dart';
 import 'package:piwotapp/widgets/app_textfield.dart';
 import '../../constants/colors.dart';
@@ -219,12 +218,12 @@ class _EditProfilPageState extends State<EditProfilPage> {
                 ),
                 const SizedBox(height: 25,),
                 isAlumniWidget(),
-                _isAlumni == "Yes"?const SizedBox(height: 25,):SizedBox.shrink(),
+                _isAlumni == "Yes"?const SizedBox(height: 25,):const SizedBox.shrink(),
                 _isAlumni == "Yes"?Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Text("If Yes, Please Select Your IIT: ",style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,color: AppColor.primaryColor,fontSize: 14),),
-                ):SizedBox.shrink(),
-                _isAlumni == "Yes"?SizedBox(height: 10,):SizedBox.shrink(),
+                ):const SizedBox.shrink(),
+                _isAlumni == "Yes"?const SizedBox(height: 10,):const SizedBox.shrink(),
                 _isAlumni == "Yes"?Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: DropdownButtonFormField<String>(
@@ -261,8 +260,8 @@ class _EditProfilPageState extends State<EditProfilPage> {
                       ),
                     ),
                   ),
-                ):SizedBox.shrink(),
-                _isAlumni == "Yes"?const SizedBox(height: 25,):SizedBox.shrink(),
+                ):const SizedBox.shrink(),
+                _isAlumni == "Yes"?const SizedBox(height: 25,):const SizedBox.shrink(),
                 _isAlumni == "Yes"? Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: DropdownButtonFormField<String>(
@@ -299,7 +298,7 @@ class _EditProfilPageState extends State<EditProfilPage> {
                       ),
                     ),
                   ),
-                ):SizedBox.shrink(),
+                ):const SizedBox.shrink(),
                 const SizedBox(height: 30,),
                 AppButton(title: "Update", onTap: (){}),
                 const SizedBox(height: 30,),
@@ -312,7 +311,7 @@ class _EditProfilPageState extends State<EditProfilPage> {
               child: Container(
                 width: 188,height: 188,
                 margin: const EdgeInsets.only(left: 100,top: 120),
-                padding: _image != null?null:EdgeInsets.all(50),
+                padding: _image != null?null:const EdgeInsets.all(50),
                 decoration: BoxDecoration(
                     color: AppColor.white,
                     border: Border.all(color: AppColor.grey),

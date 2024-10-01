@@ -23,7 +23,7 @@ class _SplashPageState extends State<SplashPage> {
 
   @override
   initState() {
-    Timer(Duration(seconds: 3),
+    Timer(const Duration(seconds: 3),
             ()=>_loadScreen()
     );
   }

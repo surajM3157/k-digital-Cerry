@@ -90,7 +90,7 @@ class _SessionDetailsPageState extends State<SessionDetailsPage> {
                           padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: Row(
                             children: [
-                              GradientText(text:"Room No: ", style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
+                              GradientText(text:"Room No: ", style: const TextStyle(fontSize: 16,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
                                 colors: [AppColor.primaryColor,AppColor.red]
                               ),),
                               Text("201",style: TextStyle(fontSize: 16,fontFamily: appFontFamily,fontWeight: FontWeight.w400,color: AppColor.FF161616),)
@@ -156,7 +156,7 @@ class _SessionDetailsPageState extends State<SessionDetailsPage> {
                     const SizedBox(height: 20,),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: GradientText(text: "Speaker", style: TextStyle(fontWeight: FontWeight.w600,fontFamily: appFontFamily,fontSize: 16), gradient: LinearGradient(
+                      child: GradientText(text: "Speaker", style: const TextStyle(fontWeight: FontWeight.w600,fontFamily: appFontFamily,fontSize: 16), gradient: LinearGradient(
                         colors: [AppColor.primaryColor,AppColor.red]
                       )),
                     ),
@@ -211,7 +211,7 @@ class _SessionDetailsPageState extends State<SessionDetailsPage> {
                             );
                           }),
                     ),
-                    SizedBox(height: 20,)
+                    const SizedBox(height: 20,)
                   ],
                 ),
               ),

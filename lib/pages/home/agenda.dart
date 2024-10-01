@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-
 import '../../constants/colors.dart';
 import '../../constants/font_family.dart';
-import '../../widgets/app_themes.dart';
 import '../../widgets/gradient_text.dart';
 
 class Agenda extends StatefulWidget {

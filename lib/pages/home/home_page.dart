@@ -72,7 +72,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                             onTap: _openDrawer,
                             child: Icon(Icons.menu,color: AppColor.white,)
                         ),
-                        SizedBox(width: 20,),
+                        const SizedBox(width: 20,),
                         GestureDetector(
                           onTap: (){
                             Get.offAllNamed(Routes.home);
@@ -146,7 +146,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                             onTap: _openDrawer,
                             child: Icon(Icons.menu,color: AppColor.white,)
                         ),
-                        SizedBox(width: 20,),
+                        const SizedBox(width: 20,),
                         GestureDetector(
                             onTap: (){
                               Get.offAllNamed(Routes.home);
@@ -231,7 +231,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
           backgroundColor:bottomNavbarIndex == 1||bottomNavbarIndex == 4?AppColor.white:AppColor.primaryColor,
     ),
       ),
-      body: bottomNavbarIndex == 0?const Home():bottomNavbarIndex == 1?Delegates(tabController: _controller!,):bottomNavbarIndex == 2?const Session():bottomNavbarIndex == 3?const Agenda():bottomNavbarIndex == 4?About(tabController: _aboutController!):SizedBox(),
+      body: bottomNavbarIndex == 0?const Home():bottomNavbarIndex == 1?Delegates(tabController: _controller!,):bottomNavbarIndex == 2?const Session():bottomNavbarIndex == 3?const Agenda():bottomNavbarIndex == 4?About(tabController: _aboutController!):const SizedBox(),
       bottomNavigationBar:bottomNavbar(),
     );
   }
@@ -466,7 +466,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
     return InkWell(
       onTap: () => _onItemTapped(index),
       child:  bottomNavbarIndex==index?Container(
-        padding: EdgeInsets.symmetric(horizontal: 15,vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(25),
           color: AppColor.FFEFEEFF
@@ -476,7 +476,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SvgPicture.asset(icon,color: AppColor.primaryColor,),
-              SizedBox(width: 4,),
+              const SizedBox(width: 4,),
               Text(label,style: TextStyle(fontSize: 12,fontWeight: FontWeight.w600,fontFamily: appFontFamily,color: AppColor.primaryColor),),
 
             ],)

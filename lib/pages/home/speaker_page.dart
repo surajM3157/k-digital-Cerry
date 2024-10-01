@@ -140,7 +140,7 @@ class _SpeakerPageState extends State<SpeakerPage> {
                   ],
                 ),
               );
-            }, separatorBuilder: (BuildContext context, int index) { return SizedBox(height: 40,); },)
+            }, separatorBuilder: (BuildContext context, int index) { return const SizedBox(height: 40,); },)
           ],
         ),
       ),
