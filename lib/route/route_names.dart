@@ -23,4 +23,5 @@ class Routes{
   static String sponsor = '/sponsor';
   static String speaker = '/speaker';
   static String agenda = '/agenda';
+  static String liveEvents = '/live_events';
 }

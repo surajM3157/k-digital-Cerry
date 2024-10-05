@@ -10,6 +10,7 @@ import '../../constants/images.dart';
 import '../../route/route_names.dart';
 import '../../widgets/app_themes.dart';
 import '../../widgets/gradient_text.dart';
+import '../session_details_page.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -334,10 +335,9 @@ class _HomeState extends State<Home> {
           ),
           const SizedBox(height: 16,),
           sponsorList(),
-          const SizedBox(height: 16,),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: GradientText(text: "Live Events",style: const TextStyle(fontSize: 20,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
+            child: GradientText(text: "Live Events",style: const TextStyle(fontSize: 16,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
               colors: [AppColor.primaryColor, AppColor.red],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -379,6 +379,14 @@ class _HomeState extends State<Home> {
                 ],
               ),
             ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: GradientText(text: "Venue",style: const TextStyle(fontSize: 16,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
+              colors: [AppColor.primaryColor, AppColor.red],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),),
           ),
           Container(
             width: Get.width,
@@ -754,7 +762,7 @@ class _HomeState extends State<Home> {
                   const SizedBox(height: 10,),
                   InkWell(
                     onTap: (){
-                      Get.toNamed(Routes.eventDetails);
+                      Get.to(SessionDetailsPage(title: "NETWORKING DINNER",image: Images.homeBanner,));
                     },
                     child: Container(
                       height: 32,
@@ -805,7 +813,7 @@ class _HomeState extends State<Home> {
                   const SizedBox(height: 10,),
                   InkWell(
                     onTap: (){
-                      Get.toNamed(Routes.eventDetails);
+                      Get.to(SessionDetailsPage(title: "NETWORKING DINNER",image: Images.homeBanner,));
                     },
                     child: Container(
                       height: 32,

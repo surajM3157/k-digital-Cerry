@@ -168,5 +168,9 @@ class Images{
   static String instagramIcon = 'assets/images/icons/instagram_icon.svg';
   static String linkedinIcon = 'assets/images/icons/linkedin_icon.svg';
   static String twitterIcon = 'assets/images/icons/twitter_icon.svg';
+  static String liveEventIcon = 'assets/images/icons/live_event_icon.svg';
+  static String mutualFriendsIcon = 'assets/images/icons/mutual_friends_icon.png';
+  static String calendarIcon = 'assets/images/icons/calendar_icon.svg';
+  static String participantIcon = 'assets/images/icons/participant_icon.svg';
 
 }

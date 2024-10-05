@@ -117,7 +117,7 @@ class _SpeakerPageState extends State<SpeakerPage> {
                     ),
                     Positioned(
                       bottom: -30,
-                      left: 10,right: 10,
+                      left: 16,right: 16,
                       child: Container(
                         height: 102,
                         width: Get.width,

@@ -56,7 +56,7 @@ class _SessionDetailsPageState extends State<SessionDetailsPage> {
                   width: Get.width,
                   height: 390,
 
-                  child: Image.asset(widget.image??"",fit: BoxFit.cover,)),
+                  child: Image.asset(widget.image??"",fit: BoxFit.fill,)),
               Container(
                 margin: const EdgeInsets.only(top: 350),
                 decoration: BoxDecoration(
@@ -201,7 +201,7 @@ class _SessionDetailsPageState extends State<SessionDetailsPage> {
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
                                           Text(speakers[index].title,style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600,color: AppColor.white,fontFamily: appFontFamily),),
-                                          Text(speakers[index].subtitle,style: TextStyle(fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.white,fontFamily: appFontFamily),),
+                                          Text(speakers[index].subtitle,style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400,color: AppColor.white,fontFamily: appFontFamily),),
                                         ],
                                       ),
                                     ),

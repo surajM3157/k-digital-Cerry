@@ -121,7 +121,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
                 GestureDetector(
                   onTap: (){
-                    Get.toNamed(Routes.feedback);
+                    Get.toNamed(Routes.survey);
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 18),
@@ -130,9 +130,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       children: [
                         Row(
                           children: [
-                            SvgPicture.asset(Images.feedbackIcon),
+                            SvgPicture.asset(Images.surveyIcon),
                             const SizedBox(width: 20,),
-                            Text("Feedback",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400,color: AppColor.primaryColor,fontFamily: appFontFamily),)
+                            Text("Survey",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400,color: AppColor.primaryColor,fontFamily: appFontFamily),)
                           ],
                         ),
                         Icon(Icons.arrow_forward_ios,size: 16,color: AppColor.primaryColor,)
@@ -240,6 +240,29 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
                 Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
+                GestureDetector(
+                  onTap: (){
+                    Get.toNamed(Routes.feedback);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 18),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            SvgPicture.asset(Images.feedbackIcon),
+                            const SizedBox(width: 20,),
+                            Text("Feedback",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400,color: AppColor.primaryColor,fontFamily: appFontFamily),)
+                          ],
+                        ),
+                        Icon(Icons.arrow_forward_ios,size: 16,color: AppColor.primaryColor,)
+                      ],
+                    ),
+                  ),
+                ),
+                Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
+
                 GestureDetector(
                   onTap: (){
                     logoutAlert();

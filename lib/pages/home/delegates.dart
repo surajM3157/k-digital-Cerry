@@ -74,7 +74,7 @@ class _DelegatesState extends State<Delegates> {
           ListView.separated(itemBuilder: (context,index){
             return Padding(
               padding: index ==0? const EdgeInsets.only(top: 20):index ==delegates.length-1?const EdgeInsets.only(bottom: 20):EdgeInsets.zero,
-              child: requestDelegateList(delegates[index]),
+              child: requestDelegateList(delegates[index],index),
             );
           }, separatorBuilder: (context,index){
             return const SizedBox();
@@ -84,9 +84,9 @@ class _DelegatesState extends State<Delegates> {
   }
 
 
-  Widget requestDelegateList(ChatModel chatModel){
+  Widget requestDelegateList(ChatModel chatModel,int index){
     return Container(
-      height: 182,
+      height: 200,
       width: Get.width,
       margin: const EdgeInsets.all(10),
       decoration: BoxDecoration(
@@ -157,8 +157,34 @@ class _DelegatesState extends State<Delegates> {
               ),
             ],
           ),
-          const SizedBox(height: 20,),
-          Row(
+          const SizedBox(height: 10,),
+          index==0?Padding(
+            padding: const EdgeInsets.only(left: 10),
+            child: Text("You are now friends",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 14,fontFamily: appFontFamily,color: AppColor.black),),
+          ):Padding(
+            padding: const EdgeInsets.only(left: 10),
+            child: Row(
+              children: [
+                Image.asset(Images.mutualFriendsIcon),
+    const SizedBox(width: 5,),
+    Text("Mutual Friends",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 14,fontFamily: appFontFamily,color: AppColor.black),),
+              ],
+            ),
+          ),
+          const SizedBox(height: 10,),
+          index == 0?Container(
+    width: 129,height: 35,
+    margin: const EdgeInsets.only(left: 10),
+    decoration: BoxDecoration(
+    borderRadius: const BorderRadius.all(Radius.circular(8)),
+    gradient:LinearGradient(
+    colors: [AppColor.primaryColor, AppColor.red],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    ),
+    ),
+    child: Center(child: Text("Send Message",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 14,color: AppColor.white,fontFamily: appFontFamily),)),
+    ):Row(
             children: [
               Container(
                 width: 100,height: 35,

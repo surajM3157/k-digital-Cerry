@@ -326,6 +326,28 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
             const SizedBox(height: 20,),
             InkWell(
               onTap: (){
+                Get.toNamed(Routes.liveEvents);
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        SvgPicture.asset(Images.liveEventIcon,height: 21,width: 21,),
+                        const SizedBox(width: 15,),
+                        Text("Live Event",style: AppThemes.subtitle1TextStyle(),)
+                      ],
+                    ),
+                    Icon(Icons.arrow_forward_ios,color: AppColor.black,size: 16,)
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 20,),
+            InkWell(
+              onTap: (){
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -387,30 +409,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                 ),
               ),
             ),
-
-            const SizedBox(height: 20,),
-            InkWell(
-              onTap: (){
-                Get.toNamed(Routes.contactUs);
-              },
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        SvgPicture.asset(Images.contactIcon,height: 21,width: 21,),
-                        const SizedBox(width: 15,),
-                        Text("Contact Us",style: AppThemes.subtitle1TextStyle(),)
-                      ],
-                    ),
-                    Icon(Icons.arrow_forward_ios,color: AppColor.black,size: 16,)
-                  ],
-                ),
-              ),
-            ),
-
             const SizedBox(height: 20,),
             InkWell(
               onTap: (){
@@ -426,6 +424,28 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                         SvgPicture.asset(Images.surveyIcon,height: 21,width: 21,),
                         const SizedBox(width: 15,),
                         Text("Survey",style: AppThemes.subtitle1TextStyle(),)
+                      ],
+                    ),
+                    Icon(Icons.arrow_forward_ios,color: AppColor.black,size: 16,)
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 20,),
+            InkWell(
+              onTap: (){
+                Get.toNamed(Routes.contactUs);
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        SvgPicture.asset(Images.contactIcon,height: 21,width: 21,),
+                        const SizedBox(width: 15,),
+                        Text("Contact Us",style: AppThemes.subtitle1TextStyle(),)
                       ],
                     ),
                     Icon(Icons.arrow_forward_ios,color: AppColor.black,size: 16,)
