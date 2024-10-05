@@ -9,67 +9,71 @@ import '../../constants/images.dart';
 import '../../route/route_names.dart';
 
 
-
 class SplashPage extends StatefulWidget {
-  const SplashPage({Key? key}) : super(key: key);
-
   @override
-  State<SplashPage> createState() => _SplashPageState();
+  _SplashPageState createState() => _SplashPageState();
 }
 
-class _SplashPageState extends State<SplashPage> {
-
-  static const platform = MethodChannel('com.example.flutter_activity_launcher');
+class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
 
   @override
-  initState() {
-    Timer(const Duration(seconds: 3),
-            ()=>_loadScreen()
+  void initState() {
+    super.initState();
+
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 3),
     );
+
+    _animation = Tween<double>(begin: 0.0, end: 3000.0).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeInOut,
+      ),
+    );
+
+    _controller.forward().then((_) {
+      // Navigate to next screen once animation completes
+      // You can use Navigator.pushReplacement or Navigator.push
+      Get.offAllNamed(Routes.login);
+    });
   }
 
-
-  _loadScreen() async
-  {
-    // await Prefs.load();
-    // Prefs.loadData();
-    //
-    // if (Prefs.check_log_in == true) {
-
-      //replaceRoute(context, DashBoard(currentIndex: 0));
-          Get.offAllNamed(Routes.home);
-    // }
-    // else {
-    //
-    //      Get.offAllNamed(Routes.login);
-    // }
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
-
-
-
-
-
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: Get.height,width: Get.width,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [AppColor.primaryColor,AppColor.red]
-        )
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            width: MediaQuery.of(context).size.width,
-            alignment: Alignment.center,
-            child: SvgPicture.asset(Images.logo),
-          )
-        ],
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Center(
+        child: AnimatedBuilder(
+          animation: _animation,
+          builder: (context, child) {
+            return Container(
+              width: _animation.value,
+              height: _animation.value,
+              decoration: BoxDecoration(
+                shape: _animation.value > 500 ?BoxShape.rectangle:BoxShape.circle,
+                gradient: LinearGradient(
+                  colors: [AppColor.primaryColor, AppColor.red],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+              ),
+              child: Center(
+                child: _animation.value > 2000 ? SvgPicture.asset(Images.logo) : null,
+              ),
+            );
+          },
+        ),
       ),
     );
   }
 }
+
