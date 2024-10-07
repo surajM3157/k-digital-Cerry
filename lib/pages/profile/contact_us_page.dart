@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:piwotapp/widgets/app_button.dart';
@@ -95,6 +96,7 @@ class _ContactUsPageState extends State<ContactUsPage> {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: TextFormField(
                 controller: emailController,
+                keyboardType: TextInputType.emailAddress,
                 cursorColor: AppColor.primaryColor,
                 decoration: InputDecoration(
                   hintText: "Enter your email",
@@ -121,7 +123,11 @@ class _ContactUsPageState extends State<ContactUsPage> {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: TextFormField(
                 controller: phoneNumberController,
+                inputFormatters: [
+                  LengthLimitingTextInputFormatter(10),
+                ],
                 cursorColor: AppColor.primaryColor,
+                keyboardType: TextInputType.phone,
                 decoration: InputDecoration(
                   hintText: "Enter your phone number",
                   labelText: "Phone Number",

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:piwotapp/constants/font_family.dart';
 import '../constants/colors.dart';
 
 class AppTextField extends StatelessWidget {
-   AppTextField({super.key,required this.hintText,required this.controller,this.prefixIcon,this.suffixIcon,this.labelText,this.readOnly,this.onTap,this.obscureText});
+   AppTextField({super.key,required this.hintText,required this.controller,this.prefixIcon,this.suffixIcon,this.labelText,this.readOnly,this.onTap,this.obscureText,this.keyboardType,this.inputFormatters});
 
   String hintText;
   String? labelText;
@@ -13,6 +14,8 @@ class AppTextField extends StatelessWidget {
   bool? readOnly;
   Function()? onTap;
   bool? obscureText;
+  TextInputType? keyboardType;
+   List<TextInputFormatter>? inputFormatters;
 
   @override
   Widget build(BuildContext context) {
@@ -20,11 +23,12 @@ class AppTextField extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: TextFormField(
         readOnly: readOnly??false,
-
+        keyboardType: keyboardType,
         controller: controller,
         obscureText: obscureText??false,
         onTap: onTap,
         cursorColor: AppColor.primaryColor,
+        inputFormatters: inputFormatters,
         decoration: InputDecoration(
           prefixIcon: prefixIcon,
           suffixIcon: suffixIcon,

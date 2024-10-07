@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -114,9 +115,11 @@ class _EditProfilPageState extends State<EditProfilPage> {
                       ),
                     )),),
                 const SizedBox(height: 25,),
-                AppTextField(hintText: "Type your Email",controller: emailController,labelText:"Email"),
+                AppTextField(hintText: "Type your Email",controller: emailController,labelText:"Email",keyboardType: TextInputType.emailAddress,),
                 const SizedBox(height: 25,),
-                AppTextField(hintText: "Type Phone number",controller: emailController,labelText:"Phone Number",prefixIcon: Padding(
+                AppTextField(hintText: "Type Phone number",controller: phoneNumberController,labelText:"Phone Number",keyboardType: TextInputType.phone,inputFormatters:[
+                  LengthLimitingTextInputFormatter(10),
+                ],prefixIcon: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: DropdownButtonHideUnderline(
                       child: DropdownButton<String>(

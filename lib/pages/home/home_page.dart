@@ -33,6 +33,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
   TabController? _aboutController;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
+  double _calculateAppBarHeight() {
+    double baseHeight = 40.0;  // Height of the logo or any other static element
+    double tabBarHeight = 74.0;  // Height of the TabBar
+    double additionalPadding = 20.0;  // Any additional padding
+    return baseHeight + tabBarHeight + additionalPadding;
+  }
 
   @override
   void initState() {
@@ -49,190 +55,198 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
-    return Scaffold(
-      key: _scaffoldKey, // Set the key to Scaffold
-      backgroundColor: AppColor.white,
-      drawer: drawerWidget(),
-      appBar: PreferredSize(
-        preferredSize: bottomNavbarIndex == 1|| bottomNavbarIndex == 4? Size.fromHeight(screenHeight * 0.173):Size.fromHeight(screenHeight * 0.08),
-        child: AppBar(
-          // toolbarHeight: bottomNavbarIndex == 3?screenHeight*0.152:null,
-            flexibleSpace: FlexibleSpaceBar(
-              titlePadding: EdgeInsets.zero, // Removes the padding
-              title: bottomNavbarIndex == 1?
-              Column(
-                children: [
-                  Container(
-                    color: AppColor.primaryColor,
-                    padding: const EdgeInsets.only(top: 40,left: 10,right: 10,bottom: 15),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        InkWell(
-                            onTap: _openDrawer,
-                            child: Icon(Icons.menu,color: AppColor.white,)
-                        ),
-                        const SizedBox(width: 20,),
-                        GestureDetector(
-                          onTap: (){
-                            Get.offAllNamed(Routes.home);
-                          },
-                            child: SvgPicture.asset(Images.logo,height: 40,width: 147,)),
-                        Row(
-                          children: [
-                            InkWell(
-                                onTap: (){
-                                  Get.toNamed(Routes.profile);
-                                },
-                                child: SvgPicture.asset(Images.profileIcon,color: AppColor.white,)),
-                            InkWell(
-                                onTap: (){
-                                  Get.toNamed(Routes.notification);
-                                },
-                                child: SvgPicture.asset(Images.notificationIcon,color: AppColor.white,)),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 20,),
-                  Container(
-                    width: Get.width,
-                    color: AppColor.white,
-                    // padding: EdgeInsets.only(left: 10,right: 10),
-                    child: TabBar(
-                        controller: _controller,
-                        labelPadding: const EdgeInsets.symmetric(horizontal: 25),
-                        indicatorColor: AppColor.primaryColor,
-                        indicator:CustomUnderlineTabIndicator(
-                          borderSide: BorderSide(width: 3.0, color: AppColor.primaryColor),
-                          insets:const EdgeInsets.symmetric(vertical: -8),
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(12.0),
-                            topRight: Radius.circular(12.0),
+    return WillPopScope(
+      onWillPop: () async{
+        if(bottomNavbarIndex != 0) {
+          Get.offAllNamed(Routes.home);
+        }
+        return true;
+      },
+      child: Scaffold(
+        key: _scaffoldKey, // Set the key to Scaffold
+        backgroundColor: AppColor.white,
+        drawer: drawerWidget(),
+        appBar: PreferredSize(
+          preferredSize: bottomNavbarIndex == 1|| bottomNavbarIndex == 4? Size.fromHeight(_calculateAppBarHeight()):Size.fromHeight(screenHeight * 0.08),
+          child: AppBar(
+            // toolbarHeight: bottomNavbarIndex == 3?screenHeight*0.152:null,
+              flexibleSpace: FlexibleSpaceBar(
+                titlePadding: EdgeInsets.zero, // Removes the padding
+                title: bottomNavbarIndex == 1?
+                Column(
+                  children: [
+                    Container(
+                      color: AppColor.primaryColor,
+                      padding: const EdgeInsets.only(top: 40,left: 10,right: 10,bottom: 15),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          InkWell(
+                              onTap: _openDrawer,
+                              child: Icon(Icons.menu,color: AppColor.white,)
                           ),
-                        ),
-                        // UnderlineTabIndicator(
-                        //   insets: EdgeInsets.symmetric(vertical: -8),
-                        //   borderSide: BorderSide(color: AppColor.primaryColor, width: 4.0),
-                        //
-                        // ),
-                        tabs: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 17),
-                            child: Text("Delegates",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor)),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 17),
-                            child: Text("Chat",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor),),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 17),
-                            child: Text("Request",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor)),
-                          ),
-                        ]),
-                  )
-                ],
-              ):bottomNavbarIndex == 4?
-              Column(
-                children: [
-                  Container(
-                    color: AppColor.primaryColor,
-                    padding: const EdgeInsets.only(top: 40,left: 10,right: 10,bottom: 15),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        InkWell(
-                            onTap: _openDrawer,
-                            child: Icon(Icons.menu,color: AppColor.white,)
-                        ),
-                        const SizedBox(width: 20,),
-                        GestureDetector(
+                          const SizedBox(width: 30,),
+                          GestureDetector(
                             onTap: (){
                               Get.offAllNamed(Routes.home);
                             },
-                            child: SvgPicture.asset(Images.logo,height: 40,width: 147,)),
-                        Row(
-                          children: [
-                            InkWell(
-                                onTap: (){
-                                  Get.toNamed(Routes.profile);
-                                },
-                                child: SvgPicture.asset(Images.profileIcon,color: AppColor.white,)),
-                            InkWell(
-                                onTap: (){
-                                  Get.toNamed(Routes.notification);
-                                },
-                                child: SvgPicture.asset(Images.notificationIcon,color: AppColor.white,)),
-                          ],
-                        )
-                      ],
+                              child: SvgPicture.asset(Images.logo,height: 40,width: 147,)),
+                          Row(
+                            children: [
+                              InkWell(
+                                  onTap: (){
+                                    Get.toNamed(Routes.profile);
+                                  },
+                                  child: SvgPicture.asset(Images.profileIcon,color: AppColor.white,)),
+                              InkWell(
+                                  onTap: (){
+                                    Get.toNamed(Routes.notification);
+                                  },
+                                  child: SvgPicture.asset(Images.notificationIcon,color: AppColor.white,)),
+                            ],
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 20,),
-                  Container(
-                    width: Get.width,
-                    color: AppColor.white,
-                    // padding: EdgeInsets.only(left: 10,right: 10),
-                    child: TabBar(
-                        controller: _aboutController,
-                        indicatorSize: TabBarIndicatorSize.label,
-                        labelPadding: const EdgeInsets.symmetric(horizontal: 25),
-                        indicatorColor: AppColor.primaryColor,
-                        indicator:CustomUnderlineTabIndicator(
-                          borderSide: BorderSide(width: 3.0, color: AppColor.primaryColor),
-                          insets:const EdgeInsets.symmetric(vertical: -8),
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(12.0),
-                            topRight: Radius.circular(12.0),
+                    const SizedBox(height: 20,),
+                    Container(
+                      width: Get.width,
+                      color: AppColor.white,
+                      // padding: EdgeInsets.only(left: 10,right: 10),
+                      child: TabBar(
+                          controller: _controller,
+                          labelPadding: const EdgeInsets.symmetric(horizontal: 25),
+                          indicatorColor: AppColor.primaryColor,
+                          indicator:CustomUnderlineTabIndicator(
+                            borderSide: BorderSide(width: 3.0, color: AppColor.primaryColor),
+                            insets:const EdgeInsets.symmetric(vertical: -8),
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(12.0),
+                              topRight: Radius.circular(12.0),
+                            ),
                           ),
-                        ),
-                        // UnderlineTabIndicator(
-                        //   insets: EdgeInsets.symmetric(vertical: -8),
-                        //   borderSide: BorderSide(color: AppColor.primaryColor, width: 4.0),
-                        //
-                        // ),
-                        tabs: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 17),
-                            child: Text("About Event",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor)),
+                          // UnderlineTabIndicator(
+                          //   insets: EdgeInsets.symmetric(vertical: -8),
+                          //   borderSide: BorderSide(color: AppColor.primaryColor, width: 4.0),
+                          //
+                          // ),
+                          tabs: [
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 17),
+                              child: Text("Delegates",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor)),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 17),
+                              child: Text("Chat",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor),),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 17),
+                              child: Text("Request",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor)),
+                            ),
+                          ]),
+                    )
+                  ],
+                ):bottomNavbarIndex == 4?
+                Column(
+                  children: [
+                    Container(
+                      color: AppColor.primaryColor,
+                      padding: const EdgeInsets.only(top: 40,left: 10,right: 10,bottom: 15),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          InkWell(
+                              onTap: _openDrawer,
+                              child: Icon(Icons.menu,color: AppColor.white,)
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 17),
-                            child: Text("About Us",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor),),
+                          const SizedBox(width: 30,),
+                          GestureDetector(
+                              onTap: (){
+                                Get.offAllNamed(Routes.home);
+                              },
+                              child: SvgPicture.asset(Images.logo,height: 40,width: 147,)),
+                          Row(
+                            children: [
+                              InkWell(
+                                  onTap: (){
+                                    Get.toNamed(Routes.profile);
+                                  },
+                                  child: SvgPicture.asset(Images.profileIcon,color: AppColor.white,)),
+                              InkWell(
+                                  onTap: (){
+                                    Get.toNamed(Routes.notification);
+                                  },
+                                  child: SvgPicture.asset(Images.notificationIcon,color: AppColor.white,)),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 20,),
+                    Container(
+                      width: Get.width,
+                      color: AppColor.white,
+                      // padding: EdgeInsets.only(left: 10,right: 10),
+                      child: TabBar(
+                          controller: _aboutController,
+                          indicatorSize: TabBarIndicatorSize.label,
+                          labelPadding: const EdgeInsets.symmetric(horizontal: 25),
+                          indicatorColor: AppColor.primaryColor,
+                          indicator:CustomUnderlineTabIndicator(
+                            borderSide: BorderSide(width: 3.0, color: AppColor.primaryColor),
+                            insets:const EdgeInsets.symmetric(vertical: -8),
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(12.0),
+                              topRight: Radius.circular(12.0),
+                            ),
                           ),
-                        ]),
-                  )
-                ],
-              ):Padding(
-                padding: const EdgeInsets.only(left: 10,bottom: 10),
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                    child: GestureDetector(
-                        onTap: (){
-                          Get.offAllNamed(Routes.home);
-                        },
-                        child: SvgPicture.asset(Images.logo,height: 40,width: 147,))),
+                          // UnderlineTabIndicator(
+                          //   insets: EdgeInsets.symmetric(vertical: -8),
+                          //   borderSide: BorderSide(color: AppColor.primaryColor, width: 4.0),
+                          //
+                          // ),
+                          tabs: [
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 17),
+                              child: Text("About Event",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor)),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 17),
+                              child: Text("About Us",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor),),
+                            ),
+                          ]),
+                    )
+                  ],
+                ):Padding(
+                  padding: const EdgeInsets.only(left: 10,bottom: 10),
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                      child: GestureDetector(
+                          onTap: (){
+                            Get.offAllNamed(Routes.home);
+                          },
+                          child: SvgPicture.asset(Images.logo,height: 40,width: 147,))),
+                ),
               ),
-            ),
-          automaticallyImplyLeading: bottomNavbarIndex == 1||bottomNavbarIndex == 4?false:true,
-          actions:bottomNavbarIndex == 1||bottomNavbarIndex == 4?null: [
-            InkWell(
+            automaticallyImplyLeading: bottomNavbarIndex == 1||bottomNavbarIndex == 4?false:true,
+            actions:bottomNavbarIndex == 1||bottomNavbarIndex == 4?null: [
+              InkWell(
+                  onTap: (){
+                    Get.toNamed(Routes.profile);
+                  },
+                  child: SvgPicture.asset(Images.profileIcon,color: AppColor.white,)),
+              InkWell(
                 onTap: (){
-                  Get.toNamed(Routes.profile);
+                  Get.toNamed(Routes.notification);
                 },
-                child: SvgPicture.asset(Images.profileIcon,color: AppColor.white,)),
-            InkWell(
-              onTap: (){
-                Get.toNamed(Routes.notification);
-              },
-                child: SvgPicture.asset(Images.notificationIcon,color: AppColor.white,)),
-          ],
-          backgroundColor:bottomNavbarIndex == 1||bottomNavbarIndex == 4?AppColor.white:AppColor.primaryColor,
-    ),
+                  child: SvgPicture.asset(Images.notificationIcon,color: AppColor.white,)),
+            ],
+            backgroundColor:bottomNavbarIndex == 1||bottomNavbarIndex == 4?AppColor.white:AppColor.primaryColor,
       ),
-      body: bottomNavbarIndex == 0?const Home():bottomNavbarIndex == 1?Delegates(tabController: _controller!,):bottomNavbarIndex == 2?const Session():bottomNavbarIndex == 3?const Agenda():bottomNavbarIndex == 4?About(tabController: _aboutController!):const SizedBox(),
-      bottomNavigationBar:bottomNavbar(),
+        ),
+        body: bottomNavbarIndex == 0?const Home():bottomNavbarIndex == 1?Delegates(tabController: _controller!,):bottomNavbarIndex == 2?const Session():bottomNavbarIndex == 3?const Agenda():bottomNavbarIndex == 4?About(tabController: _aboutController!):const SizedBox(),
+        bottomNavigationBar:bottomNavbar(),
+      ),
     );
   }
 

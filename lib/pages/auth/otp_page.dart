@@ -34,15 +34,13 @@ class _OtpPageState extends State<OtpPage> {
                 Container(
                     width: Get.width,
                     height: 300,
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [AppColor.primaryColor, AppColor.red],
                         begin: Alignment.centerLeft,
                         end: Alignment.centerRight,
                       ),
-                    ),
-                    child: SvgPicture.asset(Images.logo)),
+                    ),),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(10, 50, 0, 0),
                   child: InkWell(
@@ -148,7 +146,12 @@ class _OtpPageState extends State<OtpPage> {
                  },),
                ],
              ),
-           )
+           ),
+            Positioned(
+              top: 100,
+              left: 40,
+              child: Center(child: SvgPicture.asset(Images.logo)),
+            )
           ],
         ),
       ),

@@ -140,7 +140,7 @@ class _AboutState extends State<About> {
 
   Widget cardWidget({required String title, required String image}){
     return  Container(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
         gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]),
@@ -159,7 +159,7 @@ class _AboutState extends State<About> {
 
   Widget aboutCard({required String title, required String image, required String subtitle}){
     return  Container(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
         gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]),

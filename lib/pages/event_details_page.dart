@@ -47,7 +47,7 @@ class _EventDetailsPageState extends State<EventDetailsPage>  with SingleTickerP
             SizedBox(
               width: Get.width,
                 height: 350,
-                child: Image.asset(Images.eventDetailsBanner,fit: BoxFit.cover,)),
+                child: Image.asset(Images.eventDetailsBanner,fit: BoxFit.fill,)),
             Container(
               margin: const EdgeInsets.only(top: 310),
               decoration: BoxDecoration(

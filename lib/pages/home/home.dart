@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -48,6 +50,44 @@ class _HomeState extends State<Home> {
     "FutureVision Inc.",
   ];
 
+
+  Timer? _timer;
+  Duration _timeRemaining = Duration();
+  final DateTime _endTime = DateTime(2025, 01, 16, 23, 59, 59); // Your end time
+
+  @override
+  void initState() {
+    super.initState();
+    _startTimer();
+  }
+
+  void _startTimer() {
+    _timer = Timer.periodic(Duration(seconds: 1), (Timer timer) {
+      setState(() {
+        _timeRemaining = _endTime.difference(DateTime.now());
+
+        if (_timeRemaining.isNegative) {
+          timer.cancel();
+        }
+      });
+    });
+  }
+
+  List<int> _formatDuration(Duration duration) {
+    int days = duration.inDays;
+    int hours = duration.inHours.remainder(24);
+    int minutes = duration.inMinutes.remainder(60);
+    int seconds = duration.inSeconds.remainder(60);
+
+    return [days, hours, minutes, seconds];
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -91,7 +131,6 @@ class _HomeState extends State<Home> {
                 InkWell(
                   onTap: (){
                     Get.offAll(HomePage(bottomNavIndex: 4));
-                    print("to home page");
                   },
                   child: GradientText(text: "View More",style: const TextStyle(fontSize: 12,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
                     colors: [AppColor.primaryColor, AppColor.red],
@@ -337,11 +376,26 @@ class _HomeState extends State<Home> {
           sponsorList(),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: GradientText(text: "Live Events",style: const TextStyle(fontSize: 16,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
-              colors: [AppColor.primaryColor, AppColor.red],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                GradientText(text: "Live Events",style: const TextStyle(fontSize: 16,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
+                  colors: [AppColor.primaryColor, AppColor.red],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),),
+                InkWell(
+                  onTap: (){
+                    Get.toNamed(Routes.liveEvents);
+                  },
+                  child: GradientText(text: "View More",style: const TextStyle(fontSize: 12,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
+                    colors: [AppColor.primaryColor, AppColor.red],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),),
+                ),
+              ],
+            ),
           ),
           const SizedBox(height: 16,),
           liveEventList(),
@@ -411,7 +465,9 @@ class _HomeState extends State<Home> {
                     ),)
                   ],
                 ),
-                Image.asset(Images.bannerIcon),
+                Expanded(
+                  child: Image.asset(Images.bannerIcon),
+                ),
               ],
             ),
           ),
@@ -523,7 +579,7 @@ class _HomeState extends State<Home> {
               ),
               child: Column(
                 children: [
-                  GradientText(text: '113',style: const TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 20), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]),),
+                  GradientText(text: _formatDuration(_timeRemaining)[0].toString(),style: const TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 20), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]),),
                   const SizedBox(height: 5,),
                   GradientText(text:"DAYS",style: const TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 10), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]))
                 ],
@@ -544,7 +600,7 @@ class _HomeState extends State<Home> {
               ),
               child: Column(
                 children: [
-                  GradientText(text:'23',style: const TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 20), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])),
+                  GradientText(text:_formatDuration(_timeRemaining)[1].toString(),style: const TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 20), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])),
                   const SizedBox(height: 5,),
                   GradientText(text:"HOURS",style: const TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 10), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]))
                 ],
@@ -565,7 +621,7 @@ class _HomeState extends State<Home> {
               ),
               child: Column(
                 children: [
-                  GradientText(text:'60',style: const TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 20), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])),
+                  GradientText(text:_formatDuration(_timeRemaining)[2].toString(),style: const TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 20), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])),
                   const SizedBox(height: 5,),
                   GradientText(text:"MINUTES",style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 10,color: AppColor.primaryColor), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]))
                 ],
@@ -586,7 +642,7 @@ class _HomeState extends State<Home> {
               ),
               child: Column(
                 children: [
-                  GradientText(text:'60',style: const TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 20), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])),
+                  GradientText(text:_formatDuration(_timeRemaining)[3].toString(),style: const TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 20), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])),
                   const SizedBox(height: 5,),
                   GradientText(text:"SECONDS",style: const TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 10), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]))
                 ],

@@ -75,7 +75,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
                 const SizedBox(height: 16,),
-                GestureDetector(
+                InkWell(
                   onTap: (){
                     Get.toNamed(Routes.ticket);
                   },
@@ -97,7 +97,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
                 Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
-                GestureDetector(
+                InkWell(
                   onTap: (){
                     Get.toNamed(Routes.contactUs);
                   },
@@ -119,7 +119,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
                 Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
-                GestureDetector(
+                InkWell(
                   onTap: (){
                     Get.toNamed(Routes.survey);
                   },
@@ -153,31 +153,38 @@ class _ProfilePageState extends State<ProfilePage> {
                           Text("Notification",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400,color: AppColor.primaryColor,fontFamily: appFontFamily),)
                         ],
                       ),
-                      Transform.scale(
-                        scale: 0.7,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20.0),
-                            color: isNotificationOn
-                                ? AppColor.primaryColor
-                                : AppColor.primaryColor,
-                          ),
-                          child: CupertinoSwitch(
-                            value: isNotificationOn,
-                            activeColor: AppColor.white,
-                            trackColor: AppColor.white,
-                            thumbColor: AppColor.primaryColor,
-                            onChanged: (v) => setState(() {
-                              isNotificationOn = v;
-                            }),
-                          ),
-                        ),
+                      CupertinoSwitch(
+                        value: isNotificationOn,
+                        thumbColor: AppColor.primaryColor,
+                        onChanged: (v) => setState(() {
+                          isNotificationOn = v;
+                        }),
                       ),
+                      // Transform.scale(
+                      //   scale: 0.7,
+                      //   child: Container(
+                      //     decoration: BoxDecoration(
+                      //       borderRadius: BorderRadius.circular(20.0),
+                      //       color: isNotificationOn
+                      //           ? AppColor.primaryColor
+                      //           : AppColor.primaryColor,
+                      //     ),
+                      //     child: CupertinoSwitch(
+                      //       value: isNotificationOn,
+                      //       activeColor: AppColor.white,
+                      //       trackColor: AppColor.white,
+                      //       thumbColor: AppColor.primaryColor,
+                      //       onChanged: (v) => setState(() {
+                      //         isNotificationOn = v;
+                      //       }),
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),
                 Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
-                GestureDetector(
+                InkWell(
                   onTap: (){
                   },
                   child: Padding(
@@ -198,7 +205,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
                 Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
-                GestureDetector(
+                InkWell(
                   onTap: (){
                   },
                   child: Padding(
@@ -219,7 +226,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
                 Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
-                GestureDetector(
+                InkWell(
                   onTap: (){
                   },
                   child: Padding(
@@ -240,7 +247,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
                 Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
-                GestureDetector(
+                InkWell(
                   onTap: (){
                     Get.toNamed(Routes.feedback);
                   },
@@ -263,7 +270,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
 
-                GestureDetector(
+                InkWell(
                   onTap: (){
                     logoutAlert();
                   },
