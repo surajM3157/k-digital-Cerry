@@ -34,16 +34,16 @@ class _LiveEventsPageState extends State<LiveEventsPage> {
       body: ListView(
         children: [
           const SizedBox(height: 12,),
-          Center(child: GradientText(text:"Live Event",style: TextStyle(fontFamily: appFontFamily,fontSize: 20,fontWeight: FontWeight.w600), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]),)),
+          Center(child: GradientText(text:"Live Event",style: const TextStyle(fontFamily: appFontFamily,fontSize: 20,fontWeight: FontWeight.w600), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]),)),
           const SizedBox(height: 33,),
 
           ListView.separated(
             itemCount: 3,
-              shrinkWrap: true,physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index){
                 return Container(
-                  margin: EdgeInsets.symmetric(horizontal: 16),
-                  padding: EdgeInsets.symmetric(horizontal: 10,vertical: 15),
+                  margin: const EdgeInsets.symmetric(horizontal: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 15),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(color: AppColor.FF646464.withOpacity(0.3))
@@ -52,15 +52,15 @@ class _LiveEventsPageState extends State<LiveEventsPage> {
                     children: [
                       ClipRRect(
                           borderRadius:BorderRadius.circular(8),
-                          child: Container(
+                          child: SizedBox(
                               height: 144,width: 113,
                               child: Image.asset(index==0?Images.liveEvent1:index==1?Images.liveEvent2:Images.liveEvent3,fit: BoxFit.fill,))),
-                      SizedBox(width: 15  ,),
+                      const SizedBox(width: 15  ,),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            GradientText(text:index==0?"Tech Innovator":index==1?"Innovation Nexus":"Future of E-commerce",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 14,fontFamily: appFontFamily,), gradient: LinearGradient(
+                            GradientText(text:index==0?"Tech Innovator":index==1?"Innovation Nexus":"Future of E-commerce",style: const TextStyle(fontWeight: FontWeight.w600,fontSize: 14,fontFamily: appFontFamily,), gradient: LinearGradient(
                               colors: [AppColor.primaryColor,AppColor.red]
                             ),),
                             const SizedBox(height: 5,),
@@ -70,7 +70,7 @@ class _LiveEventsPageState extends State<LiveEventsPage> {
                               children: [
                                 SvgPicture.asset(Images.calendarIcon),
                                 const SizedBox(width: 2,),
-                                 Text(index==0?"17, January 2024":index==1?"18, January 2024":"19, January 2024",style: TextStyle(fontFamily: appFontFamily,fontSize: 10,fontWeight: FontWeight.w600),)
+                                 Text(index==0?"17, January 2024":index==1?"18, January 2024":"19, January 2024",style: const TextStyle(fontFamily: appFontFamily,fontSize: 10,fontWeight: FontWeight.w600),)
                               ],
                             ),
                             const SizedBox(height: 10,),
@@ -101,7 +101,7 @@ class _LiveEventsPageState extends State<LiveEventsPage> {
                     ],
                   ),
                 );
-              }, separatorBuilder: (BuildContext context, int index) { return SizedBox(height: 16,); },)
+              }, separatorBuilder: (BuildContext context, int index) { return const SizedBox(height: 16,); },)
         ],
       ),
     );

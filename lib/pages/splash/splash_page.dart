@@ -1,17 +1,16 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:piwotapp/constants/colors.dart';
-
 import '../../constants/images.dart';
 import '../../route/route_names.dart';
 
 
 class SplashPage extends StatefulWidget {
+  const SplashPage({super.key});
+
   @override
-  _SplashPageState createState() => _SplashPageState();
+  State<SplashPage> createState() => _SplashPageState();
 }
 
 class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
@@ -24,7 +23,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
 
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 3),
+      duration: const Duration(seconds: 3),
     );
 
     _animation = Tween<double>(begin: 0.0, end: 3000.0).animate(

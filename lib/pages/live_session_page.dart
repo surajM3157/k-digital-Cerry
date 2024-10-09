@@ -4,7 +4,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:piwotapp/widgets/app_themes.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
-
 import '../constants/colors.dart';
 import '../constants/images.dart';
 import '../widgets/gradient_text.dart';

@@ -22,7 +22,6 @@ import 'package:piwotapp/pages/splash/splash_page.dart';
 import 'package:piwotapp/pages/survey/survey_page.dart';
 import 'package:piwotapp/pages/survey/thank_you_page.dart';
 import 'package:piwotapp/route/route_names.dart';
-
 import '../pages/session_details_page.dart';
 
 final getPages = [

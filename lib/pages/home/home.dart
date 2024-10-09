@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -52,7 +51,7 @@ class _HomeState extends State<Home> {
 
 
   Timer? _timer;
-  Duration _timeRemaining = Duration();
+  Duration _timeRemaining = const Duration();
   final DateTime _endTime = DateTime(2025, 01, 16, 23, 59, 59); // Your end time
 
   @override
@@ -62,7 +61,7 @@ class _HomeState extends State<Home> {
   }
 
   void _startTimer() {
-    _timer = Timer.periodic(Duration(seconds: 1), (Timer timer) {
+    _timer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
       setState(() {
         _timeRemaining = _endTime.difference(DateTime.now());
 

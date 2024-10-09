@@ -26,7 +26,7 @@ class _ThankYouPageState extends State<ThankYouPage> {
           children: [
             Center(
               child: Container(
-                padding: EdgeInsets.all(40),
+                padding: const EdgeInsets.all(40),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [AppColor.primaryColor, AppColor.red],

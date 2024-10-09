@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:piwotapp/constants/colors.dart';
-import 'package:piwotapp/pages/auth/login_page.dart';
 import 'package:get/get.dart';
 import 'package:piwotapp/route/route_names.dart';
 import 'package:piwotapp/route/route_pages.dart';
