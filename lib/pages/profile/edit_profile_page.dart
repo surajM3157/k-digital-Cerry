@@ -27,6 +27,7 @@ class _EditProfilPageState extends State<EditProfilPage> {
   TextEditingController designationController = TextEditingController();
   TextEditingController dobController = TextEditingController();
   TextEditingController locationController = TextEditingController();
+  TextEditingController branchController = TextEditingController();
 
   final picker = ImagePicker();
   File? _image;
@@ -302,6 +303,8 @@ class _EditProfilPageState extends State<EditProfilPage> {
                     ),
                   ),
                 ):const SizedBox.shrink(),
+                _isAlumni == "Yes"?const SizedBox(height: 25,):const SizedBox.shrink(),
+                _isAlumni == "Yes"? AppTextField(hintText: "Type your Branch",controller: branchController,labelText:"Branch",):const SizedBox.shrink(),
                 const SizedBox(height: 30,),
                 AppButton(title: "Update", onTap: (){}),
                 const SizedBox(height: 30,),

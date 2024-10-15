@@ -36,7 +36,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
     _controller.forward().then((_) {
       // Navigate to next screen once animation completes
       // You can use Navigator.pushReplacement or Navigator.push
-      Get.offAllNamed(Routes.login);
+      Get.offAllNamed(Routes.home);
     });
   }
 

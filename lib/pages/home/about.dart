@@ -63,42 +63,9 @@ class _AboutState extends State<About> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(8),
                       child: Image.asset(Images.aboutBanner,fit: BoxFit.fill,)),),
-              const SizedBox(height: 32,),
-              Row(
-                children: [
-                  const Expanded(
-
-                      child: Text("PanIIT is a body of alumni, formed to give back to the society and the nation; it is a global community of over 400,000 alumni from all the IITs.")),
-                  const SizedBox(width: 14,),
-                  Expanded(child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                      child: Image.asset(Images.about1)))
-                ],
-              ),
-              const SizedBox(height: 24,),
-              Row(
-                children: [
-                  Expanded(child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: Image.asset(Images.about2))),
-                  const SizedBox(width: 14,),
-                  const Expanded(
-                      child: Text("It aims to empower the IIT alumni community to drive positive change and transformation in society through innovation.")),
-
-                ],
-              ),
-              const SizedBox(height: 24,),
-              Row(
-                children: [
-                  const Expanded(
-
-                      child: Text("Social impact initiatives by PanIIT paint a large canvas and have become strong movements. Each alumni body has an impact area and a role to play, and complements others.")),
-                  const SizedBox(width: 14,),
-                  Expanded(child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: Image.asset(Images.about3)))
-                ],
-              ),
+              const SizedBox(height: 16,),
+              AppThemes.buildBulletPoint(Text('PanIIT is a body of alumni, formed to give back to society and the nation; it is a global community of over 400,000 alumni from all the IITs. It aims to empower the IIT alumni community to drive positive change and transformation in society through innovation.',style: TextStyle(fontSize: 14,fontFamily: appFontFamily,fontWeight: FontWeight.w400,color: AppColor.FF161616),)),
+              AppThemes.buildBulletPoint(Text('Social impact initiatives by PanIIT paint a large canvas and have become strong movements. Each alumni body has an impact area and a role to play and complements others. Meet them at PIWOT 2025, and join our efforts to contribute to society.',style: TextStyle(fontSize: 14,fontFamily: appFontFamily,fontWeight: FontWeight.w400,color: AppColor.FF161616),)),
               const SizedBox(height: 32,),
               Center(child: GradientText(text: "Office Bearers", style: const TextStyle(fontSize: 16,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]))),
               const SizedBox(height: 15,),
