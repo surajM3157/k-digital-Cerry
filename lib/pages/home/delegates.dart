@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:piwotapp/constants/colors.dart';
 import 'package:get/get.dart';
@@ -5,6 +6,9 @@ import 'package:piwotapp/widgets/app_textfield.dart';
 import '../../constants/font_family.dart';
 import '../../constants/images.dart';
 import '../../route/route_names.dart';
+import '../../services/chat_service.dart';
+import '../../shared prefs/pref_manager.dart';
+import 'package:get/get.dart';
 
 class Delegates extends StatefulWidget {
    Delegates({super.key,required this.tabController});
@@ -33,6 +37,8 @@ class _DelegatesState extends State<Delegates> {
 
   TextEditingController searchDelegateController = TextEditingController();
   TextEditingController searchChatController = TextEditingController();
+  ChatService chatService = ChatService();
+
 
   @override
   Widget build(BuildContext context) {
@@ -59,16 +65,18 @@ class _DelegatesState extends State<Delegates> {
             children: [
               const SizedBox(height: 20,),
               AppTextField(hintText: "Search Delegates",controller: searchChatController,prefixIcon: Icon(Icons.search,color: AppColor.FF9B9B9B,),),
-              Expanded(
-                child: ListView.separated(itemBuilder: (context,index){
-                  return Padding(
-                    padding: index ==0? const EdgeInsets.only(top: 20):index ==delegates.length-1?const EdgeInsets.only(bottom: 20):EdgeInsets.zero,
-                    child: chatListItem(name: delegates[index].name, message: delegates[index].message, profile: delegates[index].profile),
-                  );
-                }, separatorBuilder: (context, index){
-                  return const SizedBox(height: 20,);
-                }, itemCount: delegates.length),
-              ),
+              const SizedBox(height: 20,),
+              // Expanded(
+              //   child: ListView.separated(itemBuilder: (context,index){
+              //     return Padding(
+              //       padding: index ==0? const EdgeInsets.only(top: 20):index ==delegates.length-1?const EdgeInsets.only(bottom: 20):EdgeInsets.zero,
+              //       child: chatListItem(name: delegates[index].name, message: delegates[index].message, profile: delegates[index].profile),
+              //     );
+              //   }, separatorBuilder: (context, index){
+              //     return const SizedBox(height: 20,);
+              //   }, itemCount: delegates.length),
+              // ),
+              Expanded(child: _buildUserList())
             ],
           ),
           ListView.separated(itemBuilder: (context,index){
@@ -81,6 +89,90 @@ class _DelegatesState extends State<Delegates> {
           }, itemCount: delegates.length),
 
     ]);
+  }
+
+  Widget _buildUserList(){
+    return StreamBuilder<QuerySnapshot>(stream:
+    FirebaseFirestore.instance.collection("users").snapshots(),
+      builder: (context,snapshot){
+        if(snapshot.hasError){
+          return Text("Error");
+        }
+        if(snapshot.connectionState ==ConnectionState.waiting){
+          return Text("Loading...");
+        }
+        return ListView(
+          children: snapshot.data!.docs.map<Widget>((doc) => _buildUserListItem(doc)).toList(),
+        );
+      },);
+  }
+
+  Widget _buildUserListItem(DocumentSnapshot document){
+    Map<String,dynamic> data = document.data()! as Map<String, dynamic>;
+
+
+    print("other username ${data['name']}");
+
+    if(Prefs.checkUsername != data['name']){
+      return ListTile(
+        title: Row(
+          children: [
+            SizedBox(
+                height: 70,
+                width: 70,
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(50),
+                    child: data['profile']!= null?Image.network(data['profile'],fit: BoxFit.fill,):Image.asset(Images.profile1,fit: BoxFit.fill,))),
+            const SizedBox(width: 20,),
+            Container(
+              width: Get.width/1.5,
+              padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+              decoration: BoxDecoration(
+                  color: AppColor.white,
+                  border: Border.all(color: AppColor.black.withOpacity(0.12)),
+                  borderRadius: BorderRadius.circular(15)
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(data['name']),
+                  StreamBuilder(
+                      stream: chatService.getMessages(Prefs.checkMobileNo, data['uid']),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return Text("Loading...");
+                        }
+                        if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                          return Text("No messages yet");
+                        }
+                        var lastMessageDoc = snapshot.data!.docs.last;
+                        var lastMessageData = lastMessageDoc.data() as Map<String, dynamic>;
+
+                        return Text(
+                          lastMessageData['message'], // Display the message content
+                          style: TextStyle(color: Colors.grey),
+                        );
+                      }
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
+        onTap: (){
+          Get.toNamed(Routes.chat,arguments: {
+            'receiverName':data['name'],
+            'receiverId':data['uid']
+          });
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(builder: (context) =>  ChatPage(receiverUserEmail: data['name'], receiverUserId: data['uid'],)),
+          // );
+        },
+      );
+    }else{
+      return Container();
+    }
   }
 
 

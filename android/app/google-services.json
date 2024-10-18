@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "822399296694",
+    "project_id": "piwot-b559b",
+    "storage_bucket": "piwot-b559b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:822399296694:android:b62e6e495a1f224253b217",
+        "android_client_info": {
+          "package_name": "com.kdc.piwotapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBG1OAdfzSlTfz_5KmlrwMBewMMvIWN3V4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

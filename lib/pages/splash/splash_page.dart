@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:piwotapp/constants/colors.dart';
 import '../../constants/images.dart';
 import '../../route/route_names.dart';
+import '../../shared prefs/pref_manager.dart';
 
 
 class SplashPage extends StatefulWidget {
@@ -33,10 +34,13 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
       ),
     );
 
-    _controller.forward().then((_) {
+    _controller.forward().then((_) async{
       // Navigate to next screen once animation completes
       // You can use Navigator.pushReplacement or Navigator.push
-      Get.offAllNamed(Routes.home);
+      await Prefs.load();
+      Prefs.loadData();
+      print("username ${Prefs.checkUsername}");
+      Get.offAllNamed(Routes.login);
     });
   }
 

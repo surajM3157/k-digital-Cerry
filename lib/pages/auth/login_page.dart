@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:piwotapp/constants/colors.dart';
@@ -6,6 +7,7 @@ import 'package:piwotapp/widgets/app_themes.dart';
 import '../../constants/font_family.dart';
 import '../../constants/images.dart';
 import '../../route/route_names.dart';
+import '../../shared prefs/pref_manager.dart';
 import '../../widgets/app_button.dart';
 import '../../widgets/gradient_text.dart';
 
@@ -18,6 +20,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMixin {
   final TextEditingController _phoneNumberController = TextEditingController();
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   bool isObscure = true;
 
   late AnimationController _animationController;
@@ -151,6 +154,14 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
                   AppButton(
                     title: "Next",
                     onTap: () {
+                      // Prefs.setString("mobile_no", _phoneNumberController.text);
+                      // Prefs.setString("user_name", "Shamali Mondkar");
+                      // _firestore.collection("users").doc(_phoneNumberController.text).set(
+                      //     {
+                      //       "uid":_phoneNumberController.text,
+                      //       "name":"Shamali Mondkar",
+                      //     }, SetOptions(merge: true)
+                      // );
                       Get.toNamed(Routes.otp);
                     },
                   ),
