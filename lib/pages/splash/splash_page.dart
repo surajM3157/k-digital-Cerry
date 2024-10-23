@@ -40,8 +40,23 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
       await Prefs.load();
       Prefs.loadData();
       print("username ${Prefs.checkUsername}");
-      Get.offAllNamed(Routes.login);
+      _loadScreen();
     });
+  }
+
+  _loadScreen() async
+  {
+    await Prefs.load();
+    Prefs.loadData();
+
+    if(Prefs.checkLogin == true)
+    {
+      Get.offAllNamed(Routes.home);
+    }
+    else
+    {
+      Get.offAllNamed(Routes.login);
+    }
   }
 
   @override

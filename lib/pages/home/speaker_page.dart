@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:piwotapp/responses/speaker_response.dart';
 import '../../constants/colors.dart';
 import '../../constants/font_family.dart';
 import '../../constants/images.dart';
+import '../../repository/api_repo.dart';
+import '../../widgets/app_themes.dart';
 import '../../widgets/gradient_text.dart';
 
 class SpeakerPage extends StatefulWidget {
@@ -16,6 +19,8 @@ class SpeakerPage extends StatefulWidget {
 class _SpeakerPageState extends State<SpeakerPage> {
 
   TextEditingController searchController = TextEditingController();
+  SpeakerResponse? speakerResponse;
+
 
   List<SpeakerModel> speakers = [
     SpeakerModel(title: 'Shri Narendra Modi', subtitle: 'Honourable Prime Minister of India Government of India', body: 'Narendra Modi is the Prime Minister of India, serving since 2014. He is a member of the Bharatiya Janata Party (BJP) and previously served as the Chief Minister of Gujarat from 2001 to 2014. Known for his economic and governance reforms, Modi has focused on modernizing India’s infrastructure, digital economy, and foreign relations. His leadership style is marked by strong centralization of power, and he remains a polarizing figure, with both supporters and critics of his policies.', image: Images.speaker4),
@@ -36,6 +41,14 @@ class _SpeakerPageState extends State<SpeakerPage> {
     SpeakerModel(title: 'Prof. Alon Chen', subtitle: 'President - Weizmann Institute of Science, Israel', body: '', image: Images.speaker_6),
     SpeakerModel(title: 'Mr Saakar S Yadav', subtitle: 'Founder and CMD, Lexlegis.ai', body: '', image: Images.speaker_7),
   ];
+
+  List<SpeakerData> speakerList = [];
+
+  @override
+  void initState() {
+    fetchSpeakerList();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -147,6 +160,7 @@ class _SpeakerPageState extends State<SpeakerPage> {
     );
   }
 
+
   speakerDetails({required String title, required String subtitle, required String body, required String image}){
 
     return showModalBottomSheet<void>(
@@ -217,6 +231,36 @@ class _SpeakerPageState extends State<SpeakerPage> {
         );
       },
     );
+  }
+
+  fetchSpeakerList() async
+  {
+    Future.delayed(Duration.zero, () {
+      showLoader(context);
+    });
+
+    try{
+      var response = await ApiRepo().getSpeakerResponse();
+
+      if( response.data != null)
+      {
+        speakerResponse = response;
+        for(SpeakerData speaker in speakerResponse!.data!){
+          speakerList.add(speaker);
+
+        }
+        print("speakerlist ${speakerList.length}");
+      }
+
+      setState(() {
+
+      });
+
+    }
+    catch(e){}
+
+
+    setState(() {});
   }
 }
 

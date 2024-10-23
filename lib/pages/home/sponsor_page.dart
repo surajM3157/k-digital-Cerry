@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:piwotapp/responses/partner_response.dart';
+import 'package:piwotapp/responses/sponsor_response.dart';
 import '../../constants/colors.dart';
 import '../../constants/images.dart';
+import '../../repository/api_repo.dart';
 import '../../widgets/app_themes.dart';
 import '../../widgets/custom_tabbar_indicator.dart';
 
@@ -21,10 +24,17 @@ class _SponsorPageState extends State<SponsorPage> with SingleTickerProviderStat
   ];
 
   late TabController _tabController;
+  SponsorResponse? sponsorResponse;
+  List<SponsorData> sponsorList = [];
+
+  PartnerResponse? partnerResponse;
+  List<PartnerData> partnerList = [];
 
   @override
   void initState() {
-    _tabController = TabController(length: 4, vsync: this);
+    _tabController = TabController(length: 2, vsync: this);
+    fetchSponsorList();
+    fetchPartnerList();
     super.initState();
   }
 
@@ -130,6 +140,66 @@ class _SponsorPageState extends State<SponsorPage> with SingleTickerProviderStat
         ],
       ),
     );
+  }
+
+  fetchSponsorList() async
+  {
+    Future.delayed(Duration.zero, () {
+      showLoader(context);
+    });
+
+    try{
+      var response = await ApiRepo().getSponsorResponse();
+
+      if( response.data != null)
+      {
+        sponsorResponse = response;
+        for(SponsorData sponsor in sponsorResponse!.data!){
+          sponsorList.add(sponsor);
+
+        }
+        print("sponsorlist ${sponsorList.length}");
+      }
+
+      setState(() {
+
+      });
+
+    }
+    catch(e){}
+
+
+    setState(() {});
+  }
+
+  fetchPartnerList() async
+  {
+    Future.delayed(Duration.zero, () {
+      showLoader(context);
+    });
+
+    try{
+      var response = await ApiRepo().getPartnerResponse();
+
+      if( response.data != null)
+      {
+        partnerResponse = response;
+        for(PartnerData partner in partnerResponse!.data!){
+          partnerList.add(partner);
+
+        }
+        print("partnerlist ${partnerList.length}");
+      }
+
+      setState(() {
+
+      });
+
+    }
+    catch(e){}
+
+
+    setState(() {});
   }
 }
 

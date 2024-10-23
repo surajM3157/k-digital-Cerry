@@ -18,7 +18,7 @@ class Prefs {
     checkProfile = getBool('is_profile_new');
     checkUserId = getString('user_id_new');
     checkEmail = getString("user_email_new");
-    checkUsername = getString('user_name');
+    checkUsername = getString('user_name_new');
     checkAuthToken = getString("user_auth_token");
     checkMobileNo = getString("mobile_no");
   }

@@ -4,7 +4,7 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:get/get.dart';
 import '../../constants/colors.dart';
 import '../../constants/images.dart';
-import '../../route/route_names.dart';
+import '../../repository/api_repo.dart';
 import '../../widgets/app_button.dart';
 import '../../widgets/app_themes.dart';
 import '../../widgets/gradient_text.dart';
@@ -21,6 +21,13 @@ class _OtpPageState extends State<OtpPage> {
   final TextEditingController _codeController = TextEditingController();
 
   String otpCode = "";
+  String id = "";
+
+  @override
+  void initState() {
+   id = Get.arguments['data'];
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -142,7 +149,7 @@ class _OtpPageState extends State<OtpPage> {
                  ),
                  const SizedBox(height: 20,),
                  AppButton(title: "Verify", onTap: () {
-                   Get.offAllNamed(Routes.home);
+                   apiCalling();
                  },),
                ],
              ),
@@ -184,6 +191,11 @@ class _OtpPageState extends State<OtpPage> {
               enableActiveFill: true,
               appContext: context,
               length: 4,
+              validator: (value){
+                if(value == ""){
+                  return "Enter valid OTP";
+                }
+              },
               animationType: AnimationType.fade,
               textStyle: TextStyle(color: AppColor.primaryColor),
               pinTheme: PinTheme(
@@ -223,5 +235,22 @@ class _OtpPageState extends State<OtpPage> {
         ],
       ),
     );
+  }
+
+  void apiCalling()
+  {
+
+
+    var params = {
+      "otp":otpCode
+    };
+
+
+
+    Future.delayed(Duration.zero, () {
+      showLoader(context);
+    });
+
+    ApiRepo().verifyOtp(params,id);
   }
 }

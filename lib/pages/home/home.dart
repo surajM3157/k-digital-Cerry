@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:piwotapp/pages/home/home_page.dart';
+import 'package:piwotapp/responses/banner_response.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../constants/colors.dart';
 import '../../constants/font_family.dart';
 import '../../constants/images.dart';
+import '../../repository/api_repo.dart';
 import '../../route/route_names.dart';
 import '../../widgets/app_themes.dart';
 import '../../widgets/gradient_text.dart';
@@ -54,10 +56,44 @@ class _HomeState extends State<Home> {
   Duration _timeRemaining = const Duration();
   final DateTime _endTime = DateTime(2025, 01, 16, 23, 59, 59); // Your end time
 
+  BannerResponse? bannerResponse;
+  List<BannerData> bannerList = [];
+
   @override
   void initState() {
     super.initState();
     _startTimer();
+    fetchBannerList();
+  }
+
+  fetchBannerList() async
+  {
+    Future.delayed(Duration.zero, () {
+      showLoader(context);
+    });
+
+    try{
+      var response = await ApiRepo().getBannerResponse();
+
+      if( response.data != null)
+      {
+        bannerResponse = response;
+        for(BannerData banner in bannerResponse!.data!){
+          bannerList.add(banner);
+
+        }
+        print("bannerlist ${bannerList.length}");
+      }
+
+      setState(() {
+
+      });
+
+    }
+    catch(e){}
+
+
+    setState(() {});
   }
 
   void _startTimer() {

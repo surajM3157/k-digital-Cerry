@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:piwotapp/responses/agenda_response.dart';
 import '../../constants/colors.dart';
 import '../../constants/font_family.dart';
+import '../../repository/api_repo.dart';
+import '../../widgets/app_themes.dart';
 import '../../widgets/gradient_text.dart';
 
 class Agenda extends StatefulWidget {
@@ -11,6 +14,43 @@ class Agenda extends StatefulWidget {
 }
 
 class _AgendaState extends State<Agenda> {
+
+  AgendaResponse? agendaResponse;
+
+
+  fetchAgendaList() async
+  {
+    Future.delayed(Duration.zero, () {
+      showLoader(context);
+    });
+
+    try{
+      var response = await ApiRepo().getAgendaResponse();
+
+      if( response.data != null)
+      {
+        agendaResponse = response;
+
+        print("sponsorlist ${agendaResponse?.data?.length}");
+      }
+
+      setState(() {
+
+      });
+
+    }
+    catch(e){}
+
+
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    fetchAgendaList();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
