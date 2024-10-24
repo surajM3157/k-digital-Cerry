@@ -7,6 +7,7 @@ import 'package:piwotapp/route/route_names.dart';
 import 'package:piwotapp/widgets/app_themes.dart';
 import 'package:get/get.dart';
 import '../../constants/images.dart';
+import '../../shared prefs/pref_manager.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -336,6 +337,13 @@ class _ProfilePageState extends State<ProfilePage> {
           const SizedBox(height: 20,),
           InkWell(
             onTap: (){
+              Prefs.setBool('is_logged_in_new', false);
+              Prefs.setString('user_id_new', "");
+              Prefs.setString('user_email_new', "");
+              Prefs.setString('user_auth_token', "");
+              Prefs.setString("user_name_new", "");
+              Prefs.setString("mobile_no", "");
+              Prefs.clear();
               Get.offAllNamed(Routes.login);
             },
             child: Container(

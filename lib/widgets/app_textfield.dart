@@ -4,7 +4,7 @@ import 'package:piwotapp/constants/font_family.dart';
 import '../constants/colors.dart';
 
 class AppTextField extends StatelessWidget {
-   AppTextField({super.key,required this.hintText,required this.controller,this.prefixIcon,this.suffixIcon,this.labelText,this.readOnly,this.onTap,this.obscureText,this.keyboardType,this.inputFormatters});
+   AppTextField({super.key,required this.hintText,required this.controller,this.prefixIcon,this.suffixIcon,this.labelText,this.readOnly,this.onTap,this.obscureText,this.keyboardType,this.inputFormatters,this.validator,this.autovalidateMode});
 
   String hintText;
   String? labelText;
@@ -16,6 +16,8 @@ class AppTextField extends StatelessWidget {
   bool? obscureText;
   TextInputType? keyboardType;
    List<TextInputFormatter>? inputFormatters;
+   String? Function(String?)? validator;
+   AutovalidateMode? autovalidateMode;
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +30,7 @@ class AppTextField extends StatelessWidget {
         obscureText: obscureText??false,
         onTap: onTap,
         cursorColor: AppColor.primaryColor,
+        autovalidateMode: autovalidateMode,
         inputFormatters: inputFormatters,
         decoration: InputDecoration(
           prefixIcon: prefixIcon,
@@ -36,7 +39,6 @@ class AppTextField extends StatelessWidget {
           labelText: labelText,
           labelStyle: TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
           hintStyle:  TextStyle(color:AppColor.FF9B9B9B,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
-
           contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
           focusedBorder:  OutlineInputBorder(
               borderRadius: BorderRadius.circular(10.0),
@@ -49,6 +51,7 @@ class AppTextField extends StatelessWidget {
           errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: const BorderSide(color: Colors.red, width: 2.0)),
           focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: const BorderSide(color: Colors.red, width: 2.0)),
         ),
+        validator: validator,
       ),
     );
   }

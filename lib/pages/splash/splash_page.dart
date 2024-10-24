@@ -51,7 +51,11 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
 
     if(Prefs.checkLogin == true)
     {
-      Get.offAllNamed(Routes.home);
+      if(Prefs.checkProfile == true) {
+        Get.offAllNamed(Routes.editProfile);
+      }else{
+        Get.offAllNamed(Routes.home);
+      }
     }
     else
     {

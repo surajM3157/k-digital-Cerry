@@ -7,8 +7,6 @@ import 'package:piwotapp/constants/colors.dart';
 import 'package:piwotapp/constants/font_family.dart';
 import 'package:piwotapp/widgets/chat_bubble.dart';
 import '../constants/images.dart';
-import 'package:get/get.dart';
-
 import '../services/chat_service.dart';
 import '../shared prefs/pref_manager.dart';
 
@@ -157,7 +155,7 @@ class _ChatPageState extends State<ChatPage> {
 
   Widget _buildMessageList(){
     return StreamBuilder(
-        stream: chatService.getMessages(receiverId, Prefs.checkMobileNo),
+        stream: chatService.getMessages(receiverId, Prefs.checkUserId),
         builder: (context,snapshot){
           if(snapshot.hasError){
             return Text("error ${snapshot.error}");
@@ -175,6 +173,6 @@ class _ChatPageState extends State<ChatPage> {
   Widget _buildMessageItem(DocumentSnapshot document){
     Map<String, dynamic> data = document.data() as Map<String,dynamic>;
 
-    return ChatBubble( message: data['message'], isMe: (data['senderId']== Prefs.checkMobileNo), timeStamp: DateFormat('hh:mm a').format(data['timestamp'].toDate()),);
+    return ChatBubble( message: data['message'], isMe: (data['senderId']== Prefs.checkUserId), timeStamp: DateFormat('hh:mm a').format(data['timestamp'].toDate()),);
   }
 }

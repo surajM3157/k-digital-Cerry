@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:piwotapp/constants/api_urls.dart';
 import 'package:piwotapp/constants/font_family.dart';
+import 'package:piwotapp/responses/session_list_response.dart';
 import '../constants/colors.dart';
 import '../constants/images.dart';
 import '../widgets/app_themes.dart';
@@ -25,9 +28,10 @@ class _SessionDetailsPageState extends State<SessionDetailsPage> {
     SpeakerModel(title: 'Shri Dinesh Kumar Khara', subtitle: 'Chairperson State Bank of India', body: 'Shri Dinesh Kumar Khara is an Indian banker and the Chairman of the State Bank of India (SBI), the largest public sector bank in the country. Appointed in October 2020, Khara has played a key role in driving SBI\'s digital transformation and expanding its global operations. He has been with the bank for over three decades, holding various leadership positions in retail banking, corporate banking, and global markets. Under his leadership, SBI has focused on financial inclusion, digital banking, and supporting economic growth in India.', image: Images.speaker6),
   ];
 
+  SessionListData? _sessionListData;
   @override
   void initState() {
-    // Get.arguments['sessionModel'] =
+    _sessionListData = Get.arguments['data'];
     super.initState();
   }
 
@@ -55,7 +59,7 @@ class _SessionDetailsPageState extends State<SessionDetailsPage> {
                   width: Get.width,
                   height: 390,
 
-                  child: Image.asset(widget.image??"",fit: BoxFit.fill,)),
+                  child: Image.network(ApiUrls.imageUrl+(_sessionListData?.sessionImage??""),fit: BoxFit.fill,)),
               Container(
                 margin: const EdgeInsets.only(top: 350),
                 decoration: BoxDecoration(
@@ -71,14 +75,14 @@ class _SessionDetailsPageState extends State<SessionDetailsPage> {
                         const SizedBox(height: 20,),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: Text(widget.title??"",style: AppThemes.titleTextStyle().copyWith(
+                          child: Text(_sessionListData?.sessionName??"",style: AppThemes.titleTextStyle().copyWith(
                               fontWeight: FontWeight.w600,fontSize: 24
                           ),),
                         ),
                         const SizedBox(height: 20,),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: Text("Bridging Innovation and Collaboration Worldwide. Connecting Minds, Shaping the Future.",style:AppThemes.subtitleTextStyle().copyWith(fontSize: 16)),
+                          child: Text(_sessionListData?.sessionDescription??"",style:AppThemes.subtitleTextStyle().copyWith(fontSize: 16)),
                         ),
                         const SizedBox(height: 20,),
                         Container(width: Get.width,
@@ -92,7 +96,7 @@ class _SessionDetailsPageState extends State<SessionDetailsPage> {
                               GradientText(text:"Room No: ", style: const TextStyle(fontSize: 16,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
                                 colors: [AppColor.primaryColor,AppColor.red]
                               ),),
-                              Text("201",style: TextStyle(fontSize: 16,fontFamily: appFontFamily,fontWeight: FontWeight.w400,color: AppColor.FF161616),)
+                              Text(_sessionListData?.roomDetails?.roomNo??"",style: TextStyle(fontSize: 16,fontFamily: appFontFamily,fontWeight: FontWeight.w400,color: AppColor.FF161616),)
                             ],
                           ),
                         ),
@@ -114,60 +118,35 @@ class _SessionDetailsPageState extends State<SessionDetailsPage> {
                         const SizedBox(height: 10,),
                         Padding(
                           padding: const EdgeInsets.only(left: 40),
-                          child: Text("22 September 2024 , Tuesday",style: AppThemes.subtitleTextStyle(),),
+                          child: Text(DateFormat('dd MMM yyyy').format(DateTime.parse(_sessionListData?.date??"")),style: AppThemes.subtitleTextStyle(),),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 40),
-                          child: Text("10:00 am to 12:00 am",style: AppThemes.subtitleTextStyle(),),
+                          child: Text(_sessionListData?.time??"",style: AppThemes.subtitleTextStyle(),),
                         ),
 
                       ],
-                    ),
-                    const SizedBox(height: 20,),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Icon(Icons.location_on_outlined,size: 17,color: AppColor.primaryColor,),
-                              const SizedBox(width: 5,),
-                              GradientText(text:"Location",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor,fontWeight: FontWeight.w600),gradient:LinearGradient(
-                                colors: [AppColor.primaryColor, AppColor.red],
-                                begin: Alignment.centerLeft,
-                                end: Alignment.centerRight,
-                              )),
-                            ],
-                          ),
-                          const SizedBox(height: 10,),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 20),
-                            child: Text("Indian Institute of Technology Delhi, Hauz Khas, Delhi 110016.",style: AppThemes.subtitleTextStyle(),),
-                          ),
-                        ],
-                      ),
                     ),
                     const SizedBox(height: 20,),
                     Container(width: Get.width,
                       height: 1,color: AppColor.primaryColor,
                     ),
                     const SizedBox(height: 20,),
-                    Padding(
+                    _sessionListData?.speakerDetails !=null?Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: GradientText(text: "Speaker", style: const TextStyle(fontWeight: FontWeight.w600,fontFamily: appFontFamily,fontSize: 16), gradient: LinearGradient(
                         colors: [AppColor.primaryColor,AppColor.red]
                       )),
-                    ),
-                    SizedBox(
+                    ):SizedBox.shrink(),
+                    _sessionListData?.speakerDetails !=null?SizedBox(
                       height: 200,
                       child: ListView.builder(
                           scrollDirection: Axis.horizontal,
-                          itemCount: speakers.length,
+                          itemCount: _sessionListData?.speakerDetails?.length,
                           itemBuilder: (context,index){
                             return GestureDetector(
                               onTap: (){
-                                speakerDetails(title: speakers[index].title, subtitle: speakers[index].subtitle, body: speakers[index].body, image: speakers[index].image);
+                                speakerDetails(title: _sessionListData?.speakerDetails?[index].speakerName??"", subtitle: _sessionListData?.speakerDetails?[index].designation??"", body: _sessionListData?.speakerDetails?[index].bio??"", image: _sessionListData?.speakerDetails?[index].speakerImage??"");
                               },
                               child: Stack(
                                 alignment: Alignment.bottomCenter,
@@ -184,7 +163,9 @@ class _SessionDetailsPageState extends State<SessionDetailsPage> {
                                           end: Alignment.centerRight,
                                         )
                                     ),
-                                    child: Image.asset(speakers[index].image),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                        child: Image.network(ApiUrls.imageUrl+(_sessionListData?.speakerDetails?[index].speakerImage??""),fit: BoxFit.fill,)),
                                   ),
                                   Container(
                                     margin: const EdgeInsets.symmetric(horizontal: 20),
@@ -199,8 +180,8 @@ class _SessionDetailsPageState extends State<SessionDetailsPage> {
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
-                                          Text(speakers[index].title,style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600,color: AppColor.white,fontFamily: appFontFamily),),
-                                          Text(speakers[index].subtitle,style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400,color: AppColor.white,fontFamily: appFontFamily),),
+                                          Text(_sessionListData?.speakerDetails?[index].speakerName??"",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600,color: AppColor.white,fontFamily: appFontFamily),),
+                                          Text(_sessionListData?.speakerDetails?[index].designation??"",style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400,color: AppColor.white,fontFamily: appFontFamily),),
                                         ],
                                       ),
                                     ),
@@ -209,7 +190,7 @@ class _SessionDetailsPageState extends State<SessionDetailsPage> {
                               ),
                             );
                           }),
-                    ),
+                    ):SizedBox.shrink(),
                     const SizedBox(height: 20,)
                   ],
                 ),
@@ -258,7 +239,9 @@ class _SessionDetailsPageState extends State<SessionDetailsPage> {
                         borderRadius: BorderRadius.circular(16),
                         gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]),
                       ),
-                      child: Image.asset(image,fit: BoxFit.fitHeight,),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(16),
+                          child: Image.network(ApiUrls.imageUrl+image,fit: BoxFit.fill,)),
                     ),
                     const SizedBox(height: 10,),
                     Row(

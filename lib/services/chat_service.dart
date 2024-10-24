@@ -1,7 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
-
 import '../responses/message.dart';
 import '../shared prefs/pref_manager.dart';
 
@@ -11,7 +8,7 @@ class ChatService{
   Future<void> sendMessage(String receiverId, String message,String receiverName){
     // get current user info
 
-    final currentUserId = Prefs.checkMobileNo;
+    final currentUserId = Prefs.checkUserId;
     final currentUserName = Prefs.checkUsername;
     final timestamp = Timestamp.now();
     // create new message

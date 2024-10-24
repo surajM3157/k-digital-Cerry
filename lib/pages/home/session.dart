@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:piwotapp/constants/api_urls.dart';
 import 'package:piwotapp/constants/colors.dart';
 import 'package:piwotapp/constants/images.dart';
 import 'package:get/get.dart';
-import 'package:piwotapp/pages/session_details_page.dart';
+import 'package:piwotapp/responses/session_list_response.dart';
 import 'package:piwotapp/widgets/app_themes.dart';
 import '../../constants/font_family.dart';
+import '../../repository/api_repo.dart';
+import '../../route/route_names.dart';
 import '../../widgets/custom_tabbar_indicator.dart';
 
 
@@ -24,11 +28,56 @@ class _SessionState extends State<Session> with SingleTickerProviderStateMixin{
     SessionModel(title: "Future Tech Trends - The Next Wave of Innovation", image: Images.sessionBanner3, date: "16 August 2024", time: "10:00 am to 12:00 am"),
   ];
 
-  List<String> items = [];
+  SessionListResponse? sessionListResponse;
+
+  List<SessionListData> conference = [];
+  List<SessionListData> hackathon = [];
+  List<SessionListData> startups = [];
+  List<SessionListData> firesides = [];
+
+  String sessionDate = "17 Jan";
+
+  fetchSessionList(String date) async
+  {
+    Future.delayed(Duration.zero, () {
+      showLoader(context);
+    });
+
+    try{
+      var response = await ApiRepo().getSessionListResponse(date);
+
+      if( response.data != null)
+      {
+        sessionListResponse = response;
+        for(SessionListData session in sessionListResponse!.data!){
+          if(session.category?.toLowerCase() == "conference"){
+            conference.add(session);
+          }else if(session.category?.toLowerCase() == "hackathon"){
+            hackathon.add(session);
+          }else if(session.category?.toLowerCase() == "startup"){
+            startups.add(session);
+          }else{
+            firesides.add(session);
+          }
+
+        }
+      }
+
+      setState(() {
+
+      });
+
+    }
+    catch(e){}
+
+
+    setState(() {});
+  }
 
   @override
   void initState() {
     _tabController = TabController(length: 4, vsync: this);
+    fetchSessionList("2025/01/17");
     super.initState();
   }
 
@@ -47,61 +96,144 @@ class _SessionState extends State<Session> with SingleTickerProviderStateMixin{
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
 
-            Container(
-              height: 35,width: 99,
-              decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(8)),
-                  gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red],
-                      begin: Alignment.centerLeft,end: Alignment.centerRight
-                  )
-              ),
-              child: Center(
-                child: Text("17 Jan",style: TextStyle(
-                    fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.white
-                ),),
-              ),
-            ),
-            Container(
-              height: 35,width: 99,
-              padding: const EdgeInsets.all(1),
-              decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(9)),
-                  gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red],
-                      begin: Alignment.centerLeft,end: Alignment.centerRight
-                  )
-              ),
-              child: Container(
+            GestureDetector(
+              onTap: (){
+                sessionDate = "17 Jan";
+                conference.clear();
+                hackathon.clear();
+                startups.clear();
+                firesides.clear();
+                setState(() {
+                });
+                fetchSessionList("2025/01/17");
+              },
+              child:sessionDate == "17 Jan"? Container(
                 height: 35,width: 99,
                 decoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(8)),
-                    color: AppColor.white
+                    gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red],
+                        begin: Alignment.centerLeft,end: Alignment.centerRight
+                    )
+                ),
+                child: Center(
+                  child: Text("17 Jan",style: TextStyle(
+                      fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.white
+                  ),),
+                ),
+              ):Container(
+                height: 35,width: 99,
+                padding: const EdgeInsets.all(1),
+                decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(9)),
+                    gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red],
+                        begin: Alignment.centerLeft,end: Alignment.centerRight
+                    )
+                ),
+                child: Container(
+                  height: 35,width: 99,
+                  decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(8)),
+                      color: AppColor.white
+                  ),
+                  child: Center(
+                    child: Text("17 Jan",style: TextStyle(
+                        fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.FF161616
+                    ),),
+                  ),
+                ),
+              ),
+            ),
+            GestureDetector(
+              onTap: (){
+                sessionDate = "18 Jan";
+                conference.clear();
+                hackathon.clear();
+                startups.clear();
+                firesides.clear();
+                setState(() {
+                });
+                fetchSessionList("2025/01/18");
+              },
+              child: sessionDate == "18 Jan"? Container(
+                height: 35,width: 99,
+                decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(8)),
+                    gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red],
+                        begin: Alignment.centerLeft,end: Alignment.centerRight
+                    )
                 ),
                 child: Center(
                   child: Text("18 Jan",style: TextStyle(
-                      fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.FF161616
+                      fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.white
                   ),),
+                ),
+              ):Container(
+                height: 35,width: 99,
+                padding: const EdgeInsets.all(1),
+                decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(9)),
+                    gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red],
+                        begin: Alignment.centerLeft,end: Alignment.centerRight
+                    )
+                ),
+                child: Container(
+                  height: 35,width: 99,
+                  decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(8)),
+                      color: AppColor.white
+                  ),
+                  child: Center(
+                    child: Text("18 Jan",style: TextStyle(
+                        fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.FF161616
+                    ),),
+                  ),
                 ),
               ),
             ),
-            Container(
-              height: 35,width: 99,
-              padding: const EdgeInsets.all(1),
-              decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(9)),
-                  gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red],
-                      begin: Alignment.centerLeft,end: Alignment.centerRight
-                  )
-              ),
-              child: Container(
+            GestureDetector(
+              onTap: (){
+                sessionDate = "19 Jan";
+                conference.clear();
+                hackathon.clear();
+                startups.clear();
+                firesides.clear();
+                setState(() {
+                });
+                fetchSessionList("2025/01/19");
+              },
+              child: sessionDate == "19 Jan"? Container(
                 height: 35,width: 99,
                 decoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(8)),
-                    color: AppColor.white
+                    gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red],
+                        begin: Alignment.centerLeft,end: Alignment.centerRight
+                    )
                 ),
                 child: Center(
                   child: Text("19 Jan",style: TextStyle(
-                      fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.FF161616
+                      fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.white
                   ),),
+                ),
+              ):Container(
+                height: 35,width: 99,
+                padding: const EdgeInsets.all(1),
+                decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(9)),
+                    gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red],
+                        begin: Alignment.centerLeft,end: Alignment.centerRight
+                    )
+                ),
+                child: Container(
+                  height: 35,width: 99,
+                  decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(8)),
+                      color: AppColor.white
+                  ),
+                  child: Center(
+                    child: Text("18 Jan",style: TextStyle(
+                        fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.FF161616
+                    ),),
+                  ),
                 ),
               ),
             ),
@@ -189,26 +321,26 @@ class _SessionState extends State<Session> with SingleTickerProviderStateMixin{
           child: TabBarView(
             controller: _tabController,
               children: [
-            ListView.builder(
-                itemCount: sessions.length,
+            conference.isNotEmpty?ListView.builder(
+                itemCount: conference.length,
                 itemBuilder: (context,index){
-                  return sessionItem(sessions[index]);
-                }),
-            ListView.builder(
-                itemCount: sessions.length,
+                  return sessionItem(conference[index]);
+                }):Center(child: Text("No Data Found",style: AppThemes.appBarTitleStyle(),)),
+            hackathon.isNotEmpty?ListView.builder(
+                itemCount: hackathon.length,
                 itemBuilder: (context,index){
-                  return sessionItem(sessions[index]);
-                }),
-            ListView.builder(
-                itemCount: sessions.length,
+                  return sessionItem(hackathon[index]);
+                }):Center(child: Text("No Data Found",style: AppThemes.appBarTitleStyle(),)),
+            startups.isNotEmpty?ListView.builder(
+                itemCount: startups.length,
                 itemBuilder: (context,index){
-                  return sessionItem(sessions[index]);
-                }),
-            ListView.builder(
-                itemCount: sessions.length,
+                  return sessionItem(startups[index]);
+                }):Center(child: Text("No Data Found",style: AppThemes.appBarTitleStyle(),)),
+            firesides.isNotEmpty?ListView.builder(
+                itemCount: firesides.length,
                 itemBuilder: (context,index){
-                  return sessionItem(sessions[index]);
-                }),
+                  return sessionItem(firesides[index]);
+                }):Center(child: Text("No Data Found",style: AppThemes.appBarTitleStyle(),)),
           ]),
         )
       ],
@@ -216,7 +348,7 @@ class _SessionState extends State<Session> with SingleTickerProviderStateMixin{
   }
 
 
-  Widget sessionItem(SessionModel session){
+  Widget sessionItem(SessionListData session){
     return Stack(
       children: [
         Container(
@@ -235,7 +367,7 @@ class _SessionState extends State<Session> with SingleTickerProviderStateMixin{
               mainAxisSize: MainAxisSize.min,
               children: [
                 const SizedBox(height: 10,),
-                Text(session.title,style: AppThemes.titleTextStyle().copyWith(
+                Text(session.sessionName??"",style: AppThemes.titleTextStyle().copyWith(
                     fontSize: 20,fontWeight: FontWeight.w600
                 ),),
                 const SizedBox(height: 20,),
@@ -243,7 +375,7 @@ class _SessionState extends State<Session> with SingleTickerProviderStateMixin{
                   children: [
                     Icon(Icons.date_range,size: 17,color: AppColor.primaryColor,),
                     const SizedBox(width: 5,),
-                    Text(session.date,style: AppThemes.labelTextStyle().copyWith(color: AppColor.black,fontWeight: FontWeight.w400),)
+                    Text(DateFormat('dd MMM yyyy').format(DateTime.parse(session.date??"")),style: AppThemes.labelTextStyle().copyWith(color: AppColor.black,fontWeight: FontWeight.w400),)
                   ],
                 ),
                 const SizedBox(height: 20,),
@@ -251,7 +383,7 @@ class _SessionState extends State<Session> with SingleTickerProviderStateMixin{
                   children: [
                     Icon(Icons.access_time_filled,size: 17,color: AppColor.primaryColor,),
                     const SizedBox(width: 5,),
-                    Text(session.time,style: AppThemes.labelTextStyle().copyWith(color: AppColor.black,fontWeight: FontWeight.w400),)
+                    Text(session.time??"",style: AppThemes.labelTextStyle().copyWith(color: AppColor.black,fontWeight: FontWeight.w400),)
                   ],
                 ),
                 const SizedBox(height: 20,),
@@ -271,15 +403,18 @@ class _SessionState extends State<Session> with SingleTickerProviderStateMixin{
             margin: const EdgeInsets.all(10),
             child: ClipRRect(
                 borderRadius: const BorderRadius.all(Radius.circular(20)),
-                child: Image.asset(session.image,fit: BoxFit.cover,))),
+                child: Image.network(ApiUrls.imageUrl+(session.sessionImage??""),fit: BoxFit.cover,))),
       ],
     );
   }
 
-  Widget joinSessionButton(SessionModel sessionModel){
+  Widget joinSessionButton(SessionListData sessionModel){
     return InkWell(
       onTap: (){
-        Get.to(SessionDetailsPage(title: sessionModel.title,image: sessionModel.image,));
+        // Get.to(SessionDetailsPage(title: sessionModel.sessionName,image: sessionModel.sessionImage,));
+        Get.toNamed(Routes.sessionDetails,arguments: {
+          "data":sessionModel
+        });
       },
       child: Container(
         height: 45,

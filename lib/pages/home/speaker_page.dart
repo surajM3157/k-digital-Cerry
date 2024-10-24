@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:piwotapp/constants/api_urls.dart';
 import 'package:piwotapp/responses/speaker_response.dart';
 import '../../constants/colors.dart';
 import '../../constants/font_family.dart';
@@ -43,11 +45,21 @@ class _SpeakerPageState extends State<SpeakerPage> {
   ];
 
   List<SpeakerData> speakerList = [];
+  Timer? debounceTimer;
 
   @override
   void initState() {
-    fetchSpeakerList();
+    fetchSpeakerList("");
     super.initState();
+  }
+
+  void onSearchChanged(String query) {
+    speakerList.clear();
+    setState(() {});
+    if (debounceTimer?.isActive ?? false) debounceTimer!.cancel();
+    debounceTimer = Timer(const Duration(milliseconds: 1500), () {
+      fetchSpeakerList(searchController.text);
+    });
   }
 
   @override
@@ -83,6 +95,7 @@ class _SpeakerPageState extends State<SpeakerPage> {
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: TextFormField(
                 controller: searchController,
+                onChanged: onSearchChanged,
                 cursorColor: AppColor.primaryColor,
                 decoration: InputDecoration(
                   hintText: "Search Speaker",
@@ -101,14 +114,14 @@ class _SpeakerPageState extends State<SpeakerPage> {
               ),
             ),
             const SizedBox(height: 10,),
-            ListView.separated(
+            speakerList.isNotEmpty?ListView.separated(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: speakers.length,
+              itemCount: speakerList.length,
                 itemBuilder: (context,index){
               return GestureDetector(
                 onTap: (){
-                  speakerDetails(title: speakers[index].title, subtitle: speakers[index].subtitle, body: speakers[index].body, image: speakers[index].image);
+                  speakerDetails(title: speakerList[index].speakerName??"", subtitle: speakerList[index].designation??"", body: speakerList[index].bio??"", image: speakerList[index].speakerImage??"");
                 },
                 child: Stack(
                   alignment: Alignment.bottomCenter,
@@ -126,7 +139,9 @@ class _SpeakerPageState extends State<SpeakerPage> {
                             end: Alignment.centerRight,
                           )
                       ),
-                      child: Image.asset(speakers[index].image),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                          child: Image.network(ApiUrls.imageUrl+(speakerList[index].speakerImage??""),fit: BoxFit.fill,)),
                     ),
                     Positioned(
                       bottom: -30,
@@ -143,8 +158,8 @@ class _SpeakerPageState extends State<SpeakerPage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(speakers[index].title,style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600,color: AppColor.white,fontFamily: appFontFamily),),
-                              Text(speakers[index].subtitle,style: TextStyle(fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.white,fontFamily: appFontFamily),),
+                              Text(speakerList[index].speakerName??"",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600,color: AppColor.white,fontFamily: appFontFamily),),
+                              Text(speakerList[index].designation??"",style: TextStyle(fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.white,fontFamily: appFontFamily),),
                             ],
                           ),
                         ),
@@ -153,7 +168,8 @@ class _SpeakerPageState extends State<SpeakerPage> {
                   ],
                 ),
               );
-            }, separatorBuilder: (BuildContext context, int index) { return const SizedBox(height: 40,); },)
+            }, separatorBuilder: (BuildContext context, int index) { return const SizedBox(height: 40,); },):SizedBox.shrink(),
+            const SizedBox(height: 50,)
           ],
         ),
       ),
@@ -198,7 +214,9 @@ class _SpeakerPageState extends State<SpeakerPage> {
                         borderRadius: BorderRadius.circular(16),
                         gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]),
                       ),
-                      child: Image.asset(image,fit: BoxFit.fitHeight,),
+                      child:ClipRRect(
+                        borderRadius: BorderRadius.circular(16),
+                          child: Image.network(ApiUrls.imageUrl+image,fit: BoxFit.fitHeight,)),
                     ),
                     const SizedBox(height: 10,),
                     Row(
@@ -233,14 +251,14 @@ class _SpeakerPageState extends State<SpeakerPage> {
     );
   }
 
-  fetchSpeakerList() async
+  fetchSpeakerList(String search) async
   {
     Future.delayed(Duration.zero, () {
       showLoader(context);
     });
 
     try{
-      var response = await ApiRepo().getSpeakerResponse();
+      var response = await ApiRepo().getSpeakerResponse(search,false);
 
       if( response.data != null)
       {

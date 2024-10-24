@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:piwotapp/constants/api_urls.dart';
 import 'package:piwotapp/responses/partner_response.dart';
 import 'package:piwotapp/responses/sponsor_response.dart';
 import '../../constants/colors.dart';
@@ -99,7 +100,7 @@ class _SponsorPageState extends State<SponsorPage> with SingleTickerProviderStat
             child: TabBarView(
               controller: _tabController,
               children: [
-              GridView.builder(gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+              sponsorList.isNotEmpty?GridView.builder(gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
                 itemBuilder: (_, index) => Container
                   (
                   margin: const EdgeInsets.all(10),
@@ -109,14 +110,20 @@ class _SponsorPageState extends State<SponsorPage> with SingleTickerProviderStat
                       borderRadius: const BorderRadius.all(Radius.circular(8),),
                       border: Border.all(color: AppColor.grey)),
                   child: Center(
-                    child: SizedBox(
-                      height: 50,width: 100,
-                      child: Image.asset(sponsors[index].icon,fit: BoxFit.fill,),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: 70,width: 100,
+                            child: Image.network(ApiUrls.imageUrl+(sponsorList[index].sponsorImage??""))),
+                        const SizedBox(height: 10,),
+                        Text(sponsorList[index].sponsorName??"",style: AppThemes.labelTextStyle().copyWith(color: AppColor.black),)
+                      ],
                     ),
                   ),
                 ),
-                itemCount: sponsors.length,),
-              GridView.builder(gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+                itemCount: sponsorList.length,):SizedBox.shrink(),
+              partnerList.isNotEmpty?GridView.builder(gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
                 itemBuilder: (_, index) => Container
                   (
                   margin: const EdgeInsets.all(10),
@@ -126,13 +133,19 @@ class _SponsorPageState extends State<SponsorPage> with SingleTickerProviderStat
                       borderRadius: const BorderRadius.all(Radius.circular(8),),
                       border: Border.all(color: AppColor.grey)),
                   child: Center(
-                    child: SizedBox(
-                      height: 50,width: 100,
-                      child: Image.asset(sponsors[index].icon,fit: BoxFit.fill,),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                            height: 70,width: 100,
+                            child: Image.network(ApiUrls.imageUrl+(partnerList[index].partnerImage??""))),
+                        const SizedBox(height: 10,),
+                        Text(partnerList[index].partnerName??"",style: AppThemes.labelTextStyle().copyWith(color: AppColor.black),)
+                      ],
                     ),
                   ),
                 ),
-                itemCount: sponsors.length,)
+                itemCount: partnerList.length,):SizedBox.shrink()
             ],
 
             ),
@@ -149,7 +162,7 @@ class _SponsorPageState extends State<SponsorPage> with SingleTickerProviderStat
     });
 
     try{
-      var response = await ApiRepo().getSponsorResponse();
+      var response = await ApiRepo().getSponsorResponse(false);
 
       if( response.data != null)
       {

@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:piwotapp/constants/api_urls.dart';
 import 'package:piwotapp/pages/home/home_page.dart';
 import 'package:piwotapp/responses/banner_response.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -10,10 +11,11 @@ import '../../constants/colors.dart';
 import '../../constants/font_family.dart';
 import '../../constants/images.dart';
 import '../../repository/api_repo.dart';
+import '../../responses/speaker_response.dart';
+import '../../responses/sponsor_response.dart';
 import '../../route/route_names.dart';
 import '../../widgets/app_themes.dart';
 import '../../widgets/gradient_text.dart';
-import '../session_details_page.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -59,11 +61,20 @@ class _HomeState extends State<Home> {
   BannerResponse? bannerResponse;
   List<BannerData> bannerList = [];
 
+  SpeakerResponse? speakerResponse;
+  List<SpeakerData> speakers = [];
+
+  SponsorResponse? sponsorResponse;
+  List<SponsorData> sponsors = [];
+
+
   @override
   void initState() {
     super.initState();
     _startTimer();
     fetchBannerList();
+    fetchSpeakerList();
+    fetchSponsorList();
   }
 
   fetchBannerList() async
@@ -83,6 +94,66 @@ class _HomeState extends State<Home> {
 
         }
         print("bannerlist ${bannerList.length}");
+      }
+
+      setState(() {
+
+      });
+
+    }
+    catch(e){}
+
+
+    setState(() {});
+  }
+
+  fetchSpeakerList() async
+  {
+    // Future.delayed(Duration.zero, () {
+    //   showLoader(context);
+    // });
+
+    try{
+      var response = await ApiRepo().getSpeakerResponse("",true);
+
+      if( response.data != null)
+      {
+        speakerResponse = response;
+        for(SpeakerData speaker in speakerResponse!.data!){
+          speakers.add(speaker);
+
+        }
+        print("speakerlist ${speakers.length}");
+      }
+
+      setState(() {
+
+      });
+
+    }
+    catch(e){}
+
+
+    setState(() {});
+  }
+
+  fetchSponsorList() async
+  {
+    // Future.delayed(Duration.zero, () {
+    //   showLoader(context);
+    // });
+
+    try{
+      var response = await ApiRepo().getSponsorResponse(true);
+
+      if( response.data != null)
+      {
+        sponsorResponse = response;
+        for(SponsorData sponsor in sponsorResponse!.data!){
+          sponsors.add(sponsor);
+
+        }
+        print("sponsorlist ${sponsors.length}");
       }
 
       setState(() {
@@ -539,60 +610,6 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Widget banner(){
-    return Container(
-      width: Get.width,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [AppColor.primaryColor, AppColor.red],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-      ),
-      child:Column(
-        children: [
-          const SizedBox(height: 10,),
-          SvgPicture.asset(Images.logo,height: 44,width: 126,),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Image.asset(Images.speakerHome,height: 200,width: 130,fit: BoxFit.fitHeight,),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text("NETWORKING",style: TextStyle(fontSize: 30,fontWeight: FontWeight.w400,color: AppColor.white,fontFamily: appFontFamily),),
-                  Text("DINNER",style: TextStyle(fontSize: 30,fontWeight: FontWeight.w400,color: AppColor.white,fontFamily: appFontFamily),),
-                  Container(
-                    width: 183,
-                    height: 2,
-                    color: AppColor.red,
-                  ),
-                  const SizedBox(height: 10,),
-                  Text("17 January 2025",style: AppThemes.subtitle1TextStyle().copyWith(color:AppColor.white),),
-                  const SizedBox(height: 10,),
-                  InkWell(
-                    onTap: (){
-                      Get.toNamed(Routes.eventDetails);
-                    },
-                    child: Container(
-                      height: 32,
-                      width: 117,
-                      decoration: BoxDecoration(
-                          color: AppColor.red,
-                          borderRadius: const BorderRadius.all(Radius.circular(10))
-                      ),
-                      child: Center(child: Text("View Details",style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 14,color: AppColor.white),)),
-                    ),
-                  )
-                ],
-              )
-            ],
-          ),
-        ],
-      )
-      ,);
-  }
-  
   Widget countdownWidget(){
     
     return Padding(
@@ -748,7 +765,9 @@ class _HomeState extends State<Home> {
             ),
           ),
           GestureDetector(
-            onTap: (){},
+            onTap: (){
+              Get.toNamed(Routes.floorPlan);
+            },
             child: Container(
               padding: const EdgeInsets.all(1),
               decoration: BoxDecoration(
@@ -806,9 +825,9 @@ class _HomeState extends State<Home> {
   }
 
   // Indicator widget
-  Widget buildIndicator() => SmoothPageIndicator(
+  Widget buildIndicator() => bannerList.isNotEmpty?SmoothPageIndicator(
     controller: _pageController,
-    count: items.length,
+    count: bannerList.length,
     effect: WormEffect(
       dotWidth: 10,
       dotHeight: 10,
@@ -816,114 +835,9 @@ class _HomeState extends State<Home> {
       dotColor: AppColor.primaryColor,
       paintStyle: PaintingStyle.stroke
     ),
-  );
+  ):SizedBox.shrink();
 
   int activeIndex =0;
-
-  List<Widget> items = [
-    Container(
-      width: Get.width,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [AppColor.primaryColor, AppColor.red],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-      ),
-      child:Column(
-        children: [
-          const SizedBox(height: 10,),
-          SvgPicture.asset(Images.logo,height: 44,width: 126,),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Image.asset(Images.speakerHome,height: 200,width: 135,fit: BoxFit.fitHeight,),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text("NETWORKING",style: TextStyle(fontSize: 34,fontWeight: FontWeight.w400,color: AppColor.white,fontFamily: appFontFamily),),
-                  Text("DINNER",style: TextStyle(fontSize: 34,fontWeight: FontWeight.w400,color: AppColor.white,fontFamily: appFontFamily),),
-                  Container(
-                    width: 183,
-                    height: 2,
-                    color: AppColor.red,
-                  ),
-                  const SizedBox(height: 10,),
-                  Text("17 January 2025",style: AppThemes.subtitle1TextStyle().copyWith(color:AppColor.white),),
-                  const SizedBox(height: 10,),
-                  InkWell(
-                    onTap: (){
-                      Get.to(SessionDetailsPage(title: "NETWORKING DINNER",image: Images.homeBanner,));
-                    },
-                    child: Container(
-                      height: 32,
-                      width: 117,
-                      decoration: BoxDecoration(
-                          color: AppColor.red,
-                          borderRadius: const BorderRadius.all(Radius.circular(10))
-                      ),
-                      child: Center(child: Text("View Details",style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 14,color: AppColor.white),)),
-                    ),
-                  )
-                ],
-              )
-            ],
-          ),
-        ],
-      )
-      ,),
-    Container(
-      width: Get.width,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [AppColor.primaryColor, AppColor.red],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-      ),
-      child:Column(
-        children: [
-          const SizedBox(height: 10,),
-          SvgPicture.asset(Images.logo,height: 44,width: 126,),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Image.asset(Images.speakerHome,height: 200,width: 135,fit: BoxFit.fitHeight,),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text("NETWORKING",style: TextStyle(fontSize: 34,fontWeight: FontWeight.w400,color: AppColor.white,fontFamily: appFontFamily),),
-                  Text("DINNER",style: TextStyle(fontSize: 34,fontWeight: FontWeight.w400,color: AppColor.white,fontFamily: appFontFamily),),
-                  Container(
-                    width: 183,
-                    height: 2,
-                    color: AppColor.red,
-                  ),
-                  const SizedBox(height: 10,),
-                  Text("17 January 2025",style: AppThemes.subtitle1TextStyle().copyWith(color:AppColor.white),),
-                  const SizedBox(height: 10,),
-                  InkWell(
-                    onTap: (){
-                      Get.to(SessionDetailsPage(title: "NETWORKING DINNER",image: Images.homeBanner,));
-                    },
-                    child: Container(
-                      height: 32,
-                      width: 117,
-                      decoration: BoxDecoration(
-                          color: AppColor.red,
-                          borderRadius: const BorderRadius.all(Radius.circular(10))
-                      ),
-                      child: Center(child: Text("View Details",style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 14,color: AppColor.white),)),
-                    ),
-                  )
-                ],
-              )
-            ],
-          ),
-        ],
-      )
-      ,)
-  ];
 
   Widget bannerCarousel(){
     return  Column(
@@ -933,7 +847,7 @@ class _HomeState extends State<Home> {
           child: PageView.builder(
             controller: _pageController,
             scrollDirection: Axis.horizontal,
-            itemCount: items.length,
+            itemCount: bannerList.length,
               itemBuilder: (context, index){
             return GestureDetector(
               onTap: (){
@@ -942,7 +856,7 @@ class _HomeState extends State<Home> {
 
                 });
               },
-                child: items[index]);
+                child: Image.network(ApiUrls.imageUrl + (bannerList[index].bannerImage??""),fit: BoxFit.fill,));
           }),
         ),
         const SizedBox(height: 16),
@@ -1040,7 +954,7 @@ class _HomeState extends State<Home> {
   //   );
   // }
   Widget sponsorList(){
-    return Padding(
+    return sponsors.isNotEmpty?Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: CarouselSlider(
         options: CarouselOptions(height: 160,
@@ -1056,16 +970,16 @@ class _HomeState extends State<Home> {
           enlargeCenterPage: true,
           enlargeFactor: 0.03,
           scrollDirection: Axis.horizontal,),
-        items: sponsorItems.map((item) {
+        items: sponsors.map((item) {
           return Builder(
             builder: (BuildContext context) {
               return Column(
                 children: [
-                  Image.asset(item.image,height: 100,width: 100,),
+                  Image.network(ApiUrls.imageUrl+(item.sponsorImage??""),height: 100,width: 100,),
                   const SizedBox(height: 7,),
                   SizedBox(
                       width:80,
-                      child: Text(item.title,textAlign: TextAlign.center,
+                      child: Text(item.sponsorName??"",textAlign: TextAlign.center,
                         style: TextStyle(fontWeight: FontWeight.w400,fontSize: 12,fontFamily: appFontFamily,color: AppColor.primaryColor),
                       ))
                 ],
@@ -1074,7 +988,7 @@ class _HomeState extends State<Home> {
           );
         }).toList(),
       ),
-    );
+    ):SizedBox.shrink();
   }
 
   Widget speakerList(){
@@ -1082,9 +996,9 @@ class _HomeState extends State<Home> {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: SizedBox(
         height: 200,
-        child: ListView.separated(
+        child: speakers.isNotEmpty?ListView.separated(
           padding: EdgeInsets.zero,
-          itemCount: 3,
+          itemCount: (speakers.length < 3)?speakers.length:3,
           scrollDirection: Axis.horizontal,
           itemBuilder: (context,index){
             return Container(
@@ -1105,15 +1019,15 @@ class _HomeState extends State<Home> {
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(100),
-                      child: Image.asset(index ==0?Images.homeSpeaker1:index ==1?Images.homeSpeaker2:Images.homeSpeaker3,height: 80,width: 80,fit: BoxFit.fill,)),
+                      child: Image.network(ApiUrls.imageUrl+(speakers[index].speakerImage??""),height: 80,width: 80,fit: BoxFit.fill,)),
                   const SizedBox(height: 5,),
-                  Text(index==0?"Dr. Bharat\nBalasubramanian":index==1?"Dr. R.A. Mashelkar":"Dr. Sudhir Jain",style: TextStyle(fontFamily: appFontFamily,color: AppColor.white,fontSize: 16,fontWeight: FontWeight.w500),textAlign: TextAlign.center,),
+                  Text(speakers[index].speakerName??"",style: TextStyle(fontFamily: appFontFamily,color: AppColor.white,fontSize: 16,fontWeight: FontWeight.w500),textAlign: TextAlign.center,),
                   const SizedBox(height: 16,),
-                  Text(index==0?"Executive Director":index == 1?"Former Director General":"Vice Chancellor",style: TextStyle(fontFamily: appFontFamily,color: AppColor.white,fontSize: 12,fontWeight: FontWeight.w500),),
+                  Text(speakers[index].designation??"",style: TextStyle(fontFamily: appFontFamily,color: AppColor.white,fontSize: 12,fontWeight: FontWeight.w500),),
                 ],
               ),
             );
-          }, separatorBuilder: (BuildContext context, int index) { return const SizedBox(width: 16,); },),
+          }, separatorBuilder: (BuildContext context, int index) { return const SizedBox(width: 16,); },):SizedBox.shrink(),
       ),
     );
   }

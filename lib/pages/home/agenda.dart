@@ -16,22 +16,28 @@ class Agenda extends StatefulWidget {
 class _AgendaState extends State<Agenda> {
 
   AgendaResponse? agendaResponse;
+  List<AgendaData> agendaList = [];
+  String date = "17 Jan";
 
 
-  fetchAgendaList() async
+  fetchAgendaList(String date) async
   {
     Future.delayed(Duration.zero, () {
       showLoader(context);
     });
 
     try{
-      var response = await ApiRepo().getAgendaResponse();
+      var response = await ApiRepo().getAgendaResponse(date);
 
       if( response.data != null)
       {
         agendaResponse = response;
 
-        print("sponsorlist ${agendaResponse?.data?.length}");
+        for(AgendaData agendaData in agendaResponse!.data!){
+          agendaList.add(agendaData);
+        }
+
+        print("agendaList ${agendaResponse?.data?.length}");
       }
 
       setState(() {
@@ -47,34 +53,40 @@ class _AgendaState extends State<Agenda> {
 
   @override
   void initState() {
-    fetchAgendaList();
+    fetchAgendaList("2025/01/17");
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: 10,),
-            Center(
-              child: GradientText(text:"Agenda",style: const TextStyle(fontWeight: FontWeight.w600,fontFamily: appFontFamily,fontSize: 20), gradient: LinearGradient(
-                colors: [AppColor.primaryColor, AppColor.red],
-                begin: Alignment.centerLeft,
-                end: Alignment.centerRight,
-              ),
-              ),
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          const SizedBox(height: 10,),
+          Center(
+            child: GradientText(text:"Agenda",style: const TextStyle(fontWeight: FontWeight.w600,fontFamily: appFontFamily,fontSize: 20), gradient: LinearGradient(
+              colors: [AppColor.primaryColor, AppColor.red],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
             ),
-            const SizedBox(
-              height: 20,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
 
-                Container(
+              GestureDetector(
+                onTap: (){
+                  date = "17 Jan";
+                  agendaList.clear();
+                  setState(() {
+                  });
+                  fetchAgendaList("2025/01/17");
+                },
+                child:date == "17 Jan"? Container(
                   height: 35,width: 99,
                   decoration: BoxDecoration(
                       borderRadius: const BorderRadius.all(Radius.circular(8)),
@@ -87,8 +99,51 @@ class _AgendaState extends State<Agenda> {
                         fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.white
                     ),),
                   ),
+                ):Container(
+                  height: 35,width: 99,
+                  padding: const EdgeInsets.all(1),
+                  decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(9)),
+                      gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red],
+                          begin: Alignment.centerLeft,end: Alignment.centerRight
+                      )
+                  ),
+                  child: Container(
+                    height: 35,width: 99,
+                    decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.all(Radius.circular(8)),
+                        color: AppColor.white
+                    ),
+                    child: Center(
+                      child: Text("17 Jan",style: TextStyle(
+                          fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.FF161616
+                      ),),
+                    ),
+                  ),
                 ),
-                Container(
+              ),
+              GestureDetector(
+                onTap: (){
+                  date = "18 Jan";
+                  agendaList.clear();
+                  setState(() {
+                  });
+                  fetchAgendaList("2025/01/18");
+                },
+                child: date == "18 Jan"? Container(
+                  height: 35,width: 99,
+                  decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(8)),
+                      gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red],
+                          begin: Alignment.centerLeft,end: Alignment.centerRight
+                      )
+                  ),
+                  child: Center(
+                    child: Text("18 Jan",style: TextStyle(
+                        fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.white
+                    ),),
+                  ),
+                ):Container(
                   height: 35,width: 99,
                   padding: const EdgeInsets.all(1),
                   decoration: BoxDecoration(
@@ -110,7 +165,29 @@ class _AgendaState extends State<Agenda> {
                     ),
                   ),
                 ),
-                Container(
+              ),
+              GestureDetector(
+                onTap: (){
+                  date = "19 Jan";
+                 agendaList.clear();
+                  setState(() {
+                  });
+                  fetchAgendaList("2025/01/19");
+                },
+                child: date == "19 Jan"? Container(
+                  height: 35,width: 99,
+                  decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(8)),
+                      gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red],
+                          begin: Alignment.centerLeft,end: Alignment.centerRight
+                      )
+                  ),
+                  child: Center(
+                    child: Text("19 Jan",style: TextStyle(
+                        fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.white
+                    ),),
+                  ),
+                ):Container(
                   height: 35,width: 99,
                   padding: const EdgeInsets.all(1),
                   decoration: BoxDecoration(
@@ -126,121 +203,70 @@ class _AgendaState extends State<Agenda> {
                         color: AppColor.white
                     ),
                     child: Center(
-                      child: Text("19 Jan",style: TextStyle(
+                      child: Text("18 Jan",style: TextStyle(
                           fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.FF161616
                       ),),
                     ),
                   ),
                 ),
-              ],
-            ),
-            const SizedBox(height: 20,),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Column(
-                  children: [
-                    Container(height: 10,width: 1,color: AppColor.primaryColor,),
-                    Container(
-                      height: 10,width: 10,
-                      decoration: BoxDecoration(
-                          color: AppColor.primaryColor,
-                          borderRadius: const BorderRadius.all(Radius.circular(5))
+              ),
+            ],
+          ),
+          const SizedBox(height: 20,),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Flexible(
+                flex: 1,
+                child: ListView.builder(
+                    shrinkWrap: true,physics: NeverScrollableScrollPhysics(),
+                    itemCount: agendaList.length,
+                    itemBuilder: (index,context){
+                  return Column(
+                    children: [
+                      Container(
+                        height: 10,width: 10,
+                        decoration: BoxDecoration(
+                            color: AppColor.primaryColor,
+                            borderRadius: const BorderRadius.all(Radius.circular(5))
+                        ),
                       ),
-                    ),
-                    Container(height: 132,width: 1,color: AppColor.primaryColor,),
-                    Container(
-                      height: 10,width: 10,
-                      decoration: BoxDecoration(
-                          color: AppColor.primaryColor,
-                          borderRadius: const BorderRadius.all(Radius.circular(5))
+                      Container(height: 132,width: 1,color: AppColor.primaryColor,),
+                    ],
+                  );
+                }),
+              ),
+              Flexible(
+                flex: 3,
+                child: ListView.separated(
+                  shrinkWrap: true,physics: NeverScrollableScrollPhysics(),
+                  itemCount: agendaList.length,
+                itemBuilder: (context, index){
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 7,),
+                      Text(agendaList[index].time??"",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 12,color: AppColor.FF161616,fontFamily: appFontFamily),),
+                      const SizedBox(height: 20,),
+                      Text(agendaList[index].title??"",style: TextStyle(fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.FF161616),),
+                      const SizedBox(height: 10,),
+                      ListView(
+                        shrinkWrap: true,physics: NeverScrollableScrollPhysics(),
+                        children: agendaList[index].activities!.map((item) {
+                          return buildBulletPoint(Text(item,style: TextStyle(
+                              fontWeight: FontWeight.w400,fontSize: 14,fontFamily: appFontFamily,color: AppColor.FF161616
+                          ),));
+                        }).toList(), // Convert the iterable to a list
                       ),
-                    ),
-                    Container(height: 132,width: 1,color: AppColor.primaryColor,),
-                    Container(
-                      height: 10,width: 10,
-                      decoration: BoxDecoration(
-                          color: AppColor.primaryColor,
-                          borderRadius: const BorderRadius.all(Radius.circular(5))
-                      ),
-                    ),
-                    Container(height: 132,width: 1,color: AppColor.primaryColor,),
-                    Container(
-                      height: 10,width: 10,
-                      decoration: BoxDecoration(
-                          color: AppColor.primaryColor,
-                          borderRadius: const BorderRadius.all(Radius.circular(5))
-                      ),
-                    ),
-                    Container(height: 132,width: 1,color: AppColor.primaryColor,),
-                  ],
-                ),
-                const SizedBox(width: 10,),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 7,),
-                    Text("11:00 Am",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 12,color: AppColor.FF161616,fontFamily: appFontFamily),),
-                    const SizedBox(height: 20,),
-                    Text("Arrival and Welcome Drinks",style: TextStyle(fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.FF161616),),
-                    const SizedBox(height: 10,),
-                    buildBulletPoint(Text('Guests arrive and check-in.',style: TextStyle(
-                        fontWeight: FontWeight.w400,fontSize: 14,fontFamily: appFontFamily,color: AppColor.FF161616
-                    ),)),
-                    buildBulletPoint(Text('Welcome drinks and light appetizers served.',style: TextStyle(
-                        fontWeight: FontWeight.w400,fontSize: 14,fontFamily: appFontFamily,color: AppColor.FF161616
-                    ),)),
-                    buildBulletPoint(Text('Informal mingling.',style: TextStyle(
-                        fontWeight: FontWeight.w400,fontSize: 14,fontFamily: appFontFamily,color: AppColor.FF161616
-                    ),)),
-                    const SizedBox(height: 7,),
-                    Text("12:00 Pm",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 12,color: AppColor.FF161616,fontFamily: appFontFamily),),
-                    const SizedBox(height: 20,),
-                    Text("Opening Remarks",style: TextStyle(fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.FF161616),),
-                    const SizedBox(height: 10,),
-                    buildBulletPoint(Text('Host welcomes guests.',style: TextStyle(
-                        fontWeight: FontWeight.w400,fontSize: 14,fontFamily: appFontFamily,color: AppColor.FF161616
-                    ),)),
-                    buildBulletPoint(Text('Brief introduction to the purpose of the dinner.',style: TextStyle(
-                        fontWeight: FontWeight.w400,fontSize: 14,fontFamily: appFontFamily,color: AppColor.FF161616
-                    ),)),
-                    buildBulletPoint(Text('Overview of the evening\'s agenda.',style: TextStyle(
-                        fontWeight: FontWeight.w400,fontSize: 14,fontFamily: appFontFamily,color: AppColor.FF161616
-                    ),)),
-                    const SizedBox(height: 7,),
-                    Text("01:00 Pm",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 12,color: AppColor.FF161616,fontFamily: appFontFamily),),
-                    const SizedBox(height: 20,),
-                    Text("Opening Remarks",style: TextStyle(fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.FF161616),),
-                    const SizedBox(height: 10,),
-                    buildBulletPoint(Text('Host welcomes guests.',style: TextStyle(
-                        fontWeight: FontWeight.w400,fontSize: 14,fontFamily: appFontFamily,color: AppColor.FF161616
-                    ),)),
-                    buildBulletPoint(Text('Brief introduction to the purpose of the dinner.',style: TextStyle(
-                        fontWeight: FontWeight.w400,fontSize: 14,fontFamily: appFontFamily,color: AppColor.FF161616
-                    ),)),
-                    buildBulletPoint(Text('Overview of the evening\'s agenda.',style: TextStyle(
-                        fontWeight: FontWeight.w400,fontSize: 14,fontFamily: appFontFamily,color: AppColor.FF161616
-                    ),)),
-                    const SizedBox(height: 7,),
-                    Text("02:00 Pm",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 12,color: AppColor.FF161616,fontFamily: appFontFamily),),
-                    const SizedBox(height: 20,),
-                    Text("Networking",style: TextStyle(fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.FF161616),),
-                    const SizedBox(height: 10,),
-                    buildBulletPoint(Text('Introduction of the speaker.',style: TextStyle(
-                        fontWeight: FontWeight.w400,fontSize: 14,fontFamily: appFontFamily,color: AppColor.FF161616
-                    ),)),
-                    buildBulletPoint(Text('Talk on a networking relevant industry topic.',style: TextStyle(
-                        fontWeight: FontWeight.w400,fontSize: 14,fontFamily: appFontFamily,color: AppColor.FF161616
-                    ),)),
-                    buildBulletPoint(Text('Brief Q&A session (if time allows).',style: TextStyle(
-                        fontWeight: FontWeight.w400,fontSize: 14,fontFamily: appFontFamily,color: AppColor.FF161616
-                    ),)),
-                  ],
-                )
-              ],
-            )
-          ],
-        ),
+                    ],
+                  );
+                }, separatorBuilder: (BuildContext context, int index) {
+                    return SizedBox(height: 30,);
+                },),
+              )
+            ],
+          )
+        ],
       ),
     );
   }

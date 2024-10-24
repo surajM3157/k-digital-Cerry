@@ -6,6 +6,7 @@ import 'package:piwotapp/pages/auth/reset_password_page.dart';
 import 'package:piwotapp/pages/chat_page.dart';
 import 'package:piwotapp/pages/event_agenda_page.dart';
 import 'package:piwotapp/pages/event_details_page.dart';
+import 'package:piwotapp/pages/floor_plan_screen.dart';
 import 'package:piwotapp/pages/home/home_page.dart';
 import 'package:piwotapp/pages/home/speaker_page.dart';
 import 'package:piwotapp/pages/home/sponsor_page.dart';
@@ -48,4 +49,5 @@ final getPages = [
   GetPage(name: Routes.speaker, page: () => SpeakerPage()),
   GetPage(name: Routes.agenda, page: () => EventAgendaPage()),
   GetPage(name: Routes.liveEvents, page: () => LiveEventsPage()),
+  GetPage(name: Routes.floorPlan, page: () => FloorPlanScreen()),
 ];

@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:piwotapp/constants/colors.dart';
@@ -19,7 +18,6 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMixin {
   final TextEditingController _phoneNumberController = TextEditingController();
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   bool isObscure = true;
 
   late AnimationController _animationController;
@@ -168,14 +166,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
                     AppButton(
                       title: "Next",
                       onTap: () {
-                        // Prefs.setString("mobile_no", _phoneNumberController.text);
-                        // Prefs.setString("user_name", "Shamali Mondkar");
-                        // _firestore.collection("users").doc(_phoneNumberController.text).set(
-                        //     {
-                        //       "uid":_phoneNumberController.text,
-                        //       "name":"Shamali Mondkar",
-                        //     }, SetOptions(merge: true)
-                        // );
+
                         if(_formKey.currentState!.validate()){
                           apiCalling();
                         }

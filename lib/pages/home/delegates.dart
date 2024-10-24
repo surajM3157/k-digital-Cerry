@@ -8,7 +8,6 @@ import '../../constants/images.dart';
 import '../../route/route_names.dart';
 import '../../services/chat_service.dart';
 import '../../shared prefs/pref_manager.dart';
-import 'package:get/get.dart';
 
 class Delegates extends StatefulWidget {
    Delegates({super.key,required this.tabController});
@@ -137,7 +136,7 @@ class _DelegatesState extends State<Delegates> {
                 children: [
                   Text(data['name']),
                   StreamBuilder(
-                      stream: chatService.getMessages(Prefs.checkMobileNo, data['uid']),
+                      stream: chatService.getMessages(Prefs.checkUserId, data['uid']),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.waiting) {
                           return Text("Loading...");

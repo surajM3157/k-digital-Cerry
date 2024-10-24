@@ -4,12 +4,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
+import 'package:piwotapp/responses/otp_response.dart';
 import 'package:piwotapp/widgets/app_button.dart';
 import 'package:piwotapp/widgets/app_textfield.dart';
 import '../../constants/colors.dart';
 import '../../constants/font_family.dart';
 import '../../constants/images.dart';
+import '../../repository/api_repo.dart';
 
 class EditProfilPage extends StatefulWidget {
   const EditProfilPage({super.key});
@@ -20,21 +21,28 @@ class EditProfilPage extends StatefulWidget {
 
 class _EditProfilPageState extends State<EditProfilPage> {
 
-  TextEditingController nameController = TextEditingController();
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController companyController = TextEditingController();
   TextEditingController designationController = TextEditingController();
   TextEditingController dobController = TextEditingController();
-  TextEditingController locationController = TextEditingController();
-  TextEditingController branchController = TextEditingController();
+  TextEditingController cityController = TextEditingController();
+  TextEditingController streamController = TextEditingController();
+
+  var _formKey = GlobalKey<FormState>();
 
   final picker = ImagePicker();
   File? _image;
   bool tapCamera = false;
   bool tapGallery = false;
   String? _gender = "Male";
-  String? _isAlumni;
+  String? _isAlumni = "No";
+  String country = "";
+  String iitName = "";
+  String batch = "";
+  String stream = "";
 
   String selectedPrefix ="Mr";
   String selectedCode = "+91";
@@ -63,6 +71,14 @@ class _EditProfilPageState extends State<EditProfilPage> {
     'Male','Female'
   ];
 
+  OtpResponse? otpResponse;
+
+  @override
+  void initState() {
+    otpResponse = Get.arguments["data"];
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,245 +86,372 @@ class _EditProfilPageState extends State<EditProfilPage> {
       body: SingleChildScrollView(
         child: Stack(
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  height: 250,width: Get.width,
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [AppColor.primaryColor, AppColor.red],
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                      ),
-                      borderRadius: const BorderRadius.only(bottomRight: Radius.circular(170),bottomLeft: Radius.circular(170))
-                  ),
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 50,),
-                      Center(child: SvgPicture.asset(Images.logo, height: 40,width: 147)),
+            Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    height: 250,width: Get.width,
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [AppColor.primaryColor, AppColor.red],
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                        ),
+                        borderRadius: const BorderRadius.only(bottomRight: Radius.circular(170),bottomLeft: Radius.circular(170))
+                    ),
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 50,),
+                        Center(child: SvgPicture.asset(Images.logo, height: 40,width: 147)),
 
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 80,),
+                  // AppTextField(hintText: "Type your Name*",controller: nameController,labelText:"Name*",prefixIcon: Padding(
+                  //     padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  //     child: DropdownButtonHideUnderline(
+                  //       child: DropdownButton<String>(
+                  //         value: selectedPrefix,
+                  //         items: ['Mr', 'Ms', 'Mrs'].map((String prefix) {
+                  //           return DropdownMenuItem<String>(
+                  //             value: prefix,
+                  //             child: Text(prefix,style: TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),),
+                  //           );
+                  //         }).toList(),
+                  //         onChanged: (String? newValue) {
+                  //           setState(() {
+                  //             selectedPrefix = newValue!;
+                  //             if(selectedPrefix == "Ms"||selectedPrefix == "Mrs"){
+                  //               _gender = "Female";
+                  //             }else{
+                  //               _gender = "Male";
+                  //             }
+                  //           });
+                  //         },
+                  //       ),
+                  //     )), autovalidateMode: AutovalidateMode.onUserInteraction,
+                  //   inputFormatters: [ FilteringTextInputFormatter.allow(RegExp("[a-zA-Z\\s]")), ],
+                  //   validator: (value)
+                  //   {
+                  //     if (value.toString() == "")
+                  //     {
+                  //       return 'Enter a valid name.';
+                  //     }
+                  //     return null;
+                  //   },
+                  // ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: AppTextField(hintText: "Enter First Name*",controller: firstNameController,labelText:"First Name*",autovalidateMode: AutovalidateMode.onUserInteraction,
+                          inputFormatters: [ FilteringTextInputFormatter.allow(RegExp("[a-zA-Z\\s]")), ],
+                          validator: (value)
+                          {
+                            if (value.toString() == "")
+                            {
+                              return 'Enter valid first name.';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      Expanded(
+                        child: AppTextField(hintText: "Enter Last Name*",controller: lastNameController,labelText:"Last Name*",autovalidateMode: AutovalidateMode.onUserInteraction,
+                          inputFormatters: [ FilteringTextInputFormatter.allow(RegExp("[a-zA-Z\\s]")), ],
+                          validator: (value)
+                          {
+                            if (value.toString() == "")
+                            {
+                              return 'Enter valid last name.';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
                     ],
                   ),
-                ),
-                const SizedBox(height: 80,),
-                AppTextField(hintText: "Type your Name",controller: nameController,labelText:"Name",prefixIcon: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton<String>(
-                        value: selectedPrefix,
-                        items: ['Mr', 'Ms', 'Mrs'].map((String prefix) {
-                          return DropdownMenuItem<String>(
-                            value: prefix,
-                            child: Text(prefix,style: TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),),
-                          );
-                        }).toList(),
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            selectedPrefix = newValue!;
-                            if(selectedPrefix == "Ms"||selectedPrefix == "Mrs"){
-                              _gender = "Female";
-                            }else{
-                              _gender = "Male";
-                            }
-                          });
-                        },
-                      ),
-                    )),),
-                const SizedBox(height: 25,),
-                AppTextField(hintText: "Type your Email",controller: emailController,labelText:"Email",keyboardType: TextInputType.emailAddress,),
-                const SizedBox(height: 25,),
-                AppTextField(hintText: "Type Phone number",controller: phoneNumberController,labelText:"Phone Number",keyboardType: TextInputType.phone,inputFormatters:[
-                  LengthLimitingTextInputFormatter(10),
-                ],prefixIcon: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton<String>(
-                        value: selectedCode,
-                        items: ['+91', '+1', '+3'].map((String prefix) {
-                          return DropdownMenuItem<String>(
-                            value: prefix,
-                            child: Text(prefix,style: TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),),
-                          );
-                        }).toList(),
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            selectedCode = newValue!;
-                          });
-                        },
-                      ),
-                    )),),
-                const SizedBox(height: 25,),
-                genderWidget(),
-                const SizedBox(height: 25,),
-                AppTextField(
-                    readOnly: true,
-                    suffixIcon: Icon(Icons.date_range,color: AppColor.primaryColor,),
-                    onTap: () async {
-                      DateTime? pickedDate = await showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(1900),
-                          //DateTime.now() - not to allow to choose before today.
-                          lastDate: DateTime.now(),
-                          builder: (BuildContext? context, Widget? child){
-                            return Theme(
-                                data: ThemeData.light().copyWith(
-                                  primaryColor: AppColor.primaryColor,
-                                  primaryColorLight: AppColor.primaryColor,
-                                  colorScheme: ColorScheme.light(primary: AppColor.primaryColor),
-                                  buttonTheme: const ButtonThemeData(
-                                      textTheme: ButtonTextTheme.primary
-                                  ),
-                                ),
-                                child: child!);
-                          }
-                      );
-                      if (pickedDate != null) {
-                        print(pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
-
-                        String formattedDate = DateFormat('dd/MM/yyyy').format(pickedDate);
-                        print(formattedDate); //formatted date output using intl package =>  2021-03-16
-                        setState(() {
-
-                          dobController.text = formattedDate; //set output date to TextField value.
-                        });
-                      } else {}
+                  const SizedBox(height: 25,),
+                  AppTextField(hintText: "Type your Email*",controller: emailController,labelText:"Email*",keyboardType: TextInputType.emailAddress,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (value)
+                    {
+                      if (value.toString() == ""||!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value.toString()))
+                      {
+                        return 'Enter a valid email.';
+                      }
+                      return null;
                     },
-                    hintText: "Type your DOB",controller: dobController,labelText:"DOB"),
-                const SizedBox(height: 25,),
-                AppTextField(hintText: "Type your Designation",controller: designationController,labelText:"Designation"),
-                const SizedBox(height: 25,),
-                AppTextField(hintText: "Type your Company Name",controller: companyController,labelText:"Company Name"),
-                const SizedBox(height: 25,),
-                AppTextField(hintText: "Type your city",controller: locationController,labelText:"Town/City"),
-                const SizedBox(height: 25,),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: DropdownButtonFormField<String>(
-                    items: countryItems.map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                    onChanged: (value) {},
-                    dropdownColor: AppColor.white,
-                    iconSize: 30,
-                    decoration: InputDecoration(
-                      hintText: "Select your Country",
-                      labelText: "Country/Region",
-                      labelStyle:  TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
-                      hintStyle: const TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
-                      contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                      focusedBorder:  OutlineInputBorder(
+                  ),
+                  const SizedBox(height: 25,),
+                  AppTextField(hintText: "Type Phone number*",controller: phoneNumberController,labelText:"Phone Number*",keyboardType: TextInputType.phone,inputFormatters:[
+                    LengthLimitingTextInputFormatter(10),
+                  ],
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (value)
+                    {
+                      if (value.toString() == ""||value.toString().length!=10)
+                      {
+                        return 'Enter a valid phone number.';
+                      }
+                      return null;
+                    },
+                    prefixIcon: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          value: selectedCode,
+                          items: ['+91', '+1', '+3'].map((String prefix) {
+                            return DropdownMenuItem<String>(
+                              value: prefix,
+                              child: Text(prefix,style: TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),),
+                            );
+                          }).toList(),
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              selectedCode = newValue!;
+                            });
+                          },
+                        ),
+                      )),),
+                  const SizedBox(height: 25,),
+                  genderWidget(),
+                  // const SizedBox(height: 25,),
+                  // AppTextField(
+                  //     readOnly: true,
+                  //     suffixIcon: Icon(Icons.date_range,color: AppColor.primaryColor,),
+                  //     onTap: () async {
+                  //       DateTime? pickedDate = await showDatePicker(
+                  //           context: context,
+                  //           initialDate: DateTime.now(),
+                  //           firstDate: DateTime(1900),
+                  //           //DateTime.now() - not to allow to choose before today.
+                  //           lastDate: DateTime.now(),
+                  //           builder: (BuildContext? context, Widget? child){
+                  //             return Theme(
+                  //                 data: ThemeData.light().copyWith(
+                  //                   primaryColor: AppColor.primaryColor,
+                  //                   primaryColorLight: AppColor.primaryColor,
+                  //                   colorScheme: ColorScheme.light(primary: AppColor.primaryColor),
+                  //                   buttonTheme: const ButtonThemeData(
+                  //                       textTheme: ButtonTextTheme.primary
+                  //                   ),
+                  //                 ),
+                  //                 child: child!);
+                  //           }
+                  //       );
+                  //       if (pickedDate != null) {
+                  //         print(pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                  //
+                  //         String formattedDate = DateFormat('dd/MM/yyyy').format(pickedDate);
+                  //         print(formattedDate); //formatted date output using intl package =>  2021-03-16
+                  //         setState(() {
+                  //
+                  //           dobController.text = formattedDate; //set output date to TextField value.
+                  //         });
+                  //       } else {}
+                  //     },
+                  //     hintText: "Type your DOB",controller: dobController,labelText:"DOB"),
+                  const SizedBox(height: 25,),
+                  AppTextField(hintText: "Type your Designation*",controller: designationController,labelText:"Designation*",inputFormatters: [ FilteringTextInputFormatter.allow(RegExp("[a-zA-Z\\s]")), ],
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (value)
+                    {
+                      if (value.toString() == "")
+                      {
+                        return 'Enter a valid designation.';
+                      }
+                      return null;
+                    },),
+                  const SizedBox(height: 25,),
+                  AppTextField(hintText: "Type your Company Name*",controller: companyController,labelText:"Company Name*", autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (value)
+                    {
+                      if (value.toString() == "")
+                      {
+                        return 'Enter a valid company name.';
+                      }
+                      return null;
+                    },),
+                  const SizedBox(height: 25,),
+                  AppTextField(hintText: "Type your city*",controller: cityController,labelText:"Town/City*", autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (value)
+                    {
+                      if (value.toString() == "")
+                      {
+                        return 'Enter a valid city.';
+                      }
+                      return null;
+                    },),
+                  const SizedBox(height: 25,),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: DropdownButtonFormField<String>(
+                      items: countryItems.map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        country = value!;
+                      },
+                      dropdownColor: AppColor.white,
+                      iconSize: 30,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: (value)
+                      {
+                        if (value.toString() == ""||value == null)
+                        {
+                          return 'Select a valid country.';
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        hintText: "Select your Country*",
+                        labelText: "Country/Region*",
+                        labelStyle:  TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
+                        hintStyle: const TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
+                        contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                        focusedBorder:  OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
+                        ),
+                        enabledBorder:  OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
+                        ),
+                        errorBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
-                      ),
-                      enabledBorder:  OutlineInputBorder(
+                          borderSide: const BorderSide(color: Colors.red, width: 2.0),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: const BorderSide(color: Colors.red, width: 2.0),
-                      ),
-                      focusedErrorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: const BorderSide(color: Colors.red, width: 2.0),
+                          borderSide: const BorderSide(color: Colors.red, width: 2.0),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 25,),
-                isAlumniWidget(),
-                _isAlumni == "Yes"?const SizedBox(height: 25,):const SizedBox.shrink(),
-                _isAlumni == "Yes"?Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Text("If Yes, Please Select Your IIT: ",style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,color: AppColor.primaryColor,fontSize: 14),),
-                ):const SizedBox.shrink(),
-                _isAlumni == "Yes"?const SizedBox(height: 10,):const SizedBox.shrink(),
-                _isAlumni == "Yes"?Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: DropdownButtonFormField<String>(
-                    items: iitItems.map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                    onChanged: (value) {},
-                    dropdownColor: AppColor.white,
-                    iconSize: 30,
-                    decoration: InputDecoration(
-                      hintText: "Select your IIT",
-                      labelText: "IIT",
-                      labelStyle:  TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
-                      hintStyle: const TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
-                      contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                      focusedBorder:  OutlineInputBorder(
+                  const SizedBox(height: 25,),
+                  isAlumniWidget(),
+                  _isAlumni == "Yes"?const SizedBox(height: 25,):const SizedBox.shrink(),
+                  _isAlumni == "Yes"?Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Text("If Yes, Please Select Your IIT: ",style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,color: AppColor.primaryColor,fontSize: 14),),
+                  ):const SizedBox.shrink(),
+                  _isAlumni == "Yes"?const SizedBox(height: 10,):const SizedBox.shrink(),
+                  _isAlumni == "Yes"?Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: DropdownButtonFormField<String>(
+                      items: iitItems.map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator:(_isAlumni=="Yes")? (value)
+                      {
+                        if (value.toString() == ""||value == null)
+                        {
+                          return 'Select a valid IIT.';
+                        }
+                        return null;
+                      }:null,
+                      onChanged: (value) {
+                        iitName = value!;
+                      },
+                      dropdownColor: AppColor.white,
+                      iconSize: 30,
+                      decoration: InputDecoration(
+                        hintText: "Select your IIT*",
+                        labelText: "IIT*",
+                        labelStyle:  TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
+                        hintStyle: const TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
+                        contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                        focusedBorder:  OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
+                        ),
+                        enabledBorder:  OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
+                        ),
+                        errorBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
-                      ),
-                      enabledBorder:  OutlineInputBorder(
+                          borderSide: const BorderSide(color: Colors.red, width: 2.0),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: const BorderSide(color: Colors.red, width: 2.0),
-                      ),
-                      focusedErrorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: const BorderSide(color: Colors.red, width: 2.0),
+                          borderSide: const BorderSide(color: Colors.red, width: 2.0),
+                        ),
                       ),
                     ),
-                  ),
-                ):const SizedBox.shrink(),
-                _isAlumni == "Yes"?const SizedBox(height: 25,):const SizedBox.shrink(),
-                _isAlumni == "Yes"? Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: DropdownButtonFormField<String>(
-                    items: iitBatchItems.map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                    onChanged: (value) {},
-                    dropdownColor: AppColor.white,
-                    iconSize: 30,
-                    decoration: InputDecoration(
-                      hintText: "Select your batch",
-                      labelText: "Batch",
-                      labelStyle:  TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
-                      hintStyle: const TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
-                      contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                      focusedBorder:  OutlineInputBorder(
+                  ):const SizedBox.shrink(),
+                  _isAlumni == "Yes"?const SizedBox(height: 25,):const SizedBox.shrink(),
+                  _isAlumni == "Yes"? Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: DropdownButtonFormField<String>(
+                      items: iitBatchItems.map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        batch = value!;
+                      },
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: (_isAlumni=="Yes")?(value)
+                      {
+
+                        if (value.toString() == ""||value == null)
+                        {
+                          return 'Select a valid IIT Batch.';
+                        }
+                        return null;
+                      }:null,
+                      dropdownColor: AppColor.white,
+                      iconSize: 30,
+                      decoration: InputDecoration(
+                        hintText: "Select your batch*",
+                        labelText: "Batch*",
+                        labelStyle:  TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
+                        hintStyle: const TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
+                        contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                        focusedBorder:  OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
+                        ),
+                        enabledBorder:  OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
+                        ),
+                        errorBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
-                      ),
-                      enabledBorder:  OutlineInputBorder(
+                          borderSide: const BorderSide(color: Colors.red, width: 2.0),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: const BorderSide(color: Colors.red, width: 2.0),
-                      ),
-                      focusedErrorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: const BorderSide(color: Colors.red, width: 2.0),
+                          borderSide: const BorderSide(color: Colors.red, width: 2.0),
+                        ),
                       ),
                     ),
-                  ),
-                ):const SizedBox.shrink(),
-                _isAlumni == "Yes"?const SizedBox(height: 25,):const SizedBox.shrink(),
-                _isAlumni == "Yes"? AppTextField(hintText: "Type your Branch",controller: branchController,labelText:"Branch",):const SizedBox.shrink(),
-                const SizedBox(height: 30,),
-                AppButton(title: "Update", onTap: (){}),
-                const SizedBox(height: 30,),
-              ],
+                  ):const SizedBox.shrink(),
+                  _isAlumni == "Yes"?const SizedBox(height: 25,):const SizedBox.shrink(),
+                  _isAlumni == "Yes"? AppTextField(hintText: "Type your Stream",controller: streamController,labelText:"Stream",):const SizedBox.shrink(),
+                  const SizedBox(height: 30,),
+                  AppButton(title: "Update", onTap: (){
+                    if(_formKey.currentState!.validate()){
+                      print("form validated");
+                      profileUpdate();
+                    }
+                  }),
+                  const SizedBox(height: 30,),
+                ],
+              ),
             ),
             GestureDetector(
               onTap: (){
@@ -360,7 +503,7 @@ class _EditProfilPageState extends State<EditProfilPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Are you an alumnis of any IIT?",style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,color: AppColor.primaryColor,fontSize: 14),),
+          Text("Are you an alumnis of any IIT?*",style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,color: AppColor.primaryColor,fontSize: 14),),
           Row(
             children: [
               Row(
@@ -566,6 +709,37 @@ class _EditProfilPageState extends State<EditProfilPage> {
       print('No image selected.');
     }
     setState(() {});
+  }
+
+  void profileUpdate()
+  {
+
+    Map<String, dynamic> params = new Map<String, dynamic>();
+    params["last_name"] = lastNameController.text;
+    params["first_name"] = firstNameController.text;
+    params["email"] = emailController.text.trim();
+    params["mobile_no"] = int.parse(phoneNumberController.text.trim());
+    params["company_name"] = companyController.text.trim();
+    params["designation"] = designationController.text.trim();
+    params["city"] = cityController.text.trim();
+    params["country"] = country.trim();
+    params["alumni_of_iit"] = _isAlumni=="Yes"?true:false;
+    if(_isAlumni == "Yes"){
+      params["iit_name"] = iitName;
+      params["batch"] = int.parse(batch);
+      params["stream"] = streamController.text.trim();
+    }
+    if(_gender != null){
+      params["gender"] = _gender!;
+    }
+
+
+
+    if(_image != null) {
+      ApiRepo().updateProfile(params, image: _image);
+    } else {
+      ApiRepo().updateProfile(params);
+    }
   }
 }
 

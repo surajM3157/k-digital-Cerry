@@ -9,7 +9,7 @@ class Prefs {
   static String checkUsername = "";
   static String checkAuthToken = "";
   static String checkMobileNo = "";
-  static bool checkProfile = false;
+  static bool checkProfile = true;
   static late SharedPreferences _prefs;
 
   static void loadData()
