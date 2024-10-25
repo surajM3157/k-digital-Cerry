@@ -5,9 +5,14 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as p;
+import 'package:piwotapp/responses/about_us_response.dart';
 import 'package:piwotapp/responses/agenda_response.dart';
 import 'package:piwotapp/responses/banner_response.dart';
+import 'package:piwotapp/responses/faq_response.dart';
 import 'package:piwotapp/responses/floor_plan_response.dart';
+import 'package:piwotapp/responses/guest_details_response.dart';
+import 'package:piwotapp/responses/list_link_response.dart';
+import 'package:piwotapp/responses/live_session_response.dart';
 import 'package:piwotapp/responses/otp_response.dart';
 import 'package:piwotapp/responses/partner_response.dart';
 import 'package:piwotapp/responses/session_list_response.dart';
@@ -47,7 +52,41 @@ class ApiRepo
           dismissOnTap: true,
           duration: const Duration(seconds: 1),
           toastPosition: EasyLoadingToastPosition.center);
-      Get.toNamed(Routes.otp,arguments: {"data":res['data']});
+      Get.toNamed(Routes.otp,arguments: {"data":res['data'],'mobile_number':params['mobile_number']});
+
+    }
+    else
+    {
+      var res = await json.decode(response.body);
+
+      EasyLoading.showToast("${res['message']}",
+          dismissOnTap: true,
+          duration: const Duration(seconds: 1),
+          toastPosition: EasyLoadingToastPosition.center);
+    }
+  }
+
+  resedOtp(var params) async {
+    final response = await http.post(Uri.parse("${ApiUrls.loginApiUrl}"),
+      body: params,
+    );
+
+    Get.back();
+
+    print("params ${params}");
+    print("Api url ${ApiUrls.loginApiUrl}");
+    print("response ${response.body}");
+
+
+    if(response.statusCode == 200)
+    {
+
+      var res = await json.decode(response.body);
+
+      EasyLoading.showToast("OTP Send Successfully",
+          dismissOnTap: true,
+          duration: const Duration(seconds: 1),
+          toastPosition: EasyLoadingToastPosition.center);
 
     }
     else
@@ -101,6 +140,7 @@ class ApiRepo
             "name":"${model.data?.guestDetails?.firstName ?? ""} ${model.data?.guestDetails?.lastName ?? ""}",
           }, SetOptions(merge: true)
       );
+      print("Prefs.checkProfile ${Prefs.checkProfile}");
       if(Prefs.checkProfile == true){
         Get.offAllNamed(Routes.editProfile);
       }else{
@@ -200,13 +240,47 @@ class ApiRepo
     return floorPlanResponseFromJson(response.body);
   }
 
+  Future<ListLinkResponse> getListLinksResponse() async {
+
+    final response = await http.get(Uri.parse("${ApiUrls.listLinksApiUrl}"), headers: {'token': '${Prefs.checkAuthToken}',});
+
+    Get.back();
+    print("Api url ${ApiUrls.listLinksApiUrl}");
+    print("response ${response.body}");
+
+    return listLinkResponseFromJson(response.body);
+  }
+
+  Future<LiveSessionResponse> getLiveSessionResponse(bool isHome) async {
+
+    final response = await http.get(Uri.parse("${ApiUrls.liveSessionApiUrl}"), headers: {'token': '${Prefs.checkAuthToken}',});
+
+    if(isHome){}else {
+      Get.back();
+    }
+    print("Api url ${ApiUrls.liveSessionApiUrl}");
+    print("response ${response.body}");
+
+    return liveSessionResponseFromJson(response.body);
+  }
 
 
-  updateProfile(var params, {File? image}) async {
+  Future<GuestDetailsResponse> getGuestDetailsResponse() async {
+
+    final response = await http.get(Uri.parse("${ApiUrls.guestDetailsApiUrl}/${Prefs.checkUserId}"), headers: {'token': '${Prefs.checkAuthToken}',});
+
+    Get.back();
+    print("Api url ${ApiUrls.floorPlanApiUrl}");
+    print("response ${response.body}");
+
+    return guestDetailsResponseFromJson(response.body);
+  }
+
+  updateProfile(Map<String, dynamic> params, {File? image}) async {
 
     var uri = Uri.parse("${ApiUrls.updateProfileApiUrl}/${Prefs.checkUserId}");
     var request = http.MultipartRequest('POST', uri);
-    request.fields.addAll(params);
+    request.fields.addAll(params.map((key, value) => MapEntry(key, value.toString())));
     print("params $params");
     request.headers['token'] = '${Prefs.checkAuthToken}';
     if(image != null){
@@ -243,6 +317,22 @@ class ApiRepo
       Prefs.setBool("is_profile_new", false);
       var res = await json.decode(response.body);
 
+      if(res["data"]["guest_profile_image"] != null) {
+        _firestore.collection("users").doc(Prefs.checkUserId).set(
+          {
+            "uid":Prefs.checkUserId,
+            "name":Prefs.checkUsername,
+            "profile": ApiUrls.imageUrl + res["data"]["guest_profile_image"]
+          }, SetOptions(merge: true)
+      );
+      }else{
+        _firestore.collection("users").doc(Prefs.checkUserId).set(
+            {
+              "uid":Prefs.checkUserId,
+              "name":Prefs.checkUsername,
+            }, SetOptions(merge: true)
+        );
+      }
       Get.offAllNamed(Routes.home);
       EasyLoading.showToast("${res['message']}",
           dismissOnTap: true,
@@ -263,6 +353,27 @@ class ApiRepo
 
 
 
+  Future<AboutUsResponse> getAboutUsResponse() async {
+
+    final response = await http.get(Uri.parse("${ApiUrls.aboutUsApiUrl}"), headers: {'token': '${Prefs.checkAuthToken}',});
+
+    Get.back();
+    print("Api url ${ApiUrls.aboutUsApiUrl}");
+    print("response ${response.body}");
+
+    return aboutUsResponseFromJson(response.body);
+  }
+
+  Future<FaqResponse> getFaqResponse(String search) async {
+
+    final response = await http.get(Uri.parse("${ApiUrls.faqApiUrl}?search=$search"), headers: {'token': '${Prefs.checkAuthToken}',});
+
+    Get.back();
+    print("Api url ${ApiUrls.faqApiUrl}?search=$search");
+    print("response ${response.body}");
+
+    return faqResponseFromJson(response.body);
+  }
 
 }
 

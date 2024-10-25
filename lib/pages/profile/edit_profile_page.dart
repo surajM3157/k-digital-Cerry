@@ -4,13 +4,15 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:piwotapp/responses/otp_response.dart';
+import 'package:piwotapp/constants/api_urls.dart';
+import 'package:piwotapp/responses/guest_details_response.dart';
 import 'package:piwotapp/widgets/app_button.dart';
 import 'package:piwotapp/widgets/app_textfield.dart';
 import '../../constants/colors.dart';
 import '../../constants/font_family.dart';
 import '../../constants/images.dart';
 import '../../repository/api_repo.dart';
+import '../../widgets/app_themes.dart';
 
 class EditProfilPage extends StatefulWidget {
   const EditProfilPage({super.key});
@@ -27,7 +29,6 @@ class _EditProfilPageState extends State<EditProfilPage> {
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController companyController = TextEditingController();
   TextEditingController designationController = TextEditingController();
-  TextEditingController dobController = TextEditingController();
   TextEditingController cityController = TextEditingController();
   TextEditingController streamController = TextEditingController();
 
@@ -43,9 +44,11 @@ class _EditProfilPageState extends State<EditProfilPage> {
   String iitName = "";
   String batch = "";
   String stream = "";
+  String? profileImage;
 
   String selectedPrefix ="Mr";
   String selectedCode = "+91";
+  bool isLoading = true;
 
   var countryItems = [
     'India',
@@ -67,15 +70,56 @@ class _EditProfilPageState extends State<EditProfilPage> {
     "1986","1987","1988","1989"
   ];
 
-  var gender = [
+  var genderList = [
     'Male','Female'
   ];
 
-  OtpResponse? otpResponse;
+  GuestDetailsData? guestDetails;
+
+
+  fetchGuestDetails() async
+  {
+    Future.delayed(Duration.zero, () {
+      showLoader(context);
+    });
+
+    try{
+      var response = await ApiRepo().getGuestDetailsResponse();
+
+      if( response.data != null)
+      {
+        guestDetails = response.data;
+        firstNameController.text = AppThemes.capitalizeFirst(guestDetails?.firstName??"");
+        lastNameController.text = AppThemes.capitalizeFirst(guestDetails?.lastName??"");
+        emailController.text = guestDetails?.emailId??"";
+        phoneNumberController.text = guestDetails?.mobileNumber.toString()??"";
+        companyController.text = guestDetails?.companyName ??'';
+        designationController.text = guestDetails?.designation ??"";
+        cityController.text = guestDetails?.city??"";
+        streamController.text = guestDetails?.stream??"";
+        country = (countryItems.contains(guestDetails?.country) ? guestDetails?.country : null)??"";
+        _gender = guestDetails?.gender??"";
+        iitName = (iitItems.contains(guestDetails?.iitName) ? guestDetails?.iitName : null)??"";
+
+        batch = (iitBatchItems.contains(guestDetails?.batch.toString()) ? guestDetails?.batch.toString() : null)??"";
+
+        _isAlumni = guestDetails?.alumniOfIit == true?"Yes":"No";
+        profileImage = guestDetails?.guestProfileImage ??"";
+        isLoading = false;
+
+      }
+
+      setState(() {
+
+      });
+
+    }
+    catch(e){}
+  }
 
   @override
   void initState() {
-    otpResponse = Get.arguments["data"];
+    fetchGuestDetails();
     super.initState();
   }
 
@@ -288,7 +332,8 @@ class _EditProfilPageState extends State<EditProfilPage> {
                   const SizedBox(height: 25,),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: DropdownButtonFormField<String>(
+                    child: isLoading == true?SizedBox.shrink():DropdownButtonFormField<String>(
+                      value: country==""?null:country,
                       items: countryItems.map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
@@ -342,9 +387,10 @@ class _EditProfilPageState extends State<EditProfilPage> {
                     child: Text("If Yes, Please Select Your IIT: ",style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,color: AppColor.primaryColor,fontSize: 14),),
                   ):const SizedBox.shrink(),
                   _isAlumni == "Yes"?const SizedBox(height: 10,):const SizedBox.shrink(),
-                  _isAlumni == "Yes"?Padding(
+                  _isAlumni == "Yes"?isLoading == true?SizedBox.shrink():Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: DropdownButtonFormField<String>(
+                      value: iitName==""?null:iitName,
                       items: iitItems.map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
@@ -391,9 +437,10 @@ class _EditProfilPageState extends State<EditProfilPage> {
                     ),
                   ):const SizedBox.shrink(),
                   _isAlumni == "Yes"?const SizedBox(height: 25,):const SizedBox.shrink(),
-                  _isAlumni == "Yes"? Padding(
+                  _isAlumni == "Yes"?isLoading == true?SizedBox.shrink(): Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: DropdownButtonFormField<String>(
+                      value: batch==""?null:batch,
                       items: iitBatchItems.map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
@@ -460,7 +507,7 @@ class _EditProfilPageState extends State<EditProfilPage> {
               child: Container(
                 width: 188,height: 188,
                 margin: const EdgeInsets.only(left: 100,top: 120),
-                padding: _image != null?null:const EdgeInsets.all(50),
+                padding: _image != null||profileImage!=""?null:const EdgeInsets.all(50),
                 decoration: BoxDecoration(
                     color: AppColor.white,
                     border: Border.all(color: AppColor.grey),
@@ -468,7 +515,7 @@ class _EditProfilPageState extends State<EditProfilPage> {
                 ),
                 child: ClipRRect(
                     borderRadius: BorderRadius.circular(200),
-                    child: _image != null?Image.file(_image!, fit: BoxFit.fill,):Image.asset(Images.profileDefault,height: 64,width: 64,fit: BoxFit.cover,)),
+                    child: _image != null?Image.file(_image!, fit: BoxFit.fill,):profileImage!=""?Image.network(ApiUrls.imageUrl + (profileImage??""),fit: BoxFit.fill,):Image.asset(Images.profileDefault,height: 64,width: 64,fit: BoxFit.cover,)),
               ),
             ),
             GestureDetector(
@@ -718,7 +765,7 @@ class _EditProfilPageState extends State<EditProfilPage> {
     params["last_name"] = lastNameController.text;
     params["first_name"] = firstNameController.text;
     params["email"] = emailController.text.trim();
-    params["mobile_no"] = int.parse(phoneNumberController.text.trim());
+    params["mobile_no"] = phoneNumberController.text.trim();
     params["company_name"] = companyController.text.trim();
     params["designation"] = designationController.text.trim();
     params["city"] = cityController.text.trim();
@@ -726,7 +773,7 @@ class _EditProfilPageState extends State<EditProfilPage> {
     params["alumni_of_iit"] = _isAlumni=="Yes"?true:false;
     if(_isAlumni == "Yes"){
       params["iit_name"] = iitName;
-      params["batch"] = int.parse(batch);
+      params["batch"] = batch;
       params["stream"] = streamController.text.trim();
     }
     if(_gender != null){

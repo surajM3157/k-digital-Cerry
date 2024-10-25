@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:piwotapp/responses/live_session_response.dart';
 import 'package:piwotapp/widgets/app_themes.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import '../constants/colors.dart';
+import '../constants/font_family.dart';
 import '../constants/images.dart';
 import '../widgets/gradient_text.dart';
+import '../widgets/youtube_thumbnail.dart';
 
 
 class LiveSessionPage extends StatefulWidget {
@@ -18,17 +22,24 @@ class LiveSessionPage extends StatefulWidget {
 
 class _LiveSessionPageState extends State<LiveSessionPage> {
 
+  LiveSessionData? liveSessionData;
 
   bool isPlay = false;
 
-  final YoutubePlayerController _controller = YoutubePlayerController(
-    initialVideoId: 'HhEoZTw1m9A',
-    flags: const YoutubePlayerFlags(
-      autoPlay: true,
-      mute: true,
-    ),
-  );
+   YoutubePlayerController? _controller;
 
+  @override
+  void initState() {
+    liveSessionData = Get.arguments["data"];
+    _controller = YoutubePlayerController(
+      initialVideoId: (liveSessionData?.link?.split("=").last??""),
+      flags: const YoutubePlayerFlags(
+        autoPlay: true,
+        mute: true,
+      ),
+    );
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,7 +71,7 @@ class _LiveSessionPageState extends State<LiveSessionPage> {
                   isPlay?
           YoutubePlayerBuilder(
             player: YoutubePlayer(
-              controller: _controller,
+              controller: _controller!,
               liveUIColor: AppColor.secondaryColor,
             ), builder: (context , player ) {
               return Column(
@@ -80,7 +91,9 @@ class _LiveSessionPageState extends State<LiveSessionPage> {
                                 bottomRight: Radius.circular(25),
                                 bottomLeft: Radius.circular(25),
                               ),
-                          child: Image.asset(Images.liveEventBanner,fit: BoxFit.cover,))),
+                          child: YouTubeThumbnail(
+                            youtubeUrl: liveSessionData?.link?.split("=").last??"", // Replace with your YouTube link
+                          ))),
                   isPlay?const SizedBox.shrink():Align(
                     alignment: Alignment.topCenter,
                       child: Padding(
@@ -98,7 +111,7 @@ class _LiveSessionPageState extends State<LiveSessionPage> {
               isPlay?const SizedBox.shrink():const SizedBox(height: 20,),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: GradientText(text:"Welcome Party",style: AppThemes.titleTextStyle().copyWith(
+                child: GradientText(text:liveSessionData?.title??"",style: AppThemes.titleTextStyle().copyWith(
                     fontWeight: FontWeight.w600,fontSize: 24
                 ), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]),),
               ),
@@ -106,34 +119,44 @@ class _LiveSessionPageState extends State<LiveSessionPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                   Row(
-                     children: [
-                       SvgPicture.asset(Images.likeIcon,),
-                       const SizedBox(width: 5,),
-                       Text("24.4 k",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor),),
-                       const SizedBox(width: 10,),
-                       SvgPicture.asset(Images.dislikeIcon,),
-                       const SizedBox(width: 5,),
-                       Text("10",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor),),
-
-                     ],
-                   ),
-                    Row(
-                      children: [
-                        Image.asset(Images.participantsIcon,),
-                        const SizedBox(width: 5,),
-                        Text("2K Participants",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor),),
-                      ],
-                    )
+                    SvgPicture.asset(Images.calendarIcon),
+                    const SizedBox(width: 2,),
+                    Text(DateFormat("dd, MMM yyyy").format(DateTime.parse(liveSessionData?.eventDate??"")),style: const TextStyle(fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600),)
                   ],
                 ),
               ),
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(horizontal: 20),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //     children: [
+              //      Row(
+              //        children: [
+              //          SvgPicture.asset(Images.likeIcon,),
+              //          const SizedBox(width: 5,),
+              //          Text("24.4 k",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor),),
+              //          const SizedBox(width: 10,),
+              //          SvgPicture.asset(Images.dislikeIcon,),
+              //          const SizedBox(width: 5,),
+              //          Text("10",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor),),
+              //
+              //        ],
+              //      ),
+              //       Row(
+              //         children: [
+              //           Image.asset(Images.participantsIcon,),
+              //           const SizedBox(width: 5,),
+              //           Text("2K Participants",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor),),
+              //         ],
+              //       )
+              //     ],
+              //   ),
+              // ),
               const SizedBox(height: 20,),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Text("Bridging Innovation and Collaboration Worldwide. Connecting Minds, Shaping the Future.",style: AppThemes.subtitleTextStyle().copyWith(fontSize: 16),),
+                child: Text(liveSessionData?.description??"",style: AppThemes.subtitleTextStyle().copyWith(fontSize: 16),),
               )
             ],
           ),
@@ -142,3 +165,4 @@ class _LiveSessionPageState extends State<LiveSessionPage> {
     );
   }
 }
+

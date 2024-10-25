@@ -15,7 +15,7 @@ class Prefs {
   static void loadData()
   {
     checkLogin = getBool('is_logged_in_new');
-    checkProfile = getBool('is_profile_new');
+    checkProfile = getBool('is_profile_new',def:true);
     checkUserId = getString('user_id_new');
     checkEmail = getString("user_email_new");
     checkUsername = getString('user_name_new');

@@ -16,8 +16,11 @@ import 'package:piwotapp/pages/notification_page.dart';
 import 'package:piwotapp/pages/profile/change_password_page.dart';
 import 'package:piwotapp/pages/profile/contact_us_page.dart';
 import 'package:piwotapp/pages/profile/edit_profile_page.dart';
+import 'package:piwotapp/pages/profile/faq_screen.dart';
 import 'package:piwotapp/pages/profile/feedback_page.dart';
+import 'package:piwotapp/pages/profile/privacy_policy_screen.dart';
 import 'package:piwotapp/pages/profile/profile_page.dart';
+import 'package:piwotapp/pages/profile/terms_condition_screen.dart';
 import 'package:piwotapp/pages/profile/ticket_page.dart';
 import 'package:piwotapp/pages/splash/splash_page.dart';
 import 'package:piwotapp/pages/survey/survey_page.dart';
@@ -50,4 +53,7 @@ final getPages = [
   GetPage(name: Routes.agenda, page: () => EventAgendaPage()),
   GetPage(name: Routes.liveEvents, page: () => LiveEventsPage()),
   GetPage(name: Routes.floorPlan, page: () => FloorPlanScreen()),
+  GetPage(name: Routes.privacyPolicy, page: () => PrivacyPolicyScreen()),
+  GetPage(name: Routes.termsCondition, page: () => TermsConditionScreen()),
+  GetPage(name: Routes.faq, page: () => FAQScreen()),
 ];

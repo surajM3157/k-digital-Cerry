@@ -22,10 +22,12 @@ class _OtpPageState extends State<OtpPage> {
 
   String otpCode = "";
   String id = "";
+  String mobileNo = "";
 
   @override
   void initState() {
    id = Get.arguments['data'];
+   mobileNo = Get.arguments['mobile_number'];
     super.initState();
   }
 
@@ -143,9 +145,14 @@ class _OtpPageState extends State<OtpPage> {
                      onChanged: (String value) {  },
                    ),
                  ),
-                 Padding(
-                   padding: const EdgeInsets.symmetric(horizontal: 20),
-                   child: Text("Resend Code",style: AppThemes.subtitleTextStyle(),),
+                 InkWell(
+                   onTap: (){
+                     resendOtp();
+                   },
+                   child: Padding(
+                     padding: const EdgeInsets.symmetric(horizontal: 20),
+                     child: Text("Resend Code",style: AppThemes.subtitleTextStyle(),),
+                   ),
                  ),
                  const SizedBox(height: 20,),
                  AppButton(title: "Verify", onTap: () {
@@ -235,6 +242,21 @@ class _OtpPageState extends State<OtpPage> {
         ],
       ),
     );
+  }
+
+  resendOtp(){
+
+
+    Map<String, String> params = new Map<String, String>();
+    params["mobile_number"] = mobileNo;
+
+
+
+    Future.delayed(Duration.zero, () {
+      showLoader(context);
+    });
+
+    ApiRepo().resedOtp(params);
   }
 
   void apiCalling()

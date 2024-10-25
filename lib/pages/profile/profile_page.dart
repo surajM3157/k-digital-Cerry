@@ -1,12 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:piwotapp/constants/api_urls.dart';
 import 'package:piwotapp/constants/colors.dart';
 import 'package:piwotapp/constants/font_family.dart';
 import 'package:piwotapp/route/route_names.dart';
 import 'package:piwotapp/widgets/app_themes.dart';
 import 'package:get/get.dart';
 import '../../constants/images.dart';
+import '../../repository/api_repo.dart';
+import '../../responses/guest_details_response.dart';
 import '../../shared prefs/pref_manager.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -19,6 +22,38 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
 
   bool isNotificationOn = false;
+
+  GuestDetailsData? guestDetails;
+
+
+  fetchGuestDetails() async
+  {
+    Future.delayed(Duration.zero, () {
+      showLoader(context);
+    });
+
+    try{
+      var response = await ApiRepo().getGuestDetailsResponse();
+
+      if( response.data != null)
+      {
+        guestDetails = response.data;
+
+      }
+
+      setState(() {
+
+      });
+
+    }
+    catch(e){}
+  }
+
+  @override
+  void initState() {
+    fetchGuestDetails();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,9 +84,9 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
 
                 const SizedBox(height: 80,),
-                Text("Victor Alvarez",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16,color: AppColor.primaryColor,fontFamily: appFontFamily),),
+                guestDetails?.firstName !=null?Text(AppThemes.capitalizeFirst(guestDetails?.firstName??"") +" "+AppThemes.capitalizeFirst(guestDetails?.lastName??""),style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16,color: AppColor.primaryColor,fontFamily: appFontFamily),):SizedBox.shrink(),
                 const SizedBox(height: 4,),
-                Text("victoralvatez@gmail.com",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 16,color: AppColor.black,fontFamily: appFontFamily),),
+                Text(guestDetails?.emailId??"",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 16,color: AppColor.black,fontFamily: appFontFamily),),
                 const SizedBox(height: 16,),
                 GestureDetector(
                   onTap: (){
@@ -187,6 +222,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
                 InkWell(
                   onTap: (){
+                    Get.toNamed(Routes.privacyPolicy);
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 18),
@@ -208,6 +244,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
                 InkWell(
                   onTap: (){
+                    Get.toNamed(Routes.termsCondition);
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 18),
@@ -229,6 +266,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
                 InkWell(
                   onTap: (){
+                    Get.toNamed(Routes.faq);
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 18),
@@ -293,7 +331,7 @@ class _ProfilePageState extends State<ProfilePage> {
             Container(
               width: 200,height: 200,
               margin: const EdgeInsets.only(left: 90,top: 110),
-              padding: const EdgeInsets.all(50),
+              padding: guestDetails?.guestProfileImage != null?null:const EdgeInsets.all(50),
               decoration: BoxDecoration(
                   color: AppColor.white,
                   border: Border.all(color: AppColor.grey),
@@ -301,7 +339,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(200),
-                  child: Image.asset(Images.profileDefault,height: 64,width: 64,fit: BoxFit.fill,)),
+                  child:  guestDetails?.guestProfileImage != null?Image.network(ApiUrls.imageUrl+(guestDetails?.guestProfileImage??""),fit: BoxFit.fill,):Image.asset(Images.profileDefault,height: 64,width: 64,fit: BoxFit.fill,)),
             ),
             GestureDetector(
               onTap: (){
@@ -343,7 +381,6 @@ class _ProfilePageState extends State<ProfilePage> {
               Prefs.setString('user_auth_token', "");
               Prefs.setString("user_name_new", "");
               Prefs.setString("mobile_no", "");
-              Prefs.clear();
               Get.offAllNamed(Routes.login);
             },
             child: Container(

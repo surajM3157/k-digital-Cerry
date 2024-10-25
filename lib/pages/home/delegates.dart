@@ -121,7 +121,7 @@ class _DelegatesState extends State<Delegates> {
                 width: 70,
                 child: ClipRRect(
                     borderRadius: BorderRadius.circular(50),
-                    child: data['profile']!= null?Image.network(data['profile'],fit: BoxFit.fill,):Image.asset(Images.profile1,fit: BoxFit.fill,))),
+                    child: data['profile']!= null?Image.network(data['profile'],fit: BoxFit.fill,):Image.asset(Images.defaultProfile,fit: BoxFit.fill,))),
             const SizedBox(width: 20,),
             Container(
               width: Get.width/1.5,
@@ -161,7 +161,8 @@ class _DelegatesState extends State<Delegates> {
         onTap: (){
           Get.toNamed(Routes.chat,arguments: {
             'receiverName':data['name'],
-            'receiverId':data['uid']
+            'receiverId':data['uid'],
+            'profile':data['profile']
           });
           // Navigator.push(
           //   context,

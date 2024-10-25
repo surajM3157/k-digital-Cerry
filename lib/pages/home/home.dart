@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:piwotapp/constants/api_urls.dart';
 import 'package:piwotapp/pages/home/home_page.dart';
 import 'package:piwotapp/responses/banner_response.dart';
+import 'package:piwotapp/responses/live_session_response.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../constants/colors.dart';
 import '../../constants/font_family.dart';
@@ -16,6 +17,7 @@ import '../../responses/sponsor_response.dart';
 import '../../route/route_names.dart';
 import '../../widgets/app_themes.dart';
 import '../../widgets/gradient_text.dart';
+import '../../widgets/youtube_thumbnail.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -67,6 +69,9 @@ class _HomeState extends State<Home> {
   SponsorResponse? sponsorResponse;
   List<SponsorData> sponsors = [];
 
+  LiveSessionResponse? liveSessionResponse;
+  List<LiveSessionData> liveSessions = [];
+
 
   @override
   void initState() {
@@ -75,6 +80,7 @@ class _HomeState extends State<Home> {
     fetchBannerList();
     fetchSpeakerList();
     fetchSponsorList();
+    fetchLiveSessionList();
   }
 
   fetchBannerList() async
@@ -154,6 +160,36 @@ class _HomeState extends State<Home> {
 
         }
         print("sponsorlist ${sponsors.length}");
+      }
+
+      setState(() {
+
+      });
+
+    }
+    catch(e){}
+
+
+    setState(() {});
+  }
+
+  fetchLiveSessionList() async
+  {
+    // Future.delayed(Duration.zero, () {
+    //   showLoader(context);
+    // });
+
+    try{
+      var response = await ApiRepo().getLiveSessionResponse(true);
+
+      if( response.data != null)
+      {
+        liveSessionResponse = response;
+        for(LiveSessionData live in liveSessionResponse!.data!){
+          liveSessions.add(live);
+
+        }
+        print("liveSessions ${liveSessions.length}");
       }
 
       setState(() {
@@ -866,16 +902,19 @@ class _HomeState extends State<Home> {
   }
 
   Widget liveEventList(){
-    return Padding(
+    return liveSessions.isNotEmpty?Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: SizedBox(
         height: 160,
         child: ListView.separated(
+          itemCount: (liveSessions.length < 3)?liveSessions.length:3,
           scrollDirection: Axis.horizontal,
             itemBuilder: (context,index){
-          return InkWell(
+          return liveSessions[index].link!.contains("=")?InkWell(
               onTap: (){
-                Get.toNamed(Routes.liveSession);
+                Get.toNamed(Routes.liveSession,arguments: {
+                  "data":liveSessions[index]
+                });
               },
               child: Stack(
                 alignment: Alignment.bottomLeft,
@@ -886,8 +925,13 @@ class _HomeState extends State<Home> {
                       borderRadius: BorderRadius.all(Radius.circular(8)),
                     ),
                     child: ClipRRect(
-                        borderRadius: const BorderRadius.all(Radius.circular(8)),
-                        child: Image.asset(liveEventItems[index],height: 203,width: 204,fit: BoxFit.fill,)),
+                        borderRadius: const BorderRadius.all(Radius.circular(10)),
+                        child: SizedBox(
+                          height: 203,width: 204,
+                          child: YouTubeThumbnail(
+                            youtubeUrl: liveSessions[index].link??"", // Replace with your YouTube link
+                          ),
+                        )),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -895,7 +939,7 @@ class _HomeState extends State<Home> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Text(index==0?"Digital Product":index==1?"Innovation Nexus":"Tech Innovator",style: TextStyle(color: AppColor.white,fontSize: 14,fontWeight: FontWeight.w600,fontFamily: appFontFamily),),
+                        Text(liveSessions[index].title??"",style: TextStyle(color: AppColor.primaryColor,fontSize: 14,fontWeight: FontWeight.w600,fontFamily: appFontFamily),),
                         const SizedBox(height: 8,),
                         Container(
                           height: 26,
@@ -917,14 +961,14 @@ class _HomeState extends State<Home> {
                     ),
                   )
                 ],
-              ));
+              )):SizedBox.shrink();
         }, separatorBuilder: (BuildContext context, int index){
           return const SizedBox(
             width: 16,
           );
-        }, itemCount: liveEventItems.length),
+        },),
       ),
-    );
+    ):SizedBox.shrink();
   }
 
 

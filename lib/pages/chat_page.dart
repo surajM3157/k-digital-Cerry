@@ -30,11 +30,13 @@ class _ChatPageState extends State<ChatPage> {
 
   String receiverName = '';
   String receiverId = '';
+  String profile = '';
 
   @override
   void initState() {
     receiverName = Get.arguments['receiverName'];
     receiverId = Get.arguments['receiverId'];
+    profile = Get.arguments['profile']??"";
     super.initState();
   }
 
@@ -70,7 +72,7 @@ class _ChatPageState extends State<ChatPage> {
                 width: 45,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(25),
-                    child: Image.asset(Images.profile1,fit: BoxFit.fill,))),
+                    child: profile!= ""?Image.network(profile,fit: BoxFit.fill,):Image.asset(Images.defaultProfile,fit: BoxFit.fill,))),
             const SizedBox(width: 10,),
             Text(receiverName,style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16,fontFamily: appFontFamily,color: AppColor.primaryColor),)
           ],

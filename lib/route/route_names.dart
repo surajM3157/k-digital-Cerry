@@ -25,4 +25,7 @@ class Routes{
   static String agenda = '/agenda';
   static String liveEvents = '/live_events';
   static String floorPlan = '/floor_plan';
+  static String privacyPolicy = '/privacy_policy';
+  static String termsCondition = '/terms_condition';
+  static String faq = '/faq';
 }

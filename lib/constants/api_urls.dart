@@ -13,7 +13,12 @@ class ApiUrls
    static String agendaApiUrl = "$baseUrl/event/list-agenda";
    static String sessionListApiUrl = "$baseUrl/event/list-sessions-by-category";
    static String floorPlanApiUrl = "$baseUrl/event/list-floor-plan";
-   static String updateProfileApiUrl = "$baseUrl/update-guest-details";
+   static String guestDetailsApiUrl = "$baseUrl/auth/guest-details";
+   static String updateProfileApiUrl = "$baseUrl/auth/update-guest-details";
+   static String listLinksApiUrl = "$baseUrl/event/list-links";
+   static String liveSessionApiUrl = "$baseUrl/event/list-live-events";
+   static String aboutUsApiUrl = "$baseUrl/event/list-about-us";
+   static String faqApiUrl = "$baseUrl/event/list-faq";
 
 }
 

@@ -80,6 +80,7 @@ class Images{
   static String privacyPolicyIcon = 'assets/images/profile/privacy_policy_icon.svg';
   static String faqIcon = 'assets/images/profile/faq_icon.svg';
   static String termsConditionIcon = 'assets/images/profile/terms_condition_icon.svg';
+  static String defaultProfile = 'assets/images/profile/default_profile.jpg';
 
   //about
   static String attendeesIcon = "assets/images/about/attendees_icon.png";
