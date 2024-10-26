@@ -6,8 +6,10 @@ import 'package:get/get.dart';
 import 'package:piwotapp/constants/api_urls.dart';
 import 'package:piwotapp/pages/home/home_page.dart';
 import 'package:piwotapp/responses/banner_response.dart';
+import 'package:piwotapp/responses/list_link_response.dart';
 import 'package:piwotapp/responses/live_session_response.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../constants/colors.dart';
 import '../../constants/font_family.dart';
 import '../../constants/images.dart';
@@ -72,6 +74,8 @@ class _HomeState extends State<Home> {
   LiveSessionResponse? liveSessionResponse;
   List<LiveSessionData> liveSessions = [];
 
+  ListLinkData? _listLinkData;
+
 
   @override
   void initState() {
@@ -81,6 +85,7 @@ class _HomeState extends State<Home> {
     fetchSpeakerList();
     fetchSponsorList();
     fetchLiveSessionList();
+    fetchListLink();
   }
 
   fetchBannerList() async
@@ -201,6 +206,28 @@ class _HomeState extends State<Home> {
 
 
     setState(() {});
+  }
+
+  fetchListLink() async
+  {
+    // Future.delayed(Duration.zero, () {
+    //   showLoader(context);
+    // });
+
+      var response = await ApiRepo().getListLinksResponse(false);
+
+      if( response.data != null)
+      {
+
+        _listLinkData = response.data?[0];
+
+      }
+
+      setState(() {
+
+      });
+
+
   }
 
   void _startTimer() {
@@ -617,13 +644,29 @@ class _HomeState extends State<Home> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SvgPicture.asset(Images.facebookIcon),
+              InkWell(
+                onTap: (){
+                  launchUrl(Uri.parse(_listLinkData?.facebookLink??""));
+                },
+                  child: SvgPicture.asset(Images.facebookIcon)),
               const SizedBox(width: 20,),
-              SvgPicture.asset(Images.instagramIcon),
+              InkWell(
+                  onTap: (){
+                    launchUrl(Uri.parse(_listLinkData?.instagramLink??""));
+                  },
+                  child: SvgPicture.asset(Images.instagramIcon)),
               const SizedBox(width: 20,),
-              SvgPicture.asset(Images.linkedinIcon),
+              InkWell(
+                  onTap: (){
+                    launchUrl(Uri.parse(_listLinkData?.linkedinLink??""));
+                  },
+                  child: SvgPicture.asset(Images.linkedinIcon)),
               const SizedBox(width: 20,),
-              SvgPicture.asset(Images.twitterIcon),
+              InkWell(
+                  onTap: (){
+                    launchUrl(Uri.parse(_listLinkData?.twitterLink??""));
+                  },
+                  child: SvgPicture.asset(Images.twitterIcon)),
             ],
           ),
           const SizedBox(height: 20,),

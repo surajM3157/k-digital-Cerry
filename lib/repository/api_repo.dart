@@ -10,11 +10,14 @@ import 'package:piwotapp/responses/agenda_response.dart';
 import 'package:piwotapp/responses/banner_response.dart';
 import 'package:piwotapp/responses/faq_response.dart';
 import 'package:piwotapp/responses/floor_plan_response.dart';
+import 'package:piwotapp/responses/friend_list_response.dart';
 import 'package:piwotapp/responses/guest_details_response.dart';
+import 'package:piwotapp/responses/guest_list_response.dart';
 import 'package:piwotapp/responses/list_link_response.dart';
 import 'package:piwotapp/responses/live_session_response.dart';
 import 'package:piwotapp/responses/otp_response.dart';
 import 'package:piwotapp/responses/partner_response.dart';
+import 'package:piwotapp/responses/pending_request_response.dart';
 import 'package:piwotapp/responses/session_list_response.dart';
 import 'package:piwotapp/responses/speaker_response.dart';
 import 'package:piwotapp/responses/sponsor_response.dart';
@@ -48,12 +51,21 @@ class ApiRepo
 
       var res = await json.decode(response.body);
 
-      EasyLoading.showToast("${res['message']}",
-          dismissOnTap: true,
-          duration: const Duration(seconds: 1),
-          toastPosition: EasyLoadingToastPosition.center);
-      Get.toNamed(Routes.otp,arguments: {"data":res['data'],'mobile_number':params['mobile_number']});
-
+      if(res["statusCode"] != 200){
+        EasyLoading.showToast("${res['message']}",
+            dismissOnTap: true,
+            duration: const Duration(seconds: 1),
+            toastPosition: EasyLoadingToastPosition.center);
+      }else {
+        EasyLoading.showToast("${res['message']}",
+            dismissOnTap: true,
+            duration: const Duration(seconds: 1),
+            toastPosition: EasyLoadingToastPosition.center);
+        Get.toNamed(Routes.otp, arguments: {
+          "data": res['data'],
+          'mobile_number': params['mobile_number']
+        });
+      }
     }
     else
     {
@@ -240,11 +252,12 @@ class ApiRepo
     return floorPlanResponseFromJson(response.body);
   }
 
-  Future<ListLinkResponse> getListLinksResponse() async {
+  Future<ListLinkResponse> getListLinksResponse(bool isHome) async {
 
     final response = await http.get(Uri.parse("${ApiUrls.listLinksApiUrl}"), headers: {'token': '${Prefs.checkAuthToken}',});
 
-    Get.back();
+    if(isHome){}else{
+    Get.back();}
     print("Api url ${ApiUrls.listLinksApiUrl}");
     print("response ${response.body}");
 
@@ -375,5 +388,103 @@ class ApiRepo
     return faqResponseFromJson(response.body);
   }
 
+  Future<FriendListResponse> getFriendListResponse() async {
+
+    final response = await http.get(Uri.parse("${ApiUrls.friendListApiUrl}/${Prefs.checkUserId}"), headers: {'token': '${Prefs.checkAuthToken}',});
+
+     Get.back();
+    print("Api url ${ApiUrls.friendListApiUrl}/${Prefs.checkUserId}");
+    print("response ${response.body}");
+
+    return friendListResponseFromJson(response.body);
+  }
+
+  Future<GuestListResponse> getGuestListResponse(String search) async {
+
+    final response = await http.get(Uri.parse("${ApiUrls.guestListApiUrl}?search=$search"), headers: {'token': '${Prefs.checkAuthToken}',});
+
+    Get.back();
+    print("Api url ${ApiUrls.guestListApiUrl}");
+    print("response ${response.body}");
+
+    return guestListResponseFromJson(response.body);
+  }
+
+  sendRequest(var params) async {
+    final response = await http.post(Uri.parse("${ApiUrls.sendRequestApiUrl}"),
+      body: params,headers: {'token': '${Prefs.checkAuthToken}',}
+    );
+
+    Get.back();
+
+    print("params ${params}");
+    print("Api url ${ApiUrls.sendRequestApiUrl}");
+    print("response ${response.body}");
+
+
+    if(response.statusCode == 200)
+    {
+
+      var res = await json.decode(response.body);
+
+      EasyLoading.showToast("${res['message']}",
+          dismissOnTap: true,
+          duration: const Duration(seconds: 1),
+          toastPosition: EasyLoadingToastPosition.center);
+
+    }
+    else
+    {
+      var res = await json.decode(response.body);
+
+      EasyLoading.showToast("${res['message']}",
+          dismissOnTap: true,
+          duration: const Duration(seconds: 1),
+          toastPosition: EasyLoadingToastPosition.center);
+    }
+  }
+
+  Future<PendingRequestResponse> pendingRequestResponse() async {
+
+    final response = await http.get(Uri.parse("${ApiUrls.pendingRequestApiUrl}/${Prefs.checkUserId}"), headers: {'token': '${Prefs.checkAuthToken}',});
+
+    Get.back();
+    print("Api url ${ApiUrls.pendingRequestApiUrl}/${Prefs.checkUserId}");
+    print("response ${response.body}");
+
+    return pendingRequestResponseFromJson(response.body);
+  }
+
+   handleRequest(String id,String status) async {
+    final response = await http.post(Uri.parse("${ApiUrls.handleRequestApiUrl}?id=$id&status=$status"),
+        headers: {'token': '${Prefs.checkAuthToken}',}
+    );
+
+    Get.back();
+
+    print("Api url ${ApiUrls.sendRequestApiUrl}?id=$id&status=$status");
+    print("response ${response.body}");
+
+
+    if(response.statusCode == 200)
+    {
+
+      var res = await json.decode(response.body);
+
+      EasyLoading.showToast("${res['message']}",
+          dismissOnTap: true,
+          duration: const Duration(seconds: 1),
+          toastPosition: EasyLoadingToastPosition.center);
+    }
+    else
+    {
+      var res = await json.decode(response.body);
+
+      EasyLoading.showToast("${res['message']}",
+          dismissOnTap: true,
+          duration: const Duration(seconds: 1),
+          toastPosition: EasyLoadingToastPosition.center);
+    }
+  }
 }
 

@@ -28,7 +28,7 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
     });
 
     try{
-      var response = await ApiRepo().getListLinksResponse();
+      var response = await ApiRepo().getListLinksResponse(false);
 
       if( response.data != null)
       {

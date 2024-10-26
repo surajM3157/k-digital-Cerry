@@ -4,7 +4,7 @@ import 'package:piwotapp/constants/font_family.dart';
 import '../constants/colors.dart';
 
 class AppTextField extends StatelessWidget {
-   AppTextField({super.key,required this.hintText,required this.controller,this.prefixIcon,this.suffixIcon,this.labelText,this.readOnly,this.onTap,this.obscureText,this.keyboardType,this.inputFormatters,this.validator,this.autovalidateMode});
+   AppTextField({super.key,required this.hintText,required this.controller,this.prefixIcon,this.suffixIcon,this.labelText,this.readOnly,this.onTap,this.obscureText,this.keyboardType,this.inputFormatters,this.validator,this.autovalidateMode,this.onChanged});
 
   String hintText;
   String? labelText;
@@ -18,6 +18,7 @@ class AppTextField extends StatelessWidget {
    List<TextInputFormatter>? inputFormatters;
    String? Function(String?)? validator;
    AutovalidateMode? autovalidateMode;
+   void Function(String)? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +30,7 @@ class AppTextField extends StatelessWidget {
         controller: controller,
         obscureText: obscureText??false,
         onTap: onTap,
+        onChanged: onChanged,
         cursorColor: AppColor.primaryColor,
         autovalidateMode: autovalidateMode,
         inputFormatters: inputFormatters,

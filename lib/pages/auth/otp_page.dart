@@ -26,8 +26,9 @@ class _OtpPageState extends State<OtpPage> {
 
   @override
   void initState() {
+    if(Get.arguments['data']!=null){
    id = Get.arguments['data'];
-   mobileNo = Get.arguments['mobile_number'];
+   mobileNo = Get.arguments['mobile_number'];}
     super.initState();
   }
 

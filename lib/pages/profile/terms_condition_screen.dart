@@ -27,7 +27,7 @@ class _TermsConditionScreenState extends State<TermsConditionScreen> {
     });
 
     try{
-      var response = await ApiRepo().getListLinksResponse();
+      var response = await ApiRepo().getListLinksResponse(false);
 
       if( response.data != null)
       {

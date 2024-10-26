@@ -1,13 +1,21 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:piwotapp/constants/api_urls.dart';
 import 'package:piwotapp/constants/colors.dart';
 import 'package:get/get.dart';
+import 'package:piwotapp/responses/friend_list_response.dart';
+import 'package:piwotapp/responses/guest_list_response.dart';
+import 'package:piwotapp/responses/pending_request_response.dart';
 import 'package:piwotapp/widgets/app_textfield.dart';
 import '../../constants/font_family.dart';
 import '../../constants/images.dart';
+import '../../repository/api_repo.dart';
 import '../../route/route_names.dart';
 import '../../services/chat_service.dart';
 import '../../shared prefs/pref_manager.dart';
+import '../../widgets/app_themes.dart';
 
 class Delegates extends StatefulWidget {
    Delegates({super.key,required this.tabController});
@@ -19,25 +27,164 @@ class Delegates extends StatefulWidget {
 }
 
 class _DelegatesState extends State<Delegates> {
-  
-  
-  List<ChatModel> delegates = [
-    ChatModel(name: "William John", message: "Hi", profile: Images.profile1,isInvited: true),
-    ChatModel(name: "Ethan Miller", message: "Hello", profile: Images.profile2,isInvited: false),
-    ChatModel(name: "Mia Collins", message: "Hi", profile: Images.profile3,isInvited: false),
-    ChatModel(name: "James parke", message: "Hi", profile: Images.profile4,isInvited: true),
-    ChatModel(name: "Lucas anderson", message: "Good Morning", profile: Images.profile5,isInvited: true),
-    ChatModel(name: "William John", message: "Hi", profile: Images.profile1,isInvited: true),
-    ChatModel(name: "Ethan Miller", message: "Hello", profile: Images.profile2,isInvited: false),
-    ChatModel(name: "Mia Collins", message: "Hi", profile: Images.profile3,isInvited: true),
-    ChatModel(name: "James parke", message: "Hi", profile: Images.profile4,isInvited: false),
-    ChatModel(name: "Lucas anderson", message: "Good Morning", profile: Images.profile5,isInvited: false),
-  ];
+
+
+  FriendListResponse? _friendListResponse;
+  List<String> friendList = [];
+
+  GuestListResponse? _guestListResponse;
+  List<GuestListData> guestList = [];
+
+  PendingRequestResponse? _pendingRequestResponse;
+  List<PendingRequestData> pendingRequestList = [];
+
+  String requestStatus = "";
+  Timer? debounceTimer;
+  String chatSearchText = "";
+
+  void onSearchChanged(String query) {
+    setState(() {});
+    if (debounceTimer?.isActive ?? false) debounceTimer!.cancel();
+    debounceTimer = Timer(const Duration(milliseconds: 1500), () {
+      fetchGuestList(searchDelegateController.text);
+    });
+  }
+
+  fetchFriendList() async
+  {
+    Future.delayed(Duration.zero, () {
+      showLoader(context);
+    });
+
+
+      var response = await ApiRepo().getFriendListResponse();
+
+      if( response.data != null)
+      {
+        _friendListResponse = response;
+        for(String friend in _friendListResponse!.data![0].friends!){
+          friendList.add(friend);
+
+        }
+        print("f");
+
+        print("floorPlanList ${friendList.length}");
+        print("friendList $friendList");
+        print("userId ${Prefs.checkUserId}");
+      }
+
+      setState(() {
+
+      });
+
+
+
+
+  }
+
+  fetchGuestList(String search) async
+  {
+    guestList.clear();
+    Future.delayed(Duration.zero, () {
+      showLoader(context);
+    });
+     var response = await ApiRepo().getGuestListResponse(search);
+
+      if( response.data != null)
+      {
+        _guestListResponse = response;
+        for(GuestListData guest in _guestListResponse!.data!){
+          guestList.add(guest);
+
+        }
+
+        print("guestList ${guestList.length}");
+      }
+
+      setState(() {
+
+      });
+
+  }
+
+  fetchPendingRequest() async
+  {
+    Future.delayed(Duration.zero, () {
+      showLoader(context);
+    });
+
+    pendingRequestList.clear();
+      var response = await ApiRepo().pendingRequestResponse();
+
+      if( response.data != null)
+      {
+        _pendingRequestResponse = response;
+        for(PendingRequestData pendingRequest in _pendingRequestResponse!.data!){
+          pendingRequestList.add(pendingRequest);
+        }
+
+        print("guestList ${pendingRequestList.length}");
+      }
+
+      setState(() {
+
+      });
+  }
+
+  sendRequest(String receiverId)async{
+
+    Map<String, String> params = new Map<String, String>();
+    params["from"] = Prefs.checkUserId;
+    params["to"] = receiverId;
+
+
+
+    Future.delayed(Duration.zero, () {
+      showLoader(context);
+    });
+
+    ApiRepo().sendRequest(params);
+  }
+
+  handlePendingRequest(String status, String id)async{
+
+
+
+    Future.delayed(Duration.zero, () {
+      showLoader(context);
+    });
+
+     await ApiRepo().handleRequest(id, status);
+    fetchPendingRequest();
+
+  }
 
   TextEditingController searchDelegateController = TextEditingController();
   TextEditingController searchChatController = TextEditingController();
   ChatService chatService = ChatService();
 
+  @override
+  void initState() {
+    fetchGuestList("");
+    widget.tabController.addListener(_handleTabChange);
+    super.initState();
+  }
+
+  void _handleTabChange() {
+    if (widget.tabController.indexIsChanging) return;
+
+    switch (widget.tabController.index) {
+      case 0:
+        fetchGuestList("");
+        break;
+      case 1:
+        fetchFriendList();
+        break;
+      case 2:
+        fetchPendingRequest();
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,23 +194,31 @@ class _DelegatesState extends State<Delegates> {
           Column(
             children: [
               const SizedBox(height: 20,),
-              AppTextField(hintText: "Search Delegates",controller: searchDelegateController,prefixIcon: Icon(Icons.search,color: AppColor.FF9B9B9B,),),
+              AppTextField(hintText: "Search Delegates",controller: searchDelegateController,prefixIcon: Icon(Icons.search,color: AppColor.FF9B9B9B,),
+                onChanged: onSearchChanged,
+              ),
               Expanded(
-                child: ListView.separated(itemBuilder: (context,index){
+                child: guestList.isNotEmpty?ListView.separated(itemBuilder: (context,index){
                   return Padding(
-                    padding: index ==0? const EdgeInsets.only(top: 16):index ==delegates.length-1?const EdgeInsets.only(bottom: 16):EdgeInsets.zero,
-                    child: inviteDelegateList(delegates[index]),
+                    padding: index ==0? const EdgeInsets.only(top: 16):index ==guestList.length-1?const EdgeInsets.only(bottom: 16):EdgeInsets.zero,
+                    child: inviteDelegateList(guestList[index]),
                   );
                 }, separatorBuilder: (context,index){
                   return const SizedBox.shrink();
-                }, itemCount: delegates.length),
+                }, itemCount: guestList.length):SizedBox.shrink(),
               ),
             ],
           ),
           Column(
             children: [
               const SizedBox(height: 20,),
-              AppTextField(hintText: "Search Delegates",controller: searchChatController,prefixIcon: Icon(Icons.search,color: AppColor.FF9B9B9B,),),
+              AppTextField(hintText: "Search Delegates",controller: searchChatController,prefixIcon: Icon(Icons.search,color: AppColor.FF9B9B9B,),
+              onChanged: (value){
+                chatSearchText = value;
+                setState(() {
+
+                });
+              },),
               const SizedBox(height: 20,),
               // Expanded(
               //   child: ListView.separated(itemBuilder: (context,index){
@@ -78,21 +233,25 @@ class _DelegatesState extends State<Delegates> {
               Expanded(child: _buildUserList())
             ],
           ),
-          ListView.separated(itemBuilder: (context,index){
+          pendingRequestList.isNotEmpty?ListView.separated(itemBuilder: (context,index){
             return Padding(
-              padding: index ==0? const EdgeInsets.only(top: 20):index ==delegates.length-1?const EdgeInsets.only(bottom: 20):EdgeInsets.zero,
-              child: requestDelegateList(delegates[index],index),
+              padding: index ==0? const EdgeInsets.only(top: 20):index ==pendingRequestList.length-1?const EdgeInsets.only(bottom: 20):EdgeInsets.zero,
+              child: requestDelegateList(pendingRequestList[index]),
             );
           }, separatorBuilder: (context,index){
             return const SizedBox();
-          }, itemCount: delegates.length),
+          }, itemCount: pendingRequestList.length):SizedBox(),
 
     ]);
   }
 
   Widget _buildUserList(){
-    return StreamBuilder<QuerySnapshot>(stream:
-    FirebaseFirestore.instance.collection("users").snapshots(),
+    return friendList.isNotEmpty?StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance
+        .collection("users")
+        .where("name".toLowerCase(), isGreaterThanOrEqualTo: chatSearchText)
+        .where("name".toLowerCase(), isLessThan: chatSearchText + 'z') // Ensures alphabetical matching
+        .snapshots(),
       builder: (context,snapshot){
         if(snapshot.hasError){
           return Text("Error");
@@ -103,7 +262,7 @@ class _DelegatesState extends State<Delegates> {
         return ListView(
           children: snapshot.data!.docs.map<Widget>((doc) => _buildUserListItem(doc)).toList(),
         );
-      },);
+      },):SizedBox.shrink();
   }
 
   Widget _buildUserListItem(DocumentSnapshot document){
@@ -111,8 +270,10 @@ class _DelegatesState extends State<Delegates> {
 
 
     print("other username ${data['name']}");
+    print("friendList $friendList");
+    print("uid ${data['uid']}");
 
-    if(Prefs.checkUsername != data['name']){
+    if(Prefs.checkUserId != data['uid'] && friendList.contains(data['uid'])){
       return ListTile(
         title: Row(
           children: [
@@ -176,9 +337,9 @@ class _DelegatesState extends State<Delegates> {
   }
 
 
-  Widget requestDelegateList(ChatModel chatModel,int index){
+  Widget requestDelegateList(PendingRequestData pendingRequestData){
     return Container(
-      height: 200,
+      height: 160,
       width: Get.width,
       margin: const EdgeInsets.all(10),
       decoration: BoxDecoration(
@@ -202,15 +363,15 @@ class _DelegatesState extends State<Delegates> {
                   ),
                   child: ClipRRect(
                       borderRadius: BorderRadius.circular(50),
-                      child: Image.asset(chatModel.profile,fit: BoxFit.cover,))),
+                      child: pendingRequestData.requestSentUserDetails?[0].guestProfileImage!=null?Image.network(ApiUrls.imageUrl+(pendingRequestData.requestSentUserDetails?[0].guestProfileImage??""),fit: BoxFit.cover,):Image.asset(Images.defaultProfile,fit: BoxFit.cover,))),
               const SizedBox(width: 10,),
               Flexible(
                 child : Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(chatModel.name,style: TextStyle(fontWeight: FontWeight.w600,fontSize: 14,fontFamily: appFontFamily,color: AppColor.primaryColor),),
+                    Text((pendingRequestData.requestSentUserDetails?[0].firstName??"")+" "+(pendingRequestData.requestSentUserDetails?[0].lastName??""),style: TextStyle(fontWeight: FontWeight.w600,fontSize: 14,fontFamily: appFontFamily,color: AppColor.primaryColor),),
                     const SizedBox(height: 10,),
-                    Text("Co-Founder | Globally Grow Wealth Ventures",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 14,fontFamily: appFontFamily,color: AppColor.FF161616,overflow: TextOverflow.ellipsis, // Prevents overflow by showing ellipsis
+                    Text((pendingRequestData.requestSentUserDetails?[0].designation??"")+" | "+(pendingRequestData.requestSentUserDetails?[0].companyName??""),style: TextStyle(fontWeight: FontWeight.w400,fontSize: 14,fontFamily: appFontFamily,color: AppColor.FF161616,overflow: TextOverflow.ellipsis, // Prevents overflow by showing ellipsis
                     ),maxLines: 2, // Adjust maxLines as needed
                       softWrap: true,),
                   ],
@@ -218,90 +379,82 @@ class _DelegatesState extends State<Delegates> {
               )
             ],
           ),
-          Row(
-            children: [
-              Container(
-                margin: const EdgeInsets.only(left: 10),
-                padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-                decoration: BoxDecoration(
-                    color: AppColor.FFE7E7E7,
-                    borderRadius: const BorderRadius.all(Radius.circular(9))
-                ),
-                child: Center(child: Text("Fintech",style: TextStyle(fontFamily: appFontFamily,fontSize: 10,fontWeight: FontWeight.w400,color: AppColor.FF161616),)),
-              ),
-              Container(
-                margin: const EdgeInsets.only(left: 10),
-                padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-                decoration: BoxDecoration(
-                    color: AppColor.FFE7E7E7,
-                    borderRadius: const BorderRadius.all(Radius.circular(9))
-                ),
-                child: Center(child: Text("Leading",style: TextStyle(fontFamily: appFontFamily,fontSize: 10,fontWeight: FontWeight.w400,color: AppColor.FF161616),)),
-              ),
-              Container(
-                margin: const EdgeInsets.only(left: 10),
-                padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-                decoration: BoxDecoration(
-                    color: AppColor.FFE7E7E7,
-                    borderRadius: const BorderRadius.all(Radius.circular(9))
-                ),
-                child: Center(child: Text("Venture Capital/ Funding",style: TextStyle(fontFamily: appFontFamily,fontSize: 10,fontWeight: FontWeight.w400,color: AppColor.FF161616),)),
-              ),
-            ],
-          ),
+          // Row(
+          //   children: [
+          //     Container(
+          //       margin: const EdgeInsets.only(left: 10),
+          //       padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+          //       decoration: BoxDecoration(
+          //           color: AppColor.FFE7E7E7,
+          //           borderRadius: const BorderRadius.all(Radius.circular(9))
+          //       ),
+          //       child: Center(child: Text("Fintech",style: TextStyle(fontFamily: appFontFamily,fontSize: 10,fontWeight: FontWeight.w400,color: AppColor.FF161616),)),
+          //     ),
+          //     Container(
+          //       margin: const EdgeInsets.only(left: 10),
+          //       padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+          //       decoration: BoxDecoration(
+          //           color: AppColor.FFE7E7E7,
+          //           borderRadius: const BorderRadius.all(Radius.circular(9))
+          //       ),
+          //       child: Center(child: Text("Leading",style: TextStyle(fontFamily: appFontFamily,fontSize: 10,fontWeight: FontWeight.w400,color: AppColor.FF161616),)),
+          //     ),
+          //     Container(
+          //       margin: const EdgeInsets.only(left: 10),
+          //       padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+          //       decoration: BoxDecoration(
+          //           color: AppColor.FFE7E7E7,
+          //           borderRadius: const BorderRadius.all(Radius.circular(9))
+          //       ),
+          //       child: Center(child: Text("Venture Capital/ Funding",style: TextStyle(fontFamily: appFontFamily,fontSize: 10,fontWeight: FontWeight.w400,color: AppColor.FF161616),)),
+          //     ),
+          //   ],
+          // ),
+         //  pendingRequestData.status?.toLowerCase() == "pending"? SizedBox.shrink() :SizedBox(height: 10,),
+         // pendingRequestData.status?.toLowerCase() == "pending"? SizedBox.shrink():Padding(
+         //    padding: const EdgeInsets.only(left: 10),
+         //    child: Text(pendingRequestData.status?.toLowerCase() == "accepted"?"You are now friends":"You rejected request.",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 14,fontFamily: appFontFamily,color: AppColor.black),),
+         //  ),
           const SizedBox(height: 10,),
-          index==0?Padding(
-            padding: const EdgeInsets.only(left: 10),
-            child: Text("You are now friends",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 14,fontFamily: appFontFamily,color: AppColor.black),),
-          ):Padding(
-            padding: const EdgeInsets.only(left: 10),
-            child: Row(
-              children: [
-                Image.asset(Images.mutualFriendsIcon),
-    const SizedBox(width: 5,),
-    Text("Mutual Friends",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 14,fontFamily: appFontFamily,color: AppColor.black),),
-              ],
-            ),
-          ),
-          const SizedBox(height: 10,),
-          index == 0?Container(
-    width: 129,height: 35,
-    margin: const EdgeInsets.only(left: 10),
-    decoration: BoxDecoration(
-    borderRadius: const BorderRadius.all(Radius.circular(8)),
-    gradient:LinearGradient(
-    colors: [AppColor.primaryColor, AppColor.red],
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
-    ),
-    ),
-    child: Center(child: Text("Send Message",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 14,color: AppColor.white,fontFamily: appFontFamily),)),
-    ):Row(
+          pendingRequestData.status?.toLowerCase() == "pending"?Row(
             children: [
-              Container(
-                width: 100,height: 35,
-                margin: const EdgeInsets.only(left: 10),
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(8)),
-                  gradient:LinearGradient(
-                    colors: [AppColor.primaryColor, AppColor.red],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                ),
-                child: Center(child: Text("Accept",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 14,color: AppColor.white,fontFamily: appFontFamily),)),
-              ),
-              Container(
-                margin: const EdgeInsets.only(left: 10),
+              GestureDetector(
+                onTap: () {
+                   handlePendingRequest("accepted", pendingRequestData.sId??"");
+                   // pendingRequestList.remove(pendingRequestData);
+
+                },
+                child: Container(
                   width: 100,height: 35,
+                  margin: const EdgeInsets.only(left: 10),
                   decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(Radius.circular(8)),
-                      color: AppColor.white,
-                    border: Border.all(color: AppColor.red)
+                    borderRadius: const BorderRadius.all(Radius.circular(8)),
+                    gradient:LinearGradient(
+                      colors: [AppColor.primaryColor, AppColor.red],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
                   ),
-                  child: Center(child: Text("Reject",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 14,color: AppColor.red,fontFamily: appFontFamily,),))),
+                  child: Center(child: Text("Accept",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 14,color: AppColor.white,fontFamily: appFontFamily),)),
+                ),
+              ),
+              GestureDetector(
+                onTap: (){
+                  handlePendingRequest("rejected", pendingRequestData.sId??"");
+                  // pendingRequestList.remove(pendingRequestData);
+                },
+                child: Container(
+                  margin: const EdgeInsets.only(left: 10),
+                    width: 100,height: 35,
+                    decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.all(Radius.circular(8)),
+                        color: AppColor.white,
+                      border: Border.all(color: AppColor.red)
+                    ),
+                    child: Center(child: Text("Reject",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 14,color: AppColor.red,fontFamily: appFontFamily,),))),
+              ),
             ],
-          )
+          ): SizedBox.shrink()
         ],
       ),
     );
@@ -309,9 +462,9 @@ class _DelegatesState extends State<Delegates> {
 
 
 
-  Widget inviteDelegateList(ChatModel chatModel){
-    return Container(
-      height: 182,
+  Widget inviteDelegateList(GuestListData guestListData){
+    return guestListData.sId == Prefs.checkUserId?SizedBox.shrink():Container(
+      height: 170,
       width: Get.width,
       margin: const EdgeInsets.symmetric(horizontal: 16,vertical: 10),
       decoration: BoxDecoration(
@@ -335,15 +488,15 @@ class _DelegatesState extends State<Delegates> {
                   ),
                   child: ClipRRect(
                       borderRadius: BorderRadius.circular(50),
-                      child: Image.asset(chatModel.profile,fit: BoxFit.cover,))),
+                      child: guestListData.guestProfileImage != null?Image.network(ApiUrls.imageUrl+(guestListData.guestProfileImage??""),fit: BoxFit.cover,):Image.asset(Images.profileDefault,fit: BoxFit.cover,))),
               const SizedBox(width: 10,),
               Flexible(
                 child : Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(chatModel.name,style: TextStyle(fontWeight: FontWeight.w600,fontSize: 14,fontFamily: appFontFamily,color: AppColor.primaryColor),),
+                    Text((guestListData.firstName??"")+" "+(guestListData.lastName??""),style: TextStyle(fontWeight: FontWeight.w600,fontSize: 14,fontFamily: appFontFamily,color: AppColor.primaryColor),),
                     const SizedBox(height: 10,),
-                    Text("Co-Founder | Globally Grow Wealth Ventures",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 14,fontFamily: appFontFamily,color: AppColor.FF161616,overflow: TextOverflow.ellipsis, // Prevents overflow by showing ellipsis
+                    Text((guestListData.designation??"")+" | "+(guestListData.companyName??""),style: TextStyle(fontWeight: FontWeight.w400,fontSize: 14,fontFamily: appFontFamily,color: AppColor.FF161616,overflow: TextOverflow.ellipsis, // Prevents overflow by showing ellipsis
                       ),maxLines: 2, // Adjust maxLines as needed
                       softWrap: true,),
                   ],
@@ -351,73 +504,78 @@ class _DelegatesState extends State<Delegates> {
               )
             ],
           ),
-          Row(
-            children: [
-              Container(
-                margin: const EdgeInsets.only(left: 10),
-                padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-                decoration: BoxDecoration(
-                  color: AppColor.FFE7E7E7,
-                  borderRadius: const BorderRadius.all(Radius.circular(9))
-                ),
-                child: Center(child: Text("Fintech",style: TextStyle(fontFamily: appFontFamily,fontSize: 10,fontWeight: FontWeight.w400,color: AppColor.FF161616),)),
-              ),
-              Container(
-                margin: const EdgeInsets.only(left: 10),
-                padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-                decoration: BoxDecoration(
-                  color: AppColor.FFE7E7E7,
-                  borderRadius: const BorderRadius.all(Radius.circular(9))
-                ),
-                child: Center(child: Text("Leading",style: TextStyle(fontFamily: appFontFamily,fontSize: 10,fontWeight: FontWeight.w400,color: AppColor.FF161616),)),
-              ),
-              Container(
-                margin: const EdgeInsets.only(left: 10),
-                padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-                decoration: BoxDecoration(
-                  color: AppColor.FFE7E7E7,
-                  borderRadius: const BorderRadius.all(Radius.circular(9))
-                ),
-                child: Center(child: Text("Venture Capital/ Funding",style: TextStyle(fontFamily: appFontFamily,fontSize: 10,fontWeight: FontWeight.w400,color: AppColor.FF161616),)),
-              ),
-            ],
-          ),
+          // Row(
+          //   children: [
+          //     Container(
+          //       margin: const EdgeInsets.only(left: 10),
+          //       padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+          //       decoration: BoxDecoration(
+          //         color: AppColor.FFE7E7E7,
+          //         borderRadius: const BorderRadius.all(Radius.circular(9))
+          //       ),
+          //       child: Center(child: Text("Fintech",style: TextStyle(fontFamily: appFontFamily,fontSize: 10,fontWeight: FontWeight.w400,color: AppColor.FF161616),)),
+          //     ),
+          //     Container(
+          //       margin: const EdgeInsets.only(left: 10),
+          //       padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+          //       decoration: BoxDecoration(
+          //         color: AppColor.FFE7E7E7,
+          //         borderRadius: const BorderRadius.all(Radius.circular(9))
+          //       ),
+          //       child: Center(child: Text("Leading",style: TextStyle(fontFamily: appFontFamily,fontSize: 10,fontWeight: FontWeight.w400,color: AppColor.FF161616),)),
+          //     ),
+          //     Container(
+          //       margin: const EdgeInsets.only(left: 10),
+          //       padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+          //       decoration: BoxDecoration(
+          //         color: AppColor.FFE7E7E7,
+          //         borderRadius: const BorderRadius.all(Radius.circular(9))
+          //       ),
+          //       child: Center(child: Text("Venture Capital/ Funding",style: TextStyle(fontFamily: appFontFamily,fontSize: 10,fontWeight: FontWeight.w400,color: AppColor.FF161616),)),
+          //     ),
+          //   ],
+          // ),
           const SizedBox(height: 20,),
           Row(
             children: [
-              Container(
-                width: 100,height: 35,
-                margin: const EdgeInsets.only(left: 10),
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(8)),
-                  gradient:LinearGradient(
-                    colors: [AppColor.primaryColor, AppColor.red],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                ),
-                child: Center(child: Text("Connect",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 14,color: AppColor.white,fontFamily: appFontFamily),)),
-              ),
-              Container(
-                width: 100,height: 35,
-                margin: const EdgeInsets.only(left: 10),
-                padding: const EdgeInsets.all(1),
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(9)),
-                  gradient:LinearGradient(
-                    colors: [AppColor.primaryColor, AppColor.red],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                ),
+              GestureDetector(
+                onTap: (){
+                  sendRequest(guestListData.sId??"");
+                },
                 child: Container(
-                    width: 100,height: 35,
-                    decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.all(Radius.circular(8)),
-                        color: AppColor.white
+                  width: 100,height: 35,
+                  margin: const EdgeInsets.only(left: 10),
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(8)),
+                    gradient:LinearGradient(
+                      colors: [AppColor.primaryColor, AppColor.red],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
                     ),
-                    child: Center(child: Text("Send Note",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 14,color: AppColor.FF161616,fontFamily: appFontFamily,),))),
+                  ),
+                  child: Center(child: Text("Connect",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 14,color: AppColor.white,fontFamily: appFontFamily),)),
+                ),
               ),
+              // Container(
+              //   width: 100,height: 35,
+              //   margin: const EdgeInsets.only(left: 10),
+              //   padding: const EdgeInsets.all(1),
+              //   decoration: BoxDecoration(
+              //     borderRadius: const BorderRadius.all(Radius.circular(9)),
+              //     gradient:LinearGradient(
+              //       colors: [AppColor.primaryColor, AppColor.red],
+              //       begin: Alignment.topLeft,
+              //       end: Alignment.bottomRight,
+              //     ),
+              //   ),
+              //   child: Container(
+              //       width: 100,height: 35,
+              //       decoration: BoxDecoration(
+              //           borderRadius: const BorderRadius.all(Radius.circular(8)),
+              //           color: AppColor.white
+              //       ),
+              //       child: Center(child: Text("Send Note",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 14,color: AppColor.FF161616,fontFamily: appFontFamily,),))),
+              // ),
             ],
           )
         ],

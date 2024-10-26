@@ -19,6 +19,11 @@ class ApiUrls
    static String liveSessionApiUrl = "$baseUrl/event/list-live-events";
    static String aboutUsApiUrl = "$baseUrl/event/list-about-us";
    static String faqApiUrl = "$baseUrl/event/list-faq";
+   static String friendListApiUrl = "$baseUrl/chat/friends";
+   static String guestListApiUrl = "$baseUrl/event/list-guest";
+   static String sendRequestApiUrl = "$baseUrl/chat/send-friend-request";
+   static String pendingRequestApiUrl = "$baseUrl/chat/pending-requests";
+   static String handleRequestApiUrl = "$baseUrl/chat/handle-friend-request";
 
 }
 
