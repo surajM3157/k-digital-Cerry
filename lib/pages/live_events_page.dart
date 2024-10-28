@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -23,23 +24,30 @@ class _LiveEventsPageState extends State<LiveEventsPage> {
 
   LiveSessionResponse? liveSessionResponse;
   List<LiveSessionData> liveSessions = [];
+  bool isConnected = true;
 
 
   fetchLiveSessionList() async
   {
-    Future.delayed(Duration.zero, () {
-      showLoader(context);
-    });
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      isConnected = false;
+      setState(() {
 
-    try{
+      });
+    }else {
+      isConnected = true;
+      liveSessions.clear();
+      Future.delayed(Duration.zero, () {
+        showLoader(context);
+      });
+
       var response = await ApiRepo().getLiveSessionResponse(false);
 
-      if( response.data != null)
-      {
+      if (response.data != null) {
         liveSessionResponse = response;
-        for(LiveSessionData live in liveSessionResponse!.data!){
+        for (LiveSessionData live in liveSessionResponse!.data!) {
           liveSessions.add(live);
-
         }
         print("liveSessions ${liveSessions.length}");
       }
@@ -47,17 +55,21 @@ class _LiveEventsPageState extends State<LiveEventsPage> {
       setState(() {
 
       });
-
     }
-    catch(e){}
-
-
-    setState(() {});
   }
 
   @override
   void initState() {
     fetchLiveSessionList();
+    Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
+      if (result == ConnectivityResult.none) {
+        isConnected = false;
+      } else {
+        // Handle case when internet connection is available
+        isConnected = true;
+        fetchLiveSessionList();
+      }
+    });
     super.initState();
   }
 
@@ -77,7 +89,7 @@ class _LiveEventsPageState extends State<LiveEventsPage> {
             },
             child: Icon(Icons.arrow_back_ios,size: 20,color: AppColor.white,)),
       ),
-      body: ListView(
+      body: isConnected?ListView(
         children: [
           const SizedBox(height: 12,),
           Center(child: GradientText(text:"Live Event",style: const TextStyle(fontFamily: appFontFamily,fontSize: 20,fontWeight: FontWeight.w600), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]),)),
@@ -153,7 +165,7 @@ class _LiveEventsPageState extends State<LiveEventsPage> {
                 ):SizedBox.shrink();
               }, separatorBuilder: (BuildContext context, int index) { return const SizedBox(height: 16,); },):SizedBox.shrink()
         ],
-      ),
+      ):const Center(child: Text("OOPS! NO INTERNET.",style: TextStyle(color: Colors.black87,fontWeight: FontWeight.w600,fontFamily: appFontFamily,fontSize: 20),)),
     );
   }
 }

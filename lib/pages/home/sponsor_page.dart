@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -5,6 +6,7 @@ import 'package:piwotapp/constants/api_urls.dart';
 import 'package:piwotapp/responses/partner_response.dart';
 import 'package:piwotapp/responses/sponsor_response.dart';
 import '../../constants/colors.dart';
+import '../../constants/font_family.dart';
 import '../../constants/images.dart';
 import '../../repository/api_repo.dart';
 import '../../widgets/app_themes.dart';
@@ -19,10 +21,6 @@ class SponsorPage extends StatefulWidget {
 
 class _SponsorPageState extends State<SponsorPage> with SingleTickerProviderStateMixin{
 
-  List<Sponsor> sponsors = [Sponsor("Co-Powered By", Images.sponsorLogo1),Sponsor("Co-Powered By", Images.sponsorLogo2),
-    Sponsor("Associate Partner", Images.sponsorLogo3),Sponsor("Associate Partner", Images.sponsorLogo4),
-    Sponsor("Technology- Partner", Images.sponsorLogo5),Sponsor("Technology- Partner", Images.sponsorLogo6)
-  ];
 
   late TabController _tabController;
   SponsorResponse? sponsorResponse;
@@ -30,12 +28,23 @@ class _SponsorPageState extends State<SponsorPage> with SingleTickerProviderStat
 
   PartnerResponse? partnerResponse;
   List<PartnerData> partnerList = [];
+  bool isConnected = true;
 
   @override
   void initState() {
     _tabController = TabController(length: 2, vsync: this);
     fetchSponsorList();
     fetchPartnerList();
+    Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
+      if (result == ConnectivityResult.none) {
+        isConnected = false;
+      } else {
+        // Handle case when internet connection is available
+        isConnected = true;
+        fetchSponsorList();
+        fetchPartnerList();
+      }
+    });
     super.initState();
   }
 
@@ -63,7 +72,7 @@ class _SponsorPageState extends State<SponsorPage> with SingleTickerProviderStat
             },
             child: Icon(Icons.arrow_back_ios,size: 20,color: AppColor.white,)),
       ),
-      body: Column(
+      body: isConnected?Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 10,),
@@ -151,25 +160,30 @@ class _SponsorPageState extends State<SponsorPage> with SingleTickerProviderStat
             ),
           )
         ],
-      ),
+      ):const Center(child: Text("OOPS! NO INTERNET.",style: TextStyle(color: Colors.black87,fontWeight: FontWeight.w600,fontFamily: appFontFamily,fontSize: 20),)),
     );
   }
 
   fetchSponsorList() async
   {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      isConnected = false;
+      setState(() {
+
+      });
+    }else {
+      isConnected = true;
+      sponsorList.clear();
     Future.delayed(Duration.zero, () {
       showLoader(context);
     });
+     var response = await ApiRepo().getSponsorResponse(false);
 
-    try{
-      var response = await ApiRepo().getSponsorResponse(false);
-
-      if( response.data != null)
-      {
+      if (response.data != null) {
         sponsorResponse = response;
-        for(SponsorData sponsor in sponsorResponse!.data!){
+        for (SponsorData sponsor in sponsorResponse!.data!) {
           sponsorList.add(sponsor);
-
         }
         print("sponsorlist ${sponsorList.length}");
       }
@@ -177,47 +191,35 @@ class _SponsorPageState extends State<SponsorPage> with SingleTickerProviderStat
       setState(() {
 
       });
-
     }
-    catch(e){}
-
-
-    setState(() {});
   }
 
   fetchPartnerList() async
   {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      isConnected = false;
+      setState(() {
+
+      });
+    } else {
+      isConnected = true;
+      partnerList.clear();
     Future.delayed(Duration.zero, () {
       showLoader(context);
     });
 
-    try{
-      var response = await ApiRepo().getPartnerResponse();
+    var response = await ApiRepo().getPartnerResponse();
 
-      if( response.data != null)
-      {
-        partnerResponse = response;
-        for(PartnerData partner in partnerResponse!.data!){
-          partnerList.add(partner);
-
-        }
-        print("partnerlist ${partnerList.length}");
+    if (response.data != null) {
+      partnerResponse = response;
+      for (PartnerData partner in partnerResponse!.data!) {
+        partnerList.add(partner);
       }
-
-      setState(() {
-
-      });
-
+      print("partnerlist ${partnerList.length}");
     }
-    catch(e){}
 
+    setState(() {
 
-    setState(() {});
-  }
-}
-
-class Sponsor{
-  String title;
-  String icon;
-  Sponsor(this.title,this.icon);
+    });}}
 }

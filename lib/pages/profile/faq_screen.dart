@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -29,16 +30,25 @@ class _FAQScreenState extends State<FAQScreen> {
   Timer? debounceTimer;
 
   TextEditingController searchController = TextEditingController();
+  bool isConnected = true;
 
 
 
   fetchFaq(String search) async
   {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      isConnected = false;
+      setState(() {
+
+      });
+    }else {
+      isConnected = true;
+      faqList.clear();
     Future.delayed(Duration.zero, () {
       showLoader(context);
     });
 
-    try{
       var response = await ApiRepo().getFaqResponse(search);
 
       if( response.data != null)
@@ -53,18 +63,22 @@ class _FAQScreenState extends State<FAQScreen> {
 
       setState(() {
 
-      });
+      });}
 
-    }
-    catch(e){}
-
-
-    setState(() {});
   }
 
   @override
   void initState() {
     fetchFaq("");
+    Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
+      if (result == ConnectivityResult.none) {
+        isConnected = false;
+      } else {
+        // Handle case when internet connection is available
+        isConnected = true;
+        fetchFaq("");
+      }
+    });
     super.initState();
   }
 
@@ -94,7 +108,7 @@ class _FAQScreenState extends State<FAQScreen> {
             },
             child: Icon(Icons.arrow_back_ios,size: 20,color: AppColor.white,)),
       ),
-      body: SingleChildScrollView(
+      body: isConnected?SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -170,7 +184,7 @@ class _FAQScreenState extends State<FAQScreen> {
             const SizedBox(height: 24,)
           ],
         ),
-      ),
+      ):const Center(child: Text("OOPS! NO INTERNET.",style: TextStyle(color: Colors.black87,fontWeight: FontWeight.w600,fontFamily: appFontFamily,fontSize: 20),)),
     );
   }
 }

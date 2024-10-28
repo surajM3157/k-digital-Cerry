@@ -1,8 +1,8 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:piwotapp/constants/api_urls.dart';
 import 'package:piwotapp/constants/colors.dart';
-import 'package:piwotapp/constants/images.dart';
 import 'package:get/get.dart';
 import 'package:piwotapp/responses/session_list_response.dart';
 import 'package:piwotapp/widgets/app_themes.dart';
@@ -22,11 +22,6 @@ class Session extends StatefulWidget {
 class _SessionState extends State<Session> with SingleTickerProviderStateMixin{
 
   late TabController _tabController;
-  List<SessionModel> sessions =[
-    SessionModel(title: "Artificial Intelligence and Machine Learning in Business", image: Images.sessionBanner1, date: "16 August 2024", time: "10:00 am to 12:00 am"),
-    SessionModel(title: "Innovation in Action: Transforming Ideas to Reality", image: Images.sessionBanner2, date: "16 August 2024", time: "10:00 am to 12:00 am"),
-    SessionModel(title: "Future Tech Trends - The Next Wave of Innovation", image: Images.sessionBanner3, date: "16 August 2024", time: "10:00 am to 12:00 am"),
-  ];
 
   SessionListResponse? sessionListResponse;
 
@@ -34,16 +29,28 @@ class _SessionState extends State<Session> with SingleTickerProviderStateMixin{
   List<SessionListData> hackathon = [];
   List<SessionListData> startups = [];
   List<SessionListData> firesides = [];
+  bool isConnected = true;
 
   String sessionDate = "17 Jan";
 
   fetchSessionList(String date) async
   {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      isConnected = false;
+      setState(() {
+
+      });
+    }else {
+      isConnected = true;
+      conference.clear();
+      hackathon.clear();
+      startups.clear();
+      firesides.clear();
     Future.delayed(Duration.zero, () {
       showLoader(context);
     });
 
-    try{
       var response = await ApiRepo().getSessionListResponse(date);
 
       if( response.data != null)
@@ -65,19 +72,22 @@ class _SessionState extends State<Session> with SingleTickerProviderStateMixin{
 
       setState(() {
 
-      });
-
-    }
-    catch(e){}
-
-
-    setState(() {});
+      });}
   }
 
   @override
   void initState() {
     _tabController = TabController(length: 4, vsync: this);
     fetchSessionList("2025/01/17");
+    Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
+      if (result == ConnectivityResult.none) {
+        isConnected = false;
+      } else {
+        // Handle case when internet connection is available
+        isConnected = true;
+        fetchSessionList("2025/01/17");
+      }
+    });
     super.initState();
   }
 
@@ -89,7 +99,7 @@ class _SessionState extends State<Session> with SingleTickerProviderStateMixin{
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return isConnected?Column(
       children: [
         const SizedBox(height: 20,),
         Row(
@@ -344,7 +354,7 @@ class _SessionState extends State<Session> with SingleTickerProviderStateMixin{
           ]),
         )
       ],
-    );
+    ):const Center(child: Text("OOPS! NO INTERNET.",style: TextStyle(color: Colors.black87,fontWeight: FontWeight.w600,fontFamily: appFontFamily,fontSize: 20),));
   }
 
 

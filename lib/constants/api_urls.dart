@@ -1,7 +1,7 @@
 class ApiUrls
 {
-   static final String baseUrl = "http://192.168.1.39:3001/api/v1/guest";
-   static final String imageUrl = "http://192.168.1.39:3001/";
+   static final String baseUrl = "https://piwotbe.kdcstaging.in/api/v1/guest";
+   static final String imageUrl = "https://piwotbe.kdcstaging.in/";
    //static final String baseUrl = "http://192.168.1.39:3001/api/v1/guest";
 
    static String loginApiUrl = "$baseUrl/auth/login-guest";

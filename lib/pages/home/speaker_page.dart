@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -24,32 +25,22 @@ class _SpeakerPageState extends State<SpeakerPage> {
   SpeakerResponse? speakerResponse;
 
 
-  List<SpeakerModel> speakers = [
-    SpeakerModel(title: 'Shri Narendra Modi', subtitle: 'Honourable Prime Minister of India Government of India', body: 'Narendra Modi is the Prime Minister of India, serving since 2014. He is a member of the Bharatiya Janata Party (BJP) and previously served as the Chief Minister of Gujarat from 2001 to 2014. Known for his economic and governance reforms, Modi has focused on modernizing India’s infrastructure, digital economy, and foreign relations. His leadership style is marked by strong centralization of power, and he remains a polarizing figure, with both supporters and critics of his policies.', image: Images.speaker4),
-    SpeakerModel(title: 'Shri Ashwini Vaishnaw', subtitle: 'Honourable Minister of Electronics Government of India', body: 'Shri Ashwini Vaishnaw is an Indian politician, engineer, and bureaucrat, currently serving as the Minister of Railways, Communications, and Electronics & Information Technology in the Government of India. He is a member of the Bharatiya Janata Party (BJP) and represents Odisha in the Rajya Sabha (Upper House of Parliament). Vaishnaw has a background in engineering and public administration, having previously worked in the Indian Administrative Service (IAS). He is known for his efforts in modernizing India’s railways and advancing the country\'s digital infrastructure.', image: Images.speaker5),
-    SpeakerModel(title: 'Shri Dinesh Kumar Khara', subtitle: 'Chairperson State Bank of India', body: 'Shri Dinesh Kumar Khara is an Indian banker and the Chairman of the State Bank of India (SBI), the largest public sector bank in the country. Appointed in October 2020, Khara has played a key role in driving SBI\'s digital transformation and expanding its global operations. He has been with the bank for over three decades, holding various leadership positions in retail banking, corporate banking, and global markets. Under his leadership, SBI has focused on financial inclusion, digital banking, and supporting economic growth in India.', image: Images.speaker6),
-
-    SpeakerModel(title: 'Dr. Bharat Balasubramanian', subtitle: 'Executive Director Center Advanced Vehicle  Technologies', body: "Prof. Dr.-Ing. Bharat Balasubramanian Born in India, Prof. Bharat holds an honors degree in mechanical engineering from IIT Bombay. He pursued advanced engineering studies in Germany, launching a 38-year career at Daimler-Benz in Mercedes-Benz (MB) Cars R&D. Rising to Vice President in 1997, he was the first non-German VP in R&D history at MB. He led pioneering initiatives in connected vehicles, automated driving, electric cars, and lightweight materials, and spearheaded Daimler's partnership with Tesla. Retiring in 2012, he joined the University of Alabama, where his team has secured over \$20 million in federal grants for CAE research.", image: Images.speaker_11),
-    SpeakerModel(title: 'Dr. R.A. Mashelkar', subtitle: 'Former Director General Council of Scientific and Industrial Research', body: '', image: Images.speaker_12),
-    SpeakerModel(title: 'Dr. Sudhir Jain', subtitle: 'Vice-Chancellor - Banaras Hindu University ', body: '', image: Images.speaker_13),
-    SpeakerModel(title: 'Mr. Abhay Karandikar', subtitle: 'Secretary - Department of Science and Technology', body: '', image: Images.speaker_1),
-    SpeakerModel(title: 'Dr. Gururaj Desh Deshpande', subtitle: 'Chairman - Sycamore Networks', body: '', image: Images.speaker_4),
-    SpeakerModel(title: 'Mr. Markus Schaefer', subtitle: 'Board of Directors Member and CTO - Mercedes-Benz Group AG', body: '', image: Images.speaker_3),
-    SpeakerModel(title: 'Mr. Partha Ghosh', subtitle: 'Founder - Partha Ghosh Academy of Leadership', body: '', image: Images.speaker_2),
-    SpeakerModel(title: 'Mr. Sanjiv Puri', subtitle: 'Chairman & Managing Director - ITC Limited', body: '', image: Images.speaker_8),
-    SpeakerModel(title: 'Mr. Sunil Wadhwani', subtitle: 'Chief Executive Officer - Mastech, Inc. and IGATE', body: '', image: Images.speaker_9),
-    SpeakerModel(title: 'Mr. Vindi Banga', subtitle: 'Chair - Imperial College London', body: '', image: Images.speaker_5),
-    SpeakerModel(title: 'Mr. Yuki Kita', subtitle: 'Chief Executive Officer - FANUC', body: '', image: Images.speaker_10),
-    SpeakerModel(title: 'Prof. Alon Chen', subtitle: 'President - Weizmann Institute of Science, Israel', body: '', image: Images.speaker_6),
-    SpeakerModel(title: 'Mr Saakar S Yadav', subtitle: 'Founder and CMD, Lexlegis.ai', body: '', image: Images.speaker_7),
-  ];
-
   List<SpeakerData> speakerList = [];
   Timer? debounceTimer;
+  bool isConnected = true;
 
   @override
   void initState() {
     fetchSpeakerList("");
+    Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
+      if (result == ConnectivityResult.none) {
+        isConnected = false;
+      } else {
+        // Handle case when internet connection is available
+        isConnected = true;
+        fetchSpeakerList("");
+      }
+    });
     super.initState();
   }
 
@@ -78,7 +69,7 @@ class _SpeakerPageState extends State<SpeakerPage> {
             },
             child: Icon(Icons.arrow_back_ios,size: 20,color: AppColor.white,)),
       ),
-      body: SingleChildScrollView(
+      body:isConnected? SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -172,7 +163,7 @@ class _SpeakerPageState extends State<SpeakerPage> {
             const SizedBox(height: 50,)
           ],
         ),
-      ),
+      ):const Center(child: Text("OOPS! NO INTERNET.",style: TextStyle(color: Colors.black87,fontWeight: FontWeight.w600,fontFamily: appFontFamily,fontSize: 20),)),
     );
   }
 
@@ -253,19 +244,25 @@ class _SpeakerPageState extends State<SpeakerPage> {
 
   fetchSpeakerList(String search) async
   {
-    Future.delayed(Duration.zero, () {
-      showLoader(context);
-    });
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      isConnected = false;
+      setState(() {
 
-    try{
-      var response = await ApiRepo().getSpeakerResponse(search,false);
+      });
+    }else {
+      isConnected = true;
+      speakerList.clear();
+      Future.delayed(Duration.zero, () {
+        showLoader(context);
+      });
 
-      if( response.data != null)
-      {
+      var response = await ApiRepo().getSpeakerResponse(search, false);
+
+      if (response.data != null) {
         speakerResponse = response;
-        for(SpeakerData speaker in speakerResponse!.data!){
+        for (SpeakerData speaker in speakerResponse!.data!) {
           speakerList.add(speaker);
-
         }
         print("speakerlist ${speakerList.length}");
       }
@@ -273,20 +270,7 @@ class _SpeakerPageState extends State<SpeakerPage> {
       setState(() {
 
       });
-
     }
-    catch(e){}
 
-
-    setState(() {});
   }
-}
-
-
-class SpeakerModel{
-  SpeakerModel({required this.title,required this.subtitle, required this.body, required this.image});
-  String image;
-  String title;
-  String subtitle;
-  String body;
 }

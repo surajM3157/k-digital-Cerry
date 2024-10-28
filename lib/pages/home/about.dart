@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:piwotapp/constants/api_urls.dart';
@@ -21,15 +22,21 @@ class About extends StatefulWidget {
 class _AboutState extends State<About> {
 
   AboutUsData? aboutUsData;
+  bool isConnected = true;
 
   fetchAboutUs() async
   {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      isConnected = false;
+      setState(() {
+
+      });
+    }else{
     Future.delayed(Duration.zero, () {
       showLoader(context);
     });
-
-    try{
-      var response = await ApiRepo().getAboutUsResponse();
+     var response = await ApiRepo().getAboutUsResponse();
 
       if( response.data != null)
       {
@@ -41,21 +48,27 @@ class _AboutState extends State<About> {
       });
 
     }
-    catch(e){}
 
-
-    setState(() {});
   }
 
   @override
   void initState() {
     fetchAboutUs();
+    Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
+      if (result == ConnectivityResult.none) {
+        isConnected = false;
+      } else {
+        // Handle case when internet connection is available
+        isConnected = true;
+        fetchAboutUs();
+      }
+    });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return TabBarView(
+    return isConnected? TabBarView(
         controller: widget.tabController,
         children: [
           ListView(
@@ -134,7 +147,7 @@ class _AboutState extends State<About> {
               const SizedBox(height: 40,)
             ],
           ),
-        ]);
+        ]):const Center(child: Text("OOPS! NO INTERNET.",style: TextStyle(color: Colors.black87,fontWeight: FontWeight.w600,fontFamily: appFontFamily,fontSize: 20),));
   }
 
   Widget cardWidget({required String title, required String image}){

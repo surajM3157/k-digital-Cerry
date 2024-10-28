@@ -1,8 +1,10 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import '../../constants/colors.dart';
+import '../../constants/font_family.dart';
 import '../../constants/images.dart';
 import '../../repository/api_repo.dart';
 import '../../responses/list_link_response.dart';
@@ -19,14 +21,22 @@ class _TermsConditionScreenState extends State<TermsConditionScreen> {
 
   ListLinkData? listLinkData;
   WebViewController? controller;
+  bool isConnected = true;
 
-  fetchPrivacyLink() async
+  fetchTermsConditionLink() async
   {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      isConnected = false;
+      setState(() {
+
+      });
+    }else {
+      isConnected = true;
     Future.delayed(Duration.zero, () {
       showLoader(context);
     });
 
-    try{
       var response = await ApiRepo().getListLinksResponse(false);
 
       if( response.data != null)
@@ -60,18 +70,24 @@ class _TermsConditionScreenState extends State<TermsConditionScreen> {
 
       });
 
-    }
-    catch(e){}
 
 
-    setState(() {});
+
+    setState(() {});}
   }
 
   @override
   void initState() {
-    fetchPrivacyLink();
-
-
+    fetchTermsConditionLink();
+    Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
+      if (result == ConnectivityResult.none) {
+        isConnected = false;
+      } else {
+        // Handle case when internet connection is available
+        isConnected = true;
+        fetchTermsConditionLink();
+      }
+    });
     super.initState();
   }
 
@@ -92,7 +108,7 @@ class _TermsConditionScreenState extends State<TermsConditionScreen> {
             },
             child: Icon(Icons.arrow_back_ios,size: 20,color: AppColor.white,)),
       ),
-      body:  listLinkData?.privacyPolicyLink!=null?WebViewWidget(controller: controller!):CircularProgressIndicator(),
+      body: isConnected? listLinkData?.termsAndConditionsLink!=null?WebViewWidget(controller: controller!):SizedBox.shrink():const Center(child: Text("OOPS! NO INTERNET.",style: TextStyle(color: Colors.black87,fontWeight: FontWeight.w600,fontFamily: appFontFamily,fontSize: 20),)),
     );
   }
 }

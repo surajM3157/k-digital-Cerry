@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -24,34 +25,48 @@ class _ProfilePageState extends State<ProfilePage> {
   bool isNotificationOn = false;
 
   GuestDetailsData? guestDetails;
+  bool  isConnected = true;
 
 
   fetchGuestDetails() async
   {
-    Future.delayed(Duration.zero, () {
-      showLoader(context);
-    });
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      isConnected = false;
+      setState(() {
 
-    try{
+      });
+    }else {
+      isConnected = true;
+
+      Future.delayed(Duration.zero, () {
+        showLoader(context);
+      });
+
       var response = await ApiRepo().getGuestDetailsResponse();
 
-      if( response.data != null)
-      {
+      if (response.data != null) {
         guestDetails = response.data;
-
       }
 
       setState(() {
 
       });
-
     }
-    catch(e){}
   }
 
   @override
   void initState() {
     fetchGuestDetails();
+    Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
+      if (result == ConnectivityResult.none) {
+        isConnected = false;
+      } else {
+        // Handle case when internet connection is available
+        isConnected = true;
+        fetchGuestDetails();
+      }
+    });
     super.initState();
   }
 
@@ -59,7 +74,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColor.white,
-      body: SingleChildScrollView(
+      body: isConnected?SingleChildScrollView(
         child: Stack(
           children: [
             Column(
@@ -352,7 +367,7 @@ class _ProfilePageState extends State<ProfilePage> {
             )
           ],
         ),
-      ),
+      ):const Center(child: Text("OOPS! NO INTERNET.",style: TextStyle(color: Colors.black87,fontWeight: FontWeight.w600,fontFamily: appFontFamily,fontSize: 20),)),
     );
   }
 

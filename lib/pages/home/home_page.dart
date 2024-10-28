@@ -69,6 +69,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
         appBar: PreferredSize(
           preferredSize: bottomNavbarIndex == 1|| bottomNavbarIndex == 4? Size.fromHeight(_calculateAppBarHeight()):Size.fromHeight(screenHeight * 0.08),
           child: AppBar(
+            elevation: 0,
             // toolbarHeight: bottomNavbarIndex == 3?screenHeight*0.152:null,
               flexibleSpace: FlexibleSpaceBar(
                 titlePadding: EdgeInsets.zero, // Removes the padding
@@ -144,6 +145,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                               child: Text("Request",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor)),
                             ),
                           ]),
+                    ),
+                    Container(
+                      height: 1,width: Get.width,
+                      margin: EdgeInsets.only(top: 1),
+                      color: AppColor.lightGrey,
                     )
                   ],
                 ):bottomNavbarIndex == 4?
@@ -215,6 +221,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                               child: Text("About Us",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor),),
                             ),
                           ]),
+                    ),
+                    Container(
+                      height: 1,width: Get.width,
+                      margin: EdgeInsets.only(top: 1),
+                      color: AppColor.lightGrey,
                     )
                   ],
                 ):Padding(
@@ -362,6 +373,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
             const SizedBox(height: 20,),
             InkWell(
               onTap: (){
+                Get.toNamed(Routes.privacyPolicy);
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -384,6 +396,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
             const SizedBox(height: 20,),
             InkWell(
               onTap: (){
+                Get.toNamed(Routes.termsCondition);
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -405,6 +418,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
             const SizedBox(height: 20,),
             InkWell(
               onTap: (){
+                Get.toNamed(Routes.faq);
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),

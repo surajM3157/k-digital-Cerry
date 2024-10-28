@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:piwotapp/responses/agenda_response.dart';
 import '../../constants/colors.dart';
@@ -18,22 +19,29 @@ class _AgendaState extends State<Agenda> {
   AgendaResponse? agendaResponse;
   List<AgendaData> agendaList = [];
   String date = "17 Jan";
+  bool isConnected = true;
 
 
   fetchAgendaList(String date) async
   {
-    Future.delayed(Duration.zero, () {
-      showLoader(context);
-    });
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      isConnected = false;
+      setState(() {
 
-    try{
+      });
+    }else {
+      isConnected = true;
+      agendaList.clear();
+      Future.delayed(Duration.zero, () {
+        showLoader(context);
+      });
       var response = await ApiRepo().getAgendaResponse(date);
 
-      if( response.data != null)
-      {
+      if (response.data != null) {
         agendaResponse = response;
 
-        for(AgendaData agendaData in agendaResponse!.data!){
+        for (AgendaData agendaData in agendaResponse!.data!) {
           agendaList.add(agendaData);
         }
 
@@ -43,23 +51,28 @@ class _AgendaState extends State<Agenda> {
       setState(() {
 
       });
-
     }
-    catch(e){}
 
-
-    setState(() {});
   }
 
   @override
   void initState() {
     fetchAgendaList("2025/01/17");
+    Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
+      if (result == ConnectivityResult.none) {
+        isConnected = false;
+      } else {
+        // Handle case when internet connection is available
+        isConnected = true;
+        fetchAgendaList("2025/01/17");
+      }
+    });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return isConnected?SingleChildScrollView(
       child: Column(
         children: [
           const SizedBox(height: 10,),
@@ -268,7 +281,7 @@ class _AgendaState extends State<Agenda> {
           )
         ],
       ),
-    );
+    ):const Center(child: Text("OOPS! NO INTERNET.",style: TextStyle(color: Colors.black87,fontWeight: FontWeight.w600,fontFamily: appFontFamily,fontSize: 20),));
   }
 
   Widget buildBulletPoint(Widget text,) {

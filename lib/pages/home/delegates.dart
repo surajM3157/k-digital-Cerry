@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:piwotapp/constants/api_urls.dart';
 import 'package:piwotapp/constants/colors.dart';
 import 'package:get/get.dart';
@@ -41,6 +43,7 @@ class _DelegatesState extends State<Delegates> {
   String requestStatus = "";
   Timer? debounceTimer;
   String chatSearchText = "";
+  bool isConnected = true;
 
   void onSearchChanged(String query) {
     setState(() {});
@@ -52,19 +55,25 @@ class _DelegatesState extends State<Delegates> {
 
   fetchFriendList() async
   {
-    Future.delayed(Duration.zero, () {
-      showLoader(context);
-    });
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      isConnected = false;
+      setState(() {
+
+      });
+    }else {
+      isConnected = true;
+      Future.delayed(Duration.zero, () {
+        showLoader(context);
+      });
 
 
       var response = await ApiRepo().getFriendListResponse();
 
-      if( response.data != null)
-      {
+      if (response.data != null) {
         _friendListResponse = response;
-        for(String friend in _friendListResponse!.data![0].friends!){
+        for (String friend in _friendListResponse!.data![0].friends!) {
           friendList.add(friend);
-
         }
         print("f");
 
@@ -76,26 +85,31 @@ class _DelegatesState extends State<Delegates> {
       setState(() {
 
       });
-
-
+    }
 
 
   }
 
   fetchGuestList(String search) async
   {
-    guestList.clear();
-    Future.delayed(Duration.zero, () {
-      showLoader(context);
-    });
-     var response = await ApiRepo().getGuestListResponse(search);
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      isConnected = false;
+      setState(() {
 
-      if( response.data != null)
-      {
+      });
+    }else {
+      isConnected = true;
+      guestList.clear();
+      Future.delayed(Duration.zero, () {
+        showLoader(context);
+      });
+      var response = await ApiRepo().getGuestListResponse(search);
+
+      if (response.data != null) {
         _guestListResponse = response;
-        for(GuestListData guest in _guestListResponse!.data!){
+        for (GuestListData guest in _guestListResponse!.data!) {
           guestList.add(guest);
-
         }
 
         print("guestList ${guestList.length}");
@@ -104,11 +118,19 @@ class _DelegatesState extends State<Delegates> {
       setState(() {
 
       });
-
+    }
   }
 
   fetchPendingRequest() async
   {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      isConnected = false;
+      setState(() {
+
+      });
+    }else {
+      isConnected = true;
     Future.delayed(Duration.zero, () {
       showLoader(context);
     });
@@ -128,11 +150,23 @@ class _DelegatesState extends State<Delegates> {
 
       setState(() {
 
-      });
+      });}
   }
 
   sendRequest(String receiverId)async{
 
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      isConnected = false;
+      EasyLoading.showToast("No Internet",
+          dismissOnTap: true,
+          duration: const Duration(seconds: 1),
+          toastPosition: EasyLoadingToastPosition.center);
+      setState(() {
+
+      });
+    }else {
+      isConnected = true;
     Map<String, String> params = new Map<String, String>();
     params["from"] = Prefs.checkUserId;
     params["to"] = receiverId;
@@ -143,19 +177,33 @@ class _DelegatesState extends State<Delegates> {
       showLoader(context);
     });
 
-    ApiRepo().sendRequest(params);
+    ApiRepo().sendRequest(params);}
   }
 
   handlePendingRequest(String status, String id)async{
 
 
 
-    Future.delayed(Duration.zero, () {
-      showLoader(context);
-    });
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      isConnected = false;
+      EasyLoading.showToast("No Internet",
+          dismissOnTap: true,
+          duration: const Duration(seconds: 1),
+          toastPosition: EasyLoadingToastPosition.center);
+      setState(() {
 
-     await ApiRepo().handleRequest(id, status);
-    fetchPendingRequest();
+      });
+    }else {
+      isConnected = true;
+
+      Future.delayed(Duration.zero, () {
+        showLoader(context);
+      });
+
+      await ApiRepo().handleRequest(id, status);
+      fetchPendingRequest();
+    }
 
   }
 
@@ -166,7 +214,20 @@ class _DelegatesState extends State<Delegates> {
   @override
   void initState() {
     fetchGuestList("");
+    fetchFriendList();
     widget.tabController.addListener(_handleTabChange);
+    Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
+      if (result == ConnectivityResult.none) {
+        isConnected = false;
+      } else {
+        // Handle case when internet connection is available
+        isConnected = true;
+        fetchGuestList("");
+        fetchFriendList();
+        fetchPendingRequest();
+      }
+    });
+
     super.initState();
   }
 
@@ -188,7 +249,7 @@ class _DelegatesState extends State<Delegates> {
 
   @override
   Widget build(BuildContext context) {
-    return TabBarView(
+    return isConnected? TabBarView(
       controller: widget.tabController,
         children: [
           Column(
@@ -205,7 +266,7 @@ class _DelegatesState extends State<Delegates> {
                   );
                 }, separatorBuilder: (context,index){
                   return const SizedBox.shrink();
-                }, itemCount: guestList.length):SizedBox.shrink(),
+                }, itemCount: guestList.length): Center(child: Text("No Delegates Available To Connect",style: TextStyle(color: AppColor.primaryColor,fontWeight: FontWeight.w600,fontFamily: appFontFamily,fontSize: 20),)),
               ),
             ],
           ),
@@ -240,9 +301,9 @@ class _DelegatesState extends State<Delegates> {
             );
           }, separatorBuilder: (context,index){
             return const SizedBox();
-          }, itemCount: pendingRequestList.length):SizedBox(),
+          }, itemCount: pendingRequestList.length): Center(child: Text("No Pending Requests",style: TextStyle(color: AppColor.primaryColor,fontWeight: FontWeight.w600,fontFamily: appFontFamily,fontSize: 20),)),
 
-    ]);
+    ]):const Center(child: Text("OOPS! NO INTERNET.",style: TextStyle(color: Colors.black87,fontWeight: FontWeight.w600,fontFamily: appFontFamily,fontSize: 20),));
   }
 
   Widget _buildUserList(){
@@ -262,7 +323,7 @@ class _DelegatesState extends State<Delegates> {
         return ListView(
           children: snapshot.data!.docs.map<Widget>((doc) => _buildUserListItem(doc)).toList(),
         );
-      },):SizedBox.shrink();
+      },): Center(child: Text("No delegates yet. Click 'Connect' to invite",style: TextStyle(color: AppColor.primaryColor,fontWeight: FontWeight.w600,fontFamily: appFontFamily,fontSize: 20),));
   }
 
   Widget _buildUserListItem(DocumentSnapshot document){
@@ -277,44 +338,50 @@ class _DelegatesState extends State<Delegates> {
       return ListTile(
         title: Row(
           children: [
-            SizedBox(
-                height: 70,
-                width: 70,
-                child: ClipRRect(
-                    borderRadius: BorderRadius.circular(50),
-                    child: data['profile']!= null?Image.network(data['profile'],fit: BoxFit.fill,):Image.asset(Images.defaultProfile,fit: BoxFit.fill,))),
+            Expanded(
+              flex: 1,
+              child: SizedBox(
+                  height: 70,
+                  width: 70,
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(50),
+                      child: data['profile']!= null?Image.network(data['profile'],fit: BoxFit.fill,):Image.asset(Images.defaultProfile,fit: BoxFit.fill,))),
+            ),
             const SizedBox(width: 20,),
-            Container(
-              width: Get.width/1.5,
-              padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
-              decoration: BoxDecoration(
-                  color: AppColor.white,
-                  border: Border.all(color: AppColor.black.withOpacity(0.12)),
-                  borderRadius: BorderRadius.circular(15)
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(data['name']),
-                  StreamBuilder(
-                      stream: chatService.getMessages(Prefs.checkUserId, data['uid']),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting) {
-                          return Text("Loading...");
-                        }
-                        if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                          return Text("No messages yet");
-                        }
-                        var lastMessageDoc = snapshot.data!.docs.last;
-                        var lastMessageData = lastMessageDoc.data() as Map<String, dynamic>;
+            Expanded(
+              flex: 4,
+              child: Container(
+                width: Get.width/1.5,
+                padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+                decoration: BoxDecoration(
+                    color: AppColor.white,
+                    border: Border.all(color: AppColor.black.withOpacity(0.12)),
+                    borderRadius: BorderRadius.circular(15)
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(data['name']),
+                    StreamBuilder(
+                        stream: chatService.getMessages(Prefs.checkUserId, data['uid']),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return Text("Loading...");
+                          }
+                          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                            return Text("No messages yet");
+                          }
+                          var lastMessageDoc = snapshot.data!.docs.last;
+                          var lastMessageData = lastMessageDoc.data() as Map<String, dynamic>;
 
-                        return Text(
-                          lastMessageData['message'], // Display the message content
-                          style: TextStyle(color: Colors.grey),
-                        );
-                      }
-                  )
-                ],
+                          return Text(
+                            lastMessageData['message'], // Display the message content
+                            style: TextStyle(color: Colors.grey),
+                          );
+                        }
+                    )
+                  ],
+                ),
               ),
             ),
           ],
@@ -463,7 +530,7 @@ class _DelegatesState extends State<Delegates> {
 
 
   Widget inviteDelegateList(GuestListData guestListData){
-    return guestListData.sId == Prefs.checkUserId?SizedBox.shrink():Container(
+    return guestListData.sId == Prefs.checkUserId||friendList.contains(guestListData.sId)?SizedBox.shrink():Container(
       height: 170,
       width: Get.width,
       margin: const EdgeInsets.symmetric(horizontal: 16,vertical: 10),

@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:piwotapp/constants/api_urls.dart';
@@ -75,6 +77,20 @@ class _HomeState extends State<Home> {
   List<LiveSessionData> liveSessions = [];
 
   ListLinkData? _listLinkData;
+  bool isConnected = true;
+
+
+  void _launchMap() async {
+    final Uri url = Uri.parse("https://www.google.com/maps/search/?api=1&query=${Uri.encodeComponent("Jio World Convention Centre, Jio World Centre, G Block, Bandra Kurla Complex, Bandra East, Mumbai, Maharashtra 400098")}");
+
+   // final Uri url = Uri.parse("https://www.google.com/maps/search/?api=1&query=$latitude,$longitude");
+
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
 
 
   @override
@@ -86,15 +102,37 @@ class _HomeState extends State<Home> {
     fetchSponsorList();
     fetchLiveSessionList();
     fetchListLink();
+    Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
+      if (result == ConnectivityResult.none) {
+        isConnected = false;
+      } else {
+        // Handle case when internet connection is available
+        isConnected = true;
+        fetchBannerList();
+        fetchSpeakerList();
+        fetchSponsorList();
+        fetchLiveSessionList();
+        fetchListLink();
+      }
+    });
+
   }
 
   fetchBannerList() async
   {
-    Future.delayed(Duration.zero, () {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      isConnected = false;
+      setState(() {
+
+      });
+    }else{
+      isConnected = true;
+      Future.delayed(Duration.zero, () {
       showLoader(context);
     });
 
-    try{
+    bannerList.clear();
       var response = await ApiRepo().getBannerResponse();
 
       if( response.data != null)
@@ -105,17 +143,14 @@ class _HomeState extends State<Home> {
 
         }
         print("bannerlist ${bannerList.length}");
-      }
 
       setState(() {
 
       });
 
     }
-    catch(e){}
+    }
 
-
-    setState(() {});
   }
 
   fetchSpeakerList() async
@@ -124,15 +159,21 @@ class _HomeState extends State<Home> {
     //   showLoader(context);
     // });
 
-    try{
-      var response = await ApiRepo().getSpeakerResponse("",true);
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      isConnected = false;
+      setState(() {
 
-      if( response.data != null)
-      {
+      });
+    }else {
+      isConnected = true;
+      speakers.clear();
+      var response = await ApiRepo().getSpeakerResponse("", true);
+
+      if (response.data != null) {
         speakerResponse = response;
-        for(SpeakerData speaker in speakerResponse!.data!){
+        for (SpeakerData speaker in speakerResponse!.data!) {
           speakers.add(speaker);
-
         }
         print("speakerlist ${speakers.length}");
       }
@@ -140,12 +181,7 @@ class _HomeState extends State<Home> {
       setState(() {
 
       });
-
     }
-    catch(e){}
-
-
-    setState(() {});
   }
 
   fetchSponsorList() async
@@ -154,15 +190,21 @@ class _HomeState extends State<Home> {
     //   showLoader(context);
     // });
 
-    try{
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      isConnected = false;
+      setState(() {
+
+      });
+    }else {
+      isConnected = true;
+      sponsors.clear();
       var response = await ApiRepo().getSponsorResponse(true);
 
-      if( response.data != null)
-      {
+      if (response.data != null) {
         sponsorResponse = response;
-        for(SponsorData sponsor in sponsorResponse!.data!){
+        for (SponsorData sponsor in sponsorResponse!.data!) {
           sponsors.add(sponsor);
-
         }
         print("sponsorlist ${sponsors.length}");
       }
@@ -170,12 +212,7 @@ class _HomeState extends State<Home> {
       setState(() {
 
       });
-
     }
-    catch(e){}
-
-
-    setState(() {});
   }
 
   fetchLiveSessionList() async
@@ -184,15 +221,21 @@ class _HomeState extends State<Home> {
     //   showLoader(context);
     // });
 
-    try{
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      isConnected = false;
+      setState(() {
+
+      });
+    }else {
+      isConnected = true;
+      liveSessions.clear();
       var response = await ApiRepo().getLiveSessionResponse(true);
 
-      if( response.data != null)
-      {
+      if (response.data != null) {
         liveSessionResponse = response;
-        for(LiveSessionData live in liveSessionResponse!.data!){
+        for (LiveSessionData live in liveSessionResponse!.data!) {
           liveSessions.add(live);
-
         }
         print("liveSessions ${liveSessions.length}");
       }
@@ -200,12 +243,7 @@ class _HomeState extends State<Home> {
       setState(() {
 
       });
-
     }
-    catch(e){}
-
-
-    setState(() {});
   }
 
   fetchListLink() async
@@ -214,19 +252,29 @@ class _HomeState extends State<Home> {
     //   showLoader(context);
     // });
 
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      isConnected = false;
+
+      setState(() {
+
+      });
+      EasyLoading.showToast("No Internet",
+          dismissOnTap: true,
+          duration: const Duration(seconds: 1),
+          toastPosition: EasyLoadingToastPosition.center);
+    }else {
+      isConnected = true;
       var response = await ApiRepo().getListLinksResponse(false);
 
-      if( response.data != null)
-      {
-
+      if (response.data != null) {
         _listLinkData = response.data?[0];
-
       }
 
       setState(() {
 
       });
-
+    }
 
   }
 
@@ -259,7 +307,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return isConnected?SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -671,22 +719,27 @@ class _HomeState extends State<Home> {
           ),
           const SizedBox(height: 20,),
 
-          Container(
-            width: Get.width,height: 52,
-            margin: const EdgeInsets.symmetric(horizontal: 16),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50),
-              gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])
-            ),
-            child: Center(
-              child: Text("Direction To Venue",style: TextStyle(fontFamily: appFontFamily,fontSize: 16,fontWeight: FontWeight.w600,color: AppColor.white),
+          GestureDetector(
+            onTap: (){
+              _launchMap();
+            },
+            child: Container(
+              width: Get.width,height: 52,
+              margin: const EdgeInsets.symmetric(horizontal: 16),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(50),
+                gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])
+              ),
+              child: Center(
+                child: Text("Direction To Venue",style: TextStyle(fontFamily: appFontFamily,fontSize: 16,fontWeight: FontWeight.w600,color: AppColor.white),
+                ),
               ),
             ),
           ),
           const SizedBox(height: 50,),
         ],
       ),
-    );
+    ):const Center(child: Text("OOPS! NO INTERNET.",style: TextStyle(color: Colors.black87,fontWeight: FontWeight.w600,fontFamily: appFontFamily,fontSize: 20),));
   }
 
   Widget countdownWidget(){

@@ -1,6 +1,8 @@
 import 'dart:io';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -75,15 +77,23 @@ class _EditProfilPageState extends State<EditProfilPage> {
   ];
 
   GuestDetailsData? guestDetails;
+  bool isConnected = true;
 
 
   fetchGuestDetails() async
   {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      isConnected = false;
+      setState(() {
+
+      });
+    }else {
+      isConnected = true;
     Future.delayed(Duration.zero, () {
       showLoader(context);
     });
 
-    try{
       var response = await ApiRepo().getGuestDetailsResponse();
 
       if( response.data != null)
@@ -111,15 +121,22 @@ class _EditProfilPageState extends State<EditProfilPage> {
 
       setState(() {
 
-      });
+      });}
 
     }
-    catch(e){}
-  }
 
   @override
   void initState() {
     fetchGuestDetails();
+    Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
+      if (result == ConnectivityResult.none) {
+        isConnected = false;
+      } else {
+        // Handle case when internet connection is available
+        isConnected = true;
+        fetchGuestDetails();
+      }
+    });
     super.initState();
   }
 
@@ -127,7 +144,7 @@ class _EditProfilPageState extends State<EditProfilPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColor.white,
-      body: SingleChildScrollView(
+      body: isConnected?SingleChildScrollView(
         child: Stack(
           children: [
             Form(
@@ -540,7 +557,7 @@ class _EditProfilPageState extends State<EditProfilPage> {
             )
           ],
         ),
-      ),
+      ):const Center(child: Text("OOPS! NO INTERNET.",style: TextStyle(color: Colors.black87,fontWeight: FontWeight.w600,fontFamily: appFontFamily,fontSize: 20),)),
     );
   }
 
@@ -758,9 +775,20 @@ class _EditProfilPageState extends State<EditProfilPage> {
     setState(() {});
   }
 
-  void profileUpdate()
+  void profileUpdate()async
   {
 
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      isConnected = false;
+      setState(() {
+      });
+      EasyLoading.showToast("No Internet",
+          dismissOnTap: true,
+          duration: const Duration(seconds: 1),
+          toastPosition: EasyLoadingToastPosition.center);
+    }else {
+      isConnected = true;
     Map<String, dynamic> params = new Map<String, dynamic>();
     params["last_name"] = lastNameController.text;
     params["first_name"] = firstNameController.text;
@@ -787,6 +815,6 @@ class _EditProfilPageState extends State<EditProfilPage> {
     } else {
       ApiRepo().updateProfile(params);
     }
-  }
+  }}
 }
 

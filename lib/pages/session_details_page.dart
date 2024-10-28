@@ -5,11 +5,11 @@ import 'package:intl/intl.dart';
 import 'package:piwotapp/constants/api_urls.dart';
 import 'package:piwotapp/constants/font_family.dart';
 import 'package:piwotapp/responses/session_list_response.dart';
+import 'package:piwotapp/widgets/app_button.dart';
 import '../constants/colors.dart';
 import '../constants/images.dart';
 import '../widgets/app_themes.dart';
 import '../widgets/gradient_text.dart';
-import 'home/speaker_page.dart';
 
 class SessionDetailsPage extends StatefulWidget {
    SessionDetailsPage({super.key,this.title,this.image});
@@ -22,11 +22,6 @@ class SessionDetailsPage extends StatefulWidget {
 
 class _SessionDetailsPageState extends State<SessionDetailsPage> {
 
-  List<SpeakerModel> speakers = [
-    SpeakerModel(title: 'Shri Narendra Modi', subtitle: 'Honourable Prime Minister of India Government of India', body: 'Narendra Modi is the Prime Minister of India, serving since 2014. He is a member of the Bharatiya Janata Party (BJP) and previously served as the Chief Minister of Gujarat from 2001 to 2014. Known for his economic and governance reforms, Modi has focused on modernizing India’s infrastructure, digital economy, and foreign relations. His leadership style is marked by strong centralization of power, and he remains a polarizing figure, with both supporters and critics of his policies.', image: Images.speaker4),
-    SpeakerModel(title: 'Shri Ashwini Vaishnaw', subtitle: 'Honourable Minister of Electronics Government of India', body: 'Shri Ashwini Vaishnaw is an Indian politician, engineer, and bureaucrat, currently serving as the Minister of Railways, Communications, and Electronics & Information Technology in the Government of India. He is a member of the Bharatiya Janata Party (BJP) and represents Odisha in the Rajya Sabha (Upper House of Parliament). Vaishnaw has a background in engineering and public administration, having previously worked in the Indian Administrative Service (IAS). He is known for his efforts in modernizing India’s railways and advancing the country\'s digital infrastructure.', image: Images.speaker5),
-    SpeakerModel(title: 'Shri Dinesh Kumar Khara', subtitle: 'Chairperson State Bank of India', body: 'Shri Dinesh Kumar Khara is an Indian banker and the Chairman of the State Bank of India (SBI), the largest public sector bank in the country. Appointed in October 2020, Khara has played a key role in driving SBI\'s digital transformation and expanding its global operations. He has been with the bank for over three decades, holding various leadership positions in retail banking, corporate banking, and global markets. Under his leadership, SBI has focused on financial inclusion, digital banking, and supporting economic growth in India.', image: Images.speaker6),
-  ];
 
   SessionListData? _sessionListData;
   @override
@@ -191,7 +186,13 @@ class _SessionDetailsPageState extends State<SessionDetailsPage> {
                             );
                           }),
                     ):SizedBox.shrink(),
-                    const SizedBox(height: 20,)
+                    const SizedBox(height: 20,),
+                    Container(width: Get.width,
+                      height: 1,color: AppColor.primaryColor,
+                    ),
+                    const SizedBox(height: 20,),
+                    AppButton(title: "Take Survey", onTap: (){}),
+                    const SizedBox(height: 20,),
                   ],
                 ),
               ),
