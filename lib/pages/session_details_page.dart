@@ -8,6 +8,7 @@ import 'package:piwotapp/responses/session_list_response.dart';
 import 'package:piwotapp/widgets/app_button.dart';
 import '../constants/colors.dart';
 import '../constants/images.dart';
+import '../route/route_names.dart';
 import '../widgets/app_themes.dart';
 import '../widgets/gradient_text.dart';
 
@@ -191,7 +192,11 @@ class _SessionDetailsPageState extends State<SessionDetailsPage> {
                       height: 1,color: AppColor.primaryColor,
                     ),
                     const SizedBox(height: 20,),
-                    AppButton(title: "Take Survey", onTap: (){}),
+                    AppButton(title: "Take Survey", onTap: (){
+                      Get.toNamed(Routes.survey, arguments: {
+                        "session_id": _sessionListData?.sId
+                      });
+                    }),
                     const SizedBox(height: 20,),
                   ],
                 ),

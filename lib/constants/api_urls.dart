@@ -1,8 +1,9 @@
 class ApiUrls
 {
-   static final String baseUrl = "https://piwotbe.kdcstaging.in/api/v1/guest";
-   static final String imageUrl = "https://piwotbe.kdcstaging.in/";
+   static final String baseUrl = "http://192.168.1.39:3001/api/v1/guest";
+   static final String imageUrl = "http://192.168.1.39:3001/";
    //static final String baseUrl = "http://192.168.1.39:3001/api/v1/guest";
+  // https://piwotbe.kdcstaging.in
 
    static String loginApiUrl = "$baseUrl/auth/login-guest";
    static String otpApiUrl = "$baseUrl/auth/verify-otp";
@@ -24,6 +25,8 @@ class ApiUrls
    static String sendRequestApiUrl = "$baseUrl/chat/send-friend-request";
    static String pendingRequestApiUrl = "$baseUrl/chat/pending-requests";
    static String handleRequestApiUrl = "$baseUrl/chat/handle-friend-request";
+   static String sessionSurveysApiUrl = "$baseUrl/event/list-survey";
+   static String addSurveyApiUrl = "$baseUrl/event/add-feedback";
 
 }
 

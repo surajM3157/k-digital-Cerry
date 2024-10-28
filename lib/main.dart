@@ -5,6 +5,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:piwotapp/route/route_names.dart';
 import 'package:piwotapp/route/route_pages.dart';
+import 'package:piwotapp/services/notification_service.dart';
 
 import 'constants/firebase_options.dart';
 void main() async{
@@ -17,6 +18,9 @@ void main() async{
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  NotificationService fcmService = NotificationService();
+  await fcmService.initialize();
+  fcmService.setupBackgroundHandler();
   configLoading();
   runApp(const MyApp());
 }

@@ -9,6 +9,7 @@ import 'package:piwotapp/pages/home/about.dart';
 import 'package:piwotapp/pages/home/agenda.dart';
 import 'package:piwotapp/pages/home/delegates.dart';
 import 'package:piwotapp/pages/home/session.dart';
+import 'package:piwotapp/services/notification_service.dart';
 import '../../route/route_names.dart';
 import '../../widgets/app_themes.dart';
 import '../../widgets/custom_tabbar_indicator.dart';
@@ -39,9 +40,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
     double additionalPadding = 20.0;  // Any additional padding
     return baseHeight + tabBarHeight + additionalPadding;
   }
+  NotificationService? _fcmService;
 
   @override
   void initState() {
+    _fcmService = NotificationService();
+    _fcmService?.setupForegroundMessageHandler(context);
     _controller =  TabController(length: 3, vsync: this);
     _aboutController =  TabController(length: 2, vsync: this);
     bottomNavbarIndex = widget.bottomNavIndex;

@@ -19,6 +19,7 @@ import 'package:piwotapp/responses/otp_response.dart';
 import 'package:piwotapp/responses/partner_response.dart';
 import 'package:piwotapp/responses/pending_request_response.dart';
 import 'package:piwotapp/responses/session_list_response.dart';
+import 'package:piwotapp/responses/session_surveys_response.dart';
 import 'package:piwotapp/responses/speaker_response.dart';
 import 'package:piwotapp/responses/sponsor_response.dart';
 import 'package:http_parser/http_parser.dart';
@@ -410,6 +411,52 @@ class ApiRepo
     return guestListResponseFromJson(response.body);
   }
 
+  Future<SessionSurveysResponse> getSessionSurveysResponse() async {
+
+    final response = await http.get(Uri.parse("${ApiUrls.sessionSurveysApiUrl}"), headers: {'token': '${Prefs.checkAuthToken}',});
+
+    Get.back();
+    print("Api url ${ApiUrls.sessionSurveysApiUrl}");
+    print("response ${response.body}");
+
+    return sessionSurveysResponseFromJson(response.body);
+  }
+
+  addSurvey(Map<String, dynamic> params) async {
+    final response = await http.post(Uri.parse("${ApiUrls.addSurveyApiUrl}"),
+        body: jsonEncode(params),headers: {'token': '${Prefs.checkAuthToken}',}
+    );
+
+    Get.back();
+
+    print("params ${params}");
+    print("Api url ${ApiUrls.addSurveyApiUrl}");
+    print("response ${response.body}");
+
+
+    if(response.statusCode == 200)
+    {
+
+      var res = await json.decode(response.body);
+
+      EasyLoading.showToast("${res['message']}",
+          dismissOnTap: true,
+          duration: const Duration(seconds: 1),
+          toastPosition: EasyLoadingToastPosition.center);
+      Get.toNamed(Routes.thankYou);
+
+    }
+    else
+    {
+      var res = await json.decode(response.body);
+
+      EasyLoading.showToast("${res['message']}",
+          dismissOnTap: true,
+          duration: const Duration(seconds: 1),
+          toastPosition: EasyLoadingToastPosition.center);
+    }
+  }
+
   sendRequest(var params) async {
     final response = await http.post(Uri.parse("${ApiUrls.sendRequestApiUrl}"),
       body: params,headers: {'token': '${Prefs.checkAuthToken}',}
@@ -486,5 +533,23 @@ class ApiRepo
           toastPosition: EasyLoadingToastPosition.center);
     }
   }
+
+  Future<void> sendNotification(String fcmToken) async {
+    await http.post(
+      Uri.parse('https://fcm.googleapis.com/v1/projects/piwot-b559b/messages:send'),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': 'key=YOUR_SERVER_KEY',
+      },
+      body: jsonEncode({
+        'to': fcmToken,
+        'notification': {
+          'title': 'New Friend Request',
+          'body': 'You have a new friend request!',
+        },
+      }),
+    );
+  }
+
 }
 
