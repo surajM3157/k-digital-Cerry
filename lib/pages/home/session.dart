@@ -99,261 +99,266 @@ class _SessionState extends State<Session> with SingleTickerProviderStateMixin{
 
   @override
   Widget build(BuildContext context) {
-    return isConnected?Column(
-      children: [
-        const SizedBox(height: 20,),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
+    return isConnected?RefreshIndicator(
+      onRefresh: ()async {
+        fetchSessionList("2025/01/17");
+      },
+      child: Column(
+        children: [
+          const SizedBox(height: 20,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
 
-            GestureDetector(
-              onTap: (){
-                sessionDate = "17 Jan";
-                conference.clear();
-                hackathon.clear();
-                startups.clear();
-                firesides.clear();
-                setState(() {
-                });
-                fetchSessionList("2025/01/17");
-              },
-              child:sessionDate == "17 Jan"? Container(
-                height: 35,width: 99,
-                decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(8)),
-                    gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red],
-                        begin: Alignment.centerLeft,end: Alignment.centerRight
-                    )
-                ),
-                child: Center(
-                  child: Text("17 Jan",style: TextStyle(
-                      fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.white
-                  ),),
-                ),
-              ):Container(
-                height: 35,width: 99,
-                padding: const EdgeInsets.all(1),
-                decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(9)),
-                    gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red],
-                        begin: Alignment.centerLeft,end: Alignment.centerRight
-                    )
-                ),
-                child: Container(
+              GestureDetector(
+                onTap: (){
+                  sessionDate = "17 Jan";
+                  conference.clear();
+                  hackathon.clear();
+                  startups.clear();
+                  firesides.clear();
+                  setState(() {
+                  });
+                  fetchSessionList("2025/01/17");
+                },
+                child:sessionDate == "17 Jan"? Container(
                   height: 35,width: 99,
                   decoration: BoxDecoration(
                       borderRadius: const BorderRadius.all(Radius.circular(8)),
-                      color: AppColor.white
+                      gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red],
+                          begin: Alignment.centerLeft,end: Alignment.centerRight
+                      )
                   ),
                   child: Center(
                     child: Text("17 Jan",style: TextStyle(
-                        fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.FF161616
+                        fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.white
                     ),),
+                  ),
+                ):Container(
+                  height: 35,width: 99,
+                  padding: const EdgeInsets.all(1),
+                  decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(9)),
+                      gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red],
+                          begin: Alignment.centerLeft,end: Alignment.centerRight
+                      )
+                  ),
+                  child: Container(
+                    height: 35,width: 99,
+                    decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.all(Radius.circular(8)),
+                        color: AppColor.white
+                    ),
+                    child: Center(
+                      child: Text("17 Jan",style: TextStyle(
+                          fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.FF161616
+                      ),),
+                    ),
                   ),
                 ),
               ),
-            ),
-            GestureDetector(
-              onTap: (){
-                sessionDate = "18 Jan";
-                conference.clear();
-                hackathon.clear();
-                startups.clear();
-                firesides.clear();
-                setState(() {
-                });
-                fetchSessionList("2025/01/18");
-              },
-              child: sessionDate == "18 Jan"? Container(
-                height: 35,width: 99,
-                decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(8)),
-                    gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red],
-                        begin: Alignment.centerLeft,end: Alignment.centerRight
-                    )
-                ),
-                child: Center(
-                  child: Text("18 Jan",style: TextStyle(
-                      fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.white
-                  ),),
-                ),
-              ):Container(
-                height: 35,width: 99,
-                padding: const EdgeInsets.all(1),
-                decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(9)),
-                    gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red],
-                        begin: Alignment.centerLeft,end: Alignment.centerRight
-                    )
-                ),
-                child: Container(
+              GestureDetector(
+                onTap: (){
+                  sessionDate = "18 Jan";
+                  conference.clear();
+                  hackathon.clear();
+                  startups.clear();
+                  firesides.clear();
+                  setState(() {
+                  });
+                  fetchSessionList("2025/01/18");
+                },
+                child: sessionDate == "18 Jan"? Container(
                   height: 35,width: 99,
                   decoration: BoxDecoration(
                       borderRadius: const BorderRadius.all(Radius.circular(8)),
-                      color: AppColor.white
+                      gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red],
+                          begin: Alignment.centerLeft,end: Alignment.centerRight
+                      )
                   ),
                   child: Center(
                     child: Text("18 Jan",style: TextStyle(
-                        fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.FF161616
+                        fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.white
                     ),),
+                  ),
+                ):Container(
+                  height: 35,width: 99,
+                  padding: const EdgeInsets.all(1),
+                  decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(9)),
+                      gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red],
+                          begin: Alignment.centerLeft,end: Alignment.centerRight
+                      )
+                  ),
+                  child: Container(
+                    height: 35,width: 99,
+                    decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.all(Radius.circular(8)),
+                        color: AppColor.white
+                    ),
+                    child: Center(
+                      child: Text("18 Jan",style: TextStyle(
+                          fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.FF161616
+                      ),),
+                    ),
                   ),
                 ),
               ),
-            ),
-            GestureDetector(
-              onTap: (){
-                sessionDate = "19 Jan";
-                conference.clear();
-                hackathon.clear();
-                startups.clear();
-                firesides.clear();
-                setState(() {
-                });
-                fetchSessionList("2025/01/19");
-              },
-              child: sessionDate == "19 Jan"? Container(
-                height: 35,width: 99,
-                decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(8)),
-                    gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red],
-                        begin: Alignment.centerLeft,end: Alignment.centerRight
-                    )
-                ),
-                child: Center(
-                  child: Text("19 Jan",style: TextStyle(
-                      fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.white
-                  ),),
-                ),
-              ):Container(
-                height: 35,width: 99,
-                padding: const EdgeInsets.all(1),
-                decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(9)),
-                    gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red],
-                        begin: Alignment.centerLeft,end: Alignment.centerRight
-                    )
-                ),
-                child: Container(
+              GestureDetector(
+                onTap: (){
+                  sessionDate = "19 Jan";
+                  conference.clear();
+                  hackathon.clear();
+                  startups.clear();
+                  firesides.clear();
+                  setState(() {
+                  });
+                  fetchSessionList("2025/01/19");
+                },
+                child: sessionDate == "19 Jan"? Container(
                   height: 35,width: 99,
                   decoration: BoxDecoration(
                       borderRadius: const BorderRadius.all(Radius.circular(8)),
-                      color: AppColor.white
+                      gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red],
+                          begin: Alignment.centerLeft,end: Alignment.centerRight
+                      )
                   ),
                   child: Center(
-                    child: Text("18 Jan",style: TextStyle(
-                        fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.FF161616
+                    child: Text("19 Jan",style: TextStyle(
+                        fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.white
                     ),),
+                  ),
+                ):Container(
+                  height: 35,width: 99,
+                  padding: const EdgeInsets.all(1),
+                  decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(9)),
+                      gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red],
+                          begin: Alignment.centerLeft,end: Alignment.centerRight
+                      )
+                  ),
+                  child: Container(
+                    height: 35,width: 99,
+                    decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.all(Radius.circular(8)),
+                        color: AppColor.white
+                    ),
+                    child: Center(
+                      child: Text("18 Jan",style: TextStyle(
+                          fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.FF161616
+                      ),),
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 20,),
-
-        // Padding(
-        //   padding: const EdgeInsets.symmetric(horizontal: 16),
-        //   child: DropdownButtonFormField<String>(
-        //     iconEnabledColor: AppColor.primaryColor,
-        //     iconDisabledColor: AppColor.primaryColor,
-        //     items: items.map<DropdownMenuItem<String>>((String value) {
-        //       return DropdownMenuItem<String>(
-        //         value: value,
-        //         child: Text(value),
-        //       );
-        //     }).toList(),
-        //     onChanged: (value) {},
-        //     iconSize: 30,
-        //     decoration: InputDecoration(
-        //       hintText: "Topics",
-        //       labelText: "Topics",
-        //       fillColor: AppColor.FFD9D6FD.withOpacity(0.28),
-        //       filled: true,
-        //       labelStyle:  TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 16),
-        //       hintStyle:  TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 16),
-        //       contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-        //       focusedBorder:  OutlineInputBorder(
-        //           borderRadius: BorderRadius.circular(10.0),
-        //           borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
-        //       ),
-        //       enabledBorder:  OutlineInputBorder(
-        //           borderRadius: BorderRadius.circular(10.0),
-        //           borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
-        //       ),
-        //       errorBorder: OutlineInputBorder(
-        //         borderRadius: BorderRadius.circular(10.0),
-        //         borderSide: const BorderSide(color: Colors.red, width: 2.0),
-        //       ),
-        //       focusedErrorBorder: OutlineInputBorder(
-        //         borderRadius: BorderRadius.circular(10.0),
-        //         borderSide: const BorderSide(color: Colors.red, width: 2.0),
-        //       ),
-        //     ),
-        //   ),
-        // ),
-        TabBar(
-          isScrollable: true,
-          controller: _tabController,
-          indicatorSize: TabBarIndicatorSize.label,
-          labelPadding: const EdgeInsets.symmetric(horizontal: 25),
-          indicatorColor: AppColor.primaryColor,
-
-          indicator:CustomUnderlineTabIndicator(
-            borderSide: BorderSide(width: 3.0, color: AppColor.primaryColor),
-            insets:const EdgeInsets.symmetric(vertical: -8),
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(12.0),
-              topRight: Radius.circular(12.0),
-            ),
+            ],
           ),
-          tabs: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: Text("Conference",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor),),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: Text("Hackathon",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor)),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: Text("Startups",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor)),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: Text("Firesides",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor)),
-            ),
-          ],
-        ),
-        Container(height: 1,width: Get.width,color: AppColor.grey,),
-        const SizedBox(height: 20,),
-        Expanded(
-          child: TabBarView(
+          const SizedBox(height: 20,),
+
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 16),
+          //   child: DropdownButtonFormField<String>(
+          //     iconEnabledColor: AppColor.primaryColor,
+          //     iconDisabledColor: AppColor.primaryColor,
+          //     items: items.map<DropdownMenuItem<String>>((String value) {
+          //       return DropdownMenuItem<String>(
+          //         value: value,
+          //         child: Text(value),
+          //       );
+          //     }).toList(),
+          //     onChanged: (value) {},
+          //     iconSize: 30,
+          //     decoration: InputDecoration(
+          //       hintText: "Topics",
+          //       labelText: "Topics",
+          //       fillColor: AppColor.FFD9D6FD.withOpacity(0.28),
+          //       filled: true,
+          //       labelStyle:  TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 16),
+          //       hintStyle:  TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 16),
+          //       contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+          //       focusedBorder:  OutlineInputBorder(
+          //           borderRadius: BorderRadius.circular(10.0),
+          //           borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
+          //       ),
+          //       enabledBorder:  OutlineInputBorder(
+          //           borderRadius: BorderRadius.circular(10.0),
+          //           borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
+          //       ),
+          //       errorBorder: OutlineInputBorder(
+          //         borderRadius: BorderRadius.circular(10.0),
+          //         borderSide: const BorderSide(color: Colors.red, width: 2.0),
+          //       ),
+          //       focusedErrorBorder: OutlineInputBorder(
+          //         borderRadius: BorderRadius.circular(10.0),
+          //         borderSide: const BorderSide(color: Colors.red, width: 2.0),
+          //       ),
+          //     ),
+          //   ),
+          // ),
+          TabBar(
+            isScrollable: true,
             controller: _tabController,
-              children: [
-            conference.isNotEmpty?ListView.builder(
-                itemCount: conference.length,
-                itemBuilder: (context,index){
-                  return sessionItem(conference[index]);
-                }):Center(child: Text("No Data Found",style: AppThemes.appBarTitleStyle(),)),
-            hackathon.isNotEmpty?ListView.builder(
-                itemCount: hackathon.length,
-                itemBuilder: (context,index){
-                  return sessionItem(hackathon[index]);
-                }):Center(child: Text("No Data Found",style: AppThemes.appBarTitleStyle(),)),
-            startups.isNotEmpty?ListView.builder(
-                itemCount: startups.length,
-                itemBuilder: (context,index){
-                  return sessionItem(startups[index]);
-                }):Center(child: Text("No Data Found",style: AppThemes.appBarTitleStyle(),)),
-            firesides.isNotEmpty?ListView.builder(
-                itemCount: firesides.length,
-                itemBuilder: (context,index){
-                  return sessionItem(firesides[index]);
-                }):Center(child: Text("No Data Found",style: AppThemes.appBarTitleStyle(),)),
-          ]),
-        )
-      ],
+            indicatorSize: TabBarIndicatorSize.label,
+            labelPadding: const EdgeInsets.symmetric(horizontal: 25),
+            indicatorColor: AppColor.primaryColor,
+
+            indicator:CustomUnderlineTabIndicator(
+              borderSide: BorderSide(width: 3.0, color: AppColor.primaryColor),
+              insets:const EdgeInsets.symmetric(vertical: -8),
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(12.0),
+                topRight: Radius.circular(12.0),
+              ),
+            ),
+            tabs: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: Text("Conference",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor),),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: Text("Hackathon",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor)),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: Text("Startups",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor)),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: Text("Firesides",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor)),
+              ),
+            ],
+          ),
+          Container(height: 1,width: Get.width,color: AppColor.grey,),
+          const SizedBox(height: 20,),
+          Expanded(
+            child: TabBarView(
+              controller: _tabController,
+                children: [
+              conference.isNotEmpty?ListView.builder(
+                  itemCount: conference.length,
+                  itemBuilder: (context,index){
+                    return sessionItem(conference[index]);
+                  }):Center(child: Text("No Data Found",style: AppThemes.appBarTitleStyle(),)),
+              hackathon.isNotEmpty?ListView.builder(
+                  itemCount: hackathon.length,
+                  itemBuilder: (context,index){
+                    return sessionItem(hackathon[index]);
+                  }):Center(child: Text("No Data Found",style: AppThemes.appBarTitleStyle(),)),
+              startups.isNotEmpty?ListView.builder(
+                  itemCount: startups.length,
+                  itemBuilder: (context,index){
+                    return sessionItem(startups[index]);
+                  }):Center(child: Text("No Data Found",style: AppThemes.appBarTitleStyle(),)),
+              firesides.isNotEmpty?ListView.builder(
+                  itemCount: firesides.length,
+                  itemBuilder: (context,index){
+                    return sessionItem(firesides[index]);
+                  }):Center(child: Text("No Data Found",style: AppThemes.appBarTitleStyle(),)),
+            ]),
+          )
+        ],
+      ),
     ):const Center(child: Text("OOPS! NO INTERNET.",style: TextStyle(color: Colors.black87,fontWeight: FontWeight.w600,fontFamily: appFontFamily,fontSize: 20),));
   }
 

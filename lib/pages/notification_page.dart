@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -14,6 +15,9 @@ class NotificationPage extends StatefulWidget {
 }
 
 class _NotificationPageState extends State<NotificationPage> {
+
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,201 +48,69 @@ class _NotificationPageState extends State<NotificationPage> {
             ),
           ),
           const SizedBox(height: 20,),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Row(
-              children: [
-                Container(
-                  height: 58,
-                  width: 58,
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [AppColor.primaryColor, AppColor.red],
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
+          StreamBuilder<QuerySnapshot>(
+            stream: _firestore.collection("notifications").snapshots(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              }
+              if (snapshot.hasError) {
+                return Center(child: Text('Error: ${snapshot.error}'));
+              }
+              if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                return Center(child: Text('No notifications found.'));
+              }
+
+              final notifications = snapshot.data!.docs;
+
+              return ListView.separated(
+                shrinkWrap: true,physics: NeverScrollableScrollPhysics(),
+                itemCount: notifications.length,
+                itemBuilder: (context, index) {
+                  final notification = notifications[index].data() as Map<String, dynamic>;
+                  return notification['title'] != null?ListTile(
+                    title: Text(notification['title'] ?? 'No Title'),
+                    subtitle: Text(notification['body'] ?? 'No Body'),
+                    leading: notification['title'].toLowerCase().contains('event')? Container(
+                      height: 58,
+                      width: 58,
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [AppColor.primaryColor, AppColor.red],
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                          ),
+                          borderRadius: BorderRadius.circular(50)
                       ),
-                      borderRadius: BorderRadius.circular(50)
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: SvgPicture.asset(Images.eventNotificationIcon),
-                  ),
-                ),
-                const SizedBox(width: 20,),
-                Container(
-                  width: Get.width/1.5,
-                  padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
-                  decoration: BoxDecoration(
-                    color: AppColor.white,
-                      borderRadius: BorderRadius.circular(15)
-                  ),
-                  child: Text("Your Event will start in 1 hour",style: TextStyle(
-                    fontFamily: appFontFamily,fontWeight: FontWeight.w400,
-                    fontSize: 14,color: AppColor.black
-                  ),),
-                )
-              ],
-            ),
-          ),
-          const SizedBox(height: 10,),
-          Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
-          const SizedBox(height: 10,),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Row(
-              children: [
-                Container(
-                  height: 58,
-                  width: 58,
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [AppColor.primaryColor, AppColor.red],
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
+                      child: Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: SvgPicture.asset(Images.eventNotificationIcon),
                       ),
-                    borderRadius: BorderRadius.circular(50)
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: SvgPicture.asset(Images.successNotificationIcon),
-                  ),
-                ),
-                const SizedBox(width: 20,),
-                Container(
-                  width: Get.width/1.5,
-                  padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
-                  decoration: BoxDecoration(
-                    color: AppColor.white,
-                      borderRadius: BorderRadius.circular(15)
-                  ),
-                  child: Text("Your Password has been changed successfully",style: TextStyle(
-                      fontFamily: appFontFamily,fontWeight: FontWeight.w400,
-                      fontSize: 14,color: AppColor.black
-                  )),
-                )
-              ],
-            ),
-          ),
-          const SizedBox(height: 10,),
-          Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
-          const SizedBox(height: 10,),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Row(
-              children: [
-                Container(
-                  height: 58,
-                  width: 58,
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [AppColor.primaryColor, AppColor.red],
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
+                    ): Container(
+                      height: 58,
+                      width: 58,
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [AppColor.primaryColor, AppColor.red],
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                          ),
+                          borderRadius: BorderRadius.circular(50)
                       ),
-                    borderRadius: BorderRadius.circular(50)
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: SvgPicture.asset(Images.requestNotificationIcon),
-                  ),
-                ),
-                const SizedBox(width: 20,),
-                Container(
-                  width: Get.width/1.5,
-                  padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
-                  decoration: BoxDecoration(
-                    color: AppColor.white,
-                      borderRadius: BorderRadius.circular(15)
-                  ),
-                  child: Text("You have one friend request",style: TextStyle(
-                      fontFamily: appFontFamily,fontWeight: FontWeight.w400,
-                      fontSize: 14,color: AppColor.black
-                  )),
-                )
-              ],
-            ),
-          ),
-          const SizedBox(height: 10,),
-          Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
-          const SizedBox(height: 10,),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Row(
-              children: [
-                Container(
-                  height: 58,
-                  width: 58,
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [AppColor.primaryColor, AppColor.red],
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
+                      child: Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: SvgPicture.asset(Images.notificationIcon,color: AppColor.white,),
                       ),
-                    borderRadius: BorderRadius.circular(50)
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: SvgPicture.asset(Images.requestNotificationIcon),
-                  ),
-                ),
-                const SizedBox(width: 20,),
-                Container(
-                  width: Get.width/1.5,
-                  padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
-                  decoration: BoxDecoration(
-                    color: AppColor.white,
-                      borderRadius: BorderRadius.circular(15)
-                  ),
-                  child: Text("You have one friend request",style: TextStyle(
-                      fontFamily: appFontFamily,fontWeight: FontWeight.w400,
-                      fontSize: 14,color: AppColor.black
-                  )),
-                )
-              ],
-            ),
+                    ),
+                  ):SizedBox.shrink();
+                }, separatorBuilder: (BuildContext context, int index) {
+                  return   Container(
+                    height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),);
+              },
+              );
+            },
           ),
-          const SizedBox(height: 10,),
-          Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
-          const SizedBox(height: 10,),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Row(
-              children: [
-                Container(
-                  height: 58,
-                  width: 58,
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [AppColor.primaryColor, AppColor.red],
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                      ),
-                      borderRadius: BorderRadius.circular(50)
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: SvgPicture.asset(Images.successNotificationIcon),
-                  ),
-                ),
-                const SizedBox(width: 20,),
-                Container(
-                  width: Get.width/1.5,
-                  padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
-                  decoration: BoxDecoration(
-                      color: AppColor.white,
-                      borderRadius: BorderRadius.circular(15)
-                  ),
-                  child: Text("Your Password has been changed successfully",style: TextStyle(
-                      fontFamily: appFontFamily,fontWeight: FontWeight.w400,
-                      fontSize: 14,color: AppColor.black
-                  )),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 10,),
-          Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
-          const SizedBox(height: 10,),
+
         ],
       ),
     );

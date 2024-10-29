@@ -21,12 +21,27 @@ class _ChatPageState extends State<ChatPage> {
   
   TextEditingController messageController = TextEditingController();
   ScrollController scrollController = ScrollController();
-  
-  List<Widget> messages = [
-    ChatBubble(isMe: true, message: "Good Morning", timeStamp: "1:20pm"),
-    ChatBubble(isMe: false, message: "Not much, just chilling. How about you?", timeStamp: "1:20pm"),
-    ChatBubble(isMe: true, message: "Ok", timeStamp: "1:20pm"),
-  ];
+
+  // List<Widget> messages = [
+  //   ChatBubble(isMe: true, message: "Good Morning", timeStamp: "1:20pm"),
+  //   ChatBubble(isMe: false, message: "Not much, just chilling. How about you?", timeStamp: "1:20pm"),
+  //   ChatBubble(isMe: true, message: "Ok", timeStamp: "1:20pm"),
+  // ];
+
+  final ScrollController _scrollController = ScrollController();
+  Future<void> _scrollToBottom() async {
+    // Delay ensures ListView is fully rendered before scrolling
+    await Future.delayed(Duration(milliseconds: 100));
+    if (_scrollController.hasClients) {
+      _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+    }
+  }
+
+  // void _scrollToBottom() {
+  //   if (_scrollController.hasClients) {
+  //     _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+  //   }
+  // }
 
   String receiverName = '';
   String receiverId = '';
@@ -47,12 +62,14 @@ class _ChatPageState extends State<ChatPage> {
     if(messageController.text.isNotEmpty){
       await chatService.sendMessage(receiverId, messageController.text,receiverName);
       messageController.clear();
+      _scrollToBottom();
     }
   }
   
   
   @override
   Widget build(BuildContext context) {
+    _scrollToBottom();
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -106,7 +123,7 @@ class _ChatPageState extends State<ChatPage> {
             controller: messageController,
             cursorColor: AppColor.primaryColor,
             decoration: InputDecoration(
-              prefixIcon: Icon(Icons.emoji_emotions_outlined,color: AppColor.primaryColor,),
+              // prefixIcon: Icon(Icons.emoji_emotions_outlined,color: AppColor.primaryColor,),
               hintText: "Type here",
               labelStyle: const TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 12),
               hintStyle: const TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
@@ -166,7 +183,9 @@ class _ChatPageState extends State<ChatPage> {
             return Text("Loading...");
           }
 
+          WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToBottom());
           return ListView(
+            controller: _scrollController,
             children: snapshot.data!.docs.map((document) => _buildMessageItem(document)).toList(),
           );
         });

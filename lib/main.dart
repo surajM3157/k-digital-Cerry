@@ -19,8 +19,8 @@ void main() async{
     options: DefaultFirebaseOptions.currentPlatform,
   );
   NotificationService fcmService = NotificationService();
-  await fcmService.initialize();
   fcmService.setupBackgroundHandler();
+  await fcmService.initialize();
   configLoading();
   runApp(const MyApp());
 }

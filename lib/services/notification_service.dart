@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
@@ -6,6 +7,7 @@ import 'package:piwotapp/constants/colors.dart';
 
 class NotificationService {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   Future<void> initialize() async {
@@ -26,6 +28,13 @@ class NotificationService {
     // Handle messages when the app is in the background
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       print('Message clicked!');
+      _firestore.collection("notifications").doc(message.messageId).set(
+          {
+            // "data": message.data,
+            "title":message.notification?.title,
+            "body":message.notification?.body,
+          }, SetOptions(merge: true)
+      );
     });
   }
 
@@ -46,7 +55,13 @@ class NotificationService {
       // Check if the message contains a notification payload
       if (message.notification != null) {
         print('Message also contained a notification: ${message.notification}');
-
+        _firestore.collection("notifications").doc(message.messageId).set(
+            {
+              // "data": message.data,
+              "title":message.notification?.title,
+              "body":message.notification?.body,
+            }, SetOptions(merge: true)
+        );
         // Display an in-app notification using a custom method
         _showNotification(context, message.notification!.title, message.notification!.body);
       }
@@ -55,9 +70,26 @@ class NotificationService {
 
   Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     print('Handling a background message: ${message.messageId}');
+    _firestore.collection("notifications").doc(message.messageId).set(
+        {
+          // "data": message.data,
+          "title":message.notification?.title,
+          "body":message.notification?.body,
+        }, SetOptions(merge: true)
+    );
   }
 
   void setupBackgroundHandler() {
-    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+    FirebaseMessaging.onBackgroundMessage((RemoteMessage message) async {
+      print('Handling a background message: ${message.messageId}');
+
+      _firestore.collection("notifications").doc(message.messageId).set(
+          {
+            // "data": message.data,
+            "title":message.notification?.title,
+            "body":message.notification?.body,
+          }, SetOptions(merge: true)
+      );
+    });
   }
 }

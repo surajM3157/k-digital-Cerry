@@ -176,6 +176,18 @@ class ApiRepo
 
     final response = await http.get(Uri.parse("${ApiUrls.speakerApiUrl}?search=$search"), headers: {'token': '${Prefs.checkAuthToken}',});
 
+    var res = await json.decode(response.body);
+
+    if(res['message'] == "Token expired."){
+      Prefs.setBool('is_logged_in_new', false);
+      Prefs.setString('user_id_new', "");
+      Prefs.setString('user_email_new', "");
+      Prefs.setString('user_auth_token', "");
+      Prefs.setString("user_name_new", "");
+      Prefs.setString("mobile_no", "");
+      Get.offAllNamed(Routes.login);
+    }
+
     if(isHome){}else
       {
      Get.back();}
@@ -189,6 +201,18 @@ class ApiRepo
 
     final response = await http.get(Uri.parse("${ApiUrls.sponsorApiUrl}"), headers: {'token': '${Prefs.checkAuthToken}',});
 
+
+    var res = await json.decode(response.body);
+
+    if(res['message'] == "Token expired."){
+      Prefs.setBool('is_logged_in_new', false);
+      Prefs.setString('user_id_new', "");
+      Prefs.setString('user_email_new', "");
+      Prefs.setString('user_auth_token', "");
+      Prefs.setString("user_name_new", "");
+      Prefs.setString("mobile_no", "");
+      Get.offAllNamed(Routes.login);
+    }
     if(isHome){}else
     {
       Get.back();}
@@ -202,6 +226,17 @@ class ApiRepo
 
     final response = await http.get(Uri.parse("${ApiUrls.partnerApiUrl}"), headers: {'token': '${Prefs.checkAuthToken}',});
 
+    var res = await json.decode(response.body);
+
+    if(res['message'] == "Token expired."){
+      Prefs.setBool('is_logged_in_new', false);
+      Prefs.setString('user_id_new', "");
+      Prefs.setString('user_email_new', "");
+      Prefs.setString('user_auth_token', "");
+      Prefs.setString("user_name_new", "");
+      Prefs.setString("mobile_no", "");
+      Get.offAllNamed(Routes.login);
+    }
     Get.back();
     print("Api url ${ApiUrls.partnerApiUrl}");
     print("response ${response.body}");
@@ -213,6 +248,17 @@ class ApiRepo
 
     final response = await http.get(Uri.parse("${ApiUrls.bannerApiUrl}"), headers: {'token': '${Prefs.checkAuthToken}',});
 
+    var res = await json.decode(response.body);
+
+    if(res['message'] == "Token expired."){
+      Prefs.setBool('is_logged_in_new', false);
+      Prefs.setString('user_id_new', "");
+      Prefs.setString('user_email_new', "");
+      Prefs.setString('user_auth_token', "");
+      Prefs.setString("user_name_new", "");
+      Prefs.setString("mobile_no", "");
+      Get.offAllNamed(Routes.login);
+    }
     Get.back();
     print("Api url ${ApiUrls.bannerApiUrl}");
     print("response ${response.body}");
@@ -223,7 +269,17 @@ class ApiRepo
   Future<AgendaResponse> getAgendaResponse(String date) async {
 
     final response = await http.get(Uri.parse("${ApiUrls.agendaApiUrl}?date=$date"), headers: {'token': '${Prefs.checkAuthToken}',});
+    var res = await json.decode(response.body);
 
+    if(res['message'] == "Token expired."){
+      Prefs.setBool('is_logged_in_new', false);
+      Prefs.setString('user_id_new', "");
+      Prefs.setString('user_email_new', "");
+      Prefs.setString('user_auth_token', "");
+      Prefs.setString("user_name_new", "");
+      Prefs.setString("mobile_no", "");
+      Get.offAllNamed(Routes.login);
+    }
     Get.back();
     print("Api url ${ApiUrls.agendaApiUrl}?date=$date");
     print("response ${response.body}");
@@ -234,7 +290,17 @@ class ApiRepo
   Future<SessionListResponse> getSessionListResponse(String date) async {
 
     final response = await http.get(Uri.parse("${ApiUrls.sessionListApiUrl}?date=$date"), headers: {'token': '${Prefs.checkAuthToken}',});
+    var res = await json.decode(response.body);
 
+    if(res['message'] == "Token expired."){
+      Prefs.setBool('is_logged_in_new', false);
+      Prefs.setString('user_id_new', "");
+      Prefs.setString('user_email_new', "");
+      Prefs.setString('user_auth_token', "");
+      Prefs.setString("user_name_new", "");
+      Prefs.setString("mobile_no", "");
+      Get.offAllNamed(Routes.login);
+    }
     Get.back();
     print("Api url ${ApiUrls.sessionListApiUrl}?date=$date");
     print("response ${response.body}");
@@ -245,7 +311,17 @@ class ApiRepo
   Future<FloorPlanResponse> getFloorPlanResponse() async {
 
     final response = await http.get(Uri.parse("${ApiUrls.floorPlanApiUrl}"), headers: {'token': '${Prefs.checkAuthToken}',});
+    var res = await json.decode(response.body);
 
+    if(res['message'] == "Token expired."){
+      Prefs.setBool('is_logged_in_new', false);
+      Prefs.setString('user_id_new', "");
+      Prefs.setString('user_email_new', "");
+      Prefs.setString('user_auth_token', "");
+      Prefs.setString("user_name_new", "");
+      Prefs.setString("mobile_no", "");
+      Get.offAllNamed(Routes.login);
+    }
     Get.back();
     print("Api url ${ApiUrls.floorPlanApiUrl}");
     print("response ${response.body}");
@@ -256,7 +332,17 @@ class ApiRepo
   Future<ListLinkResponse> getListLinksResponse(bool isHome) async {
 
     final response = await http.get(Uri.parse("${ApiUrls.listLinksApiUrl}"), headers: {'token': '${Prefs.checkAuthToken}',});
+    var res = await json.decode(response.body);
 
+    if(res['message'] == "Token expired."){
+      Prefs.setBool('is_logged_in_new', false);
+      Prefs.setString('user_id_new', "");
+      Prefs.setString('user_email_new', "");
+      Prefs.setString('user_auth_token', "");
+      Prefs.setString("user_name_new", "");
+      Prefs.setString("mobile_no", "");
+      Get.offAllNamed(Routes.login);
+    }
     if(isHome){}else{
     Get.back();}
     print("Api url ${ApiUrls.listLinksApiUrl}");
@@ -268,7 +354,17 @@ class ApiRepo
   Future<LiveSessionResponse> getLiveSessionResponse(bool isHome) async {
 
     final response = await http.get(Uri.parse("${ApiUrls.liveSessionApiUrl}"), headers: {'token': '${Prefs.checkAuthToken}',});
+    var res = await json.decode(response.body);
 
+    if(res['message'] == "Token expired."){
+      Prefs.setBool('is_logged_in_new', false);
+      Prefs.setString('user_id_new', "");
+      Prefs.setString('user_email_new', "");
+      Prefs.setString('user_auth_token', "");
+      Prefs.setString("user_name_new", "");
+      Prefs.setString("mobile_no", "");
+      Get.offAllNamed(Routes.login);
+    }
     if(isHome){}else {
       Get.back();
     }
@@ -282,7 +378,17 @@ class ApiRepo
   Future<GuestDetailsResponse> getGuestDetailsResponse() async {
 
     final response = await http.get(Uri.parse("${ApiUrls.guestDetailsApiUrl}/${Prefs.checkUserId}"), headers: {'token': '${Prefs.checkAuthToken}',});
+    var res = await json.decode(response.body);
 
+    if(res['message'] == "Token expired."){
+      Prefs.setBool('is_logged_in_new', false);
+      Prefs.setString('user_id_new', "");
+      Prefs.setString('user_email_new', "");
+      Prefs.setString('user_auth_token', "");
+      Prefs.setString("user_name_new", "");
+      Prefs.setString("mobile_no", "");
+      Get.offAllNamed(Routes.login);
+    }
     Get.back();
     print("Api url ${ApiUrls.floorPlanApiUrl}");
     print("response ${response.body}");
@@ -370,7 +476,17 @@ class ApiRepo
   Future<AboutUsResponse> getAboutUsResponse() async {
 
     final response = await http.get(Uri.parse("${ApiUrls.aboutUsApiUrl}"), headers: {'token': '${Prefs.checkAuthToken}',});
+    var res = await json.decode(response.body);
 
+    if(res['message'] == "Token expired."){
+      Prefs.setBool('is_logged_in_new', false);
+      Prefs.setString('user_id_new', "");
+      Prefs.setString('user_email_new', "");
+      Prefs.setString('user_auth_token', "");
+      Prefs.setString("user_name_new", "");
+      Prefs.setString("mobile_no", "");
+      Get.offAllNamed(Routes.login);
+    }
     Get.back();
     print("Api url ${ApiUrls.aboutUsApiUrl}");
     print("response ${response.body}");
@@ -381,7 +497,17 @@ class ApiRepo
   Future<FaqResponse> getFaqResponse(String search) async {
 
     final response = await http.get(Uri.parse("${ApiUrls.faqApiUrl}?search=$search"), headers: {'token': '${Prefs.checkAuthToken}',});
+    var res = await json.decode(response.body);
 
+    if(res['message'] == "Token expired."){
+      Prefs.setBool('is_logged_in_new', false);
+      Prefs.setString('user_id_new', "");
+      Prefs.setString('user_email_new', "");
+      Prefs.setString('user_auth_token', "");
+      Prefs.setString("user_name_new", "");
+      Prefs.setString("mobile_no", "");
+      Get.offAllNamed(Routes.login);
+    }
     Get.back();
     print("Api url ${ApiUrls.faqApiUrl}?search=$search");
     print("response ${response.body}");
@@ -392,7 +518,17 @@ class ApiRepo
   Future<FriendListResponse> getFriendListResponse() async {
 
     final response = await http.get(Uri.parse("${ApiUrls.friendListApiUrl}/${Prefs.checkUserId}"), headers: {'token': '${Prefs.checkAuthToken}',});
+    var res = await json.decode(response.body);
 
+    if(res['message'] == "Token expired."){
+      Prefs.setBool('is_logged_in_new', false);
+      Prefs.setString('user_id_new', "");
+      Prefs.setString('user_email_new', "");
+      Prefs.setString('user_auth_token', "");
+      Prefs.setString("user_name_new", "");
+      Prefs.setString("mobile_no", "");
+      Get.offAllNamed(Routes.login);
+    }
      Get.back();
     print("Api url ${ApiUrls.friendListApiUrl}/${Prefs.checkUserId}");
     print("response ${response.body}");
@@ -403,7 +539,17 @@ class ApiRepo
   Future<GuestListResponse> getGuestListResponse(String search) async {
 
     final response = await http.get(Uri.parse("${ApiUrls.guestListApiUrl}?search=$search"), headers: {'token': '${Prefs.checkAuthToken}',});
+    var res = await json.decode(response.body);
 
+    if(res['message'] == "Token expired."){
+      Prefs.setBool('is_logged_in_new', false);
+      Prefs.setString('user_id_new', "");
+      Prefs.setString('user_email_new', "");
+      Prefs.setString('user_auth_token', "");
+      Prefs.setString("user_name_new", "");
+      Prefs.setString("mobile_no", "");
+      Get.offAllNamed(Routes.login);
+    }
     Get.back();
     print("Api url ${ApiUrls.guestListApiUrl}");
     print("response ${response.body}");
@@ -414,7 +560,17 @@ class ApiRepo
   Future<SessionSurveysResponse> getSessionSurveysResponse() async {
 
     final response = await http.get(Uri.parse("${ApiUrls.sessionSurveysApiUrl}"), headers: {'token': '${Prefs.checkAuthToken}',});
+    var res = await json.decode(response.body);
 
+    if(res['message'] == "Token expired."){
+      Prefs.setBool('is_logged_in_new', false);
+      Prefs.setString('user_id_new', "");
+      Prefs.setString('user_email_new', "");
+      Prefs.setString('user_auth_token', "");
+      Prefs.setString("user_name_new", "");
+      Prefs.setString("mobile_no", "");
+      Get.offAllNamed(Routes.login);
+    }
     Get.back();
     print("Api url ${ApiUrls.sessionSurveysApiUrl}");
     print("response ${response.body}");
@@ -433,11 +589,11 @@ class ApiRepo
     print("Api url ${ApiUrls.addSurveyApiUrl}");
     print("response ${response.body}");
 
+    var res = await json.decode(response.body);
 
     if(response.statusCode == 200)
     {
 
-      var res = await json.decode(response.body);
 
       EasyLoading.showToast("${res['message']}",
           dismissOnTap: true,
@@ -448,7 +604,6 @@ class ApiRepo
     }
     else
     {
-      var res = await json.decode(response.body);
 
       EasyLoading.showToast("${res['message']}",
           dismissOnTap: true,
@@ -494,7 +649,17 @@ class ApiRepo
   Future<PendingRequestResponse> pendingRequestResponse() async {
 
     final response = await http.get(Uri.parse("${ApiUrls.pendingRequestApiUrl}/${Prefs.checkUserId}"), headers: {'token': '${Prefs.checkAuthToken}',});
+    var res = await json.decode(response.body);
 
+    if(res['message'] == "Token expired."){
+      Prefs.setBool('is_logged_in_new', false);
+      Prefs.setString('user_id_new', "");
+      Prefs.setString('user_email_new', "");
+      Prefs.setString('user_auth_token', "");
+      Prefs.setString("user_name_new", "");
+      Prefs.setString("mobile_no", "");
+      Get.offAllNamed(Routes.login);
+    }
     Get.back();
     print("Api url ${ApiUrls.pendingRequestApiUrl}/${Prefs.checkUserId}");
     print("response ${response.body}");

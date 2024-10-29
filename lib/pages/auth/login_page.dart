@@ -22,7 +22,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
 
   late AnimationController _animationController;
   late Animation<double> _logoAnimation;
-  var _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
 
 
   @override

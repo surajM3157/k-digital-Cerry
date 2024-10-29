@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
 
   double _calculateAppBarHeight() {
     double baseHeight = 40.0;  // Height of the logo or any other static element
-    double tabBarHeight = 74.0;  // Height of the TabBar
+    double tabBarHeight = 76.0;  // Height of the TabBar
     double additionalPadding = 20.0;  // Any additional padding
     return baseHeight + tabBarHeight + additionalPadding;
   }

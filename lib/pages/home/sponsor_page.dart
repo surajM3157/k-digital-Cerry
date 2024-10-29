@@ -109,52 +109,62 @@ class _SponsorPageState extends State<SponsorPage> with SingleTickerProviderStat
             child: TabBarView(
               controller: _tabController,
               children: [
-              sponsorList.isNotEmpty?GridView.builder(gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-                itemBuilder: (_, index) => Container
-                  (
-                  margin: const EdgeInsets.all(10),
-                  height: 143,width: 155,
-                  decoration: BoxDecoration(
-                      color: AppColor.FFFFFDFD,
-                      borderRadius: const BorderRadius.all(Radius.circular(8),),
-                      border: Border.all(color: AppColor.grey)),
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          height: 70,width: 100,
-                            child: Image.network(ApiUrls.imageUrl+(sponsorList[index].sponsorImage??""))),
-                        const SizedBox(height: 10,),
-                        Text(sponsorList[index].sponsorName??"",style: AppThemes.labelTextStyle().copyWith(color: AppColor.black),)
-                      ],
-                    ),
-                  ),
-                ),
-                itemCount: sponsorList.length,):SizedBox.shrink(),
-              partnerList.isNotEmpty?GridView.builder(gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-                itemBuilder: (_, index) => Container
-                  (
-                  margin: const EdgeInsets.all(10),
-                  height: 143,width: 155,
-                  decoration: BoxDecoration(
-                      color: AppColor.FFFFFDFD,
-                      borderRadius: const BorderRadius.all(Radius.circular(8),),
-                      border: Border.all(color: AppColor.grey)),
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
+              sponsorList.isNotEmpty?RefreshIndicator(
+                onRefresh: () async{
+                  fetchSponsorList();
+                },
+                child: GridView.builder(gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+                  itemBuilder: (_, index) => Container
+                    (
+                    margin: const EdgeInsets.all(10),
+                    height: 143,width: 155,
+                    decoration: BoxDecoration(
+                        color: AppColor.FFFFFDFD,
+                        borderRadius: const BorderRadius.all(Radius.circular(8),),
+                        border: Border.all(color: AppColor.grey)),
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
                             height: 70,width: 100,
-                            child: Image.network(ApiUrls.imageUrl+(partnerList[index].partnerImage??""))),
-                        const SizedBox(height: 10,),
-                        Text(partnerList[index].partnerName??"",style: AppThemes.labelTextStyle().copyWith(color: AppColor.black),)
-                      ],
+                              child: Image.network(ApiUrls.imageUrl+(sponsorList[index].sponsorImage??""))),
+                          const SizedBox(height: 10,),
+                          Text(sponsorList[index].sponsorName??"",style: AppThemes.labelTextStyle().copyWith(color: AppColor.black),)
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                itemCount: partnerList.length,):SizedBox.shrink()
+                  itemCount: sponsorList.length,),
+              ):SizedBox.shrink(),
+              partnerList.isNotEmpty?RefreshIndicator(
+                onRefresh: () async{
+                  fetchPartnerList();
+                },
+                child: GridView.builder(gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+                  itemBuilder: (_, index) => Container
+                    (
+                    margin: const EdgeInsets.all(10),
+                    height: 143,width: 155,
+                    decoration: BoxDecoration(
+                        color: AppColor.FFFFFDFD,
+                        borderRadius: const BorderRadius.all(Radius.circular(8),),
+                        border: Border.all(color: AppColor.grey)),
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                              height: 70,width: 100,
+                              child: Image.network(ApiUrls.imageUrl+(partnerList[index].partnerImage??""))),
+                          const SizedBox(height: 10,),
+                          Text(partnerList[index].partnerName??"",style: AppThemes.labelTextStyle().copyWith(color: AppColor.black),)
+                        ],
+                      ),
+                    ),
+                  ),
+                  itemCount: partnerList.length,),
+              ):SizedBox.shrink()
             ],
 
             ),

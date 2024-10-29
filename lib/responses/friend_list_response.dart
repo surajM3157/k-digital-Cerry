@@ -85,7 +85,7 @@ class AllFriends {
   String? country;
   bool? alumniOfIit;
   String? iitName;
-  String? batch;
+  int? batch;
   String? stream;
   String? emailId;
   bool? status;

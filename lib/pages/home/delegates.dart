@@ -309,10 +309,9 @@ class _DelegatesState extends State<Delegates> {
   Widget _buildUserList(){
     return friendList.isNotEmpty?StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
-        .collection("users")
-        .where("name".toLowerCase(), isGreaterThanOrEqualTo: chatSearchText)
-        .where("name".toLowerCase(), isLessThan: chatSearchText + 'z') // Ensures alphabetical matching
-        .snapshots(),
+          .collection("users")
+          .orderBy("name") // Ensure the collection is ordered by name
+          .snapshots(),
       builder: (context,snapshot){
         if(snapshot.hasError){
           return Text("Error");
@@ -320,10 +319,19 @@ class _DelegatesState extends State<Delegates> {
         if(snapshot.connectionState ==ConnectionState.waiting){
           return Text("Loading...");
         }
+        // Client-side filtering (optional, based on your requirements)
+        final allDocs = snapshot.data!.docs;
+        final filteredDocs = allDocs.where((doc) {
+          final name = (doc['name'] as String);
+          return name.toLowerCase().contains(chatSearchText.toLowerCase());
+        }).toList();
         return ListView(
-          children: snapshot.data!.docs.map<Widget>((doc) => _buildUserListItem(doc)).toList(),
+          children: filteredDocs.map<Widget>((doc) => _buildUserListItem(doc)).toList(),
         );
-      },): Center(child: Text("No delegates yet. Click 'Connect' to invite",style: TextStyle(color: AppColor.primaryColor,fontWeight: FontWeight.w600,fontFamily: appFontFamily,fontSize: 20),));
+      },): Center(child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Text("No delegates yet. Click 'Connect' to invite",textAlign: TextAlign.center,style: TextStyle(color: AppColor.primaryColor,fontWeight: FontWeight.w600,fontFamily: appFontFamily,fontSize: 20),),
+      ));
   }
 
   Widget _buildUserListItem(DocumentSnapshot document){
@@ -530,7 +538,7 @@ class _DelegatesState extends State<Delegates> {
 
 
   Widget inviteDelegateList(GuestListData guestListData){
-    return guestListData.sId == Prefs.checkUserId||friendList.contains(guestListData.sId)?SizedBox.shrink():Container(
+    return guestListData.sId == Prefs.checkUserId?SizedBox.shrink():Container(
       height: 170,
       width: Get.width,
       margin: const EdgeInsets.symmetric(horizontal: 16,vertical: 10),

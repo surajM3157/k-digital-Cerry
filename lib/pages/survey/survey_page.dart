@@ -235,7 +235,7 @@ class _SurveyPageState extends State<SurveyPage> {
             child: Icon(Icons.arrow_back_ios,size: 20,color: AppColor.white,)),
       ),
       body: SafeArea(
-        child: Column(
+        child:questionList.isNotEmpty? Column(
           children: [
             const SizedBox(height: 20,),
             Padding(
@@ -272,7 +272,7 @@ class _SurveyPageState extends State<SurveyPage> {
               ),
             )
           ],
-        ),
+        ):SizedBox.shrink(),
       ),
     );
   }
