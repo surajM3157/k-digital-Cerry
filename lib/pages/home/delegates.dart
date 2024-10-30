@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:piwotapp/responses/friend_list_response.dart';
 import 'package:piwotapp/responses/guest_list_response.dart';
 import 'package:piwotapp/responses/pending_request_response.dart';
+import 'package:piwotapp/services/notification_service.dart';
 import 'package:piwotapp/widgets/app_textfield.dart';
 import '../../constants/font_family.dart';
 import '../../constants/images.dart';
@@ -106,10 +107,13 @@ class _DelegatesState extends State<Delegates> {
       });
       var response = await ApiRepo().getGuestListResponse(search);
 
+      NotificationService notificationService = NotificationService();
       if (response.data != null) {
         _guestListResponse = response;
         for (GuestListData guest in _guestListResponse!.data!) {
           guestList.add(guest);
+          // notificationService.unsubscribeFromTopic(guest.sId??"");
+          // print("done Unsubscription ${guest.sId}");
         }
 
         print("guestList ${guestList.length}");
@@ -177,7 +181,7 @@ class _DelegatesState extends State<Delegates> {
       showLoader(context);
     });
 
-    ApiRepo().sendRequest(params);}
+    ApiRepo().sendRequest(params, receiverId);}
   }
 
   handlePendingRequest(String status, String id)async{

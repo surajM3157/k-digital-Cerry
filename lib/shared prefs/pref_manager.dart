@@ -10,6 +10,7 @@ class Prefs {
   static String checkAuthToken = "";
   static String checkMobileNo = "";
   static bool checkProfile = true;
+  static bool checkNotificationEnabled = true;
   static late SharedPreferences _prefs;
 
   static void loadData()
@@ -21,6 +22,7 @@ class Prefs {
     checkUsername = getString('user_name_new');
     checkAuthToken = getString("user_auth_token");
     checkMobileNo = getString("mobile_no");
+    checkNotificationEnabled = getBool("notificationsEnabled",def: true);
   }
 
 

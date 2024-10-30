@@ -1,4 +1,5 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -6,11 +7,14 @@ import 'package:piwotapp/constants/api_urls.dart';
 import 'package:piwotapp/constants/colors.dart';
 import 'package:piwotapp/constants/font_family.dart';
 import 'package:piwotapp/route/route_names.dart';
+import 'package:piwotapp/services/notification_service.dart';
 import 'package:piwotapp/widgets/app_themes.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../constants/images.dart';
 import '../../repository/api_repo.dart';
 import '../../responses/guest_details_response.dart';
+import '../../responses/list_link_response.dart';
 import '../../shared prefs/pref_manager.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -22,10 +26,30 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
 
-  bool isNotificationOn = false;
 
   GuestDetailsData? guestDetails;
   bool  isConnected = true;
+  bool _notificationsEnabled = true;
+
+  ListLinkData? _listLinkData;
+  fetchListLink() async
+  {
+    // Future.delayed(Duration.zero, () {
+    //   showLoader(context);
+    // });
+
+    var response = await ApiRepo().getListLinksResponse(true);
+
+    if (response.data != null) {
+      _listLinkData = response.data?[0];
+    }
+
+    setState(() {
+
+    });
+
+
+  }
 
 
   fetchGuestDetails() async
@@ -55,9 +79,30 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
+  void _toggleNotifications(bool value) async {
+    setState(() {
+      _notificationsEnabled = !_notificationsEnabled;
+    });
+
+    print('notificationsEnabled $_notificationsEnabled');
+    await Prefs.setBool('notificationsEnabled', _notificationsEnabled);
+
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+    if (_notificationsEnabled) {
+      await messaging.subscribeToTopic('allUsers');
+      await messaging.subscribeToTopic(Prefs.checkUserId);
+    } else {
+      await messaging.unsubscribeFromTopic('allUsers');
+      await messaging.unsubscribeFromTopic(Prefs.checkUserId);
+    }
+  }
+
   @override
   void initState() {
     fetchGuestDetails();
+    fetchListLink();
+    Prefs.loadData();
+    _notificationsEnabled = Prefs.checkNotificationEnabled;
     Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
       if (result == ConnectivityResult.none) {
         isConnected = false;
@@ -205,11 +250,9 @@ class _ProfilePageState extends State<ProfilePage> {
                         ],
                       ),
                       CupertinoSwitch(
-                        value: isNotificationOn,
+                        value: _notificationsEnabled,
                         thumbColor: AppColor.primaryColor,
-                        onChanged: (v) => setState(() {
-                          isNotificationOn = v;
-                        }),
+                        onChanged: _toggleNotifications,
                       ),
                       // Transform.scale(
                       //   scale: 0.7,
@@ -237,7 +280,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
                 InkWell(
                   onTap: (){
-                    Get.toNamed(Routes.privacyPolicy);
+                    launchUrl(Uri.parse(_listLinkData?.privacyPolicyLink??""));
+                    // Get.toNamed(Routes.privacyPolicy);
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 18),
@@ -259,7 +303,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
                 InkWell(
                   onTap: (){
-                    Get.toNamed(Routes.termsCondition);
+                    launchUrl(Uri.parse(_listLinkData?.termsAndConditionsLink??""));
+                    // Get.toNamed(Routes.termsCondition);
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 18),
@@ -390,12 +435,15 @@ class _ProfilePageState extends State<ProfilePage> {
           const SizedBox(height: 20,),
           InkWell(
             onTap: (){
+              NotificationService notification = NotificationService();
+              notification.unsubscribeFromTopic(Prefs.checkUserId);
               Prefs.setBool('is_logged_in_new', false);
               Prefs.setString('user_id_new', "");
               Prefs.setString('user_email_new', "");
               Prefs.setString('user_auth_token', "");
               Prefs.setString("user_name_new", "");
               Prefs.setString("mobile_no", "");
+              Prefs.setBool("notificationsEnabled", false);
               Get.offAllNamed(Routes.login);
             },
             child: Container(

@@ -10,6 +10,9 @@ import 'package:piwotapp/pages/home/agenda.dart';
 import 'package:piwotapp/pages/home/delegates.dart';
 import 'package:piwotapp/pages/home/session.dart';
 import 'package:piwotapp/services/notification_service.dart';
+import 'package:url_launcher/url_launcher.dart';
+import '../../repository/api_repo.dart';
+import '../../responses/list_link_response.dart';
 import '../../route/route_names.dart';
 import '../../widgets/app_themes.dart';
 import '../../widgets/custom_tabbar_indicator.dart';
@@ -41,6 +44,25 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
     return baseHeight + tabBarHeight + additionalPadding;
   }
   NotificationService? _fcmService;
+  ListLinkData? _listLinkData;
+  fetchListLink() async
+  {
+    // Future.delayed(Duration.zero, () {
+    //   showLoader(context);
+    // });
+
+      var response = await ApiRepo().getListLinksResponse(true);
+
+      if (response.data != null) {
+        _listLinkData = response.data?[0];
+      }
+
+      setState(() {
+
+      });
+
+
+  }
 
   @override
   void initState() {
@@ -49,6 +71,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
     _controller =  TabController(length: 3, vsync: this);
     _aboutController =  TabController(length: 2, vsync: this);
     bottomNavbarIndex = widget.bottomNavIndex;
+    fetchListLink();
     super.initState();
   }
 
@@ -377,7 +400,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
             const SizedBox(height: 20,),
             InkWell(
               onTap: (){
-                Get.toNamed(Routes.privacyPolicy);
+                launchUrl(Uri.parse(_listLinkData?.privacyPolicyLink??""));
+
+                // Get.toNamed(Routes.privacyPolicy);
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -400,7 +425,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
             const SizedBox(height: 20,),
             InkWell(
               onTap: (){
-                Get.toNamed(Routes.termsCondition);
+                launchUrl(Uri.parse(_listLinkData?.termsAndConditionsLink??""));
+                // Get.toNamed(Routes.termsCondition);
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),

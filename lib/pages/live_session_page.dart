@@ -23,7 +23,7 @@ class LiveSessionPage extends StatefulWidget {
 class _LiveSessionPageState extends State<LiveSessionPage> {
 
   LiveSessionData? liveSessionData;
-
+  bool isFullScreen = false;
   bool isPlay = false;
 
    YoutubePlayerController? _controller;
@@ -38,12 +38,40 @@ class _LiveSessionPageState extends State<LiveSessionPage> {
         mute: true,
       ),
     );
+
+    // Listener to handle full-screen mode changes
+    _controller!.addListener(() {
+      setState(() {
+        isFullScreen = _controller!.value.isFullScreen;
+      });
+
+      if (isFullScreen) {
+        SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
+        SystemChrome.setPreferredOrientations([
+          DeviceOrientation.landscapeRight,
+          DeviceOrientation.landscapeLeft,
+        ]);
+      } else {
+        SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
+        SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+      }
+    });
     super.initState();
   }
+
+  @override
+  void dispose() {
+    _controller!.dispose();
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: isFullScreen
+          ? null:AppBar(
         elevation: 0,
         backgroundColor: AppColor.primaryColor,
         title: Padding(
@@ -62,7 +90,9 @@ class _LiveSessionPageState extends State<LiveSessionPage> {
             child: Icon(Icons.arrow_back_ios,size: 20,color: AppColor.white,)),
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
+        child:isFullScreen
+            ? _buildVideoPlayer():
+        SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -162,6 +192,24 @@ class _LiveSessionPageState extends State<LiveSessionPage> {
           ),
         ),
       ),
+    );
+  }
+
+
+  Widget _buildVideoPlayer() {
+    return YoutubePlayerBuilder(
+      player: YoutubePlayer(
+        controller: _controller!,
+        liveUIColor: AppColor.secondaryColor,
+      ),
+      builder: (context, player) {
+        return Column(
+          children: [
+            player,
+            const SizedBox(height: 50),
+          ],
+        );
+      },
     );
   }
 }

@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:googleapis_auth/auth_io.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as p;
 import 'package:piwotapp/responses/about_us_response.dart';
@@ -25,6 +27,7 @@ import 'package:piwotapp/responses/sponsor_response.dart';
 import 'package:http_parser/http_parser.dart';
 import '../constants/api_urls.dart';
 import '../route/route_names.dart';
+import '../services/notification_service.dart';
 import '../shared prefs/pref_manager.dart';
 
 
@@ -147,6 +150,7 @@ class ApiRepo
 
 
 
+
       _firestore.collection("users").doc("${model.data?.guestDetails?.sId?? ""}").set(
           {
             "uid":"${model.data?.guestDetails?.sId?? ""}",
@@ -154,6 +158,11 @@ class ApiRepo
           }, SetOptions(merge: true)
       );
       print("Prefs.checkProfile ${Prefs.checkProfile}");
+      NotificationService fcmService = NotificationService();
+      if(Prefs.checkNotificationEnabled == true){
+        fcmService.subscribeToTopic('allUsers');
+        fcmService.subscribeToTopic(model.data?.guestDetails?.sId?? "");
+      }
       if(Prefs.checkProfile == true){
         Get.offAllNamed(Routes.editProfile);
       }else{
@@ -178,15 +187,15 @@ class ApiRepo
 
     var res = await json.decode(response.body);
 
-    if(res['message'] == "Token expired."){
-      Prefs.setBool('is_logged_in_new', false);
-      Prefs.setString('user_id_new', "");
-      Prefs.setString('user_email_new', "");
-      Prefs.setString('user_auth_token', "");
-      Prefs.setString("user_name_new", "");
-      Prefs.setString("mobile_no", "");
-      Get.offAllNamed(Routes.login);
-    }
+    // if(res['message'] == "Token expired."){
+    //   Prefs.setBool('is_logged_in_new', false);
+    //   Prefs.setString('user_id_new', "");
+    //   Prefs.setString('user_email_new', "");
+    //   Prefs.setString('user_auth_token', "");
+    //   Prefs.setString("user_name_new", "");
+    //   Prefs.setString("mobile_no", "");
+    //   Get.offAllNamed(Routes.login);
+    // }
 
     if(isHome){}else
       {
@@ -204,15 +213,15 @@ class ApiRepo
 
     var res = await json.decode(response.body);
 
-    if(res['message'] == "Token expired."){
-      Prefs.setBool('is_logged_in_new', false);
-      Prefs.setString('user_id_new', "");
-      Prefs.setString('user_email_new', "");
-      Prefs.setString('user_auth_token', "");
-      Prefs.setString("user_name_new", "");
-      Prefs.setString("mobile_no", "");
-      Get.offAllNamed(Routes.login);
-    }
+    // if(res['message'] == "Token expired."){
+    //   Prefs.setBool('is_logged_in_new', false);
+    //   Prefs.setString('user_id_new', "");
+    //   Prefs.setString('user_email_new', "");
+    //   Prefs.setString('user_auth_token', "");
+    //   Prefs.setString("user_name_new", "");
+    //   Prefs.setString("mobile_no", "");
+    //   Get.offAllNamed(Routes.login);
+    // }
     if(isHome){}else
     {
       Get.back();}
@@ -228,15 +237,15 @@ class ApiRepo
 
     var res = await json.decode(response.body);
 
-    if(res['message'] == "Token expired."){
-      Prefs.setBool('is_logged_in_new', false);
-      Prefs.setString('user_id_new', "");
-      Prefs.setString('user_email_new', "");
-      Prefs.setString('user_auth_token', "");
-      Prefs.setString("user_name_new", "");
-      Prefs.setString("mobile_no", "");
-      Get.offAllNamed(Routes.login);
-    }
+    // if(res['message'] == "Token expired."){
+    //   Prefs.setBool('is_logged_in_new', false);
+    //   Prefs.setString('user_id_new', "");
+    //   Prefs.setString('user_email_new', "");
+    //   Prefs.setString('user_auth_token', "");
+    //   Prefs.setString("user_name_new", "");
+    //   Prefs.setString("mobile_no", "");
+    //   Get.offAllNamed(Routes.login);
+    // }
     Get.back();
     print("Api url ${ApiUrls.partnerApiUrl}");
     print("response ${response.body}");
@@ -334,15 +343,15 @@ class ApiRepo
     final response = await http.get(Uri.parse("${ApiUrls.listLinksApiUrl}"), headers: {'token': '${Prefs.checkAuthToken}',});
     var res = await json.decode(response.body);
 
-    if(res['message'] == "Token expired."){
-      Prefs.setBool('is_logged_in_new', false);
-      Prefs.setString('user_id_new', "");
-      Prefs.setString('user_email_new', "");
-      Prefs.setString('user_auth_token', "");
-      Prefs.setString("user_name_new", "");
-      Prefs.setString("mobile_no", "");
-      Get.offAllNamed(Routes.login);
-    }
+    // if(res['message'] == "Token expired."){
+    //   Prefs.setBool('is_logged_in_new', false);
+    //   Prefs.setString('user_id_new', "");
+    //   Prefs.setString('user_email_new', "");
+    //   Prefs.setString('user_auth_token', "");
+    //   Prefs.setString("user_name_new", "");
+    //   Prefs.setString("mobile_no", "");
+    //   Get.offAllNamed(Routes.login);
+    // }
     if(isHome){}else{
     Get.back();}
     print("Api url ${ApiUrls.listLinksApiUrl}");
@@ -356,15 +365,15 @@ class ApiRepo
     final response = await http.get(Uri.parse("${ApiUrls.liveSessionApiUrl}"), headers: {'token': '${Prefs.checkAuthToken}',});
     var res = await json.decode(response.body);
 
-    if(res['message'] == "Token expired."){
-      Prefs.setBool('is_logged_in_new', false);
-      Prefs.setString('user_id_new', "");
-      Prefs.setString('user_email_new', "");
-      Prefs.setString('user_auth_token', "");
-      Prefs.setString("user_name_new", "");
-      Prefs.setString("mobile_no", "");
-      Get.offAllNamed(Routes.login);
-    }
+    // if(res['message'] == "Token expired."){
+    //   Prefs.setBool('is_logged_in_new', false);
+    //   Prefs.setString('user_id_new', "");
+    //   Prefs.setString('user_email_new', "");
+    //   Prefs.setString('user_auth_token', "");
+    //   Prefs.setString("user_name_new", "");
+    //   Prefs.setString("mobile_no", "");
+    //   Get.offAllNamed(Routes.login);
+    // }
     if(isHome){}else {
       Get.back();
     }
@@ -612,7 +621,7 @@ class ApiRepo
     }
   }
 
-  sendRequest(var params) async {
+  sendRequest(var params,String receiverId) async {
     final response = await http.post(Uri.parse("${ApiUrls.sendRequestApiUrl}"),
       body: params,headers: {'token': '${Prefs.checkAuthToken}',}
     );
@@ -633,6 +642,8 @@ class ApiRepo
           dismissOnTap: true,
           duration: const Duration(seconds: 1),
           toastPosition: EasyLoadingToastPosition.center);
+      print("receiverId $receiverId");
+      sendNotification(receiverId);
 
     }
     else
@@ -699,22 +710,61 @@ class ApiRepo
     }
   }
 
-  Future<void> sendNotification(String fcmToken) async {
-    await http.post(
-      Uri.parse('https://fcm.googleapis.com/v1/projects/piwot-b559b/messages:send'),
-      headers: <String, String>{
-        'Content-Type': 'application/json',
-        'Authorization': 'key=YOUR_SERVER_KEY',
-      },
-      body: jsonEncode({
-        'to': fcmToken,
-        'notification': {
-          'title': 'New Friend Request',
-          'body': 'You have a new friend request!',
-        },
-      }),
-    );
+  Future<String> getAccessToken() async {
+    // Load the service account credentials from the JSON file
+    print("SERVICE_ACCOUNT ${dotenv.env['SERVICE_ACCOUNT']}");
+    String serviceAccountJson = dotenv.env['SERVICE_ACCOUNT'] ?? '';
+    print("a");
+    final jsonContent = json.decode(serviceAccountJson);
+    print("b");
+    // Define the necessary scopes for FCM
+    const scopes = ['https://www.googleapis.com/auth/firebase.messaging'];
+    print("c");
+    // Create the credentials
+    final client = await clientViaServiceAccount(ServiceAccountCredentials.fromJson(jsonContent), scopes);
+    print("d");
+    // Get the access token
+    final accessToken = client.credentials.accessToken.data;
+    print("e");
+    // Don't forget to close the client after use
+    client.close();
+
+    return accessToken;
   }
 
+  Future<void> sendNotification(String fcmToken) async {
+    String accessToken = await getAccessToken();
+    print("f");
+    String projectId = "piwot-b559b";
+    var response = await http.post(
+      Uri.parse('https://fcm.googleapis.com/v1/projects/$projectId/messages:send'),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $accessToken',
+      },
+      body: jsonEncode({
+        "message": {
+          "topic": fcmToken,
+          "notification": {
+            "title": "New Friend Request",
+            "body": "You have a new friend request!"
+          },
+          "data": {
+            "new_request": "NewRequest"}
+        }
+      }),
+    );
+    print("g");
+
+    if(response.statusCode == 200){
+      print("h");
+      EasyLoading.showToast("Notification Send Successfully",
+          dismissOnTap: true,
+          duration: const Duration(seconds: 1),
+          toastPosition: EasyLoadingToastPosition.center);
+    }else{
+      print("Notification response ${response.body}");
+    }
+  }
 }
 

@@ -61,7 +61,7 @@ class _NotificationPageState extends State<NotificationPage> {
                 return Center(child: Text('No notifications found.'));
               }
 
-              final notifications = snapshot.data!.docs;
+              final notifications = snapshot.data!.docs.reversed.toList();
 
               return ListView.separated(
                 shrinkWrap: true,physics: NeverScrollableScrollPhysics(),
@@ -98,7 +98,7 @@ class _NotificationPageState extends State<NotificationPage> {
                           borderRadius: BorderRadius.circular(50)
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.all(15.0),
+                        padding: const EdgeInsets.all(5.0),
                         child: SvgPicture.asset(Images.notificationIcon,color: AppColor.white,),
                       ),
                     ),

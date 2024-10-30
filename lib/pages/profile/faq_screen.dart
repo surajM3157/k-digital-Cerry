@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
@@ -86,7 +85,7 @@ class _FAQScreenState extends State<FAQScreen> {
     faqList.clear();
     setState(() {});
     if (debounceTimer?.isActive ?? false) debounceTimer!.cancel();
-    debounceTimer = Timer(const Duration(milliseconds: 1500), () {
+    debounceTimer = Timer(const Duration(milliseconds: 500), () {
       fetchFaq(searchController.text);
     });
   }
@@ -180,7 +179,7 @@ class _FAQScreenState extends State<FAQScreen> {
               }, separatorBuilder: (BuildContext context, int index) {
                 return SizedBox(height: 24,);
             },
-            ):SizedBox(),
+            ):Center(child: Text("No FAQ Found",style: TextStyle(color: AppColor.primaryColor,fontWeight: FontWeight.w600,fontFamily: appFontFamily,fontSize: 20),)),
             const SizedBox(height: 24,)
           ],
         ),

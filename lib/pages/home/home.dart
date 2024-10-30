@@ -265,7 +265,7 @@ class _HomeState extends State<Home> {
           toastPosition: EasyLoadingToastPosition.center);
     }else {
       isConnected = true;
-      var response = await ApiRepo().getListLinksResponse(false);
+      var response = await ApiRepo().getListLinksResponse(true);
 
       if (response.data != null) {
         _listLinkData = response.data?[0];

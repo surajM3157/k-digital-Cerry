@@ -8,8 +8,19 @@ import 'package:piwotapp/constants/colors.dart';
 class NotificationService {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
+
+  Future<void> subscribeToTopic(String topic) async {
+    await _firebaseMessaging.subscribeToTopic(topic);
+    print("Subscribed to $topic topic");
+  }
+
+  Future<void> unsubscribeFromTopic(String topic) async {
+    await _firebaseMessaging.unsubscribeFromTopic(topic);
+    print("Unsubscribed from $topic topic");
+  }
+
   Future<void> initialize() async {
     // Request permission for iOS devices
     NotificationSettings settings = await _firebaseMessaging.requestPermission(
