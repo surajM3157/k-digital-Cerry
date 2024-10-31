@@ -91,6 +91,18 @@ class NotificationService {
   }
 
   void setupBackgroundHandler() {
+    // Handle messages when the app is in the background
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      print('Message clicked!');
+      _firestore.collection("notifications").doc(message.messageId).set(
+          {
+            // "data": message.data,
+            "title":message.notification?.title,
+            "body":message.notification?.body,
+          }, SetOptions(merge: true)
+      );
+    });
+
     FirebaseMessaging.onBackgroundMessage((RemoteMessage message) async {
       print('Handling a background message: ${message.messageId}');
 
