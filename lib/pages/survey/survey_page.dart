@@ -1,13 +1,14 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:piwotapp/constants/colors.dart';
 import 'package:piwotapp/constants/font_family.dart';
 import 'package:get/get.dart';
+import 'package:piwotapp/responses/global_survey_response.dart';
 import 'package:piwotapp/responses/session_surveys_response.dart';
 import '../../constants/images.dart';
 import '../../repository/api_repo.dart';
-import '../../route/route_names.dart';
 import '../../widgets/app_themes.dart';
 import '../../widgets/custom_progress_indicator.dart';
 
@@ -22,37 +23,28 @@ class _SurveyPageState extends State<SurveyPage> {
 
   String sessionId = "";
 
-  // String selectedRadio = '';
-  // List questions = [
-  //   "1.How would you rate your overall experience at the event?",
-  //   "2.How satisfied were you with the networking opportunities provided during the event?",
-  //   "3.How likely are you to attend future events organized by PAN IIT Alumni India?",
-  //   "4.How would you rate your overall experience at the event?",
-  //   "5.How would you rate the organization and management of the event?"
-  // ];
   int index = 0;
-  // List<QuestionModel> questions = [
-  //   QuestionModel(question: "1.How would you rate your overall experience at the event?", options: ["Excellent","Good","Average","Poor"], selectedRadio: ''),
-  //   QuestionModel(question: "2.How satisfied were you with the networking opportunities provided during the event?", options: ["Excellent","Good","Average","Poor"], selectedRadio: ''),
-  //   QuestionModel(question: "3.How likely are you to attend future events organized by PAN IIT Alumni India?", options: ["Excellent","Good","Average","Poor"], selectedRadio: ''),
-  //   QuestionModel(question: "4.How would you rate your overall experience at the event?", options: ["Excellent","Good","Average","Poor"], selectedRadio: ''),
-  //   QuestionModel(question: "5.How would you rate the organization and management of the event?", options: ["Excellent","Good","Average","Poor"], selectedRadio: ''),
-  // ];
 
   bool isConnected = true;
 
   SessionSurveysData? sessionSurveysData;
   List<QuestionsDetails> questionList = [];
+  List<Questions> globalQuestionList = [];
   String selectedValue = "";
   final Map<String, bool> selectedOptions = {};
-  int _selectedRating = 0;
   List<int> rating = [];
+
+  GlobalSurveyData? globalSurveyData;
 
   @override
   void initState() {
     sessionId = Get.arguments['session_id'];
     print("sessionId 1 $sessionId");
-    fetchSessionSurvey();
+    if(sessionId.isEmpty){
+      fetchGlobalSurvey();
+    }else {
+      fetchSessionSurvey();
+    }
     super.initState();
   }
 
@@ -94,96 +86,138 @@ class _SurveyPageState extends State<SurveyPage> {
 
   }
 
+  fetchGlobalSurvey() async
+  {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      isConnected = false;
+      setState(() {
+
+      });
+    }else {
+      isConnected = true;
+      Future.delayed(Duration.zero, () {
+        showLoader(context);
+      });
+
+      var response = await ApiRepo().getGlobalSurveysResponse();
+
+      if( response.data != null)
+      {
+            globalSurveyData = response.data?[0];
+            for(Questions question in globalSurveyData!.questions!){
+              globalQuestionList.add(question);
+
+        }
+      }
+
+      print("Question1 ${globalQuestionList[0].question}");
+      print("Question2 ${globalQuestionList[1].question}");
+
+      setState(() {
+
+      });}
+
+  }
+
+  List globalSessionList(){
+    if(sessionId.isEmpty){
+      return globalQuestionList;
+    }else{
+      return questionList;
+    }
+  }
+
   addSurvey()async{
     List<Map<String, dynamic>> answer = [];
 
     List<String> checkboxAns = [];
 
-    if (questionList.isNotEmpty) {
-      for (int i = 0; i < questionList.length; i++) {
-        if (questionList[i].typeOf!
+    if (globalSessionList().isNotEmpty) {
+      for (int i = 0; i < globalSessionList().length; i++) {
+        if (globalSessionList()[i].typeOf!
             .toLowerCase() ==
             "stars") {
           Map<String, dynamic> oneItemAns = {
             "questionId":
-            "${questionList[i].sId.toString()}",
+            "${globalSessionList()[i].sId.toString()}",
             "question":
-            "${questionList[i].question.toString()}",
+            "${globalSessionList()[i].question.toString()}",
             "typeOf":
-            "${questionList[i].typeOf.toString()}",
+            "${globalSessionList()[i].typeOf.toString()}",
             "answer":
-            "${(questionList[i].selectedStarOption == 0 ? 1 : questionList[i].selectedStarOption)}"
+            "${(globalSessionList()[i].selectedStarOption == 0 ? 1 : globalSessionList()[i].selectedStarOption)}"
           };
           print(
-              "selectedStarOption ${questionList[i].selectedStarOption}");
+              "selectedStarOption ${globalSessionList()[i].selectedStarOption}");
 
           answer.add(oneItemAns);
-        } else if (questionList[i].typeOf!
+        } else if (globalSessionList()[i].typeOf!
             .toLowerCase() ==
             "singlechoice") {
           Map<String, dynamic> oneItemAns = {
             "questionId":
-            "${questionList[i].sId.toString()}",
+            "${globalSessionList()[i].sId.toString()}",
             "question":
-            "${questionList[i].question.toString()}",
+            "${globalSessionList()[i].question.toString()}",
             "typeOf":
-            "${questionList[i].typeOf.toString()}",
+            "${globalSessionList()[i].typeOf.toString()}",
             "answer":
-            "${questionList[i].selectedRadioOption.toString().trim()}"
+            "${globalSessionList()[i].selectedRadioOption.toString().trim()}"
           };
 
           answer.add(oneItemAns);
-        } else if (questionList[i].typeOf!
+        } else if (globalSessionList()[i].typeOf!
             .toLowerCase() ==
             "multiplechoice") {
           String checkBoxAnswer = "";
 
           for (int op = 0;
           op <
-              questionList[i]
+              globalSessionList()[i]
                   .selectedCheckboxOptions.length;
           op++) {
             if (checkBoxAnswer == "") {
-              if ( questionList[i]
+              if ( globalSessionList()[i]
                   .selectedCheckboxOptions[op] ==
                   true) {
                 checkBoxAnswer =
-                "${ questionList[i].selectedCheckboxOptions![op].toString().trim()}";
-                checkboxAns.add( questionList[i].selectedCheckboxOptions[op].toString().trim());
+                "${ globalSessionList()[i].options![op].toString().trim()}";
+                checkboxAns.add( globalSessionList()[i].options![op].toString().trim());
               }
             } else {
-              if (questionList[i].selectedCheckboxOptions[op] ==
+              if (globalSessionList()[i].selectedCheckboxOptions[op] ==
                   true) {
                 checkBoxAnswer = "${checkBoxAnswer}, " +
-                    "${questionList[i].selectedCheckboxOptions![op].toString().trim()}";
-                checkboxAns.add("${questionList[i].selectedCheckboxOptions[op].toString().trim()}");
+                    "${globalSessionList()[i].options![op].toString().trim()}";
+                checkboxAns.add("${globalSessionList()[i].options![op].toString().trim()}");
               }
             }
           }
 
           Map<String, dynamic> oneItemAns = {
             "questionId":
-            "${questionList[i].sId.toString()}",
+            "${globalSessionList()[i].sId.toString()}",
             "question":
-            "${questionList[i].question.toString()}",
+            "${globalSessionList()[i].question.toString()}",
             "typeOf":
-            "${questionList[i].typeOf.toString()}",
+            "${globalSessionList()[i].typeOf.toString()}",
             "answer": checkboxAns
           };
 
           answer.add(oneItemAns);
-        } else if (questionList[i].typeOf!
+        } else if (globalSessionList()[i].typeOf!
             .toLowerCase() ==
             "multiline") {
           Map<String, dynamic> oneItemAns = {
             "questionId":
-            "${questionList[i].sId.toString()}",
+            "${globalSessionList()[i].sId.toString()}",
             "question":
-            "${questionList[i].question.toString()}",
+            "${globalSessionList()[i].question.toString()}",
             "typeOf":
-            "${questionList[i].typeOf.toString()}",
+            "${globalSessionList()[i].typeOf.toString()}",
             "answer":
-            "${questionList[i].multiLineController.text.toString().trim()}"
+            "${globalSessionList()[i].multiLineController.text.toString().trim()}"
           };
 
           answer.add(oneItemAns);
@@ -191,13 +225,21 @@ class _SurveyPageState extends State<SurveyPage> {
       }
     }
 
-    final Map<String, dynamic> params = {
+
+    final Map<String, dynamic> params =sessionId.isEmpty?{
+      "is_global":globalSurveyData?.isGlobal,
+      // "room_id": null, "session_id": null,
+      "questionAndAnswers": answer,"ratingAverage": calculateAverageRating(),"survey_id":globalSurveyData?.sId
+    } :{
       "room_id": sessionSurveysData?.roomId, "session_id": sessionSurveysData?.sessionId,
-      "questionAndAnswers": answer,"ratingAverage": calculateAverageRating()
+      "questionAndAnswers": answer,"ratingAverage": calculateAverageRating(),"survey_id":sessionSurveysData?.sId,"is_global":sessionSurveysData?.isGlobal
     };
 
+    print("is_global ${globalSurveyData?.isGlobal}");
     await ApiRepo().addSurvey(params);
   }
+
+
 
 
   double calculateAverageRating() {
@@ -205,7 +247,7 @@ class _SurveyPageState extends State<SurveyPage> {
     double totalRating = 0;
     int ratedQuestionsCount = 0;
 
-    for (var question in questionList) {
+    for (var question in globalSessionList()) {
       if (question.selectedStarOption != null && question.selectedStarOption > 0) {
         // Add rating and count if the question has a rating
         totalRating += question.selectedStarOption;
@@ -235,13 +277,13 @@ class _SurveyPageState extends State<SurveyPage> {
             child: Icon(Icons.arrow_back_ios,size: 20,color: AppColor.white,)),
       ),
       body: SafeArea(
-        child:questionList.isNotEmpty? Column(
+        child:globalSessionList().isNotEmpty? ListView(
           children: [
             const SizedBox(height: 20,),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: CustomProgressIndicator(
-                  totalSteps: questionList.length, currentStep: index, size: 20, padding: 6, selectedColor: AppColor.primaryColor, unselectedColor: AppColor.secondaryColor, roundedEdges: const Radius.circular(10)),
+                  totalSteps: globalSessionList().length, currentStep: index, size: 20, padding: 6, selectedColor: AppColor.primaryColor, unselectedColor: AppColor.secondaryColor, roundedEdges: const Radius.circular(10)),
             ),
             // SizedBox(height: 20,),
             //
@@ -280,11 +322,51 @@ class _SurveyPageState extends State<SurveyPage> {
   Widget nextButton(){
     return GestureDetector(
       onTap: (){
-        if((questionList.length-1) == index){
+        if((globalSessionList().length-1) == index){
 
-          addSurvey();
+          if(globalSessionList()[index].typeOf?.toLowerCase() == "multiline"&& globalSessionList()[index].multiLineController.text.isEmpty){
+            EasyLoading.showToast("Please enter feedback",
+                dismissOnTap: true,
+                duration: const Duration(seconds: 1),
+                toastPosition: EasyLoadingToastPosition.center);
+          }else if(globalSessionList()[index].typeOf?.toLowerCase() == "multiplechoice"&& globalSessionList()[index].selectedCheckboxOptions.every((element) => element == false)){
+
+            EasyLoading.showToast("Please select options",
+                dismissOnTap: true,
+                duration: const Duration(seconds: 1),
+                toastPosition: EasyLoadingToastPosition.center);
+          }else if(globalSessionList()[index].typeOf?.toLowerCase() == "singlechoice"&& globalSessionList()[index].selectedRadioOption == null){
+            EasyLoading.showToast("Please select option",
+                dismissOnTap: true,
+                duration: const Duration(seconds: 1));
+          }else if(globalSessionList()[index].typeOf?.toLowerCase()== "stars"&& globalSessionList()[index].selectedStarOption == 0){
+            EasyLoading.showToast("Please select stars",
+                dismissOnTap: true,
+                duration: const Duration(seconds: 1));
+          }else{
+          addSurvey();}
         }else{
-          index++;
+          if(globalSessionList()[index].typeOf?.toLowerCase() == "multiline"&& globalSessionList()[index].multiLineController.text.isEmpty){
+            EasyLoading.showToast("Please enter feedback",
+                dismissOnTap: true,
+                duration: const Duration(seconds: 1),
+                toastPosition: EasyLoadingToastPosition.center);
+          }else if(globalSessionList()[index].typeOf?.toLowerCase() == "multiplechoice"&& globalSessionList()[index].selectedCheckboxOptions.every((element) => element == false)){
+            EasyLoading.showToast("Please select options",
+                dismissOnTap: true,
+                duration: const Duration(seconds: 1),
+                toastPosition: EasyLoadingToastPosition.center);
+          }else if(globalSessionList()[index].typeOf?.toLowerCase() == "singlechoice"&& globalSessionList()[index].selectedRadioOption == null){
+            EasyLoading.showToast("Please select option",
+                dismissOnTap: true,
+                duration: const Duration(seconds: 1));
+          }else if(globalSessionList()[index].typeOf?.toLowerCase()== "stars"&& globalSessionList()[index].selectedStarOption == 0){
+            EasyLoading.showToast("Please select stars",
+                dismissOnTap: true,
+                duration: const Duration(seconds: 1));
+          }else{
+            index++;
+          }
 
         }
         setState(() {
@@ -302,7 +384,7 @@ class _SurveyPageState extends State<SurveyPage> {
           ),
         ),
         child: Center(
-          child: Text((questionList.length-1) == index?"Finish":"Next",style: TextStyle(
+          child: Text((globalSessionList().length-1) == index?"Finish":"Next",style: TextStyle(
               color:AppColor.white,fontSize: 20,fontFamily: appFontFamily,fontWeight: FontWeight.w400
           ),),
         ),
@@ -352,16 +434,16 @@ class _SurveyPageState extends State<SurveyPage> {
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Text(questionList[index].question??"",
+          child: Text(globalSessionList()[index].question??"",
             style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w500,fontSize: 20,color: AppColor.primaryColor),
           ),
         ),
         const SizedBox(height: 20,),
-        questionList[index].typeOf?.toLowerCase() == "multiline"?
+        globalSessionList()[index].typeOf?.toLowerCase() == "multiline"?
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: TextFormField(
-                controller: questionList[index].multiLineController,
+                controller: globalSessionList()[index].multiLineController,
                 maxLines: 5,
                 cursorColor: AppColor.primaryColor,
                 decoration: InputDecoration(
@@ -370,33 +452,33 @@ class _SurveyPageState extends State<SurveyPage> {
                 ),
               ),
             )
-            :questionList[index].typeOf?.toLowerCase()=="multiplechoice"?ListView(
+            :globalSessionList()[index].typeOf?.toLowerCase()=="multiplechoice"?ListView(
           shrinkWrap: true,
           padding: EdgeInsets.symmetric(horizontal: 16),
           children: [
-            if (questionList[index].typeOf?.toLowerCase() == "multiplechoice")
-              ...List.generate(questionList[index].options!.length, (optionIndex) {
+            if (globalSessionList()[index].typeOf?.toLowerCase() == "multiplechoice")
+              ...List.generate(globalSessionList()[index].options!.length, (optionIndex) {
                 // Ensure `selectedCheckboxOptions` is initialized as a boolean list
-                if (questionList[index].selectedCheckboxOptions.length != questionList[index].options!.length) {
-                  questionList[index].selectedCheckboxOptions = List<bool>.filled(
-                      questionList[index].options!.length, false);
+                if (globalSessionList()[index].selectedCheckboxOptions.length != globalSessionList()[index].options!.length) {
+                  globalSessionList()[index].selectedCheckboxOptions = List<bool>.filled(
+                      globalSessionList()[index].options!.length, false);
                 }
 
                 return CheckboxListTile(
                   activeColor: AppColor.primaryColor,
-                  title: Text(questionList[index].options![optionIndex]),
-                  value: questionList[index].selectedCheckboxOptions[optionIndex],
+                  title: Text(globalSessionList()[index].options![optionIndex]),
+                  value: globalSessionList()[index].selectedCheckboxOptions[optionIndex],
                   onChanged: (value) {
                     setState(() {
-                      questionList[index].selectedCheckboxOptions[optionIndex] = value!;
+                      globalSessionList()[index].selectedCheckboxOptions[optionIndex] = value!;
                     });
                   },
                 );
               })
           ],
         )
-            :questionList[index].typeOf?.toLowerCase()== "singlechoice"?ListView.builder(
-          itemCount: questionList[index].options?.length,
+            :globalSessionList()[index].typeOf?.toLowerCase()== "singlechoice"?ListView.builder(
+          itemCount: globalSessionList()[index].options?.length,
           shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context,radioIndex){
@@ -404,32 +486,32 @@ class _SurveyPageState extends State<SurveyPage> {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: RadioListTile<String>(
               contentPadding:EdgeInsets.zero,
-              title: Text(questionList[index].options?[radioIndex]??"",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w400,fontFamily: appFontFamily,color: AppColor.primaryColor),),
-              value: questionList[index].options![radioIndex],
+              title: Text(globalSessionList()[index].options?[radioIndex]??"",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w400,fontFamily: appFontFamily,color: AppColor.primaryColor),),
+              value: globalSessionList()[index].options![radioIndex],
               activeColor: AppColor.primaryColor,
-              groupValue: questionList[index].selectedRadioOption,
+              groupValue: globalSessionList()[index].selectedRadioOption,
               onChanged: (String? value) {
                 print(value!);
                 setState(() {
-                  questionList[index].selectedRadioOption = value;
+                  globalSessionList()[index].selectedRadioOption = value;
                 });
 
               },
             ),
           );
-        }):questionList[index].typeOf?.toLowerCase()== "stars"?Row(
+        }):globalSessionList()[index].typeOf?.toLowerCase()== "stars"?Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: List.generate(5, (starIndex) {
               return IconButton(
                 icon: Icon(
                   Icons.star,
-                  color: starIndex < questionList[index].selectedStarOption ? Colors.amber : Colors.grey,
+                  color: starIndex < globalSessionList()[index].selectedStarOption ? Colors.amber : Colors.grey,
                 ),
                 iconSize: 40.0,
                 onPressed: () {
                   setState(() {
                     // Update the rating based on tapped star
-                    questionList[index].selectedStarOption = starIndex + 1;
+                    globalSessionList()[index].selectedStarOption = starIndex + 1;
                   });
                 },
               );

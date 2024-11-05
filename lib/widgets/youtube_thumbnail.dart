@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class YouTubeThumbnail extends StatelessWidget {
   final String youtubeUrl;
@@ -16,7 +17,7 @@ class YouTubeThumbnail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String videoId = youtubeUrl.split("=").last;
+    String videoId = YoutubePlayer.convertUrlToId(youtubeUrl)??"";
     String thumbnailUrl = 'https://img.youtube.com/vi/$videoId/hqdefault.jpg';
 
     return videoId.isNotEmpty

@@ -77,10 +77,10 @@ class _DelegatesState extends State<Delegates> {
           friendList.add(friend);
         }
         print("f");
-
         print("floorPlanList ${friendList.length}");
         print("friendList $friendList");
         print("userId ${Prefs.checkUserId}");
+        fetchGuestList("");
       }
 
       setState(() {
@@ -111,10 +111,11 @@ class _DelegatesState extends State<Delegates> {
       if (response.data != null) {
         _guestListResponse = response;
         for (GuestListData guest in _guestListResponse!.data!) {
-          guestList.add(guest);
+            if(!friendList.contains(guest.sId)) {
+              guestList.add(guest);
+            }}
           // notificationService.unsubscribeFromTopic(guest.sId??"");
           // print("done Unsubscription ${guest.sId}");
-        }
 
         print("guestList ${guestList.length}");
       }
@@ -181,7 +182,9 @@ class _DelegatesState extends State<Delegates> {
       showLoader(context);
     });
 
-    ApiRepo().sendRequest(params, receiverId);}
+    await ApiRepo().sendRequest(params, receiverId);
+    fetchGuestList('');
+    }
   }
 
   handlePendingRequest(String status, String id)async{
@@ -217,7 +220,6 @@ class _DelegatesState extends State<Delegates> {
 
   @override
   void initState() {
-    fetchGuestList("");
     fetchFriendList();
     widget.tabController.addListener(_handleTabChange);
     Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
@@ -226,8 +228,8 @@ class _DelegatesState extends State<Delegates> {
       } else {
         // Handle case when internet connection is available
         isConnected = true;
-        fetchGuestList("");
         fetchFriendList();
+        fetchGuestList("");
         fetchPendingRequest();
       }
     });

@@ -192,11 +192,11 @@ class _SessionDetailsPageState extends State<SessionDetailsPage> {
                       height: 1,color: AppColor.primaryColor,
                     ),
                     const SizedBox(height: 20,),
-                    AppButton(title: "Take Survey", onTap: (){
+                   DateTime.parse(_sessionListData?.date??"") == DateTime.now()? AppButton(title: "Take Survey", onTap: (){
                       Get.toNamed(Routes.survey, arguments: {
                         "session_id": _sessionListData?.sId
                       });
-                    }),
+                    }):SizedBox.shrink(),
                     const SizedBox(height: 20,),
                   ],
                 ),
@@ -228,6 +228,7 @@ class _SessionDetailsPageState extends State<SessionDetailsPage> {
           alignment: Alignment.topRight,
           children: [
             Container(
+              width: Get.width,
               height: Get.height/1.5,
               decoration: BoxDecoration(
                   color: AppColor.white,
@@ -249,14 +250,14 @@ class _SessionDetailsPageState extends State<SessionDetailsPage> {
                         borderRadius: BorderRadius.circular(16),
                           child: Image.network(ApiUrls.imageUrl+image,fit: BoxFit.fill,)),
                     ),
-                    const SizedBox(height: 10,),
-                    Row(
-                      children: [
-                        Icon(Icons.flag,color: AppColor.FF050505,),
-                        const SizedBox(width: 5,),
-                        Text("India",style: TextStyle(fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w400,color: AppColor.FF444444),)
-                      ],
-                    ),
+                    // const SizedBox(height: 10,),
+                    // Row(
+                    //   children: [
+                    //     Icon(Icons.flag,color: AppColor.FF050505,),
+                    //     const SizedBox(width: 5,),
+                    //     Text("India",style: TextStyle(fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w400,color: AppColor.FF444444),)
+                    //   ],
+                    // ),
                     const SizedBox(height: 20,),
                     Text(title,style: TextStyle(fontFamily: appFontFamily,fontSize: 16,fontWeight: FontWeight.w700,color: AppColor.FF050505),),
                     const SizedBox(height: 10,),

@@ -484,8 +484,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
             const SizedBox(height: 20,),
             InkWell(
               onTap: (){
-                Get.toNamed(Routes.survey);
-              },
+                Get.toNamed(Routes.survey,arguments: {
+                  "session_id": ""
+                });              },
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(

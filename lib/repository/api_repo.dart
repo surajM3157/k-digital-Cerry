@@ -13,6 +13,7 @@ import 'package:piwotapp/responses/banner_response.dart';
 import 'package:piwotapp/responses/faq_response.dart';
 import 'package:piwotapp/responses/floor_plan_response.dart';
 import 'package:piwotapp/responses/friend_list_response.dart';
+import 'package:piwotapp/responses/global_survey_response.dart';
 import 'package:piwotapp/responses/guest_details_response.dart';
 import 'package:piwotapp/responses/guest_list_response.dart';
 import 'package:piwotapp/responses/list_link_response.dart';
@@ -587,9 +588,32 @@ class ApiRepo
     return sessionSurveysResponseFromJson(response.body);
   }
 
+  Future<GlobalSurveyResponse> getGlobalSurveysResponse() async {
+
+    final response = await http.get(Uri.parse("${ApiUrls.globalSurveyApiUrl}"), headers: {'token': '${Prefs.checkAuthToken}',});
+    var res = await json.decode(response.body);
+
+    if(res['message'] == "Token expired."){
+      Prefs.setBool('is_logged_in_new', false);
+      Prefs.setString('user_id_new', "");
+      Prefs.setString('user_email_new', "");
+      Prefs.setString('user_auth_token', "");
+      Prefs.setString("user_name_new", "");
+      Prefs.setString("mobile_no", "");
+      Get.offAllNamed(Routes.login);
+    }
+    Get.back();
+    print("Api url ${ApiUrls.globalSurveyApiUrl}");
+    print("response ${response.body}");
+
+    return globalSurveyResponseFromJson(response.body);
+  }
+
   addSurvey(Map<String, dynamic> params) async {
     final response = await http.post(Uri.parse("${ApiUrls.addSurveyApiUrl}"),
-        body: jsonEncode(params),headers: {'token': '${Prefs.checkAuthToken}',}
+        body: json.encode(params),headers: {
+          'Content-Type': 'application/json',
+          'token': '${Prefs.checkAuthToken}',}
     );
 
     Get.back();
@@ -622,6 +646,7 @@ class ApiRepo
   }
 
   sendRequest(var params,String receiverId) async {
+    try{
     final response = await http.post(Uri.parse("${ApiUrls.sendRequestApiUrl}"),
       body: params,headers: {'token': '${Prefs.checkAuthToken}',}
     );
@@ -654,12 +679,16 @@ class ApiRepo
           dismissOnTap: true,
           duration: const Duration(seconds: 1),
           toastPosition: EasyLoadingToastPosition.center);
+    }}catch(e){
+      print("Request error: $e");
+
     }
   }
 
   Future<PendingRequestResponse> pendingRequestResponse() async {
 
-    final response = await http.get(Uri.parse("${ApiUrls.pendingRequestApiUrl}/${Prefs.checkUserId}"), headers: {'token': '${Prefs.checkAuthToken}',});
+    final response = await http.get(Uri.parse("${ApiUrls.pendingRequestApiUrl}/${Prefs.checkUserId}"), headers: {
+      'token': '${Prefs.checkAuthToken}',});
     var res = await json.decode(response.body);
 
     if(res['message'] == "Token expired."){

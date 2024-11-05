@@ -194,6 +194,7 @@ class _SpeakerPageState extends State<SpeakerPage> {
           alignment: Alignment.topRight,
           children: [
             Container(
+              width: Get.width,
               height: Get.height/1.5,
               decoration: BoxDecoration(
                 color: AppColor.white,
@@ -215,14 +216,14 @@ class _SpeakerPageState extends State<SpeakerPage> {
                         borderRadius: BorderRadius.circular(16),
                           child: Image.network(ApiUrls.imageUrl+image,fit: BoxFit.fitHeight,)),
                     ),
-                    const SizedBox(height: 10,),
-                    Row(
-                      children: [
-                        Icon(Icons.flag,color: AppColor.FF050505,),
-                        const SizedBox(width: 5,),
-                        Text("India",style: TextStyle(fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w400,color: AppColor.FF444444),)
-                      ],
-                    ),
+                    // const SizedBox(height: 10,),
+                    // Row(
+                    //   children: [
+                    //     Icon(Icons.flag,color: AppColor.FF050505,),
+                    //     const SizedBox(width: 5,),
+                    //     Text("India",style: TextStyle(fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w400,color: AppColor.FF444444),)
+                    //   ],
+                    // ),
                     const SizedBox(height: 20,),
                     Text(title,style: TextStyle(fontFamily: appFontFamily,fontSize: 16,fontWeight: FontWeight.w700,color: AppColor.FF050505),),
                     const SizedBox(height: 10,),

@@ -1191,7 +1191,9 @@ class _HomeState extends State<Home> {
   Widget surveyButton(){
     return InkWell(
       onTap: (){
-        Get.toNamed(Routes.survey);
+        Get.toNamed(Routes.survey,arguments: {
+          "session_id": ""
+        });
       },
       child: Container(
         height: 45,

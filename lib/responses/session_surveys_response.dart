@@ -56,6 +56,8 @@ class SessionSurveysData {
   RoomDetails? roomDetails;
   SessionDetails? sessionDetails;
   List<QuestionsDetails>? questionsDetails;
+  bool? isGlobal;
+
 
   SessionSurveysData(
       {this.sId,
@@ -73,7 +75,7 @@ class SessionSurveysData {
         this.iV,
         this.roomDetails,
         this.sessionDetails,
-        this.questionsDetails});
+        this.questionsDetails,this.isGlobal});
 
   SessionSurveysData.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
@@ -89,6 +91,7 @@ class SessionSurveysData {
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     iV = json['__v'];
+    isGlobal = json['is_global'];
     roomDetails = json['roomDetails'] != null
         ? new RoomDetails.fromJson(json['roomDetails'])
         : null;
@@ -117,6 +120,7 @@ class SessionSurveysData {
     data['deleted_at'] = this.deletedAt;
     data['createdAt'] = this.createdAt;
     data['updatedAt'] = this.updatedAt;
+    data['is_global'] = this.isGlobal;
     data['__v'] = this.iV;
     if (this.roomDetails != null) {
       data['roomDetails'] = this.roomDetails!.toJson();
