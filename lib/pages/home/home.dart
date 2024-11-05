@@ -34,35 +34,14 @@ class _HomeState extends State<Home> {
 
 
 
-  final List<SponsorModel> sponsorItems = [
-    SponsorModel("Innovate Cap", Images.sponsor1),
-    SponsorModel("GlobalTech Solutions", Images.sponsor2),
-    SponsorModel("FutureVision Inc.", Images.sponsor3),
-  ];
 
   final PageController _pageController = PageController();
 
-  final List<String> liveEventItems = <String>[
-    Images.liveEvent1,
-    Images.liveEvent2,
-    Images.liveEvent3,
-  ];
-
-
-
-  final List<String> sponsorNames = <String>[
-    "Innovate Cap",
-    "GlobalTech Solutions",
-    "FutureVision Inc.",
-    "Innovate Cap",
-    "GlobalTech Solutions",
-    "FutureVision Inc.",
-  ];
 
 
   Timer? _timer;
   Duration _timeRemaining = const Duration();
-  final DateTime _endTime = DateTime(2025, 01, 16, 23, 59, 59); // Your end time
+  final DateTime _endTime = DateTime(2025, 01, 16, 32, 59, 59); // Your end time
 
   BannerResponse? bannerResponse;
   List<BannerData> bannerList = [];
@@ -120,6 +99,7 @@ class _HomeState extends State<Home> {
 
   fetchBannerList() async
   {
+    bannerList.clear();
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
       isConnected = false;
@@ -131,12 +111,11 @@ class _HomeState extends State<Home> {
       Future.delayed(Duration.zero, () {
       showLoader(context);
     });
-
-    bannerList.clear();
       var response = await ApiRepo().getBannerResponse();
 
       if( response.data != null)
       {
+        bannerList.clear();
         bannerResponse = response;
         for(BannerData banner in bannerResponse!.data!){
           bannerList.add(banner);
@@ -167,11 +146,11 @@ class _HomeState extends State<Home> {
       });
     }else {
       isConnected = true;
-      speakers.clear();
       var response = await ApiRepo().getSpeakerResponse("", true);
 
       if (response.data != null) {
         speakerResponse = response;
+        speakers.clear();
         for (SpeakerData speaker in speakerResponse!.data!) {
           speakers.add(speaker);
         }
@@ -198,11 +177,11 @@ class _HomeState extends State<Home> {
       });
     }else {
       isConnected = true;
-      sponsors.clear();
       var response = await ApiRepo().getSponsorResponse(true);
 
       if (response.data != null) {
         sponsorResponse = response;
+        sponsors.clear();
         for (SponsorData sponsor in sponsorResponse!.data!) {
           sponsors.add(sponsor);
         }
@@ -229,11 +208,11 @@ class _HomeState extends State<Home> {
       });
     }else {
       isConnected = true;
-      liveSessions.clear();
       var response = await ApiRepo().getLiveSessionResponse(true);
 
       if (response.data != null) {
         liveSessionResponse = response;
+        liveSessions.clear();
         for (LiveSessionData live in liveSessionResponse!.data!) {
           liveSessions.add(live);
         }
@@ -315,6 +294,7 @@ class _HomeState extends State<Home> {
         fetchLiveSessionList();
         fetchListLink();
       },
+      color: AppColor.primaryColor,
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -723,6 +703,13 @@ class _HomeState extends State<Home> {
                       launchUrl(Uri.parse(_listLinkData?.twitterLink??""));
                     },
                     child: SvgPicture.asset(Images.twitterIcon)),
+                const SizedBox(width: 20,),
+                InkWell(
+                    onTap: (){
+                      launchUrl(Uri.parse(_listLinkData?.youtubeLink??""));
+                    },
+                    child: Image.asset(Images.youtubeIcon,height: 35,width: 30,color: AppColor.primaryColor,)),
+
               ],
             ),
             const SizedBox(height: 20,),
@@ -956,7 +943,7 @@ class _HomeState extends State<Home> {
               children: [
                 Image.asset(index==0?Images.homeConferenceIcon:index==1?Images.homeSpeakerIcon:Images.homeAttendanceIcon,height: 50,width: 50,),
                 const SizedBox(height: 16,),
-                Text(index==0?"2 Days\nConference":index==1?"200\nSpeaker":"300\nAttendence",style: TextStyle(fontSize: 14,fontFamily: appFontFamily,fontWeight: FontWeight.w600,color: AppColor.primaryColor),textAlign: TextAlign.center,)
+                Text(index==0?"2 Days\nConference":index==1?"200+\nSpeakers":"3000+\nAttendees",style: TextStyle(fontSize: 14,fontFamily: appFontFamily,fontWeight: FontWeight.w600,color: AppColor.primaryColor),textAlign: TextAlign.center,)
               ],
             ),
           );

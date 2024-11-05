@@ -173,5 +173,6 @@ class Images{
   static String mutualFriendsIcon = 'assets/images/icons/mutual_friends_icon.png';
   static String calendarIcon = 'assets/images/icons/calendar_icon.svg';
   static String participantIcon = 'assets/images/icons/participant_icon.svg';
+  static String youtubeIcon = 'assets/images/icons/youtube_icon.png';
 
 }

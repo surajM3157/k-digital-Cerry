@@ -144,7 +144,7 @@ class ApiRepo
       Prefs.setString('user_auth_token', "${model.data?.token ?? ""}");
       Prefs.setString("user_name_new", "${model.data?.guestDetails?.firstName ?? ""} ${model.data?.guestDetails?.lastName ?? ""}");
       Prefs.setString("mobile_no", "${model.data?.guestDetails?.mobileNumber}");
-
+      Prefs.setBool("notificationsEnabled", true);
       Prefs.loadData();
       Prefs.load();
 

@@ -76,6 +76,7 @@ class _AgendaState extends State<Agenda> {
       onRefresh: () async{
         fetchAgendaList("2025/01/17");
       },
+      color: AppColor.primaryColor,
       child: SingleChildScrollView(
         child: Column(
           children: [
@@ -254,7 +255,7 @@ class _AgendaState extends State<Agenda> {
                   }),
                 ),
                 Flexible(
-                  flex: 3,
+                  flex: 4,
                   child: ListView.separated(
                     shrinkWrap: true,physics: NeverScrollableScrollPhysics(),
                     itemCount: agendaList.length,
@@ -262,7 +263,6 @@ class _AgendaState extends State<Agenda> {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SizedBox(height: 7,),
                         Text(agendaList[index].time??"",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 12,color: AppColor.FF161616,fontFamily: appFontFamily),),
                         const SizedBox(height: 20,),
                         Text(agendaList[index].title??"",style: TextStyle(fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.FF161616),),

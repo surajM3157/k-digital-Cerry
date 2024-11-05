@@ -11,6 +11,10 @@
     <string>Your tracking usage description here.</string>
     <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
     <string>We need your permission for notifications even when the app is in the background.</string>
+    <key>NSCameraUsageDescription</key>
+    <string>We need access to the camera to allow you to take photo for your profile.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>We need access to your photo library to select photo for your profile.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>

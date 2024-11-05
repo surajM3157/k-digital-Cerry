@@ -103,6 +103,7 @@ class _SessionState extends State<Session> with SingleTickerProviderStateMixin{
       onRefresh: ()async {
         fetchSessionList("2025/01/17");
       },
+      color: AppColor.primaryColor,
       child: Column(
         children: [
           const SizedBox(height: 20,),

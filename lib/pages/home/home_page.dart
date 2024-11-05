@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:piwotapp/constants/colors.dart';
@@ -14,6 +16,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../repository/api_repo.dart';
 import '../../responses/list_link_response.dart';
 import '../../route/route_names.dart';
+import '../../shared prefs/pref_manager.dart';
 import '../../widgets/app_themes.dart';
 import '../../widgets/custom_tabbar_indicator.dart';
 import 'home.dart';
@@ -67,6 +70,17 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
   @override
   void initState() {
     _fcmService = NotificationService();
+    FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage? message) {
+      if (message != null) {
+        FirebaseFirestore.instance.collection("notifications").doc(Prefs.checkUserId).collection('notification').doc(message.messageId).set(
+            {
+              // "data": message.data,
+              "title":message.notification?.title,
+              "body":message.notification?.body,
+            }, SetOptions(merge: true)
+        ); // Store notification when app opens via a tap
+      }
+    });
     _fcmService?.setupForegroundMessageHandler(context);
     _controller =  TabController(length: 3, vsync: this);
     _aboutController =  TabController(length: 2, vsync: this);

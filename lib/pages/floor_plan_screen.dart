@@ -99,9 +99,13 @@ class _FloorPlanScreenState extends State<FloorPlanScreen> {
                   children: [
                     Text(floorPlanList[index].floorName??"",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor),),
                     SizedBox(height: 10,),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(16),
-                        child: Image.network(ApiUrls.imageUrl + (floorPlanList[index].floorPlanImage??"")))
+                    Container(
+                      width: Get.width,
+                      height: 200,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(16),
+                          child: Image.network(ApiUrls.imageUrl + (floorPlanList[index].floorPlanImage??""),fit: BoxFit.fill,)),
+                    )
                   ],
                 ),
               );

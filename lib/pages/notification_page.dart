@@ -2,9 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:piwotapp/widgets/app_themes.dart';
 import '../constants/colors.dart';
 import '../constants/font_family.dart';
 import '../constants/images.dart';
+import '../shared prefs/pref_manager.dart';
 import '../widgets/gradient_text.dart';
 
 class NotificationPage extends StatefulWidget {
@@ -49,22 +51,22 @@ class _NotificationPageState extends State<NotificationPage> {
           ),
           const SizedBox(height: 20,),
           StreamBuilder<QuerySnapshot>(
-            stream: _firestore.collection("notifications").snapshots(),
+            stream: _firestore.collection("notifications").doc(Prefs.checkUserId).collection("notification").snapshots(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
+                return  Center(child: CircularProgressIndicator(color: AppColor.primaryColor,));
               }
               if (snapshot.hasError) {
                 return Center(child: Text('Error: ${snapshot.error}'));
               }
               if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                return Center(child: Text('No notifications found.'));
+                return Center(child: Text('No notifications found.',style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor),));
               }
 
               final notifications = snapshot.data!.docs.reversed.toList();
 
               return ListView.separated(
-                shrinkWrap: true,physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,physics: const NeverScrollableScrollPhysics(),
                 itemCount: notifications.length,
                 itemBuilder: (context, index) {
                   final notification = notifications[index].data() as Map<String, dynamic>;
@@ -102,7 +104,7 @@ class _NotificationPageState extends State<NotificationPage> {
                         child: SvgPicture.asset(Images.notificationIcon,color: AppColor.white,),
                       ),
                     ),
-                  ):SizedBox.shrink();
+                  ):const SizedBox.shrink();
                 }, separatorBuilder: (BuildContext context, int index) {
                   return   Container(
                     height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),);

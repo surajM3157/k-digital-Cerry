@@ -75,6 +75,7 @@ class _AboutState extends State<About> {
             onRefresh: ()async {
               fetchAboutUs();
             },
+            color: AppColor.primaryColor,
             child: ListView(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               children: [
@@ -89,7 +90,7 @@ class _AboutState extends State<About> {
                   crossAxisSpacing: 10,
                   mainAxisSpacing: 10,
                   crossAxisCount: 2,children: [
-                    cardWidget(title: "2 Day\nConference",image: Images.conferenceIcon),
+                    cardWidget(title: "2 Days\nConference",image: Images.conferenceIcon),
                     cardWidget(title: "200+\nSpeakers", image:Images.aboutSpeakersIcon),
                     cardWidget(title: "3000+\nAttendees",image: Images.attendeesIcon),
                     cardWidget(title: "Firesides",image: Images.firesidesIcon),
@@ -108,6 +109,7 @@ class _AboutState extends State<About> {
             onRefresh: ()async {
               fetchAboutUs();
             },
+            color: AppColor.primaryColor,
             child: ListView(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               children: [

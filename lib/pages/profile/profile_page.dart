@@ -437,6 +437,7 @@ class _ProfilePageState extends State<ProfilePage> {
             onTap: (){
               NotificationService notification = NotificationService();
               notification.unsubscribeFromTopic(Prefs.checkUserId);
+              notification.unsubscribeFromTopic('allUsers');
               Prefs.setBool('is_logged_in_new', false);
               Prefs.setString('user_id_new', "");
               Prefs.setString('user_email_new', "");

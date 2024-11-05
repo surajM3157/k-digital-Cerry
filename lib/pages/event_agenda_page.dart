@@ -257,7 +257,7 @@ class _EventAgendaPageState extends State<EventAgendaPage> {
                       }),
                 ),
                 Flexible(
-                  flex: 3,
+                  flex: 4,
                   child: ListView.separated(
                     shrinkWrap: true,physics: NeverScrollableScrollPhysics(),
                     itemCount: agendaList.length,
@@ -265,7 +265,6 @@ class _EventAgendaPageState extends State<EventAgendaPage> {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const SizedBox(height: 7,),
                           Text(agendaList[index].time??"",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 12,color: AppColor.FF161616,fontFamily: appFontFamily),),
                           const SizedBox(height: 20,),
                           Text(agendaList[index].title??"",style: TextStyle(fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.FF161616),),

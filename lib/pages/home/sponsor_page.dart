@@ -113,6 +113,7 @@ class _SponsorPageState extends State<SponsorPage> with SingleTickerProviderStat
                 onRefresh: () async{
                   fetchSponsorList();
                 },
+                color: AppColor.primaryColor,
                 child: GridView.builder(gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
                   itemBuilder: (_, index) => Container
                     (
@@ -141,6 +142,7 @@ class _SponsorPageState extends State<SponsorPage> with SingleTickerProviderStat
                 onRefresh: () async{
                   fetchPartnerList();
                 },
+                color: AppColor.primaryColor,
                 child: GridView.builder(gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
                   itemBuilder: (_, index) => Container
                     (

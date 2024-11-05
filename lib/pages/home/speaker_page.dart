@@ -73,6 +73,7 @@ class _SpeakerPageState extends State<SpeakerPage> {
         onRefresh: () async{
           fetchSpeakerList("");
         },
+        color: AppColor.primaryColor,
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

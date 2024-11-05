@@ -115,7 +115,6 @@ class _LiveSessionPageState extends State<LiveSessionPage> {
                   SizedBox(
                       width: Get.width,
                       height: 390,
-
                       child: ClipRRect(
                               borderRadius: const BorderRadius.only(
                                 bottomRight: Radius.circular(25),

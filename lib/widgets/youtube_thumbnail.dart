@@ -20,7 +20,7 @@ class YouTubeThumbnail extends StatelessWidget {
     String thumbnailUrl = 'https://img.youtube.com/vi/$videoId/hqdefault.jpg';
 
     return videoId.isNotEmpty
-        ? Image.network(thumbnailUrl)
+        ? Image.network(thumbnailUrl,fit: BoxFit.fill,)
         : Text('Invalid YouTube URL');
   }
 }

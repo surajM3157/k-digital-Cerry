@@ -61,7 +61,7 @@ class _EditProfilPageState extends State<EditProfilPage> {
   ];
 
   var iitItems =[
-    "IIT DELHI","IIT MUMBAI", "IIT CHENNAI", "IIT KHARAGPUR", "IIT GUWAHATI"
+    "IIT-DELHI","IIT-BOMBAY", "IIT-CHENNAI", "IIT-KHARAGPUR", "IIT-GUWAHATI"
   ];
 
   var iitBatchItems =[
