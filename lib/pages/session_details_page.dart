@@ -192,11 +192,13 @@ class _SessionDetailsPageState extends State<SessionDetailsPage> {
                       height: 1,color: AppColor.primaryColor,
                     ),
                     const SizedBox(height: 20,),
-                   DateTime.parse(_sessionListData?.date??"") == DateTime.now()? AppButton(title: "Take Survey", onTap: (){
+                 //  DateTime.parse(_sessionListData?.date??"") == DateTime.now()?
+                   AppButton(title: "Take Survey", onTap: (){
                       Get.toNamed(Routes.survey, arguments: {
-                        "session_id": _sessionListData?.sId
+                        "session_id": _sessionListData?.sId,"type":""
                       });
-                    }):SizedBox.shrink(),
+                    }),
+                       //:SizedBox.shrink(),
                     const SizedBox(height: 20,),
                   ],
                 ),

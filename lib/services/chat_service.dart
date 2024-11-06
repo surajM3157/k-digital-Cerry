@@ -13,7 +13,7 @@ class ChatService{
     final timestamp = Timestamp.now();
     // create new message
 
-    Message newMessage = Message(senderId: currentUserId, senderName: currentUserName, receiverId: receiverId, message: message, timestamp: timestamp, receiverName: receiverName);
+    Message newMessage = Message(senderId: currentUserId, senderName: currentUserName, receiverId: receiverId, message: message, timestamp: timestamp, receiverName: receiverName, isRead: false);
 
     // construct chat room id from current user id & receicer id
 
@@ -37,4 +37,7 @@ class ChatService{
 
     return _firestore.collection("chat_rooms").doc(chatRoomId).collection('messages').orderBy("timestamp",descending: false).snapshots();
   }
+
+
+
 }

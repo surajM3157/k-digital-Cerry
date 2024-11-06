@@ -45,6 +45,7 @@ class _DelegatesState extends State<Delegates> {
   Timer? debounceTimer;
   String chatSearchText = "";
   bool isConnected = true;
+  var lastMessageDoc;
 
   void onSearchChanged(String query) {
     setState(() {});
@@ -385,12 +386,11 @@ class _DelegatesState extends State<Delegates> {
                           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
                             return Text("No messages yet");
                           }
-                          var lastMessageDoc = snapshot.data!.docs.last;
+                           lastMessageDoc = snapshot.data!.docs.last;
                           var lastMessageData = lastMessageDoc.data() as Map<String, dynamic>;
-
                           return Text(
                             lastMessageData['message'], // Display the message content
-                            style: TextStyle(color: Colors.grey),
+                            style:  TextStyle(color: (lastMessageData['senderId']==Prefs.checkUserId)?Colors.grey:lastMessageData['isRead']?Colors.grey:Colors.black,fontWeight: (lastMessageData['senderId']==Prefs.checkUserId)?FontWeight.normal:lastMessageData['isRead']?FontWeight.normal:FontWeight.bold),
                           );
                         }
                     )
@@ -401,6 +401,14 @@ class _DelegatesState extends State<Delegates> {
           ],
         ),
         onTap: (){
+          if(lastMessageDoc != null) {
+            FirebaseFirestore.instance
+              .collection("chat_rooms")
+              .doc("${Prefs.checkUserId}_${data['uid']}")
+              .collection('messages')
+              .doc(lastMessageDoc.id)  // Use the ID of the last document
+              .update({'isRead': true});
+          }
           Get.toNamed(Routes.chat,arguments: {
             'receiverName':data['name'],
             'receiverId':data['uid'],

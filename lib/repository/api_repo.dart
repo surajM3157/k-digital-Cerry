@@ -260,7 +260,7 @@ class ApiRepo
 
     var res = await json.decode(response.body);
 
-    if(res['message'] == "Token expired."){
+    if(res['message'] == "Token expired."|| res['message'] == 'Your account has been suspended. Please contact admin.'){
       Prefs.setBool('is_logged_in_new', false);
       Prefs.setString('user_id_new', "");
       Prefs.setString('user_email_new', "");
@@ -281,7 +281,7 @@ class ApiRepo
     final response = await http.get(Uri.parse("${ApiUrls.agendaApiUrl}?date=$date"), headers: {'token': '${Prefs.checkAuthToken}',});
     var res = await json.decode(response.body);
 
-    if(res['message'] == "Token expired."){
+    if(res['message'] == "Token expired."|| res['message'] == 'Your account has been suspended. Please contact admin.'){
       Prefs.setBool('is_logged_in_new', false);
       Prefs.setString('user_id_new', "");
       Prefs.setString('user_email_new', "");
@@ -302,7 +302,7 @@ class ApiRepo
     final response = await http.get(Uri.parse("${ApiUrls.sessionListApiUrl}?date=$date"), headers: {'token': '${Prefs.checkAuthToken}',});
     var res = await json.decode(response.body);
 
-    if(res['message'] == "Token expired."){
+    if(res['message'] == "Token expired."|| res['message'] == 'Your account has been suspended. Please contact admin.'){
       Prefs.setBool('is_logged_in_new', false);
       Prefs.setString('user_id_new', "");
       Prefs.setString('user_email_new', "");
@@ -323,7 +323,7 @@ class ApiRepo
     final response = await http.get(Uri.parse("${ApiUrls.floorPlanApiUrl}"), headers: {'token': '${Prefs.checkAuthToken}',});
     var res = await json.decode(response.body);
 
-    if(res['message'] == "Token expired."){
+    if(res['message'] == "Token expired."|| res['message'] == 'Your account has been suspended. Please contact admin.'){
       Prefs.setBool('is_logged_in_new', false);
       Prefs.setString('user_id_new', "");
       Prefs.setString('user_email_new', "");
@@ -390,7 +390,7 @@ class ApiRepo
     final response = await http.get(Uri.parse("${ApiUrls.guestDetailsApiUrl}/${Prefs.checkUserId}"), headers: {'token': '${Prefs.checkAuthToken}',});
     var res = await json.decode(response.body);
 
-    if(res['message'] == "Token expired."){
+    if(res['message'] == "Token expired."|| res['message'] == 'Your account has been suspended. Please contact admin.'){
       Prefs.setBool('is_logged_in_new', false);
       Prefs.setString('user_id_new', "");
       Prefs.setString('user_email_new', "");
@@ -488,7 +488,7 @@ class ApiRepo
     final response = await http.get(Uri.parse("${ApiUrls.aboutUsApiUrl}"), headers: {'token': '${Prefs.checkAuthToken}',});
     var res = await json.decode(response.body);
 
-    if(res['message'] == "Token expired."){
+    if(res['message'] == "Token expired."|| res['message'] == 'Your account has been suspended. Please contact admin.'){
       Prefs.setBool('is_logged_in_new', false);
       Prefs.setString('user_id_new', "");
       Prefs.setString('user_email_new', "");
@@ -509,7 +509,7 @@ class ApiRepo
     final response = await http.get(Uri.parse("${ApiUrls.faqApiUrl}?search=$search"), headers: {'token': '${Prefs.checkAuthToken}',});
     var res = await json.decode(response.body);
 
-    if(res['message'] == "Token expired."){
+    if(res['message'] == "Token expired."|| res['message'] == 'Your account has been suspended. Please contact admin.'){
       Prefs.setBool('is_logged_in_new', false);
       Prefs.setString('user_id_new', "");
       Prefs.setString('user_email_new', "");
@@ -530,7 +530,7 @@ class ApiRepo
     final response = await http.get(Uri.parse("${ApiUrls.friendListApiUrl}/${Prefs.checkUserId}"), headers: {'token': '${Prefs.checkAuthToken}',});
     var res = await json.decode(response.body);
 
-    if(res['message'] == "Token expired."){
+    if(res['message'] == "Token expired."|| res['message'] == 'Your account has been suspended. Please contact admin.'){
       Prefs.setBool('is_logged_in_new', false);
       Prefs.setString('user_id_new', "");
       Prefs.setString('user_email_new', "");
@@ -551,7 +551,7 @@ class ApiRepo
     final response = await http.get(Uri.parse("${ApiUrls.guestListApiUrl}?search=$search"), headers: {'token': '${Prefs.checkAuthToken}',});
     var res = await json.decode(response.body);
 
-    if(res['message'] == "Token expired."){
+    if(res['message'] == "Token expired."|| res['message'] == 'Your account has been suspended. Please contact admin.'){
       Prefs.setBool('is_logged_in_new', false);
       Prefs.setString('user_id_new', "");
       Prefs.setString('user_email_new', "");
@@ -572,7 +572,7 @@ class ApiRepo
     final response = await http.get(Uri.parse("${ApiUrls.sessionSurveysApiUrl}"), headers: {'token': '${Prefs.checkAuthToken}',});
     var res = await json.decode(response.body);
 
-    if(res['message'] == "Token expired."){
+    if(res['message'] == "Token expired."|| res['message'] == 'Your account has been suspended. Please contact admin.'){
       Prefs.setBool('is_logged_in_new', false);
       Prefs.setString('user_id_new', "");
       Prefs.setString('user_email_new', "");
@@ -588,12 +588,12 @@ class ApiRepo
     return sessionSurveysResponseFromJson(response.body);
   }
 
-  Future<GlobalSurveyResponse> getGlobalSurveysResponse() async {
+  Future<GlobalSurveyResponse> getGlobalSurveysResponse(String type) async {
 
-    final response = await http.get(Uri.parse("${ApiUrls.globalSurveyApiUrl}"), headers: {'token': '${Prefs.checkAuthToken}',});
+    final response = await http.get(Uri.parse("${ApiUrls.globalSurveyApiUrl}?type=$type"), headers: {'token': '${Prefs.checkAuthToken}',});
     var res = await json.decode(response.body);
 
-    if(res['message'] == "Token expired."){
+    if(res['message'] == "Token expired."|| res['message'] == 'Your account has been suspended. Please contact admin.'){
       Prefs.setBool('is_logged_in_new', false);
       Prefs.setString('user_id_new', "");
       Prefs.setString('user_email_new', "");
@@ -603,7 +603,7 @@ class ApiRepo
       Get.offAllNamed(Routes.login);
     }
     Get.back();
-    print("Api url ${ApiUrls.globalSurveyApiUrl}");
+    print("Api url ${ApiUrls.globalSurveyApiUrl}?type=$type");
     print("response ${response.body}");
 
     return globalSurveyResponseFromJson(response.body);
@@ -691,7 +691,7 @@ class ApiRepo
       'token': '${Prefs.checkAuthToken}',});
     var res = await json.decode(response.body);
 
-    if(res['message'] == "Token expired."){
+    if(res['message'] == "Token expired."|| res['message'] == 'Your account has been suspended. Please contact admin.'){
       Prefs.setBool('is_logged_in_new', false);
       Prefs.setString('user_id_new', "");
       Prefs.setString('user_email_new', "");

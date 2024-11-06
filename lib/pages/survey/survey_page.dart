@@ -22,6 +22,7 @@ class SurveyPage extends StatefulWidget {
 class _SurveyPageState extends State<SurveyPage> {
 
   String sessionId = "";
+  String type = "";
 
   int index = 0;
 
@@ -39,9 +40,10 @@ class _SurveyPageState extends State<SurveyPage> {
   @override
   void initState() {
     sessionId = Get.arguments['session_id'];
+    type = Get.arguments['type'];
     print("sessionId 1 $sessionId");
     if(sessionId.isEmpty){
-      fetchGlobalSurvey();
+      fetchGlobalSurvey(type);
     }else {
       fetchSessionSurvey();
     }
@@ -77,8 +79,8 @@ class _SurveyPageState extends State<SurveyPage> {
         }
       }
 
-      print("Question1 ${questionList[0].question}");
-      print("Question2 ${questionList[1].question}");
+      // print("Question1 ${questionList[0].question}");
+      // print("Question2 ${questionList[1].question}");
 
       setState(() {
 
@@ -86,7 +88,7 @@ class _SurveyPageState extends State<SurveyPage> {
 
   }
 
-  fetchGlobalSurvey() async
+  fetchGlobalSurvey(String type) async
   {
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
@@ -100,7 +102,7 @@ class _SurveyPageState extends State<SurveyPage> {
         showLoader(context);
       });
 
-      var response = await ApiRepo().getGlobalSurveysResponse();
+      var response = await ApiRepo().getGlobalSurveysResponse(type);
 
       if( response.data != null)
       {

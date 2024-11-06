@@ -245,7 +245,7 @@ class _SessionState extends State<Session> with SingleTickerProviderStateMixin{
                         color: AppColor.white
                     ),
                     child: Center(
-                      child: Text("18 Jan",style: TextStyle(
+                      child: Text("19 Jan",style: TextStyle(
                           fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.FF161616
                       ),),
                     ),

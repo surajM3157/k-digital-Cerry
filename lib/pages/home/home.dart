@@ -353,7 +353,7 @@ class _HomeState extends State<Home> {
               width: Get.width,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [AppColor.primaryColor,AppColor.red]
+                  colors: [AppColor.primaryColor,AppColor.red],
                 ),
               ),
               child: Column(
@@ -1192,7 +1192,7 @@ class _HomeState extends State<Home> {
     return InkWell(
       onTap: (){
         Get.toNamed(Routes.survey,arguments: {
-          "session_id": ""
+          "session_id": "","type":"Global Survey"
         });
       },
       child: Container(

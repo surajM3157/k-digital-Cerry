@@ -91,7 +91,7 @@ class _ChatPageState extends State<ChatPage> {
                   borderRadius: BorderRadius.circular(25),
                     child: profile!= ""?Image.network(profile,fit: BoxFit.fill,):Image.asset(Images.defaultProfile,fit: BoxFit.fill,))),
             const SizedBox(width: 10,),
-            Text(receiverName,style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16,fontFamily: appFontFamily,color: AppColor.primaryColor),)
+            Expanded(child: Text(receiverName,style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16,fontFamily: appFontFamily,color: AppColor.primaryColor),overflow: TextOverflow.ellipsis,))
           ],
         ),
       ),
@@ -122,7 +122,10 @@ class _ChatPageState extends State<ChatPage> {
           child: TextFormField(
             controller: messageController,
             cursorColor: AppColor.primaryColor,
+            maxLines: null, // Allows unlimited lines, adjusting height as needed
+            keyboardType: TextInputType.multiline,
             decoration: InputDecoration(
+
               // prefixIcon: Icon(Icons.emoji_emotions_outlined,color: AppColor.primaryColor,),
               hintText: "Type here",
               labelStyle: const TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 12),

@@ -32,7 +32,7 @@ class _LiveSessionPageState extends State<LiveSessionPage> {
   void initState() {
     liveSessionData = Get.arguments["data"];
     _controller = YoutubePlayerController(
-      initialVideoId: (liveSessionData?.link?.split("=").last??""),
+      initialVideoId: YoutubePlayer.convertUrlToId(liveSessionData?.link??"")??"",
       flags: const YoutubePlayerFlags(
         autoPlay: true,
         mute: true,

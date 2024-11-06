@@ -20,7 +20,7 @@ class _AgendaState extends State<Agenda> {
   List<AgendaData> agendaList = [];
   String date = "17 Jan";
   bool isConnected = true;
-
+  int expandedIndex = -1;
 
   fetchAgendaList(String date) async
   {

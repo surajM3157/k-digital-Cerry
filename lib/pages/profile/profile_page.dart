@@ -218,8 +218,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 InkWell(
                   onTap: (){
                     Get.toNamed(Routes.survey,arguments: {
-                      "session_id": ""
-                    });                  },
+                      "session_id": "","type":"Global Survey"
+                    });
+                    },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 18),
                     child: Row(
@@ -349,7 +350,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
                 InkWell(
                   onTap: (){
-                    Get.toNamed(Routes.feedback);
+                    Get.toNamed(Routes.survey,arguments: {
+                      "session_id": "","type":"Mobile Feedback"
+                    });
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 18),
