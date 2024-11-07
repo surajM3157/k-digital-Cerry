@@ -268,6 +268,7 @@ class _AgendaState extends State<Agenda> {
                         Text(agendaList[index].title??"",style: TextStyle(fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.FF161616),),
                         const SizedBox(height: 10,),
                         ListView(
+                          padding: EdgeInsets.only(right: 10),
                           shrinkWrap: true,physics: NeverScrollableScrollPhysics(),
                           children: agendaList[index].activities!.map((item) {
                             return buildBulletPoint(Text(item,style: TextStyle(
@@ -278,7 +279,7 @@ class _AgendaState extends State<Agenda> {
                       ],
                     );
                   }, separatorBuilder: (BuildContext context, int index) {
-                      return SizedBox(height: 30,);
+                      return SizedBox(height: 10,);
                   },),
                 )
               ],
@@ -294,7 +295,7 @@ class _AgendaState extends State<Agenda> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text("• ", style: TextStyle(fontSize: 20)),
-        text,
+        Expanded(child: text),
       ],
     );
   }

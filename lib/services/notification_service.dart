@@ -11,6 +11,7 @@ class NotificationService {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  bool _isForegroundHandlerSetup = false;
 
 
   Future<void> subscribeToTopic(String topic) async {
@@ -51,7 +52,7 @@ class NotificationService {
     });
   }
 
-  void  _showNotification(BuildContext context, String? title, String? body) {
+  void  _showNotification( String? title, String? body) {
     // You can show a dialog, a snackbar, or any other UI element to notify the user
     Get.snackbar(
       title??"",body??"",
@@ -59,28 +60,48 @@ class NotificationService {
     );
   }
 
-  void setupForegroundMessageHandler(BuildContext context) {
-    // Listen to foreground messages
+
+  void setupForegroundMessageHandler() {
+    if (_isForegroundHandlerSetup) return;
+    _isForegroundHandlerSetup = true;
+
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       print('Received a message while in the foreground!');
       print('Message data: ${message.data}');
 
-      // Check if the message contains a notification payload
       if (message.notification != null) {
         print('Message also contained a notification: ${message.notification}');
-        _firestore.collection("notifications").doc(Prefs.checkUserId).collection('notification').doc(message.messageId).set(
-            {
-              // "data": message.data,
-              "title":message.notification?.title,
-              "body":message.notification?.body,
-            }, SetOptions(merge: true)
-        );
 
-        // Display an in-app notification using a custom method
-        _showNotification(context, message.notification!.title, message.notification!.body);
+        final messageId = message.messageId;
+
+        // Avoid duplicate notification entries in Firestore by checking for existing messageId
+        _firestore.collection("notifications")
+            .doc(Prefs.checkUserId)
+            .collection('notification')
+            .doc(messageId)
+            .get()
+            .then((doc) {
+          if (!doc.exists) {
+            _firestore.collection("notifications")
+                .doc(Prefs.checkUserId)
+                .collection('notification')
+                .doc(messageId)
+                .set(
+              {
+                "title": message.notification?.title,
+                "body": message.notification?.body,
+              },
+              SetOptions(merge: true),
+            );
+
+            // Display an in-app notification if it’s the first time
+            _showNotification(message.notification!.title, message.notification!.body);
+          }
+        });
       }
     });
   }
+
 
   Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     print('Handling a background message: ${message.messageId}');

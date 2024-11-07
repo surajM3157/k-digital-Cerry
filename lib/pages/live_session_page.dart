@@ -27,6 +27,7 @@ class _LiveSessionPageState extends State<LiveSessionPage> {
   bool isPlay = false;
 
    YoutubePlayerController? _controller;
+  Duration? currentPosition;
 
   @override
   void initState() {
@@ -39,10 +40,12 @@ class _LiveSessionPageState extends State<LiveSessionPage> {
       ),
     );
 
+
     // Listener to handle full-screen mode changes
     _controller!.addListener(() {
       setState(() {
         isFullScreen = _controller!.value.isFullScreen;
+       currentPosition =  _controller!.value.position;
       });
 
       if (isFullScreen) {
@@ -57,6 +60,12 @@ class _LiveSessionPageState extends State<LiveSessionPage> {
       }
     });
     super.initState();
+  }
+
+  @override
+  void didUpdateWidget(oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _controller!.seekTo(_controller!.value.position);
   }
 
   @override
@@ -196,19 +205,17 @@ class _LiveSessionPageState extends State<LiveSessionPage> {
 
 
   Widget _buildVideoPlayer() {
-    return YoutubePlayerBuilder(
-      player: YoutubePlayer(
-        controller: _controller!,
-        liveUIColor: AppColor.secondaryColor,
+    return Padding(
+      padding: EdgeInsets.only(top: 30,bottom: 27),
+      child: YoutubePlayerBuilder(
+        player: YoutubePlayer(
+          controller: _controller!,
+          liveUIColor: AppColor.secondaryColor,
+        ),
+        builder: (context, player) {
+          return player;
+        },
       ),
-      builder: (context, player) {
-        return Column(
-          children: [
-            player,
-            const SizedBox(height: 50),
-          ],
-        );
-      },
     );
   }
 }

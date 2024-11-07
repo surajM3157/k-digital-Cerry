@@ -28,6 +28,7 @@ class _SpeakerPageState extends State<SpeakerPage> {
   List<SpeakerData> speakerList = [];
   Timer? debounceTimer;
   bool isConnected = true;
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -46,9 +47,10 @@ class _SpeakerPageState extends State<SpeakerPage> {
 
   void onSearchChanged(String query) {
     speakerList.clear();
+    isLoading = true;
     setState(() {});
     if (debounceTimer?.isActive ?? false) debounceTimer!.cancel();
-    debounceTimer = Timer(const Duration(milliseconds: 1500), () {
+    debounceTimer = Timer(const Duration(milliseconds: 500), () {
       fetchSpeakerList(searchController.text);
     });
   }
@@ -110,7 +112,11 @@ class _SpeakerPageState extends State<SpeakerPage> {
                 ),
               ),
               const SizedBox(height: 10,),
-              speakerList.isNotEmpty?ListView.separated(
+              speakerList.isEmpty&& isLoading == false?
+              Center(child: Text("No Data Found.",
+                textAlign: TextAlign.center,
+                style: TextStyle(color: AppColor.primaryColor,fontWeight: FontWeight.w600,fontFamily: appFontFamily,fontSize: 20),)):
+              ListView.separated(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: speakerList.length,
@@ -164,7 +170,7 @@ class _SpeakerPageState extends State<SpeakerPage> {
                     ],
                   ),
                 );
-              }, separatorBuilder: (BuildContext context, int index) { return const SizedBox(height: 40,); },):SizedBox.shrink(),
+              }, separatorBuilder: (BuildContext context, int index) { return const SizedBox(height: 40,); },),
               const SizedBox(height: 50,)
             ],
           ),
@@ -228,7 +234,7 @@ class _SpeakerPageState extends State<SpeakerPage> {
                     Text(title,style: TextStyle(fontFamily: appFontFamily,fontSize: 16,fontWeight: FontWeight.w700,color: AppColor.FF050505),),
                     const SizedBox(height: 10,),
                     Text(subtitle,style: TextStyle(fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.primaryColor),),
-                    const SizedBox(height: 30,),
+                    const SizedBox(height: 20,),
                     Text(body,style: TextStyle(fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w400,color: AppColor.FF050505),),
                     const SizedBox(height: 20,)
                   ],
@@ -259,6 +265,9 @@ class _SpeakerPageState extends State<SpeakerPage> {
       });
     }else {
       isConnected = true;
+      setState(() {
+        isLoading = true;
+      });
       speakerList.clear();
       Future.delayed(Duration.zero, () {
         showLoader(context);
@@ -271,6 +280,7 @@ class _SpeakerPageState extends State<SpeakerPage> {
         for (SpeakerData speaker in speakerResponse!.data!) {
           speakerList.add(speaker);
         }
+        isLoading = false;
         print("speakerlist ${speakerList.length}");
       }
 

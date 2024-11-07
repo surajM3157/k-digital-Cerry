@@ -23,7 +23,8 @@ class ApiUrls
    static String friendListApiUrl = "$baseUrl/chat/friends";
    static String guestListApiUrl = "$baseUrl/event/list-guest";
    static String sendRequestApiUrl = "$baseUrl/chat/send-friend-request";
-   static String pendingRequestApiUrl = "$baseUrl/chat/pending-requests";
+   static String pendingRequestsApiUrl = "$baseUrl/chat/pending-requests";
+   static String sentRequestsApiUrl = "$baseUrl/chat/sent-requests";
    static String handleRequestApiUrl = "$baseUrl/chat/handle-friend-request";
    static String sessionSurveysApiUrl = "$baseUrl/event/list-survey";
    static String addSurveyApiUrl = "$baseUrl/event/add-feedback";

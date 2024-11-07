@@ -49,7 +49,7 @@ class AgendaData {
   String? createdAt;
   String? updatedAt;
   int? iV;
-  String? roomId;
+  RoomId? roomId;
 
   AgendaData(
       {this.sId,
@@ -79,7 +79,8 @@ class AgendaData {
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     iV = json['__v'];
-    roomId = json['room_id'];
+    roomId =
+    json['room_id'] != null ? new RoomId.fromJson(json['room_id']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -96,7 +97,50 @@ class AgendaData {
     data['createdAt'] = this.createdAt;
     data['updatedAt'] = this.updatedAt;
     data['__v'] = this.iV;
-    data['room_id'] = this.roomId;
+    if (this.roomId != null) {
+      data['room_id'] = this.roomId!.toJson();
+    }
+    return data;
+  }
+}
+
+class RoomId {
+  String? sId;
+  String? roomNo;
+  bool? status;
+  Null? deletedAt;
+  String? createdAt;
+  String? updatedAt;
+  int? iV;
+
+  RoomId(
+      {this.sId,
+        this.roomNo,
+        this.status,
+        this.deletedAt,
+        this.createdAt,
+        this.updatedAt,
+        this.iV});
+
+  RoomId.fromJson(Map<String, dynamic> json) {
+    sId = json['_id'];
+    roomNo = json['room_no'];
+    status = json['status'];
+    deletedAt = json['deleted_at'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    iV = json['__v'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['_id'] = this.sId;
+    data['room_no'] = this.roomNo;
+    data['status'] = this.status;
+    data['deleted_at'] = this.deletedAt;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    data['__v'] = this.iV;
     return data;
   }
 }

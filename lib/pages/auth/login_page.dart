@@ -6,6 +6,7 @@ import 'package:piwotapp/widgets/app_themes.dart';
 import '../../constants/font_family.dart';
 import '../../constants/images.dart';
 import '../../repository/api_repo.dart';
+import '../../shared prefs/pref_manager.dart';
 import '../../widgets/app_button.dart';
 import '../../widgets/gradient_text.dart';
 
@@ -29,6 +30,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
   void initState() {
     super.initState();
     // Initialize the animation controller
+    print("userId ${Prefs.checkUserId}");
     _animationController = AnimationController(
       duration:  const Duration(milliseconds: 1000 ),
       vsync: this,

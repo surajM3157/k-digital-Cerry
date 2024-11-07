@@ -1,25 +1,26 @@
+
 import 'dart:convert';
 
-PendingRequestResponse pendingRequestResponseFromJson(String str) => PendingRequestResponse.fromJson(json.decode(str));
+SentRequestsResponse sentRequestsResponseFromJson(String str) => SentRequestsResponse.fromJson(json.decode(str));
 
 
-class PendingRequestResponse {
+class SentRequestsResponse {
   int? statusCode;
   bool? success;
   String? message;
-  List<PendingRequestData>? data;
+  List<SentRequestsData>? data;
 
-  PendingRequestResponse(
+  SentRequestsResponse(
       {this.statusCode, this.success, this.message, this.data});
 
-  PendingRequestResponse.fromJson(Map<String, dynamic> json) {
+  SentRequestsResponse.fromJson(Map<String, dynamic> json) {
     statusCode = json['statusCode'];
     success = json['success'];
     message = json['message'];
     if (json['data'] != null) {
-      data = <PendingRequestData>[];
+      data = <SentRequestsData>[];
       json['data'].forEach((v) {
-        data!.add(new PendingRequestData.fromJson(v));
+        data!.add(new SentRequestsData.fromJson(v));
       });
     }
   }
@@ -36,14 +37,14 @@ class PendingRequestResponse {
   }
 }
 
-class PendingRequestData {
+class SentRequestsData {
   String? sId;
   String? status;
   List<RequestSentUserDetails>? requestSentUserDetails;
 
-  PendingRequestData({this.sId, this.status, this.requestSentUserDetails});
+  SentRequestsData({this.sId, this.status, this.requestSentUserDetails});
 
-  PendingRequestData.fromJson(Map<String, dynamic> json) {
+  SentRequestsData.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     status = json['status'];
     if (json['request_sent_user_details'] != null) {
@@ -67,46 +68,38 @@ class PendingRequestData {
 }
 
 class RequestSentUserDetails {
+  String? sId;
   String? firstName;
+  String? guestProfileImage;
   String? lastName;
   int? mobileNumber;
   String? emailId;
-  String? guestProfileImage;
-  String? designation;
-  String? companyName;
-  String? sId;
 
   RequestSentUserDetails(
-      {this.firstName,
+      {this.sId,
+        this.firstName,
+        this.guestProfileImage,
         this.lastName,
         this.mobileNumber,
-        this.emailId,
-        this.guestProfileImage,
-        this.companyName,
-        this.designation
-      });
+        this.emailId});
 
   RequestSentUserDetails.fromJson(Map<String, dynamic> json) {
+    sId = json['_id'];
     firstName = json['first_name'];
+    guestProfileImage = json['guest_profile_image'];
     lastName = json['last_name'];
     mobileNumber = json['mobile_number'];
     emailId = json['email_id'];
-    guestProfileImage = json['guest_profile_image'];
-    companyName = json['company_name'];
-    designation = json['designation'];
-    sId = json["_id"];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['_id'] = this.sId;
     data['first_name'] = this.firstName;
+    data['guest_profile_image'] = this.guestProfileImage;
     data['last_name'] = this.lastName;
     data['mobile_number'] = this.mobileNumber;
     data['email_id'] = this.emailId;
-    data['guest_profile_image'] = this.guestProfileImage;
-    data['company_name'] = this.companyName;
-    data['designation'] = this.designation;
-    data['_id'] = this.sId;
     return data;
   }
 }

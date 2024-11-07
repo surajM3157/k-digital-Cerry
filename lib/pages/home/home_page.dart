@@ -81,7 +81,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
         ); // Store notification when app opens via a tap
       }
     });
-    _fcmService?.setupForegroundMessageHandler(context);
     _controller =  TabController(length: 3, vsync: this);
     _aboutController =  TabController(length: 2, vsync: this);
     bottomNavbarIndex = widget.bottomNavIndex;

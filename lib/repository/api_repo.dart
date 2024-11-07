@@ -21,6 +21,7 @@ import 'package:piwotapp/responses/live_session_response.dart';
 import 'package:piwotapp/responses/otp_response.dart';
 import 'package:piwotapp/responses/partner_response.dart';
 import 'package:piwotapp/responses/pending_request_response.dart';
+import 'package:piwotapp/responses/sent_requests_response.dart';
 import 'package:piwotapp/responses/session_list_response.dart';
 import 'package:piwotapp/responses/session_surveys_response.dart';
 import 'package:piwotapp/responses/speaker_response.dart';
@@ -163,6 +164,7 @@ class ApiRepo
       if(Prefs.checkNotificationEnabled == true){
         fcmService.subscribeToTopic('allUsers');
         fcmService.subscribeToTopic(model.data?.guestDetails?.sId?? "");
+        print("subscribe to ${model.data?.guestDetails?.sId?? ""}");
       }
       if(Prefs.checkProfile == true){
         Get.offAllNamed(Routes.editProfile);
@@ -451,7 +453,7 @@ class ApiRepo
         _firestore.collection("users").doc(Prefs.checkUserId).set(
           {
             "uid":Prefs.checkUserId,
-            "name":Prefs.checkUsername,
+            "name":res["data"]["first_name"] +" "+ res["data"]["last_name"],
             "profile": ApiUrls.imageUrl + res["data"]["guest_profile_image"]
           }, SetOptions(merge: true)
       );
@@ -459,7 +461,7 @@ class ApiRepo
         _firestore.collection("users").doc(Prefs.checkUserId).set(
             {
               "uid":Prefs.checkUserId,
-              "name":Prefs.checkUsername,
+              "name":res["data"]["first_name"] +" "+ res["data"]["last_name"],
             }, SetOptions(merge: true)
         );
       }
@@ -685,9 +687,31 @@ class ApiRepo
     }
   }
 
+  Future<SentRequestsResponse> sendRequestsResponse() async {
+
+    final response = await http.get(Uri.parse("${ApiUrls.sentRequestsApiUrl}/${Prefs.checkUserId}"), headers: {
+      'token': '${Prefs.checkAuthToken}',});
+    var res = await json.decode(response.body);
+
+    if(res['message'] == "Token expired."|| res['message'] == 'Your account has been suspended. Please contact admin.'){
+      Prefs.setBool('is_logged_in_new', false);
+      Prefs.setString('user_id_new', "");
+      Prefs.setString('user_email_new', "");
+      Prefs.setString('user_auth_token', "");
+      Prefs.setString("user_name_new", "");
+      Prefs.setString("mobile_no", "");
+      Get.offAllNamed(Routes.login);
+    }
+    // Get.back();
+    print("Api url ${ApiUrls.sentRequestsApiUrl}/${Prefs.checkUserId}");
+    print("response ${response.body}");
+
+    return sentRequestsResponseFromJson(response.body);
+  }
+
   Future<PendingRequestResponse> pendingRequestResponse() async {
 
-    final response = await http.get(Uri.parse("${ApiUrls.pendingRequestApiUrl}/${Prefs.checkUserId}"), headers: {
+    final response = await http.get(Uri.parse("${ApiUrls.pendingRequestsApiUrl}/${Prefs.checkUserId}"), headers: {
       'token': '${Prefs.checkAuthToken}',});
     var res = await json.decode(response.body);
 
@@ -701,7 +725,7 @@ class ApiRepo
       Get.offAllNamed(Routes.login);
     }
     Get.back();
-    print("Api url ${ApiUrls.pendingRequestApiUrl}/${Prefs.checkUserId}");
+    print("Api url ${ApiUrls.pendingRequestsApiUrl}/${Prefs.checkUserId}");
     print("response ${response.body}");
 
     return pendingRequestResponseFromJson(response.body);

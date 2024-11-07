@@ -101,7 +101,23 @@ class _AboutState extends State<About> {
                     cardWidget(title: "Exhibitions",image: Images.exhibitorsIcon),
                     cardWidget(title: "IIT\nRepresentatives",image: Images.representativeIcon),
                 ],),
-                const SizedBox(height: 20,)
+                const SizedBox(height: 30,),
+                Center(child: GradientText(text: "Summit Organising Team", style: const TextStyle(fontSize: 16,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]))),
+                const SizedBox(height: 15,),
+                GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2, // Number of items per row
+                    crossAxisSpacing: 10.0,
+                    mainAxisSpacing: 10.0,
+                  ),
+                  itemBuilder: (context,index){
+                    return  aboutCard(title: aboutUsData?.organisingTeam?[index].organiserName??"",image: aboutUsData?.organisingTeam?[index].organiserImage!=null? Image.network(ApiUrls.imageUrl + (aboutUsData?.organisingTeam?[index].organiserImage??""),fit: BoxFit.fill,):Image.asset(Images.defaultProfile,fit: BoxFit.fill,),subtitle: aboutUsData?.organisingTeam?[index].designation??"");
+
+                  },itemCount: aboutUsData?.organisingTeam?.length,
+                ),
+                const SizedBox(height: 40,)
               ],
             ),
           ),
@@ -140,22 +156,6 @@ class _AboutState extends State<About> {
                   },itemCount: aboutUsData?.officialBearers?.length,
                   ),
                 const SizedBox(height: 30,),
-                Center(child: GradientText(text: "Summit Organising Team", style: const TextStyle(fontSize: 16,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]))),
-                const SizedBox(height: 15,),
-                GridView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, // Number of items per row
-                    crossAxisSpacing: 10.0,
-                    mainAxisSpacing: 10.0,
-                  ),
-                  itemBuilder: (context,index){
-                    return  aboutCard(title: aboutUsData?.organisingTeam?[index].organiserName??"",image: aboutUsData?.organisingTeam?[index].organiserImage!=null? Image.network(ApiUrls.imageUrl + (aboutUsData?.organisingTeam?[index].organiserImage??""),fit: BoxFit.fill,):Image.asset(Images.defaultProfile,fit: BoxFit.fill,),subtitle: aboutUsData?.organisingTeam?[index].designation??"");
-
-                  },itemCount: aboutUsData?.organisingTeam?.length,
-                ),
-                const SizedBox(height: 40,)
               ],
             ),
           ),

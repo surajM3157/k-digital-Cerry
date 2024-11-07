@@ -15,6 +15,7 @@ import 'package:piwotapp/widgets/app_textfield.dart';
 import '../../constants/font_family.dart';
 import '../../constants/images.dart';
 import '../../repository/api_repo.dart';
+import '../../responses/sent_requests_response.dart';
 import '../../route/route_names.dart';
 import '../../services/chat_service.dart';
 import '../../shared prefs/pref_manager.dart';
@@ -40,6 +41,7 @@ class _DelegatesState extends State<Delegates> {
 
   PendingRequestResponse? _pendingRequestResponse;
   List<PendingRequestData> pendingRequestList = [];
+  List<String> sentRequestList = [];
 
   String requestStatus = "";
   Timer? debounceTimer;
@@ -81,7 +83,7 @@ class _DelegatesState extends State<Delegates> {
         print("floorPlanList ${friendList.length}");
         print("friendList $friendList");
         print("userId ${Prefs.checkUserId}");
-        fetchGuestList("");
+        fetchSentRequestList();
       }
 
       setState(() {
@@ -90,6 +92,37 @@ class _DelegatesState extends State<Delegates> {
     }
 
 
+  }
+
+  fetchSentRequestList() async
+  {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      isConnected = false;
+      setState(() {
+
+      });
+    }else {
+      isConnected = true;
+
+      sentRequestList.clear();
+      var response = await ApiRepo().sendRequestsResponse();
+
+      if( response.data != null)
+      {
+        for(SentRequestsData sentRequest in response!.data!){
+          print("sentRequest ${sentRequest.requestSentUserDetails?[0].sId}");
+          sentRequestList.add(sentRequest.requestSentUserDetails?[0].sId??"");
+        }
+
+        print("sentRequestList ${sentRequestList}");
+        fetchGuestList("");
+      }
+
+
+      setState(() {
+
+      });}
   }
 
   fetchGuestList(String search) async
@@ -112,13 +145,13 @@ class _DelegatesState extends State<Delegates> {
       if (response.data != null) {
         _guestListResponse = response;
         for (GuestListData guest in _guestListResponse!.data!) {
-            if(!friendList.contains(guest.sId)) {
-              guestList.add(guest);
-            }}
-          // notificationService.unsubscribeFromTopic(guest.sId??"");
+          if (!friendList.contains(guest.sId)) {
+            guestList.add(guest);
+          }
+          // notificationService.unsubscribeFromTopic(guest.sId ?? "");
           // print("done Unsubscription ${guest.sId}");
-
-        print("guestList ${guestList.length}");
+        }
+        print("guestList ${guestList}");
       }
 
       setState(() {
@@ -184,7 +217,7 @@ class _DelegatesState extends State<Delegates> {
     });
 
     await ApiRepo().sendRequest(params, receiverId);
-    fetchGuestList('');
+    fetchSentRequestList();
     }
   }
 
@@ -356,7 +389,7 @@ class _DelegatesState extends State<Delegates> {
             Expanded(
               flex: 1,
               child: SizedBox(
-                  height: 70,
+                  height: 60,
                   width: 70,
                   child: ClipRRect(
                       borderRadius: BorderRadius.circular(50),
@@ -390,6 +423,7 @@ class _DelegatesState extends State<Delegates> {
                           var lastMessageData = lastMessageDoc.data() as Map<String, dynamic>;
                           return Text(
                             lastMessageData['message'], // Display the message content
+                            overflow: TextOverflow.ellipsis,
                             style:  TextStyle(color: (lastMessageData['senderId']==Prefs.checkUserId)?Colors.grey:lastMessageData['isRead']?Colors.grey:Colors.black,fontWeight: (lastMessageData['senderId']==Prefs.checkUserId)?FontWeight.normal:lastMessageData['isRead']?FontWeight.normal:FontWeight.bold),
                           );
                         }
@@ -629,18 +663,21 @@ class _DelegatesState extends State<Delegates> {
             children: [
               GestureDetector(
                 onTap: (){
-                  sendRequest(guestListData.sId??"");
+                 if (sentRequestList.contains(guestListData.sId)){}else {
+                   sendRequest(guestListData.sId??"");
+                 }
                 },
                 child: Container(
                   width: 100,height: 35,
                   margin: const EdgeInsets.only(left: 10),
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(8)),
-                    gradient:LinearGradient(
+                    gradient:sentRequestList.contains(guestListData.sId)?null:LinearGradient(
                       colors: [AppColor.primaryColor, AppColor.red],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
+                    color: sentRequestList.contains(guestListData.sId)?Colors.grey:null,
                   ),
                   child: Center(child: Text("Connect",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 14,color: AppColor.white,fontFamily: appFontFamily),)),
                 ),
@@ -672,7 +709,7 @@ class _DelegatesState extends State<Delegates> {
     );
   }
 
-  Widget chatListItem({required String name, required String message, required String profile}){
+  Widget _chatListItem({required String name, required String message, required String profile}){
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Row(
@@ -707,7 +744,7 @@ class _DelegatesState extends State<Delegates> {
                   const SizedBox(height: 5,),
                   Text(message,style: TextStyle(
                       fontFamily: appFontFamily,fontWeight: FontWeight.w400,
-                      fontSize: 14,color: AppColor.FF161616
+                      fontSize: 14,color: AppColor.FF161616,overflow: TextOverflow.ellipsis
                   )),
                 ],
               ),

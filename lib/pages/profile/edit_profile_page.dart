@@ -6,6 +6,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:piwotapp/constants/api_urls.dart';
 import 'package:piwotapp/responses/guest_details_response.dart';
 import 'package:piwotapp/widgets/app_button.dart';
@@ -52,16 +53,11 @@ class _EditProfilPageState extends State<EditProfilPage> {
   String selectedCode = "+91";
   bool isLoading = true;
 
-  var countryItems = [
-    'INDIA',
-    'USA',
-    'JAPAN',
-    'SOUTH KOREA',
-    'NEPAL',
-  ];
+  var countryItems = ["AFGHANISTAN", "ALBANIA", "ALGERIA", "ANDORRA", "ANGOLA", "ANTIGUA AND BARBUDA", "ARGENTINA", "ARMENIA", "AUSTRALIA", "AUSTRIA", "AZERBAIJAN", "BAHAMAS", "BAHRAIN", "BANGLADESH", "BARBADOS", "BELARUS", "BELGIUM", "BELIZE", "BENIN", "BHUTAN", "BOLIVIA", "BOSNIA AND HERZEGOVINA", "BOTSWANA", "BRAZIL", "BRUNEI", "BULGARIA", "BURKINA FASO", "BURUNDI", "CABO VERDE", "CAMBODIA", "CAMEROON", "CANADA", "CENTRAL AFRICAN REPUBLIC", "CHAD", "CHILE", "CHINA", "COLOMBIA", "COMOROS", "CONGO", "COSTA RICA", "CROATIA", "CUBA", "CYPRUS", "CZECHIA", "DENMARK", "DJIBOUTI", "DOMINICA", "DOMINICAN REPUBLIC", "ECUADOR", "EGYPT", "EL SALVADOR", "EQUATORIAL GUINEA", "ERITREA", "ESTONIA", "ESWATINI", "ETHIOPIA", "FIJI", "FINLAND", "FRANCE", "GABON", "GAMBIA", "GEORGIA", "GERMANY", "GHANA", "GREECE", "GRENADA", "GUATEMALA", "GUINEA", "GUINEA-BISSAU", "GUYANA", "HAITI", "HONDURAS", "HUNGARY", "ICELAND", "INDIA", "INDONESIA", "IRAN", "IRAQ", "IRELAND", "ISRAEL", "ITALY", "JAMAICA", "JAPAN", "JORDAN", "KAZAKHSTAN", "KENYA", "KIRIBATI", "KOREA (NORTH)", "KOREA (SOUTH)", "KUWAIT", "KYRGYZSTAN", "LAOS", "LATVIA", "LEBANON", "LESOTHO", "LIBERIA", "LIBYA", "LIECHTENSTEIN", "LITHUANIA", "LUXEMBOURG", "MADAGASCAR", "MALAWI", "MALAYSIA", "MALDIVES", "MALI", "MALTA", "MARSHALL ISLANDS", "MAURITANIA", "MAURITIUS", "MEXICO", "MICRONESIA", "MOLDOVA", "MONACO", "MONGOLIA", "MONTENEGRO", "MOROCCO", "MOZAMBIQUE", "MYANMAR", "NAMIBIA", "NAURU", "NEPAL", "NETHERLANDS", "NEW ZEALAND", "NICARAGUA", "NIGER", "NIGERIA", "NORTH MACEDONIA", "NORWAY", "OMAN", "PAKISTAN", "PALAU", "PANAMA", "PAPUA NEW GUINEA", "PARAGUAY", "PERU", "PHILIPPINES", "POLAND", "PORTUGAL", "QATAR", "ROMANIA", "RUSSIA", "RWANDA", "SAINT KITTS AND NEVIS", "SAINT LUCIA", "SAMOA", "SAN MARINO", "SAUDI ARABIA", "SENEGAL", "SERBIA", "SEYCHELLES", "SIERRA LEONE", "SINGAPORE", "SLOVAKIA", "SLOVENIA", "SOLOMON ISLANDS", "SOMALIA", "SOUTH AFRICA", "SOUTH SUDAN", "SPAIN", "SRI LANKA", "SUDAN", "SURINAME", "SWEDEN", "SWITZERLAND", "SYRIA", "TAIWAN", "TAJIKISTAN", "TANZANIA", "THAILAND", "TIMOR-LESTE", "TOGO", "TONGA", "TRINIDAD AND TOBAGO", "TUNISIA", "TURKEY", "TURKMENISTAN", "TUVALU", "UGANDA", "UKRAINE", "UNITED ARAB EMIRATES", "UNITED KINGDOM", "UNITED STATES", "URUGUAY", "UZBEKISTAN", "VANUATU", "VATICAN CITY", "VENEZUELA", "VIETNAM", "YEMEN", "ZAMBIA", "ZIMBABWE"];
 
   var iitItems =[
-    "IIT-DELHI","IIT-BOMBAY", "IIT-CHENNAI", "IIT-KHARAGPUR", "IIT-GUWAHATI"
+    "IIT BOMBAY", "IIT DELHI", "IIT MADRAS", "IIT KANPUR", "IIT KHARAGPUR", "IIT ROORKEE", "IIT GUWAHATI", "IIT BHUBANESWAR", "IIT GANDHINAGAR", "IIT HYDERABAD", "IIT JODHPUR", "IIT PATNA", "IIT ROPAR", "IIT INDORE", "IIT (ISM) DHANBAD", "IIT BHILAI", "IIT GOA", "IIT JAMMU", "IIT TIRUPATI", "IIT PALAKKAD", "IIT VARANASI (BHU)", "IIT MANDI", "IIT DHARWAD"
+
   ];
 
   var iitBatchItems =[
@@ -211,7 +207,7 @@ class _EditProfilPageState extends State<EditProfilPage> {
                     children: [
                       Expanded(
                         child: AppTextField(hintText: "Enter First Name*",controller: firstNameController,labelText:"First Name*",autovalidateMode: AutovalidateMode.onUserInteraction,
-                          inputFormatters: [ FilteringTextInputFormatter.allow(RegExp("[a-zA-Z\\s]")), ],
+                          inputFormatters: [ FilteringTextInputFormatter.allow(RegExp("[a-zA-Z\\s\\.]")), ],
                           validator: (value)
                           {
                             if (value.toString() == "")
@@ -250,37 +246,72 @@ class _EditProfilPageState extends State<EditProfilPage> {
                     },
                   ),
                   const SizedBox(height: 25,),
-                  AppTextField(hintText: "Type Phone number*",controller: phoneNumberController,labelText:"Phone Number*",keyboardType: TextInputType.phone,inputFormatters:[
-                    LengthLimitingTextInputFormatter(10),
-                  ],
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    validator: (value)
-                    {
-                      if (value.toString() == ""||value.toString().length!=10)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: IntlPhoneField(
+                      controller: phoneNumberController,
+                      cursorColor: AppColor.primaryColor,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: (value)
                       {
-                        return 'Enter a valid phone number.';
-                      }
-                      return null;
-                    },
-                    prefixIcon: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton<String>(
-                          value: selectedCode,
-                          items: ['+91', '+1', '+3'].map((String prefix) {
-                            return DropdownMenuItem<String>(
-                              value: prefix,
-                              child: Text(prefix,style: TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),),
-                            );
-                          }).toList(),
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              selectedCode = newValue!;
-                            });
-                          },
+                        if (value.toString() == ""||value.toString().length!=10)
+                        {
+                          return 'Enter a valid phone number.';
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                          labelText: "Phone Number*",
+                        labelStyle: TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
+                        hintStyle:  TextStyle(color:AppColor.FF9B9B9B,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
+                        contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                        focusedBorder:  OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
                         ),
-                      )),),
-                  const SizedBox(height: 25,),
+                        enabledBorder:  OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
+                        ),
+                        errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: const BorderSide(color: Colors.red, width: 2.0)),
+                        focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: const BorderSide(color: Colors.red, width: 2.0)),
+                      ),
+                      initialCountryCode: 'IN',
+                      onChanged: (phone) {
+                        print(phone.completeNumber);
+                      },
+                    ),
+                  ),
+                  // AppTextField(hintText: "Type Phone number*",controller: phoneNumberController,labelText:"Phone Number*",keyboardType: TextInputType.phone,inputFormatters:[
+                  //   LengthLimitingTextInputFormatter(10),
+                  // ],
+                  //   autovalidateMode: AutovalidateMode.onUserInteraction,
+                  //   validator: (value)
+                  //   {
+                  //     if (value.toString() == ""||value.toString().length!=10)
+                  //     {
+                  //       return 'Enter a valid phone number.';
+                  //     }
+                  //     return null;
+                  //   },
+                  //   prefixIcon: Padding(
+                  //     padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  //     child: DropdownButtonHideUnderline(
+                  //       child: DropdownButton<String>(
+                  //         value: selectedCode,
+                  //         items: ['+91', '+1', '+3'].map((String prefix) {
+                  //           return DropdownMenuItem<String>(
+                  //             value: prefix,
+                  //             child: Text(prefix,style: TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),),
+                  //           );
+                  //         }).toList(),
+                  //         onChanged: (String? newValue) {
+                  //           setState(() {
+                  //             selectedCode = newValue!;
+                  //           });
+                  //         },
+                  //       ),
+                  //     )),),
                   genderWidget(),
                   // const SizedBox(height: 25,),
                   // AppTextField(

@@ -395,7 +395,7 @@ class _SurveyPageState extends State<SurveyPage> {
   }
 
   Widget backButton(){
-    return GestureDetector(
+    return index ==0?SizedBox.shrink():GestureDetector(
       onTap: (){
         if(index>0) {
           index --;

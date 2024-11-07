@@ -441,6 +441,7 @@ class _ProfilePageState extends State<ProfilePage> {
             onTap: (){
               NotificationService notification = NotificationService();
               notification.unsubscribeFromTopic(Prefs.checkUserId);
+              print("Unsubscribe to ${Prefs.checkUserId}");
               notification.unsubscribeFromTopic('allUsers');
               Prefs.setBool('is_logged_in_new', false);
               Prefs.setString('user_id_new', "");
@@ -449,6 +450,8 @@ class _ProfilePageState extends State<ProfilePage> {
               Prefs.setString("user_name_new", "");
               Prefs.setString("mobile_no", "");
               Prefs.setBool("notificationsEnabled", false);
+              Prefs.loadData();
+              Prefs.load();
               Get.offAllNamed(Routes.login);
             },
             child: Container(

@@ -29,7 +29,7 @@ void main() async{
   NotificationService fcmService = NotificationService();
   fcmService.setupBackgroundHandler();
   await fcmService.initialize();
-
+  fcmService.setupForegroundMessageHandler();
   configLoading();
   runApp(const MyApp());
 }
