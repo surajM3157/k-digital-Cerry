@@ -836,7 +836,7 @@ class _HomeState extends State<Home> {
 
   Widget exploreWidget(){
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -1093,9 +1093,9 @@ class _HomeState extends State<Home> {
     return sponsors.isNotEmpty?Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: CarouselSlider(
-        options: CarouselOptions(height: 160,
+        options: CarouselOptions(height: 150,
           aspectRatio: 16/9,
-          viewportFraction: 0.34,
+          viewportFraction: 0.38,
           initialPage: 0,
           enableInfiniteScroll: true,
           reverse: false,
@@ -1112,12 +1112,12 @@ class _HomeState extends State<Home> {
               return Column(
                 children: [
                   Image.network(ApiUrls.imageUrl+(item.sponsorImage??""),height: 100,width: 100,),
-                  const SizedBox(height: 7,),
-                  SizedBox(
-                      width:80,
-                      child: Text(item.sponsorName??"",textAlign: TextAlign.center,
-                        style: TextStyle(fontWeight: FontWeight.w400,fontSize: 12,fontFamily: appFontFamily,color: AppColor.primaryColor),
-                      ))
+                  // const SizedBox(height: 7,),
+                  // SizedBox(
+                  //     width:80,
+                  //     child: Text(item.sponsorName??"",textAlign: TextAlign.center,
+                  //       style: TextStyle(fontWeight: FontWeight.w400,fontSize: 12,fontFamily: appFontFamily,color: AppColor.primaryColor),
+                  //     ))
                 ],
               );
             },

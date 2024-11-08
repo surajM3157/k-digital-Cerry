@@ -21,31 +21,30 @@ class LiveSessionPage extends StatefulWidget {
 }
 
 class _LiveSessionPageState extends State<LiveSessionPage> {
-
   LiveSessionData? liveSessionData;
   bool isFullScreen = false;
   bool isPlay = false;
 
-   YoutubePlayerController? _controller;
+  YoutubePlayerController? _controller;
   Duration? currentPosition;
 
   @override
   void initState() {
+    super.initState();
     liveSessionData = Get.arguments["data"];
     _controller = YoutubePlayerController(
-      initialVideoId: YoutubePlayer.convertUrlToId(liveSessionData?.link??"")??"",
+      initialVideoId: YoutubePlayer.convertUrlToId(liveSessionData?.link ?? "") ?? "",
       flags: const YoutubePlayerFlags(
         autoPlay: true,
         mute: true,
       ),
     );
 
-
     // Listener to handle full-screen mode changes
     _controller!.addListener(() {
       setState(() {
         isFullScreen = _controller!.value.isFullScreen;
-       currentPosition =  _controller!.value.position;
+        currentPosition = _controller!.value.position;
       });
 
       if (isFullScreen) {
@@ -59,7 +58,6 @@ class _LiveSessionPageState extends State<LiveSessionPage> {
         SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
       }
     });
-    super.initState();
   }
 
   @override
@@ -80,143 +78,122 @@ class _LiveSessionPageState extends State<LiveSessionPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: isFullScreen
-          ? null:AppBar(
+          ? null
+          : AppBar(
         elevation: 0,
         backgroundColor: AppColor.primaryColor,
         title: Padding(
           padding: const EdgeInsets.only(right: 60),
-          child: Center(child: SvgPicture.asset(Images.logo, height: 40,width: 147)),
+          child: Center(child: SvgPicture.asset(Images.logo, height: 40, width: 147)),
         ),
         leading: InkWell(
-            onTap: (){
-              SystemChrome.setPreferredOrientations([
-                DeviceOrientation.portraitUp, // Locks the app to portrait mode
-                // DeviceOrientation.landscapeLeft, // Uncomment this line to lock to landscape mode
-                // DeviceOrientation.landscapeRight,
-              ]);
-              Get.back();
-            },
-            child: Icon(Icons.arrow_back_ios,size: 20,color: AppColor.white,)),
+          onTap: () {
+            SystemChrome.setPreferredOrientations([
+              DeviceOrientation.portraitUp,
+            ]);
+            Get.back();
+          },
+          child: Icon(Icons.arrow_back_ios, size: 20, color: AppColor.white),
+        ),
       ),
       body: SafeArea(
-        child:isFullScreen
-            ? _buildVideoPlayer():
-        SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Stack(
-                children: [
-                  isPlay?
-          YoutubePlayerBuilder(
+        child: Padding(
+          padding:isFullScreen
+              ?  const EdgeInsets.only(top: 27, bottom: 27):EdgeInsets.zero,
+          child: YoutubePlayerBuilder(
             player: YoutubePlayer(
               controller: _controller!,
               liveUIColor: AppColor.secondaryColor,
-            ), builder: (context , player ) {
-              return Column(
-                children: [
-                  player,
-                  const SizedBox(height: 50,),
-                ],
-              );
-          },
-          ):
-                  SizedBox(
-                      width: Get.width,
-                      height: 390,
-                      child: ClipRRect(
-                              borderRadius: const BorderRadius.only(
-                                bottomRight: Radius.circular(25),
-                                bottomLeft: Radius.circular(25),
-                              ),
-                          child: YouTubeThumbnail(
-                            youtubeUrl: liveSessionData?.link?.split("=").last??"", // Replace with your YouTube link
-                          ))),
-                  isPlay?const SizedBox.shrink():Align(
-                    alignment: Alignment.topCenter,
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 150),
-                        child: InkWell(
-                          onTap: (){
-                            isPlay = true;
-                            setState(() {
-                            });
-                          },
-                            child: SvgPicture.asset(Images.playBtnIcon)),
-                      )),
-                ],
-              ),
-              isPlay?const SizedBox.shrink():const SizedBox(height: 20,),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: GradientText(text:liveSessionData?.title??"",style: AppThemes.titleTextStyle().copyWith(
-                    fontWeight: FontWeight.w600,fontSize: 24
-                ), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]),),
-              ),
-              const SizedBox(height: 20,),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
+            ),
+            builder: (context, player) {
+              return isFullScreen
+                  ? player
+                  : SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SvgPicture.asset(Images.calendarIcon),
-                    const SizedBox(width: 2,),
-                    Text(DateFormat("dd, MMM yyyy").format(DateTime.parse(liveSessionData?.eventDate??"")),style: const TextStyle(fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600),)
+                    Stack(
+                      children: [
+                        isPlay
+                            ? player
+                            : SizedBox(
+                          width: Get.width,
+                          height: 390,
+                          child: ClipRRect(
+                            borderRadius: const BorderRadius.only(
+                              bottomRight: Radius.circular(25),
+                              bottomLeft: Radius.circular(25),
+                            ),
+                            child: YouTubeThumbnail(
+                              youtubeUrl: liveSessionData?.link ?? "",
+                            ),
+                          ),
+                        ),
+                        isPlay
+                            ? const SizedBox.shrink()
+                            : Align(
+                          alignment: Alignment.topCenter,
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 150),
+                            child: InkWell(
+                              onTap: () {
+                                setState(() {
+                                  isPlay = true;
+                                });
+                              },
+                              child: SvgPicture.asset(Images.playBtnIcon),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    isPlay ? const SizedBox.shrink() : const SizedBox(height: 20),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: GradientText(
+                        text: liveSessionData?.title ?? "",
+                        style: AppThemes.titleTextStyle().copyWith(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 24,
+                        ),
+                        gradient: LinearGradient(colors: [AppColor.primaryColor, AppColor.red]),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(Images.calendarIcon),
+                          const SizedBox(width: 2),
+                          Text(
+                            DateFormat("dd, MMM yyyy").format(DateTime.parse(liveSessionData?.eventDate ?? "")),
+                            style: const TextStyle(
+                              fontFamily: appFontFamily,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Text(
+                        liveSessionData?.description ?? "",
+                        style: AppThemes.subtitleTextStyle().copyWith(fontSize: 16),
+                      ),
+                    )
                   ],
                 ),
-              ),
-              // Padding(
-              //   padding: const EdgeInsets.symmetric(horizontal: 20),
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //     children: [
-              //      Row(
-              //        children: [
-              //          SvgPicture.asset(Images.likeIcon,),
-              //          const SizedBox(width: 5,),
-              //          Text("24.4 k",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor),),
-              //          const SizedBox(width: 10,),
-              //          SvgPicture.asset(Images.dislikeIcon,),
-              //          const SizedBox(width: 5,),
-              //          Text("10",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor),),
-              //
-              //        ],
-              //      ),
-              //       Row(
-              //         children: [
-              //           Image.asset(Images.participantsIcon,),
-              //           const SizedBox(width: 5,),
-              //           Text("2K Participants",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor),),
-              //         ],
-              //       )
-              //     ],
-              //   ),
-              // ),
-              const SizedBox(height: 20,),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Text(liveSessionData?.description??"",style: AppThemes.subtitleTextStyle().copyWith(fontSize: 16),),
-              )
-            ],
+              );
+            },
           ),
         ),
       ),
     );
   }
-
-
-  Widget _buildVideoPlayer() {
-    return Padding(
-      padding: EdgeInsets.only(top: 30,bottom: 27),
-      child: YoutubePlayerBuilder(
-        player: YoutubePlayer(
-          controller: _controller!,
-          liveUIColor: AppColor.secondaryColor,
-        ),
-        builder: (context, player) {
-          return player;
-        },
-      ),
-    );
-  }
 }
+
 

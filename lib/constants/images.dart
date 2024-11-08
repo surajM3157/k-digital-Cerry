@@ -152,7 +152,7 @@ class Images{
   static String requestNotificationIcon = 'assets/images/icons/request_notification_icon.svg';
   static String profileIcon = 'assets/images/icons/profile_icon.svg';
   static String notificationIcon = 'assets/images/icons/notification_icon.svg';
-  static String downArrowIcon = 'assets/images/icons/down_arrow_icon.svg';
+  static String downwardArrowIcon = 'assets/images/icons/down_arrow_icon.svg';
   static String agendaIcon = 'assets/images/icons/agenda_icon.svg';
   static String speakerIcon = 'assets/images/icons/speaker_icon.svg';
   static String sponsorIcon = 'assets/images/icons/sponsor_icon.svg';
@@ -174,5 +174,7 @@ class Images{
   static String calendarIcon = 'assets/images/icons/calendar_icon.svg';
   static String participantIcon = 'assets/images/icons/participant_icon.svg';
   static String youtubeIcon = 'assets/images/icons/youtube_icon.png';
+  static String upArrowIcon = 'assets/images/icons/up_arrow_icon.png';
+  static String downArrowIcon = 'assets/images/icons/down_arrow_icon.png';
 
 }

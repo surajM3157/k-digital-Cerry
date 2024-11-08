@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:country_state_city/country_state_city.dart' as s;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -43,17 +44,70 @@ class _EditProfilPageState extends State<EditProfilPage> {
   bool tapGallery = false;
   String? _gender = "Male";
   String? _isAlumni = "No";
-  String country = "";
+  String? country = "";
   String iitName = "";
   String batch = "";
   String stream = "";
   String? profileImage;
+  String? selectedState;
+  String? selectedCity;
+  String? selectedCountry;
+  String? selectedCountryId;
+  bool isCountryChanged = false;
+  bool isStateChanged = false;
+  List<s.Country> countries = [];
+  List<s.State> states = [];
+  List<s.City> cities = [];
+
+  Future<void> fetchCountries() async {
+    countries = await s.getAllCountries();
+    setState(() {
+    });
+    if(selectedCountry != null){
+      fetchStates(countries
+          .firstWhere(
+            (state) => selectedCountry == state.name,
+       // orElse: () => countries[0], // Provide a default value in case no match is found
+      )
+          .isoCode);
+    }
+  }
+
+  Future<void> fetchStates(String countryId) async {
+    states = await s.getStatesOfCountry(countryId);
+    print("state $states");
+
+    setState(() {
+    });
+    if(selectedCity != null){
+      fetchCities(countries
+          .firstWhere(
+            (country) => selectedCountry == country.name,
+       // orElse: () => countries[0], // Provide a default value in case no match is found
+      )
+          .isoCode, states
+          .firstWhere(
+            (state) => selectedState == state.name,
+       // orElse: () => states[0], // Provide a default value in case no match is found
+      )
+          .isoCode);
+    }
+  }
+
+  Future<void> fetchCities(String countryId,String stateId) async {
+    cities = await s.getStateCities(countryId,stateId);
+    setState(() {
+    });
+
+    print("cities $cities");
+    print("states $states");
+    print("countries $countries");
+  }
+
 
   String selectedPrefix ="Mr";
   String selectedCode = "+91";
   bool isLoading = true;
-
-  var countryItems = ["AFGHANISTAN", "ALBANIA", "ALGERIA", "ANDORRA", "ANGOLA", "ANTIGUA AND BARBUDA", "ARGENTINA", "ARMENIA", "AUSTRALIA", "AUSTRIA", "AZERBAIJAN", "BAHAMAS", "BAHRAIN", "BANGLADESH", "BARBADOS", "BELARUS", "BELGIUM", "BELIZE", "BENIN", "BHUTAN", "BOLIVIA", "BOSNIA AND HERZEGOVINA", "BOTSWANA", "BRAZIL", "BRUNEI", "BULGARIA", "BURKINA FASO", "BURUNDI", "CABO VERDE", "CAMBODIA", "CAMEROON", "CANADA", "CENTRAL AFRICAN REPUBLIC", "CHAD", "CHILE", "CHINA", "COLOMBIA", "COMOROS", "CONGO", "COSTA RICA", "CROATIA", "CUBA", "CYPRUS", "CZECHIA", "DENMARK", "DJIBOUTI", "DOMINICA", "DOMINICAN REPUBLIC", "ECUADOR", "EGYPT", "EL SALVADOR", "EQUATORIAL GUINEA", "ERITREA", "ESTONIA", "ESWATINI", "ETHIOPIA", "FIJI", "FINLAND", "FRANCE", "GABON", "GAMBIA", "GEORGIA", "GERMANY", "GHANA", "GREECE", "GRENADA", "GUATEMALA", "GUINEA", "GUINEA-BISSAU", "GUYANA", "HAITI", "HONDURAS", "HUNGARY", "ICELAND", "INDIA", "INDONESIA", "IRAN", "IRAQ", "IRELAND", "ISRAEL", "ITALY", "JAMAICA", "JAPAN", "JORDAN", "KAZAKHSTAN", "KENYA", "KIRIBATI", "KOREA (NORTH)", "KOREA (SOUTH)", "KUWAIT", "KYRGYZSTAN", "LAOS", "LATVIA", "LEBANON", "LESOTHO", "LIBERIA", "LIBYA", "LIECHTENSTEIN", "LITHUANIA", "LUXEMBOURG", "MADAGASCAR", "MALAWI", "MALAYSIA", "MALDIVES", "MALI", "MALTA", "MARSHALL ISLANDS", "MAURITANIA", "MAURITIUS", "MEXICO", "MICRONESIA", "MOLDOVA", "MONACO", "MONGOLIA", "MONTENEGRO", "MOROCCO", "MOZAMBIQUE", "MYANMAR", "NAMIBIA", "NAURU", "NEPAL", "NETHERLANDS", "NEW ZEALAND", "NICARAGUA", "NIGER", "NIGERIA", "NORTH MACEDONIA", "NORWAY", "OMAN", "PAKISTAN", "PALAU", "PANAMA", "PAPUA NEW GUINEA", "PARAGUAY", "PERU", "PHILIPPINES", "POLAND", "PORTUGAL", "QATAR", "ROMANIA", "RUSSIA", "RWANDA", "SAINT KITTS AND NEVIS", "SAINT LUCIA", "SAMOA", "SAN MARINO", "SAUDI ARABIA", "SENEGAL", "SERBIA", "SEYCHELLES", "SIERRA LEONE", "SINGAPORE", "SLOVAKIA", "SLOVENIA", "SOLOMON ISLANDS", "SOMALIA", "SOUTH AFRICA", "SOUTH SUDAN", "SPAIN", "SRI LANKA", "SUDAN", "SURINAME", "SWEDEN", "SWITZERLAND", "SYRIA", "TAIWAN", "TAJIKISTAN", "TANZANIA", "THAILAND", "TIMOR-LESTE", "TOGO", "TONGA", "TRINIDAD AND TOBAGO", "TUNISIA", "TURKEY", "TURKMENISTAN", "TUVALU", "UGANDA", "UKRAINE", "UNITED ARAB EMIRATES", "UNITED KINGDOM", "UNITED STATES", "URUGUAY", "UZBEKISTAN", "VANUATU", "VATICAN CITY", "VENEZUELA", "VIETNAM", "YEMEN", "ZAMBIA", "ZIMBABWE"];
 
   var iitItems =[
     "IIT BOMBAY", "IIT DELHI", "IIT MADRAS", "IIT KANPUR", "IIT KHARAGPUR", "IIT ROORKEE", "IIT GUWAHATI", "IIT BHUBANESWAR", "IIT GANDHINAGAR", "IIT HYDERABAD", "IIT JODHPUR", "IIT PATNA", "IIT ROPAR", "IIT INDORE", "IIT (ISM) DHANBAD", "IIT BHILAI", "IIT GOA", "IIT JAMMU", "IIT TIRUPATI", "IIT PALAKKAD", "IIT VARANASI (BHU)", "IIT MANDI", "IIT DHARWAD"
@@ -104,9 +158,11 @@ class _EditProfilPageState extends State<EditProfilPage> {
         phoneNumberController.text = guestDetails?.mobileNumber.toString()??"";
         companyController.text = guestDetails?.companyName ??'';
         designationController.text = guestDetails?.designation ??"";
-        cityController.text = guestDetails?.city??"";
+        selectedCountry = guestDetails?.country??null;
+        selectedState = guestDetails?.state??null;
+        selectedCity = guestDetails?.city??null;
         streamController.text = guestDetails?.stream??"";
-        country = (countryItems.contains(guestDetails?.country) ? guestDetails?.country : null)??"";
+       // country = (countryItems.contains(guestDetails?.country) ? guestDetails?.country : null)??"";
         _gender = guestDetails?.gender??"";
         iitName = (iitItems.contains(guestDetails?.iitName) ? guestDetails?.iitName : null)??"";
 
@@ -116,7 +172,12 @@ class _EditProfilPageState extends State<EditProfilPage> {
         profileImage = guestDetails?.guestProfileImage ??"";
         isLoading = false;
 
+        fetchCountries();
       }
+
+      print("selectedCountry $selectedCountry");
+      print("selectedState $selectedState");
+      print("selectedCity $selectedCity");
 
       setState(() {
 
@@ -371,29 +432,17 @@ class _EditProfilPageState extends State<EditProfilPage> {
                       return null;
                     },),
                   const SizedBox(height: 25,),
-                  AppTextField(hintText: "Type your city*",controller: cityController,labelText:"Town/City*", autovalidateMode: AutovalidateMode.onUserInteraction,
-                    validator: (value)
-                    {
-                      if (value.toString() == "")
-                      {
-                        return 'Enter a valid city.';
-                      }
-                      return null;
-                    },),
-                  const SizedBox(height: 25,),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: isLoading == true?SizedBox.shrink():DropdownButtonFormField<String>(
-                      value: country==""?null:country,
-                      items: countryItems.map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        country = value!;
-                      },
+                      hint: Text("Select Country"),
+                      value:
+                     countries.isEmpty||isCountryChanged?selectedCountry :countries
+                          .firstWhere(
+                            (country) => selectedCountry == country.name,
+                      // orElse: () => countries[0], // Provide a default value in case no match is found
+                      )
+                          .isoCode,
                       dropdownColor: AppColor.white,
                       iconSize: 30,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -428,6 +477,154 @@ class _EditProfilPageState extends State<EditProfilPage> {
                           borderSide: const BorderSide(color: Colors.red, width: 2.0),
                         ),
                       ),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          isCountryChanged = true;
+                          selectedCountry = newValue!;
+                          selectedState = null;
+                          selectedCity = null;
+                          states = [];
+                          cities = [];
+                        });
+                        fetchStates(newValue!);
+                      },
+                      items: countries
+                          .map((country) => DropdownMenuItem(
+                        value: country.isoCode,
+                        onTap: (){
+                          selectedCountryId = country.isoCode;
+                        },
+                        child: SizedBox(
+                          width: 250,
+                            child: Text(country.name,overflow: TextOverflow.ellipsis,)),
+                      ))
+                          .toList(),
+                    ),
+                  ),
+                  const SizedBox(height: 25,),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: isLoading == true?SizedBox.shrink():DropdownButtonFormField<String>(
+                      hint: Text("Select State"),
+                      value: states.isEmpty||isCountryChanged||isStateChanged?selectedState:states
+                          .firstWhere(
+                            (state) => selectedState == state.name,
+                       // orElse: () => states[0], // Provide a default value in case no match is found
+                      )
+                          .isoCode,
+                      dropdownColor: AppColor.white,
+                      iconSize: 30,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: (value)
+                      {
+                        if (value.toString() == ""||value == null)
+                        {
+                          return 'Select a valid state.';
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        hintText: "Select your State*",
+                        labelText: "State*",
+                        labelStyle:  TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
+                        hintStyle: const TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
+                        contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                        focusedBorder:  OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
+                        ),
+                        enabledBorder:  OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: const BorderSide(color: Colors.red, width: 2.0),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: const BorderSide(color: Colors.red, width: 2.0),
+                        ),
+                      ),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          isStateChanged = true;
+                          selectedState = newValue;
+                          selectedCity = null;
+                          cities = [];
+                        });
+                        fetchCities((isCountryChanged?selectedCountry!:countries
+                            .firstWhere(
+                              (country) => selectedCountry == country.name,
+                          // orElse: () => countries[0], // Provide a default value in case no match is found
+                        )
+                            .isoCode),newValue!);
+                      },
+                      items: states
+                          .map((state) => DropdownMenuItem(
+                        value: state.isoCode,
+                        child: SizedBox(
+                            width: 250,
+                            child: Text(state.name,overflow: TextOverflow.ellipsis,)),
+                      ))
+                          .toList(),
+                    ),
+                  ),
+
+                  const SizedBox(height: 25,),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child:isLoading == true?SizedBox.shrink(): DropdownButtonFormField<String>(
+                      hint: Text("Select City"),
+                      value: selectedCity,
+                      dropdownColor: AppColor.white,
+                      iconSize: 30,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: (value)
+                      {
+                        if (value.toString() == ""||value == null)
+                        {
+                          return 'Select a valid city.';
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        hintText: "Select your city*",
+                        labelText: "City*",
+                        labelStyle:  TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
+                        hintStyle: const TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
+                        contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                        focusedBorder:  OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
+                        ),
+                        enabledBorder:  OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: const BorderSide(color: Colors.red, width: 2.0),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: const BorderSide(color: Colors.red, width: 2.0),
+                        ),
+                      ),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          selectedCity = newValue;
+
+                        });
+                      },
+                      items: cities
+                          .map((city) => DropdownMenuItem(
+                        value: city.name,
+                        child: SizedBox(
+                          width: 250,
+                            child: Text(city.name,overflow: TextOverflow.ellipsis,)),
+                      ))
+                          .toList(),
                     ),
                   ),
                   const SizedBox(height: 25,),
@@ -830,8 +1027,19 @@ class _EditProfilPageState extends State<EditProfilPage> {
     params["mobile_no"] = phoneNumberController.text.trim();
     params["company_name"] = companyController.text.trim();
     params["designation"] = designationController.text.trim();
-    params["city"] = cityController.text.trim();
-    params["country"] = country.trim();
+    params["country"] = isCountryChanged?countries
+        .firstWhere(
+          (country) => selectedCountry == country.isoCode,
+      // orElse: () => countries[0], // Provide a default value in case no match is found
+    )
+        .name:selectedCountry;
+    params["state"] = isStateChanged?states
+        .firstWhere(
+          (state) => selectedState == state.isoCode,
+      // orElse: () => countries[0], // Provide a default value in case no match is found
+    )
+        .name:selectedState;
+    params["city"] = selectedCity;
     params["alumni_of_iit"] = _isAlumni=="Yes"?true:false;
     if(_isAlumni == "Yes"){
       params["iit_name"] = iitName;

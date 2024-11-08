@@ -45,6 +45,7 @@ class GuestDetailsData {
   String? designation;
   String? city;
   String? country;
+  String? state;
   bool? alumniOfIit;
   String? iitName;
   int? batch;
@@ -74,6 +75,7 @@ class GuestDetailsData {
         this.designation,
         this.city,
         this.country,
+        this.state,
         this.alumniOfIit,
         this.iitName,
         this.batch,
@@ -103,6 +105,7 @@ class GuestDetailsData {
     designation = json['designation'];
     city = json['city'];
     country = json['country'];
+    state = json['state'];
     alumniOfIit = json['alumni_of_iit'];
     iitName = json['iit_name'];
     batch = json['batch'];
@@ -134,6 +137,7 @@ class GuestDetailsData {
     data['designation'] = this.designation;
     data['city'] = this.city;
     data['country'] = this.country;
+    data['state'] = this.state;
     data['alumni_of_iit'] = this.alumniOfIit;
     data['iit_name'] = this.iitName;
     data['batch'] = this.batch;

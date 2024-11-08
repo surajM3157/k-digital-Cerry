@@ -20,6 +20,7 @@ import '../../route/route_names.dart';
 import '../../services/chat_service.dart';
 import '../../shared prefs/pref_manager.dart';
 import '../../widgets/app_themes.dart';
+import '../../widgets/custom_tabbar_indicator.dart';
 
 class Delegates extends StatefulWidget {
    Delegates({super.key,required this.tabController});
@@ -30,7 +31,7 @@ class Delegates extends StatefulWidget {
   State<Delegates> createState() => _DelegatesState();
 }
 
-class _DelegatesState extends State<Delegates> {
+class _DelegatesState extends State<Delegates> with SingleTickerProviderStateMixin{
 
 
   FriendListResponse? _friendListResponse;
@@ -251,9 +252,12 @@ class _DelegatesState extends State<Delegates> {
   TextEditingController searchDelegateController = TextEditingController();
   TextEditingController searchChatController = TextEditingController();
   ChatService chatService = ChatService();
+  TabController? _controller;
 
   @override
   void initState() {
+    _controller =  TabController(length: 3, vsync: this);
+
     fetchFriendList();
     widget.tabController.addListener(_handleTabChange);
     Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
@@ -289,61 +293,122 @@ class _DelegatesState extends State<Delegates> {
 
   @override
   Widget build(BuildContext context) {
-    return isConnected? TabBarView(
-      controller: widget.tabController,
-        children: [
-          Column(
+    return isConnected?Column(
+      children: [
+        SizedBox(
+          height: 10,
+        ),
+        TabBar(
+          controller: widget.tabController,
+          labelPadding: const EdgeInsets.symmetric(horizontal: 25),
+          indicatorColor: AppColor.primaryColor,
+          indicator:CustomUnderlineTabIndicator(
+            borderSide: BorderSide(width: 3.0, color: AppColor.primaryColor),
+            insets:const EdgeInsets.symmetric(vertical: -8),
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(12.0),
+              topRight: Radius.circular(12.0),
+            ),
+          ),
+          tabs: [
+            Padding(
+              padding: const EdgeInsets.only(bottom: 17),
+              child: Text("Delegates", style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor)),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 17),
+              child: Text("Chat", style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor)),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 17),
+              child: Text("Request", style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor)),
+            ),
+          ],
+        ),
+        Container(
+          height: 1,
+          margin: EdgeInsets.only(top: 1),
+          width: double.infinity,
+          color: AppColor.lightGrey,
+        ),
+        Expanded(
+          child: TabBarView(
+            controller: widget.tabController,
             children: [
-              const SizedBox(height: 20,),
-              AppTextField(hintText: "Search Delegates",controller: searchDelegateController,prefixIcon: Icon(Icons.search,color: AppColor.FF9B9B9B,),
-                onChanged: onSearchChanged,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const SizedBox(height: 20),
+                  AppTextField(
+                    hintText: "Search Delegates",
+                    controller: searchDelegateController,
+                    prefixIcon: Icon(Icons.search, color: AppColor.FF9B9B9B),
+                    onChanged: onSearchChanged,
+                  ),
+                  Expanded(
+                    child: guestList.isNotEmpty
+                        ? ListView.separated(
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: index == 0 ? const EdgeInsets.only(top: 16) : index == guestList.length - 1 ? const EdgeInsets.only(bottom: 16) : EdgeInsets.zero,
+                          child: inviteDelegateList(guestList[index]),
+                        );
+                      },
+                      separatorBuilder: (context, index) {
+                        return const SizedBox.shrink();
+                      },
+                      itemCount: guestList.length,
+                    )
+                        : Center(
+                      child: Text(
+                        "No Delegates Available To Connect",
+                        style: TextStyle(color: AppColor.primaryColor, fontWeight: FontWeight.w600, fontFamily: appFontFamily, fontSize: 20),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              Expanded(
-                child: guestList.isNotEmpty?ListView.separated(itemBuilder: (context,index){
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const SizedBox(height: 20),
+                  AppTextField(
+                    hintText: "Search Delegates",
+                    controller: searchChatController,
+                    prefixIcon: Icon(Icons.search, color: AppColor.FF9B9B9B),
+                    onChanged: (value) {
+                      chatSearchText = value;
+                      setState(() {});
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  Expanded(child: _buildUserList()),
+                ],
+              ),
+              pendingRequestList.isNotEmpty
+                  ? ListView.separated(
+                itemBuilder: (context, index) {
                   return Padding(
-                    padding: index ==0? const EdgeInsets.only(top: 16):index ==guestList.length-1?const EdgeInsets.only(bottom: 16):EdgeInsets.zero,
-                    child: inviteDelegateList(guestList[index]),
+                    padding: index == 0 ? const EdgeInsets.only(top: 20) : index == pendingRequestList.length - 1 ? const EdgeInsets.only(bottom: 20) : EdgeInsets.zero,
+                    child: requestDelegateList(pendingRequestList[index]),
                   );
-                }, separatorBuilder: (context,index){
-                  return const SizedBox.shrink();
-                }, itemCount: guestList.length): Center(child: Text("No Delegates Available To Connect",style: TextStyle(color: AppColor.primaryColor,fontWeight: FontWeight.w600,fontFamily: appFontFamily,fontSize: 20),)),
+                },
+                separatorBuilder: (context, index) {
+                  return const SizedBox();
+                },
+                itemCount: pendingRequestList.length,
+              )
+                  : Center(
+                child: Text(
+                  "No Pending Requests",
+                  style: TextStyle(color: AppColor.primaryColor, fontWeight: FontWeight.w600, fontFamily: appFontFamily, fontSize: 20),
+                ),
               ),
             ],
           ),
-          Column(
-            children: [
-              const SizedBox(height: 20,),
-              AppTextField(hintText: "Search Delegates",controller: searchChatController,prefixIcon: Icon(Icons.search,color: AppColor.FF9B9B9B,),
-              onChanged: (value){
-                chatSearchText = value;
-                setState(() {
-
-                });
-              },),
-              const SizedBox(height: 20,),
-              // Expanded(
-              //   child: ListView.separated(itemBuilder: (context,index){
-              //     return Padding(
-              //       padding: index ==0? const EdgeInsets.only(top: 20):index ==delegates.length-1?const EdgeInsets.only(bottom: 20):EdgeInsets.zero,
-              //       child: chatListItem(name: delegates[index].name, message: delegates[index].message, profile: delegates[index].profile),
-              //     );
-              //   }, separatorBuilder: (context, index){
-              //     return const SizedBox(height: 20,);
-              //   }, itemCount: delegates.length),
-              // ),
-              Expanded(child: _buildUserList())
-            ],
-          ),
-          pendingRequestList.isNotEmpty?ListView.separated(itemBuilder: (context,index){
-            return Padding(
-              padding: index ==0? const EdgeInsets.only(top: 20):index ==pendingRequestList.length-1?const EdgeInsets.only(bottom: 20):EdgeInsets.zero,
-              child: requestDelegateList(pendingRequestList[index]),
-            );
-          }, separatorBuilder: (context,index){
-            return const SizedBox();
-          }, itemCount: pendingRequestList.length): Center(child: Text("No Pending Requests",style: TextStyle(color: AppColor.primaryColor,fontWeight: FontWeight.w600,fontFamily: appFontFamily,fontSize: 20),)),
-
-    ]):const Center(child: Text("OOPS! NO INTERNET.",style: TextStyle(color: Colors.black87,fontWeight: FontWeight.w600,fontFamily: appFontFamily,fontSize: 20),));
+        ),
+      ],
+    ):const Center(child: Text("OOPS! NO INTERNET.",style: TextStyle(color: Colors.black87,fontWeight: FontWeight.w600,fontFamily: appFontFamily,fontSize: 20),));
   }
 
   Widget _buildUserList(){
