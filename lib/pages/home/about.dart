@@ -138,6 +138,14 @@ class _AboutState extends State<About> with SingleTickerProviderStateMixin{
                         children: [
                           cardWidget(title: "2 Days\nConference", image: Images.conferenceIcon),
                           cardWidget(title: "200+\nSpeakers", image: Images.aboutSpeakersIcon),
+                          cardWidget(title: "3000+\nAttendees", image: Images.attendeesIcon),
+                          cardWidget(title: "Firesides", image: Images.firesidesIcon),
+                          cardWidget(title: "Startup Conclave", image: Images.startupConclaveIcon),
+                          cardWidget(title: "250+ Startup", image: Images.startupIcon),
+                          cardWidget(title: "100+ Investors", image: Images.investorsIcon),
+                          cardWidget(title: "10,000+\nParticipants\nHackathon", image: Images.hackathonIcon),
+                          cardWidget(title: "Exhibitions", image: Images.exhibitorsIcon),
+                          cardWidget(title: "IIT\nRepresentatives", image: Images.representativeIcon),
                           // Add more cards as needed
                         ],
                       ),
