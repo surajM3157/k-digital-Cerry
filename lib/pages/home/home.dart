@@ -963,7 +963,7 @@ class _HomeState extends State<Home> {
       dotColor: AppColor.primaryColor,
       paintStyle: PaintingStyle.stroke
     ),
-  ):SizedBox.shrink();
+  ):const SizedBox.shrink();
 
   int activeIndex =0;
 
@@ -1053,14 +1053,14 @@ class _HomeState extends State<Home> {
                     ),
                   )
                 ],
-              )):SizedBox.shrink();
+              )):const SizedBox.shrink();
         }, separatorBuilder: (BuildContext context, int index){
           return const SizedBox(
             width: 16,
           );
         },),
       ),
-    ):SizedBox.shrink();
+    ):const SizedBox.shrink();
   }
 
 
@@ -1093,7 +1093,7 @@ class _HomeState extends State<Home> {
     return sponsors.isNotEmpty?Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: CarouselSlider(
-        options: CarouselOptions(height: 150,
+        options: CarouselOptions(height: 120,
           aspectRatio: 16/9,
           viewportFraction: 0.38,
           initialPage: 0,
@@ -1124,7 +1124,7 @@ class _HomeState extends State<Home> {
           );
         }).toList(),
       ),
-    ):SizedBox.shrink();
+    ):const SizedBox.shrink();
   }
 
   Widget speakerList(){
@@ -1140,7 +1140,7 @@ class _HomeState extends State<Home> {
             return Container(
               height: 150,
               width: 173,
-              padding: EdgeInsets.all(5),
+              padding: const EdgeInsets.all(5),
               decoration: BoxDecoration(
                   color: AppColor.secondaryColor,
                   gradient: LinearGradient(
@@ -1164,7 +1164,7 @@ class _HomeState extends State<Home> {
                 ],
               ),
             );
-          }, separatorBuilder: (BuildContext context, int index) { return const SizedBox(width: 16,); },):SizedBox.shrink(),
+          }, separatorBuilder: (BuildContext context, int index) { return const SizedBox(width: 16,); },):const SizedBox.shrink(),
       ),
     );
   }

@@ -25,7 +25,7 @@ class CustomProgressIndicator extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(totalSteps, (index) {
-        return _buildProgressSegment(index == currentStep);
+        return _buildProgressSegment(index <= currentStep);
       }),
     );
   }

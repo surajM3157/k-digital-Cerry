@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -8,6 +9,8 @@ import 'package:piwotapp/responses/session_list_response.dart';
 import 'package:piwotapp/widgets/app_button.dart';
 import '../constants/colors.dart';
 import '../constants/images.dart';
+import '../repository/api_repo.dart';
+import '../responses/session_surveys_response.dart';
 import '../route/route_names.dart';
 import '../widgets/app_themes.dart';
 import '../widgets/gradient_text.dart';
@@ -25,10 +28,56 @@ class _SessionDetailsPageState extends State<SessionDetailsPage> {
 
 
   SessionListData? _sessionListData;
+  bool isConnected = true;
+
+  SessionSurveysData? sessionSurveysData;
+  bool isSurvey = false;
+
   @override
   void initState() {
     _sessionListData = Get.arguments['data'];
+    fetchSessionSurvey();
     super.initState();
+  }
+
+  fetchSessionSurvey() async
+  {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      isConnected = false;
+      setState(() {
+
+      });
+    }else {
+      isConnected = true;
+      Future.delayed(Duration.zero, () {
+        showLoader(context);
+      });
+
+      var response = await ApiRepo().getSessionSurveysResponse();
+
+      if( response.data != null)
+      {
+        for(SessionSurveysData session in response.data!){
+          if(_sessionListData?.sId == session.sessionId){
+            sessionSurveysData = session;
+            if(sessionSurveysData != null){
+              if(sessionSurveysData!.questionsDetails!.isNotEmpty){
+                isSurvey = true;
+              }
+            }
+          }
+
+        }
+      }
+
+      // print("Question1 ${questionList[0].question}");
+      // print("Question2 ${questionList[1].question}");
+
+      setState(() {
+
+      });}
+
   }
 
   @override
@@ -133,7 +182,7 @@ class _SessionDetailsPageState extends State<SessionDetailsPage> {
                       child: GradientText(text: "Speaker", style: const TextStyle(fontWeight: FontWeight.w600,fontFamily: appFontFamily,fontSize: 16), gradient: LinearGradient(
                         colors: [AppColor.primaryColor,AppColor.red]
                       )),
-                    ):SizedBox.shrink(),
+                    ):const SizedBox.shrink(),
                     _sessionListData?.speakerDetails !=null?SizedBox(
                       height: 200,
                       child: ListView.builder(
@@ -144,60 +193,68 @@ class _SessionDetailsPageState extends State<SessionDetailsPage> {
                               onTap: (){
                                 speakerDetails(title: _sessionListData?.speakerDetails?[index].speakerName??"", subtitle: _sessionListData?.speakerDetails?[index].designation??"", body: _sessionListData?.speakerDetails?[index].bio??"", image: _sessionListData?.speakerDetails?[index].speakerImage??"");
                               },
-                              child: Stack(
-                                alignment: Alignment.bottomCenter,
-                                children: [
-                                  Container(
-                                    width: 250,
-                                    height: 210,
-                                    margin: const EdgeInsets.all(10),
-                                    decoration: BoxDecoration(
-                                        borderRadius: const BorderRadius.all(Radius.circular(10)),
-                                        gradient: LinearGradient(
-                                          colors: [AppColor.primaryColor, AppColor.red],
-                                          begin: Alignment.centerLeft,
-                                          end: Alignment.centerRight,
-                                        )
-                                    ),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                        child: Image.network(ApiUrls.imageUrl+(_sessionListData?.speakerDetails?[index].speakerImage??""),fit: BoxFit.fill,)),
-                                  ),
-                                  Container(
-                                    margin: const EdgeInsets.symmetric(horizontal: 20),
-                                    width: 250,
-                                    decoration: BoxDecoration(
-                                        color: AppColor.black.withOpacity(0.85),
-                                        borderRadius: const BorderRadius.all(Radius.circular(10))
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Text(_sessionListData?.speakerDetails?[index].speakerName??"",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600,color: AppColor.white,fontFamily: appFontFamily),),
-                                          Text(_sessionListData?.speakerDetails?[index].designation??"",style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400,color: AppColor.white,fontFamily: appFontFamily),),
-                                        ],
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 30),
+                                child: Stack(
+                                  alignment: Alignment.bottomCenter,
+                                  clipBehavior: Clip.none,
+                                  children: [
+                                    Container(
+                                      width: 210,
+                                      height: 210,
+                                      margin: const EdgeInsets.all(10),
+                                      decoration: BoxDecoration(
+                                          borderRadius: const BorderRadius.all(Radius.circular(10)),
+                                          gradient: LinearGradient(
+                                            colors: [AppColor.primaryColor, AppColor.red],
+                                            begin: Alignment.centerLeft,
+                                            end: Alignment.centerRight,
+                                          )
                                       ),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(10),
+                                          child: Image.network(ApiUrls.imageUrl+(_sessionListData?.speakerDetails?[index].speakerImage??""),fit: BoxFit.fill,)),
                                     ),
-                                  )
-                                ],
+                                    Positioned(
+                                      bottom: -30,
+                                      child: Container(
+                                        margin: const EdgeInsets.symmetric(horizontal: 20),
+                                        width: 210,
+                                        height: 80,
+                                        decoration: BoxDecoration(
+                                            color: AppColor.black.withOpacity(0.85),
+                                            borderRadius: const BorderRadius.all(Radius.circular(10))
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Text(_sessionListData?.speakerDetails?[index].speakerName??"",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600,color: AppColor.white,fontFamily: appFontFamily),overflow: TextOverflow.ellipsis,),
+                                              Text(_sessionListData?.speakerDetails?[index].designation??"",style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400,color: AppColor.white,fontFamily: appFontFamily),overflow: TextOverflow.ellipsis,),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             );
                           }),
-                    ):SizedBox.shrink(),
+                    ):const SizedBox.shrink(),
                     const SizedBox(height: 20,),
                     Container(width: Get.width,
                       height: 1,color: AppColor.primaryColor,
                     ),
                     const SizedBox(height: 20,),
                  //  DateTime.parse(_sessionListData?.date??"") == DateTime.now()?
-                   AppButton(title: "Take Survey", onTap: (){
+                  isSurvey? AppButton(title: "Take Survey", onTap: (){
                       Get.toNamed(Routes.survey, arguments: {
                         "session_id": _sessionListData?.sId,"type":""
                       });
-                    }),
+                    }):const SizedBox.shrink(),
                        //:SizedBox.shrink(),
                     const SizedBox(height: 20,),
                   ],
