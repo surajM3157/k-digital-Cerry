@@ -220,7 +220,7 @@ class _SpeakerPageState extends State<SpeakerPage> {
                       ),
                       child:ClipRRect(
                         borderRadius: BorderRadius.circular(16),
-                          child: Image.network(ApiUrls.imageUrl+image,fit: BoxFit.fitHeight,)),
+                          child: Image.network(ApiUrls.imageUrl+image,fit: BoxFit.fill,)),
                     ),
                     // const SizedBox(height: 10,),
                     // Row(

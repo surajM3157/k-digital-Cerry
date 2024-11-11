@@ -96,13 +96,13 @@ class _AgendaState extends State<Agenda> {
             dateFilter(),
             const SizedBox(height: 20,),
             ListView.separated(
-              itemCount: 2,
+              itemCount: agendaList.length,
               shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index){
               return Card(
                 elevation: 2,
-                margin: EdgeInsets.symmetric(horizontal: 16),
+                margin: const EdgeInsets.symmetric(horizontal: 16),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -110,9 +110,8 @@ class _AgendaState extends State<Agenda> {
                   children: [
                     ListTile(
                       title: GradientText(
-                        text: "Room Name",
-                        style: TextStyle(fontWeight: FontWeight.w600,fontSize: 15,fontFamily: appFontFamily), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]
-
+                        text: agendaList[index].roomId?.roomNo??"",
+                        style: const TextStyle(fontWeight: FontWeight.w600,fontSize: 15,fontFamily: appFontFamily), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]
                       ),
                       ),
                       trailing:  expandedIndex == index ?Image.asset(Images.upArrowIcon,height: 30,width: 30,):Image.asset(Images.downArrowIcon,height: 30,width: 30,),
@@ -123,19 +122,20 @@ class _AgendaState extends State<Agenda> {
                       },
                     ),
                     if (expandedIndex == index)
-                    Padding(
+                      agendaList[index].agendas!.isNotEmpty? Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 16.0, vertical: 8.0),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Flexible(
-                            flex: 1,
-                            child: ListView.builder(
-                                shrinkWrap: true,physics: NeverScrollableScrollPhysics(),
-                                itemCount: agendaList.length,
-                                itemBuilder: (index,context){
-                                  return Column(
+                      child: ListView.builder(
+                          shrinkWrap: true,physics: const NeverScrollableScrollPhysics(),
+                          itemCount: agendaList[index].agendas?.length,
+                          itemBuilder: (context,agendasIndex){
+                            return Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Flexible(
+                                  flex:1,
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Container(
                                         height: 10,width: 10,
@@ -144,49 +144,65 @@ class _AgendaState extends State<Agenda> {
                                             borderRadius: const BorderRadius.all(Radius.circular(5))
                                         ),
                                       ),
-                                      Container(height: 132,width: 1,color: AppColor.primaryColor,),
+                                      Flexible(
+                                        fit: FlexFit.loose,
+                                        child: Container(width: 1,color: AppColor.primaryColor,
+                                          child: Column(
+                                            children: [
+                                              Text("",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 12,color: AppColor.FF161616,fontFamily: appFontFamily),),
+                                              const SizedBox(height: 20,),
+                                              Text("",style: TextStyle(fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.FF161616),),
+                                              const SizedBox(height: 10,),
+                                              ListView(
+                                                padding: EdgeInsets.only(right: 10),
+                                                shrinkWrap: true,physics: NeverScrollableScrollPhysics(),
+                                                children: agendaList[index].agendas![agendasIndex].activities!.map((item) {
+                                                  return Text(item,overflow: TextOverflow.ellipsis,maxLines:2,style: TextStyle(
+                                                      fontWeight: FontWeight.w400,fontSize: 14,color: AppColor.white
+                                                  ),);
+                                                }).toList(), // Convert the iterable to a list
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
                                     ],
-                                  );
-                                }),
-                          ),
-                          Flexible(
-                            flex: 4,
-                            child: ListView.separated(
-                              shrinkWrap: true,physics: NeverScrollableScrollPhysics(),
-                              itemCount: agendaList.length,
-                              itemBuilder: (context, index){
-                                return Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(agendaList[index].time??"",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 12,color: AppColor.FF161616,fontFamily: appFontFamily),),
-                                    const SizedBox(height: 20,),
-                                    Text(agendaList[index].title??"",style: TextStyle(fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.FF161616),),
-                                    const SizedBox(height: 10,),
-                                    ListView(
-                                      padding: EdgeInsets.only(right: 10),
-                                      shrinkWrap: true,physics: NeverScrollableScrollPhysics(),
-                                      children: agendaList[index].activities!.map((item) {
-                                        return AppThemes.buildBulletPoint(Text(item,style: TextStyle(
-                                            fontWeight: FontWeight.w400,fontSize: 14,fontFamily: appFontFamily,color: AppColor.FF161616
-                                        ),));
-                                      }).toList(), // Convert the iterable to a list
-                                    ),
-                                  ],
-                                );
-                              }, separatorBuilder: (BuildContext context, int index) {
-                              return SizedBox(height: 10,);
-                            },),
-                          )
-                        ],
-                      ),
-                    ),
+                                  ),
+                                ),
+                                SizedBox(width: 7,),
+                                Flexible(
+                                  flex:4,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      //SizedBox(height: 7,),
+                                      Text(agendaList[index].agendas?[agendasIndex].time??"",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 12,color: AppColor.FF161616,fontFamily: appFontFamily),),
+                                      const SizedBox(height: 20,),
+                                      Text(agendaList[index].agendas?[agendasIndex].title??"",style: TextStyle(fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.FF161616),),
+                                      const SizedBox(height: 10,),
+                                      ListView(
+                                        padding: const EdgeInsets.only(right: 10),
+                                        shrinkWrap: true,physics: const NeverScrollableScrollPhysics(),
+                                        children: agendaList[index].agendas![agendasIndex].activities!.map((item) {
+                                          return AppThemes.buildBulletPoint(Text(item,style: TextStyle(
+                                              fontWeight: FontWeight.w400,fontSize: 14,fontFamily: appFontFamily,color: AppColor.FF161616
+                                          ),));
+                                        }).toList(), // Convert the iterable to a list
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            );
+                          }),
+                    ):const SizedBox.shrink(),
                   ],
                 ),
               );
-            }, separatorBuilder: (BuildContext context, int index) { return SizedBox(
+            }, separatorBuilder: (BuildContext context, int index) { return const SizedBox(
               height: 10,
             ); },),
-            SizedBox(height: 20,)
+            const SizedBox(height: 20,)
           ],
         ),
       ),

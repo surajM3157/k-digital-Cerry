@@ -34,7 +34,6 @@ class _EventAgendaPageState extends State<EventAgendaPage> {
       showLoader(context);
     });
 
-    try{
       var response = await ApiRepo().getAgendaResponse(date);
 
       if( response.data != null)
@@ -52,11 +51,6 @@ class _EventAgendaPageState extends State<EventAgendaPage> {
 
       });
 
-    }
-    catch(e){}
-
-
-    setState(() {});
   }
 
   @override
@@ -81,7 +75,7 @@ class _EventAgendaPageState extends State<EventAgendaPage> {
             },
             child: Icon(Icons.arrow_back_ios,size: 20,color: AppColor.white,)),
       ),
-      body: SingleChildScrollView(
+      body:SingleChildScrollView(
         child: Column(
           children: [
             const SizedBox(height: 10,),
@@ -99,7 +93,7 @@ class _EventAgendaPageState extends State<EventAgendaPage> {
             dateFilter(),
             const SizedBox(height: 20,),
             ListView.separated(
-              itemCount: 2,
+              itemCount: agendaList.length,
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
               itemBuilder: (context, index){
@@ -112,14 +106,13 @@ class _EventAgendaPageState extends State<EventAgendaPage> {
                   child: Column(
                     children: [
                       ListTile(
-                        title: Text(
-                          "Room Name",
-                          style: TextStyle(fontWeight: FontWeight.w600,fontSize: 15,fontFamily: appFontFamily,color: AppColor.primaryColor),
+                        title: GradientText(
+                          text: agendaList[index].roomId?.roomNo??"",
+                          style: TextStyle(fontWeight: FontWeight.w600,fontSize: 15,fontFamily: appFontFamily), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]
+
                         ),
-                        trailing: Icon(
-                          expandedIndex == index ? Icons.remove : Icons.add,
-                          color:AppColor.primaryColor,
                         ),
+                        trailing:  expandedIndex == index ?Image.asset(Images.upArrowIcon,height: 30,width: 30,):Image.asset(Images.downArrowIcon,height: 30,width: 30,),
                         onTap: () {
                           setState(() {
                             expandedIndex = expandedIndex == index ? -1 : index;
@@ -127,7 +120,7 @@ class _EventAgendaPageState extends State<EventAgendaPage> {
                         },
                       ),
                       if (expandedIndex == index)
-                        Padding(
+                        agendaList[index].agendas!.isNotEmpty? Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 16.0, vertical: 8.0),
                           child: Row(
@@ -137,7 +130,7 @@ class _EventAgendaPageState extends State<EventAgendaPage> {
                                 flex: 1,
                                 child: ListView.builder(
                                     shrinkWrap: true,physics: NeverScrollableScrollPhysics(),
-                                    itemCount: agendaList.length,
+                                    itemCount: agendaList[index].agendas?.length,
                                     itemBuilder: (index,context){
                                       return Column(
                                         children: [
@@ -157,19 +150,19 @@ class _EventAgendaPageState extends State<EventAgendaPage> {
                                 flex: 4,
                                 child: ListView.separated(
                                   shrinkWrap: true,physics: NeverScrollableScrollPhysics(),
-                                  itemCount: agendaList.length,
+                                  itemCount: agendaList[index].agendas!.length,
                                   itemBuilder: (context, index){
                                     return Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text(agendaList[index].time??"",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 12,color: AppColor.FF161616,fontFamily: appFontFamily),),
+                                        Text(agendaList[index].agendas?[index].time??"",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 12,color: AppColor.FF161616,fontFamily: appFontFamily),),
                                         const SizedBox(height: 20,),
-                                        Text(agendaList[index].title??"",style: TextStyle(fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.FF161616),),
+                                        Text(agendaList[index].agendas?[index].title??"",style: TextStyle(fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.FF161616),),
                                         const SizedBox(height: 10,),
                                         ListView(
                                           padding: EdgeInsets.only(right: 10),
                                           shrinkWrap: true,physics: NeverScrollableScrollPhysics(),
-                                          children: agendaList[index].activities!.map((item) {
+                                          children: agendaList[index].agendas![index].activities!.map((item) {
                                             return AppThemes.buildBulletPoint(Text(item,style: TextStyle(
                                                 fontWeight: FontWeight.w400,fontSize: 14,fontFamily: appFontFamily,color: AppColor.FF161616
                                             ),));
@@ -183,7 +176,7 @@ class _EventAgendaPageState extends State<EventAgendaPage> {
                               )
                             ],
                           ),
-                        ),
+                        ):SizedBox.shrink(),
                     ],
                   ),
                 );

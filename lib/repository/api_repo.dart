@@ -484,6 +484,44 @@ class ApiRepo
   }
 
 
+ contactus(var params) async {
+    try{
+      final response = await http.post(Uri.parse("${ApiUrls.contactusApiUrl}"),
+          body: params,headers: {'token': '${Prefs.checkAuthToken}',}
+      );
+
+      Get.back();
+
+      print("params ${params}");
+      print("Api url ${ApiUrls.contactusApiUrl}");
+      print("response ${response.body}");
+
+
+      if(response.statusCode == 200)
+      {
+
+        var res = await json.decode(response.body);
+
+        EasyLoading.showToast("${res['message']}",
+            dismissOnTap: true,
+            duration: const Duration(seconds: 1),
+            toastPosition: EasyLoadingToastPosition.center);
+        Get.back();
+
+      }
+      else
+      {
+        var res = await json.decode(response.body);
+
+        EasyLoading.showToast("${res['message']}",
+            dismissOnTap: true,
+            duration: const Duration(seconds: 1),
+            toastPosition: EasyLoadingToastPosition.center);
+      }}catch(e){
+      print("Request error: $e");
+
+    }
+  }
 
   Future<AboutUsResponse> getAboutUsResponse() async {
 

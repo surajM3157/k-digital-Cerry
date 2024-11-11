@@ -1,11 +1,14 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:piwotapp/widgets/app_button.dart';
 import '../../constants/colors.dart';
 import '../../constants/font_family.dart';
 import '../../constants/images.dart';
+import '../../repository/api_repo.dart';
 import '../../widgets/app_themes.dart';
 import '../../widgets/gradient_text.dart';
 
@@ -22,7 +25,8 @@ class _ContactUsPageState extends State<ContactUsPage> {
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
-  var _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
+  bool isConnected = true;
 
   @override
   Widget build(BuildContext context) {
@@ -223,6 +227,7 @@ class _ContactUsPageState extends State<ContactUsPage> {
               AppButton(title: "Send Message", onTap: (){
                 if(_formKey.currentState!.validate()){
                   print("validate");
+                  contactus();
                 }
               }),
               const SizedBox(height: 20,)
@@ -232,4 +237,36 @@ class _ContactUsPageState extends State<ContactUsPage> {
       ),
     );
   }
+
+  contactus()async{
+
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      isConnected = false;
+      EasyLoading.showToast("No Internet",
+          dismissOnTap: true,
+          duration: const Duration(seconds: 1),
+          toastPosition: EasyLoadingToastPosition.center);
+      setState(() {
+
+      });
+    }else {
+      isConnected = true;
+      Map<String, String> params = {
+        "name":nameController.text.trim(),
+        "email":emailController.text.trim(),
+        "mobile_number":phoneNumberController.text.trim(),
+        "message":messageController.text.trim()
+      };
+
+
+
+      Future.delayed(Duration.zero, () {
+        showLoader(context);
+      });
+
+      await ApiRepo().contactus(params);
+    }
+  }
+
 }

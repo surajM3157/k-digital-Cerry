@@ -33,7 +33,6 @@ class _EditProfilPageState extends State<EditProfilPage> {
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController companyController = TextEditingController();
   TextEditingController designationController = TextEditingController();
-  TextEditingController cityController = TextEditingController();
   TextEditingController streamController = TextEditingController();
 
   var _formKey = GlobalKey<FormState>();
