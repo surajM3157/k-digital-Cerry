@@ -65,8 +65,10 @@ dependencies:
   flutter_dotenv: ^5.2.1
   googleapis: ^11.3.0
   googleapis_auth: ^1.4.1
-  country_state_city_picker: ^1.2.8
+#  country_state_city_picker: ^1.2.8
   country_state_city: ^0.1.6
+  encrypt: ^5.0.3
+  crypto: ^3.0.3
 
 
 dev_dependencies:

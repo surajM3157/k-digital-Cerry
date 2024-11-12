@@ -119,6 +119,7 @@ class _SponsorPageState extends State<SponsorPage> with SingleTickerProviderStat
                     (
                     margin: const EdgeInsets.all(10),
                     height: 143,width: 155,
+                    padding: EdgeInsets.all(5),
                     decoration: BoxDecoration(
                         color: AppColor.FFFFFDFD,
                         borderRadius: const BorderRadius.all(Radius.circular(8),),
@@ -128,7 +129,7 @@ class _SponsorPageState extends State<SponsorPage> with SingleTickerProviderStat
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SizedBox(
-                            height: 70,width: 100,
+                            height: 100,width: 100,
                               child: Image.network(ApiUrls.imageUrl+(sponsorList[index].sponsorImage??""))),
                           const SizedBox(height: 10,),
                           Text(sponsorList[index].sponsorName??"",style: AppThemes.labelTextStyle().copyWith(color: AppColor.black),textAlign: TextAlign.center,)
@@ -147,6 +148,7 @@ class _SponsorPageState extends State<SponsorPage> with SingleTickerProviderStat
                   itemBuilder: (_, index) => Container
                     (
                     margin: const EdgeInsets.all(10),
+                    padding: EdgeInsets.all(5),
                     height: 143,width: 155,
                     decoration: BoxDecoration(
                         color: AppColor.FFFFFDFD,
@@ -157,7 +159,7 @@ class _SponsorPageState extends State<SponsorPage> with SingleTickerProviderStat
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SizedBox(
-                              height: 70,width: 100,
+                              height: 100,width: 100,
                               child: Image.network(ApiUrls.imageUrl+(partnerList[index].partnerImage??""))),
                           const SizedBox(height: 10,),
                           Text(partnerList[index].partnerName??"",style: AppThemes.labelTextStyle().copyWith(color: AppColor.black),textAlign: TextAlign.center,)

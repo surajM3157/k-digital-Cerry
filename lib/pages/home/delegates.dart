@@ -479,7 +479,7 @@ class _DelegatesState extends State<Delegates> with SingleTickerProviderStateMix
                         stream: chatService.getMessages(Prefs.checkUserId, data['uid']),
                         builder: (context, snapshot) {
                           if (snapshot.connectionState == ConnectionState.waiting) {
-                            return Text("Loading...");
+                            return Center(child: Text("Loading..."));
                           }
                           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
                             return Text("No messages yet");
@@ -487,7 +487,7 @@ class _DelegatesState extends State<Delegates> with SingleTickerProviderStateMix
                            lastMessageDoc = snapshot.data!.docs.last;
                           var lastMessageData = lastMessageDoc.data() as Map<String, dynamic>;
                           return Text(
-                            lastMessageData['message'], // Display the message content
+                            chatService.decryptMessage(lastMessageData['message'],'my_secure_passphrase'), // Display the message content
                             overflow: TextOverflow.ellipsis,
                             style:  TextStyle(color: (lastMessageData['senderId']==Prefs.checkUserId)?Colors.grey:lastMessageData['isRead']?Colors.grey:Colors.black,fontWeight: (lastMessageData['senderId']==Prefs.checkUserId)?FontWeight.normal:lastMessageData['isRead']?FontWeight.normal:FontWeight.bold),
                           );
@@ -733,18 +733,17 @@ class _DelegatesState extends State<Delegates> with SingleTickerProviderStateMix
                  }
                 },
                 child: Container(
-                  width: 100,height: 35,
+                  width: 120,height: 35,
                   margin: const EdgeInsets.only(left: 10),
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(8)),
-                    gradient:sentRequestList.contains(guestListData.sId)?null:LinearGradient(
+                    gradient:LinearGradient(
                       colors: [AppColor.primaryColor, AppColor.red],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
-                    color: sentRequestList.contains(guestListData.sId)?Colors.grey:null,
                   ),
-                  child: Center(child: Text("Connect",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 14,color: AppColor.white,fontFamily: appFontFamily),)),
+                  child: Center(child: Text(sentRequestList.contains(guestListData.sId)?"Request Sent":"Connect",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 14,color: AppColor.white,fontFamily: appFontFamily),)),
                 ),
               ),
               // Container(

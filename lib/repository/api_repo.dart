@@ -649,6 +649,22 @@ class ApiRepo
     return globalSurveyResponseFromJson(response.body);
   }
 
+  surveyStatus(var params) async {
+      final response = await http.post(Uri.parse("${ApiUrls.surveyStatusApiUrl}"),
+          body: params,headers: {'token': '${Prefs.checkAuthToken}',}
+      );
+
+      Get.back();
+
+      print("params ${params}");
+      print("Api url ${ApiUrls.surveyStatusApiUrl}");
+      print("response ${response.body}");
+
+
+      var res = await json.decode(response.body);
+      return res["success"];
+  }
+
   addSurvey(Map<String, dynamic> params) async {
     final response = await http.post(Uri.parse("${ApiUrls.addSurveyApiUrl}"),
         body: json.encode(params),headers: {

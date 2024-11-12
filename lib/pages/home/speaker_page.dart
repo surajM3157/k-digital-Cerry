@@ -135,15 +135,18 @@ class _SpeakerPageState extends State<SpeakerPage> {
                         margin: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
                             borderRadius: const BorderRadius.all(Radius.circular(10)),
-                            gradient: LinearGradient(
-                              colors: [AppColor.primaryColor, AppColor.red],
-                              begin: Alignment.centerLeft,
-                              end: Alignment.centerRight,
-                            )
+                            // gradient: LinearGradient(
+                            //   colors: [AppColor.primaryColor, AppColor.red],
+                            //   begin: Alignment.centerLeft,
+                            //   end: Alignment.centerRight,
+                            // )
+                          color: AppColor.white
                         ),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10),
-                            child: Image.network(ApiUrls.imageUrl+(speakerList[index].speakerImage??""),fit: BoxFit.fill,)),
+                            child: FittedBox(
+                              fit: BoxFit.fill,
+                                child: Image.network(ApiUrls.imageUrl+(speakerList[index].speakerImage??""),fit: BoxFit.fill,))),
                       ),
                       Positioned(
                         bottom: -30,

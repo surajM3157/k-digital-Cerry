@@ -30,6 +30,7 @@ class ApiUrls
    static String addSurveyApiUrl = "$baseUrl/event/add-feedback";
    static String globalSurveyApiUrl = "$baseUrl/event/global-survey";
    static String contactusApiUrl = "$baseUrl/event/contact-us";
+   static String surveyStatusApiUrl = "$baseUrl/event/check-survey-status";
 
 }
 

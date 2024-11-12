@@ -260,9 +260,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
             const SizedBox(height: 20,),
             InkWell(
               onTap: (){
-                launchUrl(Uri.parse(_listLinkData?.privacyPolicyLink??""));
+                //launchUrl(Uri.parse(_listLinkData?.privacyPolicyLink??""));
 
-                // Get.toNamed(Routes.privacyPolicy);
+               Get.toNamed(Routes.privacyPolicy);
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -285,8 +285,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
             const SizedBox(height: 20,),
             InkWell(
               onTap: (){
-                launchUrl(Uri.parse(_listLinkData?.termsAndConditionsLink??""));
-                // Get.toNamed(Routes.termsCondition);
+                //launchUrl(Uri.parse(_listLinkData?.termsAndConditionsLink??""));
+                Get.toNamed(Routes.termsCondition);
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),

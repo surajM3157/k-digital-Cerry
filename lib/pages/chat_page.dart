@@ -197,6 +197,6 @@ class _ChatPageState extends State<ChatPage> {
   Widget _buildMessageItem(DocumentSnapshot document){
     Map<String, dynamic> data = document.data() as Map<String,dynamic>;
 
-    return ChatBubble( message: data['message'], isMe: (data['senderId']== Prefs.checkUserId), timeStamp: DateFormat('hh:mm a').format(data['timestamp'].toDate()),);
+    return ChatBubble( message: chatService.decryptMessage(data['message'],'my_secure_passphrase'), isMe: (data['senderId']== Prefs.checkUserId), timeStamp: DateFormat('hh:mm a').format(data['timestamp'].toDate()),);
   }
 }

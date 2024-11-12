@@ -753,7 +753,7 @@ class _EditProfilPageState extends State<EditProfilPage> {
               },
               child: Container(
                 width: 188,height: 188,
-                margin: const EdgeInsets.only(left: 100,top: 120),
+                margin: const EdgeInsets.only(left: 90,top: 120),
                 padding: _image != null||profileImage!=""?null:const EdgeInsets.all(50),
                 decoration: BoxDecoration(
                     color: AppColor.white,
@@ -775,15 +775,18 @@ class _EditProfilPageState extends State<EditProfilPage> {
               ),
             ),
             Positioned(
-              left: 240,
+              left: 230,
               top: 250,
-              child: Container(
-                height: 54,width: 54,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
-                    gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])
-                  ),
-                  child: Icon(Icons.camera_alt_outlined,color: AppColor.white,size: 30,)),
+              child: GestureDetector(
+                onTap: pickImageFromCameraAndGallery,
+                child: Container(
+                  height: 54,width: 54,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])
+                    ),
+                    child: Icon(Icons.camera_alt_outlined,color: AppColor.white,size: 30,)),
+              ),
             )
           ],
         ),

@@ -1202,7 +1202,7 @@ class _HomeState extends State<Home> {
             color: AppColor.red,
             borderRadius: const BorderRadius.all(Radius.circular(8))
         ),
-        child: Center(child: Text("Let's Go",style: AppThemes.titleTextStyle().copyWith(color: AppColor.white,fontSize: 17),)),
+        child: Center(child: Text("Take Survey",style: AppThemes.titleTextStyle().copyWith(color: AppColor.white,fontSize: 17),)),
       ),
     );
   }

@@ -102,11 +102,9 @@ class _SessionDetailsPageState extends State<SessionDetailsPage> {
             children: [
               SizedBox(
                   width: Get.width,
-                  height: 390,
-
-                  child: Image.network(ApiUrls.imageUrl+(_sessionListData?.sessionImage??""),fit: BoxFit.fill,)),
+                  child: Image.network(ApiUrls.imageUrl+(_sessionListData?.sessionImage??""),fit: BoxFit.contain,)),
               Container(
-                margin: const EdgeInsets.only(top: 350),
+                margin: const EdgeInsets.only(top: 260),
                 decoration: BoxDecoration(
                   color: AppColor.white,
                   borderRadius: const BorderRadius.only(topRight: Radius.circular(25),topLeft: Radius.circular(25))

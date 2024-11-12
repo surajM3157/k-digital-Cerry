@@ -10,7 +10,6 @@ import 'package:piwotapp/route/route_names.dart';
 import 'package:piwotapp/services/notification_service.dart';
 import 'package:piwotapp/widgets/app_themes.dart';
 import 'package:get/get.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../../constants/images.dart';
 import '../../repository/api_repo.dart';
 import '../../responses/guest_details_response.dart';
@@ -282,8 +281,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
                 InkWell(
                   onTap: (){
-                    launchUrl(Uri.parse(_listLinkData?.privacyPolicyLink??""));
-                    // Get.toNamed(Routes.privacyPolicy);
+                    //launchUrl(Uri.parse(_listLinkData?.privacyPolicyLink??""));
+                    Get.toNamed(Routes.privacyPolicy);
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 18),
@@ -305,8 +304,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
                 InkWell(
                   onTap: (){
-                    launchUrl(Uri.parse(_listLinkData?.termsAndConditionsLink??""));
-                    // Get.toNamed(Routes.termsCondition);
+                    //launchUrl(Uri.parse(_listLinkData?.termsAndConditionsLink??""));
+                    Get.toNamed(Routes.termsCondition);
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 18),
@@ -394,7 +393,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             Container(
               width: 200,height: 200,
-              margin: const EdgeInsets.only(left: 90,top: 110),
+              margin: const EdgeInsets.only(left: 80,top: 110),
               padding: guestDetails?.guestProfileImage != null?null:const EdgeInsets.all(50),
               decoration: BoxDecoration(
                   color: AppColor.white,

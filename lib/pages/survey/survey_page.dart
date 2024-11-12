@@ -9,6 +9,8 @@ import 'package:piwotapp/responses/global_survey_response.dart';
 import 'package:piwotapp/responses/session_surveys_response.dart';
 import '../../constants/images.dart';
 import '../../repository/api_repo.dart';
+import '../../route/route_names.dart';
+import '../../shared prefs/pref_manager.dart';
 import '../../widgets/app_themes.dart';
 import '../../widgets/custom_progress_indicator.dart';
 
@@ -34,6 +36,7 @@ class _SurveyPageState extends State<SurveyPage> {
   String selectedValue = "";
   final Map<String, bool> selectedOptions = {};
   List<int> rating = [];
+  bool isSurvey = false;
 
   GlobalSurveyData? globalSurveyData;
 
@@ -48,6 +51,34 @@ class _SurveyPageState extends State<SurveyPage> {
       fetchSessionSurvey();
     }
     super.initState();
+  }
+
+  surveyStatus(String surveyId)async{
+
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      isConnected = false;
+      EasyLoading.showToast("No Internet",
+          dismissOnTap: true,
+          duration: const Duration(seconds: 1),
+          toastPosition: EasyLoadingToastPosition.center);
+      setState(() {
+
+      });
+    }else {
+      isConnected = true;
+      Map<String, String> params = new Map<String, String>();
+      params["survey_id"] = surveyId;
+      params["guest_id"] = Prefs.checkUserId;
+
+
+
+      Future.delayed(Duration.zero, () {
+        showLoader(context);
+      });
+
+     isSurvey =  await ApiRepo().surveyStatus(params);
+    }
   }
 
   fetchSessionSurvey() async
@@ -71,8 +102,13 @@ class _SurveyPageState extends State<SurveyPage> {
         for(SessionSurveysData session in response.data!){
           if(sessionId == session.sessionId){
             sessionSurveysData = session;
-            for(QuestionsDetails question in session.questionsDetails!){
-              questionList.add(question);
+            await surveyStatus(session.sId??"");
+            if(isSurvey){
+              Get.offAllNamed(Routes.thankYou);
+            }else {
+              for (QuestionsDetails question in session.questionsDetails!) {
+                questionList.add(question);
+              }
             }
           }
 
@@ -107,10 +143,14 @@ class _SurveyPageState extends State<SurveyPage> {
       if( response.data != null)
       {
             globalSurveyData = response.data?[0];
+            await surveyStatus(globalSurveyData?.sId??"");
+            if(isSurvey){
+              Get.offAllNamed(Routes.thankYou);
+            }else{
             for(Questions question in globalSurveyData!.questions!){
               globalQuestionList.add(question);
 
-        }
+        }}
       }
 
       print("Question1 ${globalQuestionList[0].question}");
