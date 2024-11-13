@@ -7,7 +7,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:piwotapp/constants/api_urls.dart';
 import 'package:piwotapp/responses/guest_details_response.dart';
 import 'package:piwotapp/widgets/app_button.dart';
@@ -34,6 +33,7 @@ class _EditProfilPageState extends State<EditProfilPage> {
   TextEditingController companyController = TextEditingController();
   TextEditingController designationController = TextEditingController();
   TextEditingController streamController = TextEditingController();
+  TextEditingController batchController = TextEditingController();
 
   var _formKey = GlobalKey<FormState>();
 
@@ -164,8 +164,8 @@ class _EditProfilPageState extends State<EditProfilPage> {
        // country = (countryItems.contains(guestDetails?.country) ? guestDetails?.country : null)??"";
         _gender = guestDetails?.gender??"";
         iitName = (iitItems.contains(guestDetails?.iitName) ? guestDetails?.iitName : null)??"";
-
-        batch = (iitBatchItems.contains(guestDetails?.batch.toString()) ? guestDetails?.batch.toString() : null)??"";
+        batchController.text = (guestDetails?.batch.toString()!="null"?guestDetails!.batch.toString():"");
+       // batch = (iitBatchItems.contains(guestDetails?.batch.toString()) ? guestDetails?.batch.toString() : null)??"";
 
         _isAlumni = guestDetails?.alumniOfIit == true?"Yes":"No";
         profileImage = guestDetails?.guestProfileImage ??"";
@@ -306,72 +306,74 @@ class _EditProfilPageState extends State<EditProfilPage> {
                     },
                   ),
                   const SizedBox(height: 25,),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: IntlPhoneField(
-                      controller: phoneNumberController,
-                      cursorColor: AppColor.primaryColor,
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: (value)
-                      {
-                        if (value.toString() == ""||value.toString().length!=10)
-                        {
-                          return 'Enter a valid phone number.';
-                        }
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                          labelText: "Phone Number*",
-                        labelStyle: TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
-                        hintStyle:  TextStyle(color:AppColor.FF9B9B9B,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
-                        contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                        focusedBorder:  OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
-                        ),
-                        enabledBorder:  OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
-                        ),
-                        errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: const BorderSide(color: Colors.red, width: 2.0)),
-                        focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: const BorderSide(color: Colors.red, width: 2.0)),
-                      ),
-                      initialCountryCode: 'IN',
-                      onChanged: (phone) {
-                        print(phone.completeNumber);
-                      },
-                    ),
-                  ),
-                  // AppTextField(hintText: "Type Phone number*",controller: phoneNumberController,labelText:"Phone Number*",keyboardType: TextInputType.phone,inputFormatters:[
-                  //   LengthLimitingTextInputFormatter(10),
-                  // ],
-                  //   autovalidateMode: AutovalidateMode.onUserInteraction,
-                  //   validator: (value)
-                  //   {
-                  //     if (value.toString() == ""||value.toString().length!=10)
+                  // Padding(
+                  //   padding: const EdgeInsets.symmetric(horizontal: 16),
+                  //   child: IntlPhoneField(
+                  //     controller: phoneNumberController,
+                  //     cursorColor: AppColor.primaryColor,
+                  //     autovalidateMode: AutovalidateMode.onUserInteraction,
+                  //     validator: (value)
                   //     {
-                  //       return 'Enter a valid phone number.';
-                  //     }
-                  //     return null;
-                  //   },
-                  //   prefixIcon: Padding(
-                  //     padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  //     child: DropdownButtonHideUnderline(
-                  //       child: DropdownButton<String>(
-                  //         value: selectedCode,
-                  //         items: ['+91', '+1', '+3'].map((String prefix) {
-                  //           return DropdownMenuItem<String>(
-                  //             value: prefix,
-                  //             child: Text(prefix,style: TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),),
-                  //           );
-                  //         }).toList(),
-                  //         onChanged: (String? newValue) {
-                  //           setState(() {
-                  //             selectedCode = newValue!;
-                  //           });
-                  //         },
+                  //       if (value.toString() == ""||value.toString().length!=10)
+                  //       {
+                  //         return 'Enter a valid phone number.';
+                  //       }
+                  //       return null;
+                  //     },
+                  //     decoration: InputDecoration(
+                  //         labelText: "Phone Number*",
+                  //       labelStyle: TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
+                  //       hintStyle:  TextStyle(color:AppColor.FF9B9B9B,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
+                  //       contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                  //       focusedBorder:  OutlineInputBorder(
+                  //           borderRadius: BorderRadius.circular(10.0),
+                  //           borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
                   //       ),
-                  //     )),),
+                  //       enabledBorder:  OutlineInputBorder(
+                  //           borderRadius: BorderRadius.circular(10.0),
+                  //           borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
+                  //       ),
+                  //       errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: const BorderSide(color: Colors.red, width: 2.0)),
+                  //       focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: const BorderSide(color: Colors.red, width: 2.0)),
+                  //     ),
+                  //     initialCountryCode: 'IN',
+                  //     onChanged: (phone) {
+                  //       print(phone.completeNumber);
+                  //     },
+                  //   ),
+                  // ),
+                  AppTextField(hintText: "Type Phone number*",controller: phoneNumberController,labelText:"Phone Number*",keyboardType: TextInputType.phone,inputFormatters:[
+                    LengthLimitingTextInputFormatter(10),
+                  ],
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (value)
+                    {
+                      if (value.toString() == ""||value.toString().length!=10)
+                      {
+                        return 'Enter a valid phone number.';
+                      }
+                      return null;
+                    },
+                    // prefixIcon: Padding(
+                    //   padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    //   child: DropdownButtonHideUnderline(
+                    //     child: DropdownButton<String>(
+                    //       value: selectedCode,
+                    //       items: ['+91', '+1', '+3'].map((String prefix) {
+                    //         return DropdownMenuItem<String>(
+                    //           value: prefix,
+                    //           child: Text(prefix,style: TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),),
+                    //         );
+                    //       }).toList(),
+                    //       onChanged: (String? newValue) {
+                    //         setState(() {
+                    //           selectedCode = newValue!;
+                    //         });
+                    //       },
+                    //     ),
+                    //   )),
+                  ),
+                  const SizedBox(height: 25,),
                   genderWidget(),
                   // const SizedBox(height: 25,),
                   // AppTextField(
@@ -684,56 +686,58 @@ class _EditProfilPageState extends State<EditProfilPage> {
                     ),
                   ):const SizedBox.shrink(),
                   _isAlumni == "Yes"?const SizedBox(height: 25,):const SizedBox.shrink(),
-                  _isAlumni == "Yes"?isLoading == true?SizedBox.shrink(): Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: DropdownButtonFormField<String>(
-                      value: batch==""?null:batch,
-                      items: iitBatchItems.map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        batch = value!;
-                      },
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: (_isAlumni=="Yes")?(value)
-                      {
-
-                        if (value.toString() == ""||value == null)
-                        {
-                          return 'Select a valid IIT Batch.';
-                        }
-                        return null;
-                      }:null,
-                      dropdownColor: AppColor.white,
-                      iconSize: 30,
-                      decoration: InputDecoration(
-                        hintText: "Select your batch*",
-                        labelText: "Batch*",
-                        labelStyle:  TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
-                        hintStyle: const TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
-                        contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                        focusedBorder:  OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
-                        ),
-                        enabledBorder:  OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: const BorderSide(color: Colors.red, width: 2.0),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: const BorderSide(color: Colors.red, width: 2.0),
-                        ),
-                      ),
-                    ),
-                  ):const SizedBox.shrink(),
+                  _isAlumni == "Yes"?isLoading == true?SizedBox.shrink(): AppTextField(hintText: "Type your Batch",controller: batchController,labelText:"Batch",keyboardType: TextInputType.number,inputFormatters: [LengthLimitingTextInputFormatter(4),FilteringTextInputFormatter.digitsOnly],)
+                  // Padding(
+                  //   padding: const EdgeInsets.symmetric(horizontal: 20),
+                  //   child: DropdownButtonFormField<String>(
+                  //     value: batch==""?null:batch,
+                  //     items: iitBatchItems.map<DropdownMenuItem<String>>((String value) {
+                  //       return DropdownMenuItem<String>(
+                  //         value: value,
+                  //         child: Text(value),
+                  //       );
+                  //     }).toList(),
+                  //     onChanged: (value) {
+                  //       batch = value!;
+                  //     },
+                  //     autovalidateMode: AutovalidateMode.onUserInteraction,
+                  //     validator: (_isAlumni=="Yes")?(value)
+                  //     {
+                  //
+                  //       if (value.toString() == ""||value == null)
+                  //       {
+                  //         return 'Select a valid IIT Batch.';
+                  //       }
+                  //       return null;
+                  //     }:null,
+                  //     dropdownColor: AppColor.white,
+                  //     iconSize: 30,
+                  //     decoration: InputDecoration(
+                  //       hintText: "Select your batch*",
+                  //       labelText: "Batch*",
+                  //       labelStyle:  TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
+                  //       hintStyle: const TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
+                  //       contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                  //       focusedBorder:  OutlineInputBorder(
+                  //           borderRadius: BorderRadius.circular(10.0),
+                  //           borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
+                  //       ),
+                  //       enabledBorder:  OutlineInputBorder(
+                  //           borderRadius: BorderRadius.circular(10.0),
+                  //           borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
+                  //       ),
+                  //       errorBorder: OutlineInputBorder(
+                  //         borderRadius: BorderRadius.circular(10.0),
+                  //         borderSide: const BorderSide(color: Colors.red, width: 2.0),
+                  //       ),
+                  //       focusedErrorBorder: OutlineInputBorder(
+                  //         borderRadius: BorderRadius.circular(10.0),
+                  //         borderSide: const BorderSide(color: Colors.red, width: 2.0),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // )
+                      :const SizedBox.shrink(),
                   _isAlumni == "Yes"?const SizedBox(height: 25,):const SizedBox.shrink(),
                   _isAlumni == "Yes"? AppTextField(hintText: "Type your Stream",controller: streamController,labelText:"Stream",):const SizedBox.shrink(),
                   const SizedBox(height: 30,),
@@ -1045,7 +1049,7 @@ class _EditProfilPageState extends State<EditProfilPage> {
     params["alumni_of_iit"] = _isAlumni=="Yes"?true:false;
     if(_isAlumni == "Yes"){
       params["iit_name"] = iitName;
-      params["batch"] = batch;
+      params["batch"] = batchController.text.trim();
       params["stream"] = streamController.text.trim();
     }
     if(_gender != null){

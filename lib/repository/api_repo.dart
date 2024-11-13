@@ -688,7 +688,9 @@ class ApiRepo
           dismissOnTap: true,
           duration: const Duration(seconds: 1),
           toastPosition: EasyLoadingToastPosition.center);
-      Get.toNamed(Routes.thankYou);
+      Get.toNamed(Routes.thankYou,arguments: {
+      'surveyStatus':false
+      });
 
     }
     else

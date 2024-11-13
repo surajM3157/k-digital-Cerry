@@ -16,6 +16,15 @@ class ThankYouPage extends StatefulWidget {
 }
 
 class _ThankYouPageState extends State<ThankYouPage> {
+
+  bool surveyStatus = false;
+
+  @override
+  void initState() {
+    surveyStatus = Get.arguments['surveyStatus'];
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,8 +47,8 @@ class _ThankYouPageState extends State<ThankYouPage> {
                   child: SvgPicture.asset(Images.successNotificationIcon,height: 72,width: 72,)),
             ),
             const SizedBox(height: 16,),
-            Center(
-              child: GradientText(text:"Thank You !",style: const TextStyle(fontSize: 27,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
+           Center(
+              child: GradientText(text: surveyStatus?"Feedback Already Submitted":"Thank You !",style: const TextStyle(fontSize: 20,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
                 colors: [AppColor.primaryColor, AppColor.red],
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
@@ -48,16 +57,7 @@ class _ThankYouPageState extends State<ThankYouPage> {
             const SizedBox(height: 24,),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Text("We Appreciate your feedback.",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600,fontFamily: appFontFamily,color: AppColor.black),),
-            ),
-            const SizedBox(height: 8,),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Text("Your Feedback helps us improve and",style: TextStyle(fontSize: 18,fontWeight: FontWeight.w400,fontFamily: appFontFamily,color: AppColor.black),),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Text("serve you better.",style: TextStyle(fontSize: 18,fontWeight: FontWeight.w400,fontFamily: appFontFamily,color: AppColor.black),),
+              child: Text(surveyStatus?"Thank you for your interest!\nOur records show that you've already\nsubmitted feedback.We truly appreciate your input.":"We Appreciate your feedback.\nYour Feedback helps us improve and\nserve you better.",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600,fontFamily: appFontFamily,color: AppColor.black),),
             ),
             const SizedBox(height: 32,),
             AppButton(title: "Back to Home", onTap: (){

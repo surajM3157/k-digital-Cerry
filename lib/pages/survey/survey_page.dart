@@ -104,7 +104,9 @@ class _SurveyPageState extends State<SurveyPage> {
             sessionSurveysData = session;
             await surveyStatus(session.sId??"");
             if(isSurvey){
-              Get.offAllNamed(Routes.thankYou);
+              Get.offAllNamed(Routes.thankYou,arguments: {
+              'surveyStatus':true
+              });
             }else {
               for (QuestionsDetails question in session.questionsDetails!) {
                 questionList.add(question);
@@ -145,7 +147,9 @@ class _SurveyPageState extends State<SurveyPage> {
             globalSurveyData = response.data?[0];
             await surveyStatus(globalSurveyData?.sId??"");
             if(isSurvey){
-              Get.offAllNamed(Routes.thankYou);
+              Get.offAllNamed(Routes.thankYou,arguments: {
+                'surveyStatus':true
+              });
             }else{
             for(Questions question in globalSurveyData!.questions!){
               globalQuestionList.add(question);
