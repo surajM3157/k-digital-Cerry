@@ -1134,7 +1134,7 @@ class _HomeState extends State<Home> {
         height: 200,
         child: speakers.isNotEmpty?ListView.separated(
           padding: EdgeInsets.zero,
-          itemCount: (speakers.length < 3)?speakers.length:3,
+          itemCount: (speakers.length < 5)?speakers.length:5,
           scrollDirection: Axis.horizontal,
           itemBuilder: (context,index){
             return Container(
