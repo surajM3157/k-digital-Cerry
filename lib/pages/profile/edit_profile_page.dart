@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:country_state_city/country_state_city.dart' as s;
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -435,118 +436,125 @@ class _EditProfilPageState extends State<EditProfilPage> {
                   const SizedBox(height: 25,),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: isLoading == true?SizedBox.shrink():DropdownButtonFormField<String>(
-                      hint: Text("Select Country"),
-                      value:
-                     countries.isEmpty||isCountryChanged?selectedCountry :countries
-                          .firstWhere(
-                            (country) => selectedCountry == country.name,
-                      // orElse: () => countries[0], // Provide a default value in case no match is found
-                      )
-                          .isoCode,
-                      dropdownColor: AppColor.white,
-                      iconSize: 30,
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: (value)
-                      {
-                        if (value.toString() == ""||value == null)
-                        {
-                          return 'Select a valid country.';
-                        }
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                        hintText: "Select your Country*",
-                        labelText: "Country/Region*",
-                        labelStyle:  TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
-                        hintStyle: const TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
-                        contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                        focusedBorder:  OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
-                        ),
-                        enabledBorder:  OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: const BorderSide(color: Colors.red, width: 2.0),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: const BorderSide(color: Colors.red, width: 2.0),
+                    child: isLoading
+                        ? SizedBox.shrink()
+                        : DropdownSearch<String>(
+                      popupProps: PopupProps.menu(
+                        showSearchBox: true,
+                        searchFieldProps: TextFieldProps(
+                          cursorColor: AppColor.primaryColor,
+                          decoration: InputDecoration(
+                            hintText: 'Search country',
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(color: AppColor.black.withOpacity(0.12)),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: AppColor.primaryColor),
+                            ),enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: AppColor.primaryColor),
+                          ),
+                          ),
                         ),
                       ),
+                      dropdownDecoratorProps: DropDownDecoratorProps(
+                        dropdownSearchDecoration: InputDecoration(
+                          hintText: "Select your Country*",
+                          labelText: "Country/Region*",
+                          labelStyle: TextStyle(
+                              color: AppColor.primaryColor,
+                              fontFamily: appFontFamily,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 14),
+                          hintStyle: TextStyle(
+                              color: Colors.black,
+                              fontFamily: appFontFamily,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 14),
+                          contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide(color: AppColor.black.withOpacity(0.12)),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide(color: AppColor.black.withOpacity(0.12)),
+                          ),
+                        ),
+                      ),
+                      items: countries.map((country) => country.name).toList(),
+                      selectedItem: selectedCountry,
                       onChanged: (String? newValue) {
                         setState(() {
                           isCountryChanged = true;
-                          selectedCountry = newValue!;
+                          selectedCountry = newValue;
                           selectedState = null;
                           selectedCity = null;
                           states = [];
                           cities = [];
                         });
-                        fetchStates(newValue!);
+                        final selectedCountryIsoCode = countries
+                            .firstWhere((country) => country.name == newValue)
+                            .isoCode;
+                        fetchStates(selectedCountryIsoCode);
                       },
-                      items: countries
-                          .map((country) => DropdownMenuItem(
-                        value: country.isoCode,
-                        onTap: (){
-                          selectedCountryId = country.isoCode;
-                        },
-                        child: SizedBox(
-                          width: 250,
-                            child: Text(country.name,overflow: TextOverflow.ellipsis,)),
-                      ))
-                          .toList(),
-                    ),
-                  ),
-                  const SizedBox(height: 25,),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: isLoading == true?SizedBox.shrink():DropdownButtonFormField<String>(
-                      hint: Text("Select State"),
-                      value: states.isEmpty||isCountryChanged||isStateChanged?selectedState:states
-                          .firstWhere(
-                            (state) => selectedState == state.name,
-                       // orElse: () => states[0], // Provide a default value in case no match is found
-                      )
-                          .isoCode,
-                      dropdownColor: AppColor.white,
-                      iconSize: 30,
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: (value)
-                      {
-                        if (value.toString() == ""||value == null)
-                        {
-                          return 'Select a valid state.';
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Select a valid country.';
                         }
                         return null;
                       },
-                      decoration: InputDecoration(
-                        hintText: "Select your State*",
-                        labelText: "State*",
-                        labelStyle:  TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
-                        hintStyle: const TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
-                        contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                        focusedBorder:  OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
-                        ),
-                        enabledBorder:  OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: const BorderSide(color: Colors.red, width: 2.0),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: const BorderSide(color: Colors.red, width: 2.0),
+                    ),
+                  ),
+                  const SizedBox(height: 25),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: isLoading
+                        ? SizedBox.shrink()
+                        : DropdownSearch<String>(
+                      popupProps: PopupProps.menu(
+                        showSearchBox: true,
+                        searchFieldProps: TextFieldProps(
+                          cursorColor: AppColor.primaryColor,
+                          decoration: InputDecoration(
+                            hintText: 'Search state',
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(color: AppColor.black.withOpacity(0.12)),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: AppColor.primaryColor),
+                            ),enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: AppColor.primaryColor),
+                          ),
+                          ),
                         ),
                       ),
+                      dropdownDecoratorProps: DropDownDecoratorProps(
+                        dropdownSearchDecoration: InputDecoration(
+                          hintText: "Select your State*",
+                          labelText: "State*",
+                          labelStyle: TextStyle(
+                              color: AppColor.primaryColor,
+                              fontFamily: appFontFamily,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 14),
+                          hintStyle: TextStyle(
+                              color: Colors.black,
+                              fontFamily: appFontFamily,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 14),
+                          contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide(color: AppColor.black.withOpacity(0.12)),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide(color: AppColor.black.withOpacity(0.12)),
+                          ),
+                        ),
+                      ),
+                      items: states.map((state) => state.name).toList(),
+                      selectedItem: selectedState,
                       onChanged: (String? newValue) {
                         setState(() {
                           isStateChanged = true;
@@ -554,78 +562,80 @@ class _EditProfilPageState extends State<EditProfilPage> {
                           selectedCity = null;
                           cities = [];
                         });
-                        fetchCities((isCountryChanged?selectedCountry!:countries
-                            .firstWhere(
-                              (country) => selectedCountry == country.name,
-                          // orElse: () => countries[0], // Provide a default value in case no match is found
-                        )
-                            .isoCode),newValue!);
+                        fetchCities(countries
+                            .firstWhere((country) => country.name == selectedCountry)
+                            .isoCode, states
+                            .firstWhere((state) => state.name == newValue)
+                            .isoCode!);
                       },
-                      items: states
-                          .map((state) => DropdownMenuItem(
-                        value: state.isoCode,
-                        child: SizedBox(
-                            width: 250,
-                            child: Text(state.name,overflow: TextOverflow.ellipsis,)),
-                      ))
-                          .toList(),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Select a valid state.';
+                        }
+                        return null;
+                      },
                     ),
                   ),
-
-                  const SizedBox(height: 25,),
+                  const SizedBox(height: 25),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child:isLoading == true?SizedBox.shrink(): DropdownButtonFormField<String>(
-                      hint: Text("Select City"),
-                      value: selectedCity,
-                      dropdownColor: AppColor.white,
-                      iconSize: 30,
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: (value)
-                      {
-                        if (value.toString() == ""||value == null)
-                        {
+                    child: isLoading
+                        ? SizedBox.shrink()
+                        : DropdownSearch<String>(
+                      popupProps: PopupProps.menu(
+                        showSearchBox: true,
+                        searchFieldProps: TextFieldProps(
+                          cursorColor: AppColor.primaryColor,
+                          decoration: InputDecoration(
+                            hintText: 'Search city',
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(color: AppColor.black.withOpacity(0.12)),
+                            ),focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: AppColor.primaryColor),
+                            ),enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: AppColor.primaryColor),
+                            ),
+                          ),
+                        ),
+                      ),
+                      dropdownDecoratorProps: DropDownDecoratorProps(
+                        dropdownSearchDecoration: InputDecoration(
+                          hintText: "Select your city*",
+                          labelText: "City*",
+                          labelStyle: TextStyle(
+                              color: AppColor.primaryColor,
+                              fontFamily: appFontFamily,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 14),
+                          hintStyle: TextStyle(
+                              color: Colors.black,
+                              fontFamily: appFontFamily,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 14),
+                          contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide(color: AppColor.black.withOpacity(0.12)),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide(color: AppColor.black.withOpacity(0.12)),
+                          ),
+                        ),
+                      ),
+                      items: cities.map((city) => city.name).toList(),
+                      selectedItem: selectedCity,
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          selectedCity = newValue;
+                        });
+                      },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
                           return 'Select a valid city.';
                         }
                         return null;
                       },
-                      decoration: InputDecoration(
-                        hintText: "Select your city*",
-                        labelText: "City*",
-                        labelStyle:  TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
-                        hintStyle: const TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
-                        contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                        focusedBorder:  OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
-                        ),
-                        enabledBorder:  OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: const BorderSide(color: Colors.red, width: 2.0),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: const BorderSide(color: Colors.red, width: 2.0),
-                        ),
-                      ),
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          selectedCity = newValue;
-
-                        });
-                      },
-                      items: cities
-                          .map((city) => DropdownMenuItem(
-                        value: city.name,
-                        child: SizedBox(
-                          width: 250,
-                            child: Text(city.name,overflow: TextOverflow.ellipsis,)),
-                      ))
-                          .toList(),
                     ),
                   ),
                   const SizedBox(height: 25,),
@@ -1033,18 +1043,20 @@ class _EditProfilPageState extends State<EditProfilPage> {
     params["mobile_no"] = phoneNumberController.text.trim();
     params["company_name"] = companyController.text.trim();
     params["designation"] = designationController.text.trim();
-    params["country"] = isCountryChanged?countries
-        .firstWhere(
-          (country) => selectedCountry == country.isoCode,
-      // orElse: () => countries[0], // Provide a default value in case no match is found
-    )
-        .name:selectedCountry;
-    params["state"] = isStateChanged?states
-        .firstWhere(
-          (state) => selectedState == state.isoCode,
-      // orElse: () => countries[0], // Provide a default value in case no match is found
-    )
-        .name:selectedState;
+    params["country"] = selectedCountry;
+    // isCountryChanged?countries
+    //     .firstWhere(
+    //       (country) => selectedCountry == country.isoCode,
+    //   // orElse: () => countries[0], // Provide a default value in case no match is found
+    // )
+     //   .name:selectedCountry;
+    params["state"] = selectedState;
+    // isStateChanged?states
+    //     .firstWhere(
+    //       (state) => selectedState == state.isoCode,
+    //   // orElse: () => countries[0], // Provide a default value in case no match is found
+    // )
+    //     .name:selectedState;
     params["city"] = selectedCity;
     params["alumni_of_iit"] = _isAlumni=="Yes"?true:false;
     if(_isAlumni == "Yes"){
