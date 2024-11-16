@@ -924,31 +924,29 @@ class _HomeState extends State<Home> {
   }
 
   Widget aboutEvent(){
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: SizedBox(
-        height: 160,
-        child: ListView.separated(
-          scrollDirection: Axis.horizontal,
-            itemBuilder: (context,index){
-          return Container(
-            height: 139,width: 139,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(9),
-              border: Border.all(color: AppColor.primaryColor)
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Image.asset(index==0?Images.homeConferenceIcon:index==1?Images.homeSpeakerIcon:Images.homeAttendanceIcon,height: 50,width: 50,),
-                const SizedBox(height: 16,),
-                Text(index==0?"2 Days\nConference":index==1?"200+\nSpeakers":"3000+\nAttendees",style: TextStyle(fontSize: 14,fontFamily: appFontFamily,fontWeight: FontWeight.w600,color: AppColor.primaryColor),textAlign: TextAlign.center,)
-              ],
-            ),
-          );
-        }, separatorBuilder: (BuildContext context, int index) { return const SizedBox(width: 10,); }, itemCount: 3,),
-      ),
+    return SizedBox(
+      height: 160,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+          itemBuilder: (context,index){
+        return Container(
+          height: 139,width: 139,
+          margin: index ==0?EdgeInsets.only(left: 16):index ==2?EdgeInsets.only(right: 16):EdgeInsets.zero,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(9),
+            border: Border.all(color: AppColor.primaryColor)
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.asset(index==0?Images.homeConferenceIcon:index==1?Images.homeSpeakerIcon:Images.homeAttendanceIcon,height: 50,width: 50,),
+              const SizedBox(height: 16,),
+              Text(index==0?"2 Days\nConference":index==1?"200+\nSpeakers":"3000+\nAttendees",style: TextStyle(fontSize: 14,fontFamily: appFontFamily,fontWeight: FontWeight.w600,color: AppColor.primaryColor),textAlign: TextAlign.center,)
+            ],
+          ),
+        );
+      }, separatorBuilder: (BuildContext context, int index) { return const SizedBox(width: 10,); }, itemCount: 3,),
     );
   }
 
@@ -994,15 +992,15 @@ class _HomeState extends State<Home> {
   }
 
   Widget liveEventList(){
-    return liveSessions.isNotEmpty?Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: SizedBox(
-        height: 160,
-        child: ListView.separated(
-          itemCount: (liveSessions.length < 3)?liveSessions.length:3,
-          scrollDirection: Axis.horizontal,
-            itemBuilder: (context,index){
-          return liveSessions[index].link!.contains("=")?InkWell(
+    return liveSessions.isNotEmpty?SizedBox(
+      height: 160,
+      child: ListView.separated(
+        itemCount: (liveSessions.length < 3)?liveSessions.length:3,
+        scrollDirection: Axis.horizontal,
+          itemBuilder: (context,index){
+        return liveSessions[index].link!.contains("=")?Padding(
+          padding: index==0? EdgeInsets.only(left: 16):index ==((liveSessions.length < 3)?liveSessions.length:3)-1?EdgeInsets.only(right: 16):EdgeInsets.zero,
+          child: InkWell(
               onTap: (){
                 Get.toNamed(Routes.liveSession,arguments: {
                   "data":liveSessions[index]
@@ -1021,7 +1019,7 @@ class _HomeState extends State<Home> {
                         child: SizedBox(
                           height: 203,width: 204,
                           child: YouTubeThumbnail(
-                            youtubeUrl: liveSessions[index].link??"", // Replace with your YouTube link
+                            youtubeUrl: liveSessions[index].link??"",
                           ),
                         )),
                   ),
@@ -1031,7 +1029,7 @@ class _HomeState extends State<Home> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Text(liveSessions[index].title??"",style: TextStyle(color: AppColor.primaryColor,fontSize: 14,fontWeight: FontWeight.w600,fontFamily: appFontFamily),),
+                        Text(liveSessions[index].title??"",style: TextStyle(color: AppColor.white,fontSize: 14,fontWeight: FontWeight.bold,fontFamily: appFontFamily),),
                         const SizedBox(height: 8,),
                         Container(
                           height: 26,
@@ -1053,13 +1051,13 @@ class _HomeState extends State<Home> {
                     ),
                   )
                 ],
-              )):const SizedBox.shrink();
-        }, separatorBuilder: (BuildContext context, int index){
-          return const SizedBox(
-            width: 16,
-          );
-        },),
-      ),
+              )),
+        ):const SizedBox.shrink();
+      }, separatorBuilder: (BuildContext context, int index){
+        return const SizedBox(
+          width: 16,
+        );
+      },),
     ):const SizedBox.shrink();
   }
 
@@ -1090,82 +1088,101 @@ class _HomeState extends State<Home> {
   //   );
   // }
   Widget sponsorList(){
-    return sponsors.isNotEmpty?Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: CarouselSlider(
-        options: CarouselOptions(height: 120,
-          aspectRatio: 16/9,
-          viewportFraction: 0.38,
-          initialPage: 0,
-          enableInfiniteScroll: true,
-          reverse: false,
-          autoPlay: true,
-          autoPlayInterval: const Duration(seconds: 3),
-          autoPlayAnimationDuration: const Duration(milliseconds: 800),
-          autoPlayCurve: Curves.fastOutSlowIn,
-          enlargeCenterPage: true,
-          enlargeFactor: 0.03,
-          scrollDirection: Axis.horizontal,),
-        items: sponsors.map((item) {
-          return Builder(
+    return sponsors.isNotEmpty?CarouselSlider(
+      options: CarouselOptions(
+        height: 120,
+        aspectRatio: 16 / 9,
+        viewportFraction: 0.38,
+        initialPage: 0,
+        enableInfiniteScroll: true,
+        reverse: false,
+        autoPlay: true,
+        autoPlayInterval: const Duration(seconds: 3),
+        autoPlayAnimationDuration: const Duration(milliseconds: 800),
+        autoPlayCurve: Curves.fastOutSlowIn,
+        enlargeCenterPage: true,
+        enlargeFactor: 0.03,
+        scrollDirection: Axis.horizontal,
+      ),
+      items: sponsors.asMap().entries.map((entry) {
+        int index = entry.key;
+        var item = entry.value;
+
+        return Padding(
+          padding: EdgeInsets.only(
+            left: index == 0 ? 16.0 : 0, // Padding for the first item
+            right: index == sponsors.length - 1 ? 16.0 : 0, // Padding for the last item
+          ),
+          child: Builder(
             builder: (BuildContext context) {
               return Column(
                 children: [
-                  Image.network(ApiUrls.imageUrl+(item.sponsorImage??""),height: 100,width: 100,),
-                  // const SizedBox(height: 7,),
+                  Image.network(
+                    ApiUrls.imageUrl + (item.sponsorImage ?? ""),
+                    height: 100,
+                    width: 100,
+                  ),
+                  // Uncomment if needed
+                  // const SizedBox(height: 7),
                   // SizedBox(
-                  //     width:80,
-                  //     child: Text(item.sponsorName??"",textAlign: TextAlign.center,
-                  //       style: TextStyle(fontWeight: FontWeight.w400,fontSize: 12,fontFamily: appFontFamily,color: AppColor.primaryColor),
-                  //     ))
+                  //   width: 80,
+                  //   child: Text(
+                  //     item.sponsorName ?? "",
+                  //     textAlign: TextAlign.center,
+                  //     style: TextStyle(
+                  //       fontWeight: FontWeight.w400,
+                  //       fontSize: 12,
+                  //       fontFamily: appFontFamily,
+                  //       color: AppColor.primaryColor,
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               );
             },
-          );
-        }).toList(),
-      ),
+          ),
+        );
+      }).toList(),
     ):const SizedBox.shrink();
   }
 
   Widget speakerList(){
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: SizedBox(
-        height: 200,
-        child: speakers.isNotEmpty?ListView.separated(
-          padding: EdgeInsets.zero,
-          itemCount: (speakers.length < 5)?speakers.length:5,
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (context,index){
-            return Container(
-              height: 150,
-              width: 173,
-              padding: const EdgeInsets.all(5),
-              decoration: BoxDecoration(
-                  color: AppColor.secondaryColor,
-                  gradient: LinearGradient(
-                colors: [AppColor.primaryColor, AppColor.red],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-                  borderRadius: const BorderRadius.all(Radius.circular(15))
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(100),
-                      child: Image.network(ApiUrls.imageUrl+(speakers[index].speakerImage??""),height: 80,width: 80,fit: BoxFit.fill,)),
-                  const SizedBox(height: 5,),
-                  Text(speakers[index].speakerName??"",style: TextStyle(fontFamily: appFontFamily,color: AppColor.white,fontSize: 16,fontWeight: FontWeight.w500),textAlign: TextAlign.center,),
-                  const SizedBox(height: 16,),
-                  Text(speakers[index].designation??"",style: TextStyle(fontFamily: appFontFamily,color: AppColor.white,fontSize: 12,fontWeight: FontWeight.w500),),
-                ],
-              ),
-            );
-          }, separatorBuilder: (BuildContext context, int index) { return const SizedBox(width: 16,); },):const SizedBox.shrink(),
-      ),
+    return SizedBox(
+      height: 200,
+      child: speakers.isNotEmpty?ListView.separated(
+        padding: EdgeInsets.zero,
+        itemCount: (speakers.length < 5)?speakers.length:5,
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (context,index){
+          return Container(
+            height: 150,
+            width: 173,
+            margin:index ==0? EdgeInsets.only(left: 16):index==((speakers.length < 5)?speakers.length:5)-1?EdgeInsets.only(right: 16):EdgeInsets.zero,
+            padding: const EdgeInsets.all(5),
+            decoration: BoxDecoration(
+                color: AppColor.secondaryColor,
+                gradient: LinearGradient(
+              colors: [AppColor.primaryColor, AppColor.red],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+                borderRadius: const BorderRadius.all(Radius.circular(15))
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                    child: Image.network(ApiUrls.imageUrl+(speakers[index].speakerImage??""),height: 80,width: 80,fit: BoxFit.fill,)),
+                const SizedBox(height: 5,),
+                Text(speakers[index].speakerName??"",style: TextStyle(fontFamily: appFontFamily,color: AppColor.white,fontSize: 16,fontWeight: FontWeight.w500),textAlign: TextAlign.center,),
+                const SizedBox(height: 16,),
+                Text(speakers[index].designation??"",style: TextStyle(fontFamily: appFontFamily,color: AppColor.white,fontSize: 12,fontWeight: FontWeight.w500),),
+              ],
+            ),
+          );
+        }, separatorBuilder: (BuildContext context, int index) { return const SizedBox(width: 16,); },):const SizedBox.shrink(),
     );
   }
 
@@ -1196,7 +1213,7 @@ class _HomeState extends State<Home> {
         });
       },
       child: Container(
-        height: 45,
+        height: 32,
         width: 150,
         decoration: BoxDecoration(
             color: AppColor.red,
