@@ -162,7 +162,7 @@ class _ChatPageState extends State<ChatPage> {
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
                 gradient:LinearGradient(
-                  colors: [AppColor.primaryColor, AppColor.red],
+                  colors: AppColor.gradientColors,
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),

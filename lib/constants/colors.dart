@@ -17,6 +17,8 @@ class AppColor{
   static Color violet =  const Color(0xFF3A3380);
   static Color mediumGrey =  const Color(0xFF494949);
   static Color red =  const Color(0xFFCF2E2E);
+  static Color FF4D1B55 =  const Color(0xFF4D1B55);
+  static Color FF6C204C =  const Color(0xFF6C204C);
   //static Color red =  const Color(0xFF5C1D51);
 
   static Color FFF4F4F4 =  const Color(0xFFF4F4F4);
@@ -34,4 +36,6 @@ class AppColor{
   static Color FF9B9B9B =  const Color(0xFF9B9B9B);
   static Color FFD9D6FD =  const Color(0xFFD9D6FD);
   static Color FF646464 =  const Color(0xFF646464);
+
+  static List<Color> gradientColors = [AppColor.primaryColor,AppColor.FF4D1B55,AppColor.FF6C204C];
 }

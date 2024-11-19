@@ -43,7 +43,7 @@ class _NotificationPageState extends State<NotificationPage> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: GradientText(text:"Notification",style: const TextStyle(fontWeight: FontWeight.w600,fontFamily: appFontFamily,fontSize: 20), gradient: LinearGradient(
-              colors: [AppColor.primaryColor, AppColor.red],
+              colors: AppColor.gradientColors,
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
             ),
@@ -78,7 +78,7 @@ class _NotificationPageState extends State<NotificationPage> {
                       width: 58,
                       decoration: BoxDecoration(
                           gradient: LinearGradient(
-                            colors: [AppColor.primaryColor, AppColor.red],
+                            colors: AppColor.gradientColors,
                             begin: Alignment.centerLeft,
                             end: Alignment.centerRight,
                           ),
@@ -93,7 +93,7 @@ class _NotificationPageState extends State<NotificationPage> {
                       width: 58,
                       decoration: BoxDecoration(
                           gradient: LinearGradient(
-                            colors: [AppColor.primaryColor, AppColor.red],
+                            colors: AppColor.gradientColors,
                             begin: Alignment.centerLeft,
                             end: Alignment.centerRight,
                           ),

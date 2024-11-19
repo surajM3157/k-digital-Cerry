@@ -131,8 +131,8 @@ class _SponsorPageState extends State<SponsorPage> with SingleTickerProviderStat
                           SizedBox(
                             height: 100,width: 100,
                               child: Image.network(ApiUrls.imageUrl+(sponsorList[index].sponsorImage??""))),
-                          const SizedBox(height: 10,),
-                          Text(sponsorList[index].sponsorName??"",style: AppThemes.labelTextStyle().copyWith(color: AppColor.black),textAlign: TextAlign.center,)
+                          // const SizedBox(height: 10,),
+                          // Text(sponsorList[index].sponsorName??"",style: AppThemes.labelTextStyle().copyWith(color: AppColor.black),textAlign: TextAlign.center,)
                         ],
                       ),
                     ),
@@ -158,11 +158,9 @@ class _SponsorPageState extends State<SponsorPage> with SingleTickerProviderStat
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SizedBox(
-                              height: 100,width: 100,
-                              child: Image.network(ApiUrls.imageUrl+(partnerList[index].partnerImage??""))),
-                          const SizedBox(height: 10,),
-                          Text(partnerList[index].partnerName??"",style: AppThemes.labelTextStyle().copyWith(color: AppColor.black),textAlign: TextAlign.center,)
+                          Image.network(ApiUrls.imageUrl+(partnerList[index].partnerImage??""),height: 100,width: 100,),
+                          // const SizedBox(height: 10,),
+                          // Text(partnerList[index].partnerName??"",style: AppThemes.labelTextStyle().copyWith(color: AppColor.black),textAlign: TextAlign.center,)
                         ],
                       ),
                     ),

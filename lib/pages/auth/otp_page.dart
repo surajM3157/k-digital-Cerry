@@ -46,7 +46,7 @@ class _OtpPageState extends State<OtpPage> {
                     height: 300,
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [AppColor.primaryColor, AppColor.red],
+                        colors: AppColor.gradientColors,
                         begin: Alignment.centerLeft,
                         end: Alignment.centerRight,
                       ),
@@ -75,7 +75,7 @@ class _OtpPageState extends State<OtpPage> {
                  Padding(
                    padding: const EdgeInsets.symmetric(horizontal: 20),
                    child: GradientText(text:"Enter Verification Code",gradient: LinearGradient(
-                     colors: [AppColor.primaryColor, AppColor.red],
+                     colors: AppColor.gradientColors,
                      begin: Alignment.topLeft,
                      end: Alignment.bottomRight,
                    ),style: AppThemes.titleTextStyle().copyWith(fontWeight: FontWeight.w600,fontSize: 24),),
@@ -185,7 +185,7 @@ class _OtpPageState extends State<OtpPage> {
             width: 66 * 4, // Field width * number of fields (4 in this case)
             decoration: BoxDecoration(
               gradient:  LinearGradient(
-                colors: [AppColor.primaryColor, AppColor.red], // Gradient colors
+                colors: AppColor.gradientColors, // Gradient colors
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
               ),

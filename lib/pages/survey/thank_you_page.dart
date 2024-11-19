@@ -38,7 +38,7 @@ class _ThankYouPageState extends State<ThankYouPage> {
                 padding: const EdgeInsets.all(40),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [AppColor.primaryColor, AppColor.red],
+                    colors: AppColor.gradientColors,
                     begin: Alignment.centerLeft,
                     end: Alignment.centerRight,
                   ),
@@ -49,7 +49,7 @@ class _ThankYouPageState extends State<ThankYouPage> {
             const SizedBox(height: 16,),
            Center(
               child: GradientText(text: surveyStatus?"Feedback Already Submitted":"Thank You !",style: const TextStyle(fontSize: 20,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
-                colors: [AppColor.primaryColor, AppColor.red],
+                colors: AppColor.gradientColors,
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
               ),),

@@ -156,7 +156,7 @@ class _LiveSessionPageState extends State<LiveSessionPage> {
                           fontWeight: FontWeight.w600,
                           fontSize: 24,
                         ),
-                        gradient: LinearGradient(colors: [AppColor.primaryColor, AppColor.red]),
+                        gradient: LinearGradient(colors: AppColor.gradientColors),
                       ),
                     ),
                     const SizedBox(height: 20),

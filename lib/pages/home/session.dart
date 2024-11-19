@@ -126,7 +126,7 @@ class _SessionState extends State<Session> with SingleTickerProviderStateMixin{
                   height: 35,width: 99,
                   decoration: BoxDecoration(
                       borderRadius: const BorderRadius.all(Radius.circular(8)),
-                      gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red],
+                      gradient: LinearGradient(colors: AppColor.gradientColors,
                           begin: Alignment.centerLeft,end: Alignment.centerRight
                       )
                   ),
@@ -140,7 +140,7 @@ class _SessionState extends State<Session> with SingleTickerProviderStateMixin{
                   padding: const EdgeInsets.all(1),
                   decoration: BoxDecoration(
                       borderRadius: const BorderRadius.all(Radius.circular(9)),
-                      gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red],
+                      gradient: LinearGradient(colors: AppColor.gradientColors,
                           begin: Alignment.centerLeft,end: Alignment.centerRight
                       )
                   ),
@@ -173,7 +173,7 @@ class _SessionState extends State<Session> with SingleTickerProviderStateMixin{
                   height: 35,width: 99,
                   decoration: BoxDecoration(
                       borderRadius: const BorderRadius.all(Radius.circular(8)),
-                      gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red],
+                      gradient: LinearGradient(colors: AppColor.gradientColors,
                           begin: Alignment.centerLeft,end: Alignment.centerRight
                       )
                   ),
@@ -187,7 +187,7 @@ class _SessionState extends State<Session> with SingleTickerProviderStateMixin{
                   padding: const EdgeInsets.all(1),
                   decoration: BoxDecoration(
                       borderRadius: const BorderRadius.all(Radius.circular(9)),
-                      gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red],
+                      gradient: LinearGradient(colors: AppColor.gradientColors,
                           begin: Alignment.centerLeft,end: Alignment.centerRight
                       )
                   ),
@@ -220,7 +220,7 @@ class _SessionState extends State<Session> with SingleTickerProviderStateMixin{
                   height: 35,width: 99,
                   decoration: BoxDecoration(
                       borderRadius: const BorderRadius.all(Radius.circular(8)),
-                      gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red],
+                      gradient: LinearGradient(colors: AppColor.gradientColors,
                           begin: Alignment.centerLeft,end: Alignment.centerRight
                       )
                   ),
@@ -234,7 +234,7 @@ class _SessionState extends State<Session> with SingleTickerProviderStateMixin{
                   padding: const EdgeInsets.all(1),
                   decoration: BoxDecoration(
                       borderRadius: const BorderRadius.all(Radius.circular(9)),
-                      gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red],
+                      gradient: LinearGradient(colors: AppColor.gradientColors,
                           begin: Alignment.centerLeft,end: Alignment.centerRight
                       )
                   ),
@@ -437,7 +437,7 @@ class _SessionState extends State<Session> with SingleTickerProviderStateMixin{
         width: Get.width - 42,
         decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [AppColor.primaryColor, AppColor.red],
+              colors: AppColor.gradientColors,
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),

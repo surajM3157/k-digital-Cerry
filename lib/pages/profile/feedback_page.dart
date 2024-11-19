@@ -45,7 +45,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: GradientText(text: "Share Your Feedback",style: AppThemes.titleTextStyle().copyWith(fontSize: 20,fontWeight: FontWeight.w600), gradient: LinearGradient(
-                colors: [AppColor.primaryColor, AppColor.red],
+                colors: AppColor.gradientColors,
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
               ),
@@ -60,7 +60,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: GradientText(text:"How was your Experience",style: AppThemes.titleTextStyle().copyWith(fontSize: 20,fontWeight: FontWeight.w600),gradient: LinearGradient(
-                colors: [AppColor.primaryColor, AppColor.red],
+                colors: AppColor.gradientColors,
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
               ),),

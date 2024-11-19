@@ -99,7 +99,7 @@ class _AboutState extends State<About> with SingleTickerProviderStateMixin{
         ),
         Container(
           height: 1,
-          margin: EdgeInsets.only(top: 1),
+          margin: const EdgeInsets.only(top: 1),
           width: double.infinity,
           color: AppColor.lightGrey,
         ),
@@ -121,7 +121,7 @@ class _AboutState extends State<About> with SingleTickerProviderStateMixin{
                       GradientText(
                         text: "About Event",
                         style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: appFontFamily),
-                        gradient: LinearGradient(colors: [AppColor.primaryColor, AppColor.red]),
+                        gradient: LinearGradient(colors: AppColor.gradientColors),
                       ),
                       const SizedBox(height: 12),
                       Text(
@@ -143,7 +143,7 @@ class _AboutState extends State<About> with SingleTickerProviderStateMixin{
                           cardWidget(title: "Startup Conclave", image: Images.startupConclaveIcon),
                           cardWidget(title: "250+ Startup", image: Images.startupIcon),
                           cardWidget(title: "100+ Investors", image: Images.investorsIcon),
-                          cardWidget(title: "10,000+\nParticipants\nHackathon", image: Images.hackathonIcon),
+                          cardWidget(title: "10,000+Participants\nHackathon", image: Images.hackathonIcon),
                           cardWidget(title: "Exhibitions", image: Images.exhibitorsIcon),
                           cardWidget(title: "IIT\nRepresentatives", image: Images.representativeIcon),
                           // Add more cards as needed
@@ -154,14 +154,14 @@ class _AboutState extends State<About> with SingleTickerProviderStateMixin{
                         child: GradientText(
                           text: "Summit Organising Team",
                           style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: appFontFamily),
-                          gradient: LinearGradient(colors: [AppColor.primaryColor, AppColor.red]),
+                          gradient: LinearGradient(colors: AppColor.gradientColors),
                         ),
                       ),
                       const SizedBox(height: 15),
                       GridView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
                           crossAxisSpacing: 10.0,
                           mainAxisSpacing: 10.0,
@@ -197,7 +197,7 @@ class _AboutState extends State<About> with SingleTickerProviderStateMixin{
                         child: GradientText(
                           text: "About PANIIT",
                           style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: appFontFamily),
-                          gradient: LinearGradient(colors: [AppColor.primaryColor, AppColor.red]),
+                          gradient: LinearGradient(colors: AppColor.gradientColors),
                         ),
                       ),
                       const SizedBox(height: 11),
@@ -221,14 +221,14 @@ class _AboutState extends State<About> with SingleTickerProviderStateMixin{
                         child: GradientText(
                           text: "Office Bearers",
                           style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: appFontFamily),
-                          gradient: LinearGradient(colors: [AppColor.primaryColor, AppColor.red]),
+                          gradient: LinearGradient(colors: AppColor.gradientColors),
                         ),
                       ),
                       const SizedBox(height: 15),
                       GridView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
                           crossAxisSpacing: 10.0,
                           mainAxisSpacing: 10.0,
@@ -262,7 +262,7 @@ class _AboutState extends State<About> with SingleTickerProviderStateMixin{
       padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
-        gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]),
+        gradient: LinearGradient(colors: AppColor.gradientColors),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -281,7 +281,7 @@ class _AboutState extends State<About> with SingleTickerProviderStateMixin{
       padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
-        gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]),
+        gradient: LinearGradient(colors: AppColor.gradientColors),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

@@ -176,5 +176,8 @@ class Images{
   static String youtubeIcon = 'assets/images/icons/youtube_icon.png';
   static String upArrowIcon = 'assets/images/icons/up_arrow_icon.png';
   static String downArrowIcon = 'assets/images/icons/down_arrow_icon.png';
+  static String whatsappIcon = 'assets/images/icons/whatsapp_icon.svg';
+  static String emailIdIcon = 'assets/images/icons/emailid_icon.svg';
+  static String forwardArrowIcon = 'assets/images/icons/forward_arrow_icon.png';
 
 }

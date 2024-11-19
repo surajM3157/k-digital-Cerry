@@ -127,7 +127,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 height: 250,width: Get.width,
                 decoration: BoxDecoration(
                     gradient: LinearGradient(
-                      colors: [AppColor.primaryColor, AppColor.red],
+                      colors: AppColor.gradientColors,
                       begin: Alignment.centerLeft,
                       end: Alignment.centerRight,
                     ),
@@ -142,17 +142,17 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
 
-                const SizedBox(height: 80,),
+                const SizedBox(height: 70,),
                 guestDetails?.firstName !=null?Text(AppThemes.capitalizeFirst(guestDetails?.firstName??"") +" "+AppThemes.capitalizeFirst(guestDetails?.lastName??""),style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16,color: AppColor.primaryColor,fontFamily: appFontFamily),):SizedBox.shrink(),
                 const SizedBox(height: 4,),
                 Text(guestDetails?.emailId??"",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 16,color: AppColor.black,fontFamily: appFontFamily),),
-                const SizedBox(height: 16,),
+                const SizedBox(height: 12,),
                 GestureDetector(
                   onTap: (){
                     Get.toNamed(Routes.editProfile);
                   },
                   child: Container(
-                    height: 32,width: 107,
+                    height: 32,width: 110,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
                       color: AppColor.primaryColor
@@ -161,9 +161,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SvgPicture.asset(Images.editIcon,color: AppColor.white,height: 12,width: 12,),
+                          SvgPicture.asset(Images.editIcon,color: AppColor.white,height: 13,width: 13,),
                           const SizedBox(width: 5,),
-                          Text("Edit Profile",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 12,color: AppColor.white,fontFamily: appFontFamily),),
+                          Text("Edit Profile",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 13,color: AppColor.white,fontFamily: appFontFamily),),
                         ],
                       ),
                     ),
@@ -391,18 +391,21 @@ class _ProfilePageState extends State<ProfilePage> {
                 const SizedBox(height: 20,),
               ],
             ),
-            Container(
-              width: 200,height: 200,
-              margin: const EdgeInsets.only(left: 80,top: 110),
-              padding: guestDetails?.guestProfileImage != null?null:const EdgeInsets.all(50),
-              decoration: BoxDecoration(
-                  color: AppColor.white,
-                  border: Border.all(color: AppColor.grey),
-                  borderRadius: const BorderRadius.all(Radius.circular(100))
+            Align(
+              alignment: Alignment.center,
+              child: Container(
+                width: 200,height: 200,
+                margin: const EdgeInsets.only(top: 110),
+                padding: guestDetails?.guestProfileImage != null?null:const EdgeInsets.all(50),
+                decoration: BoxDecoration(
+                    color: AppColor.white,
+                    border: Border.all(color: AppColor.grey),
+                    borderRadius: const BorderRadius.all(Radius.circular(100))
+                ),
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(200),
+                    child:  guestDetails?.guestProfileImage != null?Image.network(ApiUrls.imageUrl+(guestDetails?.guestProfileImage??""),fit: BoxFit.fill,):Image.asset(Images.profileDefault,height: 64,width: 64,fit: BoxFit.fill,)),
               ),
-              child: ClipRRect(
-                  borderRadius: BorderRadius.circular(200),
-                  child:  guestDetails?.guestProfileImage != null?Image.network(ApiUrls.imageUrl+(guestDetails?.guestProfileImage??""),fit: BoxFit.fill,):Image.asset(Images.profileDefault,height: 64,width: 64,fit: BoxFit.fill,)),
             ),
             GestureDetector(
               onTap: (){
@@ -511,7 +514,7 @@ class _ProfilePageState extends State<ProfilePage> {
         margin: const EdgeInsets.symmetric(horizontal: 20),
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [AppColor.primaryColor, AppColor.red],
+            colors: AppColor.gradientColors,
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),

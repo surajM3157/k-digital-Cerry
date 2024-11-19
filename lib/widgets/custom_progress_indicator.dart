@@ -38,7 +38,7 @@ class CustomProgressIndicator extends StatelessWidget {
         decoration: BoxDecoration(
           color: isActive ? null : unselectedColor,
           gradient: isActive ?LinearGradient(
-            colors: [AppColor.primaryColor, AppColor.red],
+            colors: AppColor.gradientColors,
             begin: Alignment.centerLeft,
             end: Alignment.centerRight,
           ):null,

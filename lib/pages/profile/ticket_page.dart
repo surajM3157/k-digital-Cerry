@@ -37,7 +37,7 @@ class _TicketPageState extends State<TicketPage> {
           const SizedBox(height: 20,),
           Center(
             child: GradientText(text: "QR Code Badge", style: const TextStyle(fontWeight: FontWeight.w600,fontSize: 20,fontFamily: appFontFamily), gradient:LinearGradient(
-              colors: [AppColor.primaryColor, AppColor.red],
+              colors: AppColor.gradientColors,
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
             ),),
@@ -48,7 +48,7 @@ class _TicketPageState extends State<TicketPage> {
             margin: const EdgeInsets.all(20),
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-                gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]),
+                gradient: LinearGradient(colors: AppColor.gradientColors),
                 borderRadius: const BorderRadius.all(Radius.circular(12))
             ),
             child: Stack(
@@ -78,7 +78,7 @@ class _TicketPageState extends State<TicketPage> {
                              Padding(
                                padding: const EdgeInsets.only(left: 20),
                                child: GradientText(text:"Event Name",style: AppThemes.subtitleTextStyle().copyWith(fontWeight: FontWeight.w600),gradient:LinearGradient(
-                                 colors: [AppColor.primaryColor, AppColor.red],
+                                 colors: AppColor.gradientColors,
                                  begin: Alignment.centerLeft,
                                  end: Alignment.centerRight,
                                ),),
@@ -94,7 +94,7 @@ class _TicketPageState extends State<TicketPage> {
                              Padding(
                                padding: const EdgeInsets.only(left: 20),
                                child: GradientText(text:"Time",style: AppThemes.subtitleTextStyle().copyWith(fontWeight: FontWeight.w600),gradient:LinearGradient(
-                                 colors: [AppColor.primaryColor, AppColor.red],
+                                 colors: AppColor.gradientColors,
                                  begin: Alignment.centerLeft,
                                  end: Alignment.centerRight,
                                ),),
@@ -108,7 +108,7 @@ class _TicketPageState extends State<TicketPage> {
                              Padding(
                                padding: const EdgeInsets.only(left: 20),
                                child: GradientText(text:"Date",style: AppThemes.subtitleTextStyle().copyWith(fontWeight: FontWeight.w600),gradient:LinearGradient(
-                                 colors: [AppColor.primaryColor, AppColor.red],
+                                 colors: AppColor.gradientColors,
                                  begin: Alignment.centerLeft,
                                  end: Alignment.centerRight,
                                ),),

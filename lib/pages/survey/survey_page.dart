@@ -67,7 +67,7 @@ class _SurveyPageState extends State<SurveyPage> {
       });
     }else {
       isConnected = true;
-      Map<String, String> params = new Map<String, String>();
+      Map<String, String> params = <String, String>{};
       params["survey_id"] = surveyId;
       params["guest_id"] = Prefs.checkUserId;
 
@@ -360,7 +360,7 @@ class _SurveyPageState extends State<SurveyPage> {
               ),
             )
           ],
-        ):SizedBox.shrink(),
+        ):const SizedBox.shrink(),
       ),
     );
   }
@@ -424,7 +424,7 @@ class _SurveyPageState extends State<SurveyPage> {
         decoration: BoxDecoration(
             borderRadius: const BorderRadius.all(Radius.circular(10)),
           gradient: LinearGradient(
-            colors: [AppColor.primaryColor, AppColor.red],
+            colors: AppColor.gradientColors,
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -439,7 +439,7 @@ class _SurveyPageState extends State<SurveyPage> {
   }
 
   Widget backButton(){
-    return index ==0?SizedBox.shrink():GestureDetector(
+    return index ==0?const SizedBox.shrink():GestureDetector(
       onTap: (){
         if(index>0) {
           index --;
@@ -454,7 +454,7 @@ class _SurveyPageState extends State<SurveyPage> {
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(11)),
           gradient: LinearGradient(
-            colors: [AppColor.primaryColor, AppColor.red],
+            colors: AppColor.gradientColors,
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -500,7 +500,7 @@ class _SurveyPageState extends State<SurveyPage> {
             )
             :globalSessionList()[index].typeOf?.toLowerCase()=="multiplechoice"?ListView(
           shrinkWrap: true,
-          padding: EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           children: [
             if (globalSessionList()[index].typeOf?.toLowerCase() == "multiplechoice")
               ...List.generate(globalSessionList()[index].options!.length, (optionIndex) {
@@ -560,7 +560,7 @@ class _SurveyPageState extends State<SurveyPage> {
                   });
                 },
               );
-            })):SizedBox.shrink(),
+            })):const SizedBox.shrink(),
       ],
     );
   }

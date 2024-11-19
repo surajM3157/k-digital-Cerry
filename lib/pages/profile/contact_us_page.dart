@@ -54,7 +54,7 @@ class _ContactUsPageState extends State<ContactUsPage> {
               const SizedBox(height: 20,),
               Center(
                 child: GradientText(text: "Contact Us", style: const TextStyle(fontWeight: FontWeight.w600,fontSize: 20,fontFamily: appFontFamily), gradient:LinearGradient(
-                  colors: [AppColor.primaryColor, AppColor.red],
+                  colors: AppColor.gradientColors,
                   begin: Alignment.centerLeft,
                   end: Alignment.centerRight,
                 ),),
@@ -63,7 +63,7 @@ class _ContactUsPageState extends State<ContactUsPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: GradientText(text:"Get in Touch",style: AppThemes.titleTextStyle().copyWith(fontSize: 18,fontWeight: FontWeight.w600), gradient:  LinearGradient(
-                  colors: [AppColor.primaryColor, AppColor.red],
+                  colors: AppColor.gradientColors,
                   begin: Alignment.centerLeft,
                   end: Alignment.centerRight,
                 ),),

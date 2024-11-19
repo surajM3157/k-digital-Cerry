@@ -3,6 +3,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:googleapis/admin/directory_v1.dart';
 import 'package:piwotapp/constants/api_urls.dart';
 import 'package:piwotapp/responses/speaker_response.dart';
 import '../../constants/colors.dart';
@@ -83,7 +84,7 @@ class _SpeakerPageState extends State<SpeakerPage> {
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: GradientText(text: "Paniit - 2024 SPEAKERS ", style: const TextStyle(fontSize: 20,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
-                  colors: [AppColor.primaryColor, AppColor.red],
+                  colors: AppColor.gradientColors,
                   begin: Alignment.centerLeft,
                   end: Alignment.centerRight,
                 )),
@@ -136,7 +137,7 @@ class _SpeakerPageState extends State<SpeakerPage> {
                         decoration: BoxDecoration(
                             borderRadius: const BorderRadius.all(Radius.circular(10)),
                             // gradient: LinearGradient(
-                            //   colors: [AppColor.primaryColor, AppColor.red],
+                            //   colors: AppColor.gradientColors,
                             //   begin: Alignment.centerLeft,
                             //   end: Alignment.centerRight,
                             // )
@@ -144,9 +145,7 @@ class _SpeakerPageState extends State<SpeakerPage> {
                         ),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10),
-                            child: FittedBox(
-                              fit: BoxFit.fill,
-                                child: Image.network(ApiUrls.imageUrl+(speakerList[index].speakerImage??""),fit: BoxFit.fill,))),
+                            child: Image.network(ApiUrls.imageUrl+(speakerList[index].speakerImage??""),fit: BoxFit.fill,)),
                       ),
                       Positioned(
                         bottom: -30,
@@ -219,7 +218,7 @@ class _SpeakerPageState extends State<SpeakerPage> {
                       width: 148,height: 156,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(16),
-                        gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]),
+                        gradient: LinearGradient(colors: AppColor.gradientColors),
                       ),
                       child:ClipRRect(
                         borderRadius: BorderRadius.circular(16),

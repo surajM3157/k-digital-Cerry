@@ -37,7 +37,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
-                          colors: [AppColor.primaryColor, AppColor.red],
+                          colors: AppColor.gradientColors,
                           begin: Alignment.centerLeft,
                           end: Alignment.centerRight,
                         ),
@@ -67,7 +67,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                    Padding(
                      padding: const EdgeInsets.only(left: 40),
                      child: GradientText(text:"Set your new password.",gradient: LinearGradient(
-                       colors: [AppColor.primaryColor, AppColor.red],
+                       colors: AppColor.gradientColors,
                        begin: Alignment.topLeft,
                        end: Alignment.bottomRight,
                      ),style: AppThemes.titleTextStyle().copyWith(fontWeight: FontWeight.w600,fontSize: 24),),

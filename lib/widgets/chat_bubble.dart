@@ -20,7 +20,7 @@ class ChatBubble extends StatelessWidget {
           decoration: BoxDecoration(
               color: isMe?AppColor.FFF9F8FF:null,
               gradient:isMe?null:LinearGradient(
-                colors: [AppColor.primaryColor, AppColor.red],
+                colors: AppColor.gradientColors,
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
               ),

@@ -48,7 +48,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
             const SizedBox(height: 20,),
             Center(
               child: GradientText(text: "Change Password", style: const TextStyle(fontWeight: FontWeight.w600,fontSize: 20,fontFamily: appFontFamily), gradient:LinearGradient(
-                colors: [AppColor.primaryColor, AppColor.red],
+                colors: AppColor.gradientColors,
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
               ),),

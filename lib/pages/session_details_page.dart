@@ -137,7 +137,7 @@ class _SessionDetailsPageState extends State<SessionDetailsPage> {
                           child: Row(
                             children: [
                               GradientText(text:"Room No: ", style: const TextStyle(fontSize: 16,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
-                                colors: [AppColor.primaryColor,AppColor.red]
+                                colors: AppColor.gradientColors
                               ),),
                               Text(_sessionListData?.roomDetails?.roomNo??"",style: TextStyle(fontSize: 16,fontFamily: appFontFamily,fontWeight: FontWeight.w400,color: AppColor.FF161616),)
                             ],
@@ -151,7 +151,7 @@ class _SessionDetailsPageState extends State<SessionDetailsPage> {
                               Icon(Icons.date_range,size: 17,color: AppColor.primaryColor,),
                               const SizedBox(width: 5,),
                               GradientText(text:"Date & Time",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor,fontWeight: FontWeight.w600),gradient:LinearGradient(
-                                colors: [AppColor.primaryColor, AppColor.red],
+                                colors: AppColor.gradientColors,
                                 begin: Alignment.centerLeft,
                                 end: Alignment.centerRight,
                               )),
@@ -178,7 +178,7 @@ class _SessionDetailsPageState extends State<SessionDetailsPage> {
                     _sessionListData?.speakerDetails !=null?Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: GradientText(text: "Speaker", style: const TextStyle(fontWeight: FontWeight.w600,fontFamily: appFontFamily,fontSize: 16), gradient: LinearGradient(
-                        colors: [AppColor.primaryColor,AppColor.red]
+                        colors: AppColor.gradientColors
                       )),
                     ):const SizedBox.shrink(),
                     _sessionListData?.speakerDetails !=null?SizedBox(
@@ -204,7 +204,7 @@ class _SessionDetailsPageState extends State<SessionDetailsPage> {
                                       decoration: BoxDecoration(
                                           borderRadius: const BorderRadius.all(Radius.circular(10)),
                                           gradient: LinearGradient(
-                                            colors: [AppColor.primaryColor, AppColor.red],
+                                            colors: AppColor.gradientColors,
                                             begin: Alignment.centerLeft,
                                             end: Alignment.centerRight,
                                           )
@@ -301,7 +301,7 @@ class _SessionDetailsPageState extends State<SessionDetailsPage> {
                       width: 148,height: 156,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(16),
-                        gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]),
+                        gradient: LinearGradient(colors: AppColor.gradientColors),
                       ),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(16),

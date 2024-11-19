@@ -36,7 +36,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       height: 252,
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
-                          colors: [AppColor.primaryColor, AppColor.red],
+                          colors: AppColor.gradientColors,
                           begin: Alignment.centerLeft,
                           end: Alignment.centerRight,
                         ),
@@ -66,7 +66,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     Padding(
                       padding: const EdgeInsets.only(left: 40),
                       child: GradientText(text:"Forgot Password",gradient: LinearGradient(
-                        colors: [AppColor.primaryColor, AppColor.red],
+                        colors: AppColor.gradientColors,
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),style: AppThemes.titleTextStyle().copyWith(fontWeight: FontWeight.w600,fontSize: 24),),

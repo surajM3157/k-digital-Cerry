@@ -97,7 +97,7 @@ class _LiveEventsPageState extends State<LiveEventsPage> {
         child: ListView(
           children: [
             const SizedBox(height: 12,),
-            Center(child: GradientText(text:"Live Event",style: const TextStyle(fontFamily: appFontFamily,fontSize: 20,fontWeight: FontWeight.w600), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]),)),
+            Center(child: GradientText(text:"Live Event",style: const TextStyle(fontFamily: appFontFamily,fontSize: 20,fontWeight: FontWeight.w600), gradient: LinearGradient(colors: AppColor.gradientColors),)),
             const SizedBox(height: 33,),
 
            liveSessions.isNotEmpty? ListView.separated(
@@ -126,7 +126,7 @@ class _LiveEventsPageState extends State<LiveEventsPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               GradientText(text:liveSessions[index].title??"",style: const TextStyle(fontWeight: FontWeight.w600,fontSize: 14,fontFamily: appFontFamily,), gradient: LinearGradient(
-                                colors: [AppColor.primaryColor,AppColor.red]
+                                colors: AppColor.gradientColors
                               ),),
                               // const SizedBox(height: 5,),
                               // Text(liveSessions[index].description??"",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 10,fontFamily: appFontFamily,color: AppColor.FF161616)),

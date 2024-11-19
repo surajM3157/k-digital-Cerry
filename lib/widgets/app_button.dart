@@ -20,7 +20,7 @@ class AppButton extends StatelessWidget {
         decoration: BoxDecoration(
           // color: AppColor.primaryColor,
             gradient: LinearGradient(
-              colors: [AppColor.primaryColor, AppColor.red],
+              colors: AppColor.gradientColors,
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
             ),

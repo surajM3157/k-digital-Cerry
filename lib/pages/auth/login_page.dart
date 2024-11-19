@@ -63,7 +63,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
               padding: const EdgeInsets.symmetric(horizontal: 20),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [AppColor.primaryColor, AppColor.red],
+                  colors: AppColor.gradientColors,
                   begin: Alignment.centerLeft,
                   end: Alignment.centerRight,
                 ),
@@ -88,7 +88,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
                       child: GradientText(
                         text: "Log in",
                         gradient: LinearGradient(
-                          colors: [AppColor.primaryColor, AppColor.red],
+                          colors: AppColor.gradientColors,
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                         ),
@@ -165,14 +165,71 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
                       ),
                     ),
                     const SizedBox(height: 30),
-                    AppButton(
-                      title: "Next",
-                      onTap: () {
-
-                        if(_formKey.currentState!.validate()){
-                          apiCalling();
-                        }
-                      },
+                    // AppButton(
+                    //   title: "Next",
+                    //   onTap: () {
+                    //
+                    //     if(_formKey.currentState!.validate()){
+                    //       apiCalling();
+                    //     }
+                    //   },
+                    // ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20),
+                      child: Text('Send OTP to',style: TextStyle(fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.primaryColor),),
+                    ),
+                    SizedBox(height: 10,),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          GestureDetector(
+                            onTap:(){
+                              if(_formKey.currentState!.validate()){
+                                apiCalling();
+                              }
+                            },
+                            child: Container(
+                              height: 48,width: 158,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                gradient: LinearGradient(colors: AppColor.gradientColors)
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SvgPicture.asset(Images.emailIdIcon),
+                                  SizedBox(width: 8,),
+                                  Text("Email",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 14,fontFamily: appFontFamily,color: AppColor.white),)
+                                ],
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: (){
+                              if(_formKey.currentState!.validate()){
+                                apiCalling();
+                              }
+                            },
+                            child: Container(
+                              height: 48,width: 158,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                gradient: LinearGradient(colors: AppColor.gradientColors)
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SvgPicture.asset(Images.whatsappIcon),
+                                  SizedBox(width: 8,),
+                                  Text("Whatsapp",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 14,fontFamily: appFontFamily,color: AppColor.white),)
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),

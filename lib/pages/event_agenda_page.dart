@@ -81,7 +81,7 @@ class _EventAgendaPageState extends State<EventAgendaPage> {
             const SizedBox(height: 10,),
             Center(
               child: GradientText(text:"Agenda",style: const TextStyle(fontWeight: FontWeight.w600,fontFamily: appFontFamily,fontSize: 20), gradient: LinearGradient(
-                colors: [AppColor.primaryColor, AppColor.red],
+                colors: AppColor.gradientColors,
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
               ),
@@ -108,7 +108,7 @@ class _EventAgendaPageState extends State<EventAgendaPage> {
                       ListTile(
                         title: GradientText(
                           text: agendaList[index].roomId?.roomNo??"",
-                          style: TextStyle(fontWeight: FontWeight.w600,fontSize: 15,fontFamily: appFontFamily), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]
+                          style: TextStyle(fontWeight: FontWeight.w600,fontSize: 15,fontFamily: appFontFamily), gradient: LinearGradient(colors: AppColor.gradientColors
 
                         ),
                         ),
@@ -206,7 +206,7 @@ class _EventAgendaPageState extends State<EventAgendaPage> {
             height: 35,width: 99,
             decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(Radius.circular(8)),
-                gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red],
+                gradient: LinearGradient(colors: AppColor.gradientColors,
                     begin: Alignment.centerLeft,end: Alignment.centerRight
                 )
             ),
@@ -220,7 +220,7 @@ class _EventAgendaPageState extends State<EventAgendaPage> {
             padding: const EdgeInsets.all(1),
             decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(Radius.circular(9)),
-                gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red],
+                gradient: LinearGradient(colors: AppColor.gradientColors,
                     begin: Alignment.centerLeft,end: Alignment.centerRight
                 )
             ),
@@ -250,7 +250,7 @@ class _EventAgendaPageState extends State<EventAgendaPage> {
             height: 35,width: 99,
             decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(Radius.circular(8)),
-                gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red],
+                gradient: LinearGradient(colors: AppColor.gradientColors,
                     begin: Alignment.centerLeft,end: Alignment.centerRight
                 )
             ),
@@ -264,7 +264,7 @@ class _EventAgendaPageState extends State<EventAgendaPage> {
             padding: const EdgeInsets.all(1),
             decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(Radius.circular(9)),
-                gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red],
+                gradient: LinearGradient(colors: AppColor.gradientColors,
                     begin: Alignment.centerLeft,end: Alignment.centerRight
                 )
             ),
@@ -294,7 +294,7 @@ class _EventAgendaPageState extends State<EventAgendaPage> {
             height: 35,width: 99,
             decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(Radius.circular(8)),
-                gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red],
+                gradient: LinearGradient(colors: AppColor.gradientColors,
                     begin: Alignment.centerLeft,end: Alignment.centerRight
                 )
             ),
@@ -308,7 +308,7 @@ class _EventAgendaPageState extends State<EventAgendaPage> {
             padding: const EdgeInsets.all(1),
             decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(Radius.circular(9)),
-                gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red],
+                gradient: LinearGradient(colors: AppColor.gradientColors,
                     begin: Alignment.centerLeft,end: Alignment.centerRight
                 )
             ),

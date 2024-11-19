@@ -216,7 +216,7 @@ class _EditProfilPageState extends State<EditProfilPage> {
                     height: 250,width: Get.width,
                     decoration: BoxDecoration(
                         gradient: LinearGradient(
-                          colors: [AppColor.primaryColor, AppColor.red],
+                          colors: AppColor.gradientColors,
                           begin: Alignment.centerLeft,
                           end: Alignment.centerRight,
                         ),
@@ -765,18 +765,21 @@ class _EditProfilPageState extends State<EditProfilPage> {
               onTap: (){
                 pickImageFromCameraAndGallery();
               },
-              child: Container(
-                width: 188,height: 188,
-                margin: const EdgeInsets.only(left: 90,top: 120),
-                padding: _image != null||profileImage!=""?null:const EdgeInsets.all(50),
-                decoration: BoxDecoration(
-                    color: AppColor.white,
-                    border: Border.all(color: AppColor.grey),
-                    borderRadius: const BorderRadius.all(Radius.circular(100))
+              child: Align(
+                alignment: Alignment.center,
+                child: Container(
+                  width: 188,height: 188,
+                  margin: const EdgeInsets.only(top: 120),
+                  padding: _image != null||profileImage!=""?null:const EdgeInsets.all(50),
+                  decoration: BoxDecoration(
+                      color: AppColor.white,
+                      border: Border.all(color: AppColor.grey),
+                      borderRadius: const BorderRadius.all(Radius.circular(100))
+                  ),
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(200),
+                      child: _image != null?Image.file(_image!, fit: BoxFit.fill,):profileImage!=""?Image.network(ApiUrls.imageUrl + (profileImage??""),fit: BoxFit.fill,):Image.asset(Images.profileDefault,height: 64,width: 64,fit: BoxFit.cover,)),
                 ),
-                child: ClipRRect(
-                    borderRadius: BorderRadius.circular(200),
-                    child: _image != null?Image.file(_image!, fit: BoxFit.fill,):profileImage!=""?Image.network(ApiUrls.imageUrl + (profileImage??""),fit: BoxFit.fill,):Image.asset(Images.profileDefault,height: 64,width: 64,fit: BoxFit.cover,)),
               ),
             ),
             GestureDetector(
@@ -797,7 +800,7 @@ class _EditProfilPageState extends State<EditProfilPage> {
                   height: 54,width: 54,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(50),
-                      gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])
+                      gradient: LinearGradient(colors: AppColor.gradientColors)
                     ),
                     child: Icon(Icons.camera_alt_outlined,color: AppColor.white,size: 30,)),
               ),

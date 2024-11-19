@@ -83,7 +83,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
               decoration: BoxDecoration(
                 shape: _animation.value > 500 ?BoxShape.rectangle:BoxShape.circle,
                 gradient: LinearGradient(
-                  colors: [AppColor.primaryColor, AppColor.red],
+                  colors: AppColor.gradientColors,
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),

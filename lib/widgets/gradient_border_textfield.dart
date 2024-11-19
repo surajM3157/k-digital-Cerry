@@ -19,7 +19,7 @@ class GradientBorderTextField extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.0),
         gradient: LinearGradient(
-          colors: [AppColor.primaryColor, AppColor.red], // Your gradient colors
+          colors: AppColor.gradientColors, // Your gradient colors
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),

@@ -295,7 +295,7 @@ class _DelegatesState extends State<Delegates> with SingleTickerProviderStateMix
   Widget build(BuildContext context) {
     return isConnected?Column(
       children: [
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         TabBar(
@@ -327,7 +327,7 @@ class _DelegatesState extends State<Delegates> with SingleTickerProviderStateMix
         ),
         Container(
           height: 1,
-          margin: EdgeInsets.only(top: 1),
+          margin: const EdgeInsets.only(top: 1),
           width: double.infinity,
           color: AppColor.lightGrey,
         ),
@@ -419,10 +419,10 @@ class _DelegatesState extends State<Delegates> with SingleTickerProviderStateMix
           .snapshots(),
       builder: (context,snapshot){
         if(snapshot.hasError){
-          return Text("Error");
+          return const Text("Error");
         }
         if(snapshot.connectionState ==ConnectionState.waiting){
-          return Text("Loading...");
+          return const Text("Loading...");
         }
         // Client-side filtering (optional, based on your requirements)
         final allDocs = snapshot.data!.docs;
@@ -431,7 +431,10 @@ class _DelegatesState extends State<Delegates> with SingleTickerProviderStateMix
           return name.toLowerCase().contains(chatSearchText.toLowerCase());
         }).toList();
         return ListView(
-          children: filteredDocs.map<Widget>((doc) => _buildUserListItem(doc)).toList(),
+          children: filteredDocs.map<Widget>((doc) => Padding(
+            padding: const EdgeInsets.only(bottom: 5),
+            child: _buildUserListItem(doc),
+          )).toList(),
         );
       },): Center(child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -451,15 +454,12 @@ class _DelegatesState extends State<Delegates> with SingleTickerProviderStateMix
       return ListTile(
         title: Row(
           children: [
-            Expanded(
-              flex: 1,
-              child: SizedBox(
-                  height: 60,
-                  width: 70,
-                  child: ClipRRect(
-                      borderRadius: BorderRadius.circular(50),
-                      child: data['profile']!= null?Image.network(data['profile'],fit: BoxFit.fill,):Image.asset(Images.defaultProfile,fit: BoxFit.fill,))),
-            ),
+            SizedBox(
+                height: 70,
+                width: 70,
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(100),
+                    child: data['profile']!= null?Image.network(data['profile'],fit: BoxFit.fill,):Image.asset(Images.defaultProfile,fit: BoxFit.fill,))),
             const SizedBox(width: 20,),
             Expanded(
               flex: 4,
@@ -474,15 +474,16 @@ class _DelegatesState extends State<Delegates> with SingleTickerProviderStateMix
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(data['name']),
+                    Text(data['name'],style: TextStyle(color: Colors.black,fontWeight: FontWeight.w600,fontFamily: appFontFamily),),
+                    SizedBox(height: 3,),
                     StreamBuilder(
                         stream: chatService.getMessages(Prefs.checkUserId, data['uid']),
                         builder: (context, snapshot) {
                           if (snapshot.connectionState == ConnectionState.waiting) {
-                            return Center(child: Text("Loading..."));
+                            return const Center(child: Text("Loading..."));
                           }
                           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                            return Text("No messages yet");
+                            return const Text("No messages yet",style:  TextStyle(color: Colors.grey,fontWeight: FontWeight.normal,fontFamily: appFontFamily));
                           }
                            lastMessageDoc = snapshot.data!.docs.last;
                           var lastMessageData = lastMessageDoc.data() as Map<String, dynamic>;
@@ -618,7 +619,7 @@ class _DelegatesState extends State<Delegates> with SingleTickerProviderStateMix
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(8)),
                     gradient:LinearGradient(
-                      colors: [AppColor.primaryColor, AppColor.red],
+                      colors: AppColor.gradientColors,
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
@@ -642,7 +643,7 @@ class _DelegatesState extends State<Delegates> with SingleTickerProviderStateMix
                     child: Center(child: Text("Reject",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 14,color: AppColor.red,fontFamily: appFontFamily,),))),
               ),
             ],
-          ): SizedBox.shrink()
+          ): const SizedBox.shrink()
         ],
       ),
     );
@@ -651,7 +652,7 @@ class _DelegatesState extends State<Delegates> with SingleTickerProviderStateMix
 
 
   Widget inviteDelegateList(GuestListData guestListData){
-    return guestListData.sId == Prefs.checkUserId?SizedBox.shrink():Container(
+    return guestListData.sId == Prefs.checkUserId?const SizedBox.shrink():Container(
       height: 170,
       width: Get.width,
       margin: const EdgeInsets.symmetric(horizontal: 16,vertical: 10),
@@ -738,7 +739,7 @@ class _DelegatesState extends State<Delegates> with SingleTickerProviderStateMix
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(8)),
                     gradient:LinearGradient(
-                      colors: [AppColor.primaryColor, AppColor.red],
+                      colors: AppColor.gradientColors,
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),

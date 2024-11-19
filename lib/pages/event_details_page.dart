@@ -121,7 +121,7 @@ class _EventDetailsPageState extends State<EventDetailsPage>  with SingleTickerP
                                 children: [
                                   const SizedBox(height: 20,),
                                   GradientText(text: "Global Connect Conference Session 1",gradient: LinearGradient(
-                                    colors: [AppColor.primaryColor, AppColor.red],
+                                    colors: AppColor.gradientColors,
                                     begin: Alignment.centerLeft,
                                     end: Alignment.centerRight,
                                   ),style: AppThemes.titleTextStyle().copyWith(
@@ -135,7 +135,7 @@ class _EventDetailsPageState extends State<EventDetailsPage>  with SingleTickerP
                                       Icon(Icons.date_range,size: 17,color: AppColor.primaryColor,),
                                       const SizedBox(width: 5,),
                                       GradientText(text: "Date & Time",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor,fontWeight: FontWeight.w600), gradient: LinearGradient(
-                                        colors: [AppColor.primaryColor, AppColor.red],
+                                        colors: AppColor.gradientColors,
                                         begin: Alignment.centerLeft,
                                         end: Alignment.centerRight,
                                       ),),
@@ -169,7 +169,7 @@ class _EventDetailsPageState extends State<EventDetailsPage>  with SingleTickerP
                                       Icon(Icons.location_on_outlined,size: 17,color: AppColor.primaryColor,),
                                       const SizedBox(width: 5,),
                                       GradientText(text:"Location",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor,fontWeight: FontWeight.w600),gradient: LinearGradient(
-                                        colors: [AppColor.primaryColor, AppColor.red],
+                                        colors: AppColor.gradientColors,
                                         begin: Alignment.centerLeft,
                                         end: Alignment.centerRight,
                                       ),),
@@ -198,7 +198,7 @@ class _EventDetailsPageState extends State<EventDetailsPage>  with SingleTickerP
                                       Icon(Icons.currency_rupee,size: 17,color: AppColor.primaryColor,),
                                       const SizedBox(width: 5,),
                                       GradientText(text:"Ticket Price",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor,fontWeight: FontWeight.w600),gradient:LinearGradient(
-                                        colors: [AppColor.primaryColor, AppColor.red],
+                                        colors: AppColor.gradientColors,
                                         begin: Alignment.centerLeft,
                                         end: Alignment.centerRight,
                                       )),

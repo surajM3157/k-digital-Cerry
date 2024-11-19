@@ -83,7 +83,7 @@ class _FloorPlanScreenState extends State<FloorPlanScreen> {
               const SizedBox(height: 20,),
               Center(
                 child: GradientText(text: "Floor Plan", style: const TextStyle(fontWeight: FontWeight.w600,fontSize: 20,fontFamily: appFontFamily), gradient:LinearGradient(
-                  colors: [AppColor.primaryColor, AppColor.red],
+                  colors: AppColor.gradientColors,
                   begin: Alignment.centerLeft,
                   end: Alignment.centerRight,
                 ),),

@@ -304,7 +304,7 @@ class _HomeState extends State<Home> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: GradientText(text: "Countdown For PIWOT Event 2025",style: const TextStyle(fontSize: 16,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
-                colors: [AppColor.primaryColor, AppColor.red],
+                colors: AppColor.gradientColors,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),),
@@ -315,7 +315,7 @@ class _HomeState extends State<Home> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: GradientText(text: "Explore",style: const TextStyle(fontSize: 16,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
-                colors: [AppColor.primaryColor, AppColor.red],
+                colors: AppColor.gradientColors,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),),
@@ -329,7 +329,7 @@ class _HomeState extends State<Home> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   GradientText(text: "About Event",style: const TextStyle(fontSize: 16,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
-                    colors: [AppColor.primaryColor, AppColor.red],
+                    colors: AppColor.gradientColors,
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),),
@@ -337,11 +337,18 @@ class _HomeState extends State<Home> {
                     onTap: (){
                       Get.offAll(HomePage(bottomNavIndex: 4));
                     },
-                    child: GradientText(text: "View More",style: const TextStyle(fontSize: 12,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
-                      colors: [AppColor.primaryColor, AppColor.red],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        GradientText(text: "View More",style: const TextStyle(fontSize: 12,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
+                          colors: AppColor.gradientColors,
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),),
+                        Image.asset(Images.forwardArrowIcon,height: 20,width: 20,)
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -353,7 +360,7 @@ class _HomeState extends State<Home> {
               width: Get.width,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [AppColor.primaryColor,AppColor.red],
+                  colors: AppColor.gradientColors,
                 ),
               ),
               child: Column(
@@ -534,7 +541,7 @@ class _HomeState extends State<Home> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   GradientText(text: "Speaker",style: const TextStyle(fontSize: 16,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
-                    colors: [AppColor.primaryColor, AppColor.red],
+                    colors: AppColor.gradientColors,
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),),
@@ -542,11 +549,18 @@ class _HomeState extends State<Home> {
                     onTap: (){
                       Get.toNamed(Routes.speaker);
                     },
-                    child: GradientText(text: "View More",style: const TextStyle(fontSize: 12,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
-                      colors: [AppColor.primaryColor, AppColor.red],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        GradientText(text: "View More",style: const TextStyle(fontSize: 12,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
+                          colors: AppColor.gradientColors,
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),),
+                        Image.asset(Images.forwardArrowIcon,height: 20,width: 20,)
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -560,7 +574,7 @@ class _HomeState extends State<Home> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   GradientText(text: "Sponsor",style: const TextStyle(fontSize: 16,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
-                    colors: [AppColor.primaryColor, AppColor.red],
+                    colors: AppColor.gradientColors,
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),),
@@ -568,11 +582,18 @@ class _HomeState extends State<Home> {
                     onTap: (){
                       Get.toNamed(Routes.sponsor);
                     },
-                    child: GradientText(text: "View More",style: const TextStyle(fontSize: 12,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
-                      colors: [AppColor.primaryColor, AppColor.red],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        GradientText(text: "View More",style: const TextStyle(fontSize: 12,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
+                          colors: AppColor.gradientColors,
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),),
+                        Image.asset(Images.forwardArrowIcon,height: 20,width: 20,)
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -585,7 +606,7 @@ class _HomeState extends State<Home> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   GradientText(text: "Live Events",style: const TextStyle(fontSize: 16,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
-                    colors: [AppColor.primaryColor, AppColor.red],
+                    colors: AppColor.gradientColors,
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),),
@@ -593,11 +614,18 @@ class _HomeState extends State<Home> {
                     onTap: (){
                       Get.toNamed(Routes.liveEvents);
                     },
-                    child: GradientText(text: "View More",style: const TextStyle(fontSize: 12,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
-                      colors: [AppColor.primaryColor, AppColor.red],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        GradientText(text: "View More",style: const TextStyle(fontSize: 12,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
+                          colors: AppColor.gradientColors,
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),),
+                        Image.asset(Images.forwardArrowIcon,height: 20,width: 20,)
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -642,7 +670,7 @@ class _HomeState extends State<Home> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: GradientText(text: "Venue",style: const TextStyle(fontSize: 16,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
-                colors: [AppColor.primaryColor, AppColor.red],
+                colors: AppColor.gradientColors,
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),),
@@ -653,7 +681,7 @@ class _HomeState extends State<Home> {
               height: 208,
               padding: const EdgeInsets.only(left: 16),
               decoration: BoxDecoration(
-                gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]),
+                gradient: LinearGradient(colors: AppColor.gradientColors),
                 borderRadius: BorderRadius.circular(8)
               ),
               child: Row(
@@ -723,7 +751,7 @@ class _HomeState extends State<Home> {
                 margin: const EdgeInsets.symmetric(horizontal: 16),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(50),
-                  gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])
+                  gradient: LinearGradient(colors: AppColor.gradientColors)
                 ),
                 child: Center(
                   child: Text("Direction To Venue",style: TextStyle(fontFamily: appFontFamily,fontSize: 16,fontWeight: FontWeight.w600,color: AppColor.white),
@@ -749,9 +777,10 @@ class _HomeState extends State<Home> {
             padding: const EdgeInsets.all(1),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(9),
-              gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])
+              gradient: LinearGradient(colors: AppColor.gradientColors)
             ),
             child: Container(
+              height: Get.height *0.1,width: Get.width*0.21,
               padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 16),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(9),
@@ -759,9 +788,9 @@ class _HomeState extends State<Home> {
               ),
               child: Column(
                 children: [
-                  GradientText(text: _formatDuration(_timeRemaining)[0].toString(),style: const TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 20), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]),),
+                  GradientText(text: _formatDuration(_timeRemaining)[0].toString(),style: const TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 20), gradient: LinearGradient(colors: AppColor.gradientColors),),
                   const SizedBox(height: 5,),
-                  GradientText(text:"DAYS",style: const TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 10), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]))
+                  GradientText(text:"DAYS",style: const TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 10), gradient: LinearGradient(colors: AppColor.gradientColors))
                 ],
               ),
             ),
@@ -770,9 +799,10 @@ class _HomeState extends State<Home> {
             padding: const EdgeInsets.all(1),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(9),
-              gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])
+              gradient: LinearGradient(colors: AppColor.gradientColors)
             ),
             child: Container(
+              height: Get.height *0.1,width: Get.width*0.21,
               padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 16),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(9),
@@ -780,9 +810,9 @@ class _HomeState extends State<Home> {
               ),
               child: Column(
                 children: [
-                  GradientText(text:_formatDuration(_timeRemaining)[1].toString(),style: const TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 20), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])),
+                  GradientText(text:_formatDuration(_timeRemaining)[1].toString(),style: const TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 20), gradient: LinearGradient(colors: AppColor.gradientColors)),
                   const SizedBox(height: 5,),
-                  GradientText(text:"HOURS",style: const TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 10), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]))
+                  GradientText(text:"HOURS",style: const TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 10), gradient: LinearGradient(colors: AppColor.gradientColors))
                 ],
               ),
             ),
@@ -791,9 +821,10 @@ class _HomeState extends State<Home> {
             padding: const EdgeInsets.all(1),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(9),
-              gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])
+              gradient: LinearGradient(colors: AppColor.gradientColors)
             ),
             child: Container(
+              height: Get.height *0.1,width: Get.width*0.21,
               padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 16),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(9),
@@ -801,9 +832,9 @@ class _HomeState extends State<Home> {
               ),
               child: Column(
                 children: [
-                  GradientText(text:_formatDuration(_timeRemaining)[2].toString(),style: const TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 20), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])),
+                  GradientText(text:_formatDuration(_timeRemaining)[2].toString(),style: const TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 20), gradient: LinearGradient(colors: AppColor.gradientColors)),
                   const SizedBox(height: 5,),
-                  GradientText(text:"MINUTES",style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 10,color: AppColor.primaryColor), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]))
+                  GradientText(text:"MINUTES",style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 10,color: AppColor.primaryColor), gradient: LinearGradient(colors: AppColor.gradientColors))
                 ],
               ),
             ),
@@ -812,9 +843,10 @@ class _HomeState extends State<Home> {
             padding: const EdgeInsets.all(1),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(9),
-              gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])
+              gradient: LinearGradient(colors: AppColor.gradientColors)
             ),
             child: Container(
+              height: Get.height *0.1,width: Get.width*0.21,
               padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 16),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(9),
@@ -822,9 +854,9 @@ class _HomeState extends State<Home> {
               ),
               child: Column(
                 children: [
-                  GradientText(text:_formatDuration(_timeRemaining)[3].toString(),style: const TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 20), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])),
+                  GradientText(text:_formatDuration(_timeRemaining)[3].toString(),style: const TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 20), gradient: LinearGradient(colors: AppColor.gradientColors)),
                   const SizedBox(height: 5,),
-                  GradientText(text:"SECONDS",style: const TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 10), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]))
+                  GradientText(text:"SECONDS",style: const TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 10), gradient: LinearGradient(colors: AppColor.gradientColors))
                 ],
               ),
             ),
@@ -848,9 +880,10 @@ class _HomeState extends State<Home> {
               padding: const EdgeInsets.all(1),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(9),
-                  gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])
+                  gradient: LinearGradient(colors: AppColor.gradientColors)
               ),
               child: Container(
+                height: Get.height*0.11,width: Get.width*0.28,
                 padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 16),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(9),
@@ -858,9 +891,9 @@ class _HomeState extends State<Home> {
                 ),
                 child: Column(
                   children: [
-                    SvgPicture.asset(Images.sponsorIcon),
+                    SvgPicture.asset(Images.sponsorIcon,height: Get.height*0.037,width: Get.width*0.037,),
                     const SizedBox(height: 10,),
-                    GradientText(text:"Delegates",style: const TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 10), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]))
+                    GradientText(text:"Delegates",style: const TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 10), gradient: LinearGradient(colors: AppColor.gradientColors))
                   ],
                 ),
               ),
@@ -874,9 +907,10 @@ class _HomeState extends State<Home> {
               padding: const EdgeInsets.all(1),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(9),
-                  gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])
+                  gradient: LinearGradient(colors: AppColor.gradientColors)
               ),
               child: Container(
+                height: Get.height*0.11,width: Get.width*0.28,
                 padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 16),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(9),
@@ -884,9 +918,9 @@ class _HomeState extends State<Home> {
                 ),
                 child: Column(
                   children: [
-                    SvgPicture.asset(Images.piwotAgendaIcon),
+                    SvgPicture.asset(Images.piwotAgendaIcon,height: Get.height*0.037,width: Get.width*0.037,),
                     const SizedBox(height: 10,),
-                    GradientText(text:"Agenda",style: const TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 10), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]))
+                    GradientText(text:"Agenda",style: const TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 10), gradient: LinearGradient(colors: AppColor.gradientColors))
                   ],
                 ),
               ),
@@ -900,9 +934,10 @@ class _HomeState extends State<Home> {
               padding: const EdgeInsets.all(1),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(9),
-                  gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red])
+                  gradient: LinearGradient(colors: AppColor.gradientColors)
               ),
               child: Container(
+                height: Get.height*0.11,width: Get.width*0.28,
                 padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 16),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(9),
@@ -910,9 +945,9 @@ class _HomeState extends State<Home> {
                 ),
                 child: Column(
                   children: [
-                    SvgPicture.asset(Images.floorPlanIcon),
+                    SvgPicture.asset(Images.floorPlanIcon,height: Get.height*0.037,width: Get.width*0.037,),
                     const SizedBox(height: 10,),
-                    GradientText(text:"Floor Plan",style: const TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 10), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]))
+                    GradientText(text:"Floor Plan",style: const TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 10), gradient: LinearGradient(colors: AppColor.gradientColors))
                   ],
                 ),
               ),
@@ -930,7 +965,7 @@ class _HomeState extends State<Home> {
         scrollDirection: Axis.horizontal,
           itemBuilder: (context,index){
         return Container(
-          height: 139,width: 139,
+          height: Get.height*0.3,width: Get.width*0.4,
           margin: index ==0?EdgeInsets.only(left: 16):index ==2?EdgeInsets.only(right: 16):EdgeInsets.zero,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(9),
@@ -940,8 +975,8 @@ class _HomeState extends State<Home> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Image.asset(index==0?Images.homeConferenceIcon:index==1?Images.homeSpeakerIcon:Images.homeAttendanceIcon,height: 50,width: 50,),
-              const SizedBox(height: 16,),
+              Image.asset(index==0?Images.homeConferenceIcon:index==1?Images.homeSpeakerIcon:Images.homeAttendanceIcon,height:Get.height*0.1,width: Get.width*0.15,),
+              const SizedBox(height: 10,),
               Text(index==0?"2 Days\nConference":index==1?"200+\nSpeakers":"3000+\nAttendees",style: TextStyle(fontSize: 14,fontFamily: appFontFamily,fontWeight: FontWeight.w600,color: AppColor.primaryColor),textAlign: TextAlign.center,)
             ],
           ),
@@ -1029,8 +1064,8 @@ class _HomeState extends State<Home> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Text(liveSessions[index].title??"",style: TextStyle(color: AppColor.white,fontSize: 14,fontWeight: FontWeight.bold,fontFamily: appFontFamily),),
-                        const SizedBox(height: 8,),
+                        // Text(liveSessions[index].title??"",style: TextStyle(color: AppColor.white,fontSize: 14,fontWeight: FontWeight.bold,fontFamily: appFontFamily),),
+                        // const SizedBox(height: 8,),
                         Container(
                           height: 26,
                           width: 98,
@@ -1162,7 +1197,7 @@ class _HomeState extends State<Home> {
             decoration: BoxDecoration(
                 color: AppColor.secondaryColor,
                 gradient: LinearGradient(
-              colors: [AppColor.primaryColor, AppColor.red],
+              colors: AppColor.gradientColors,
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),

@@ -84,7 +84,7 @@ class _AgendaState extends State<Agenda> {
             const SizedBox(height: 10,),
             Center(
               child: GradientText(text:"Agenda",style: const TextStyle(fontWeight: FontWeight.w600,fontFamily: appFontFamily,fontSize: 20), gradient: LinearGradient(
-                colors: [AppColor.primaryColor, AppColor.red],
+                colors: AppColor.gradientColors,
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
               ),
@@ -111,7 +111,7 @@ class _AgendaState extends State<Agenda> {
                     ListTile(
                       title: GradientText(
                         text: agendaList[index].roomId?.roomNo??"",
-                        style: const TextStyle(fontWeight: FontWeight.w600,fontSize: 15,fontFamily: appFontFamily), gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red]
+                        style: const TextStyle(fontWeight: FontWeight.w600,fontSize: 15,fontFamily: appFontFamily), gradient: LinearGradient(colors: AppColor.gradientColors
                       ),
                       ),
                       trailing:  expandedIndex == index ?Image.asset(Images.upArrowIcon,height: 30,width: 30,):Image.asset(Images.downArrowIcon,height: 30,width: 30,),
@@ -154,8 +154,8 @@ class _AgendaState extends State<Agenda> {
                                               Text("",style: TextStyle(fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.FF161616),),
                                               const SizedBox(height: 10,),
                                               ListView(
-                                                padding: EdgeInsets.only(right: 10),
-                                                shrinkWrap: true,physics: NeverScrollableScrollPhysics(),
+                                                padding: const EdgeInsets.only(right: 10),
+                                                shrinkWrap: true,physics: const NeverScrollableScrollPhysics(),
                                                 children: agendaList[index].agendas![agendasIndex].activities!.map((item) {
                                                   return Text(item,overflow: TextOverflow.ellipsis,maxLines:2,style: TextStyle(
                                                       fontWeight: FontWeight.w400,fontSize: 14,color: AppColor.white
@@ -169,7 +169,7 @@ class _AgendaState extends State<Agenda> {
                                     ],
                                   ),
                                 ),
-                                SizedBox(width: 7,),
+                                const SizedBox(width: 7,),
                                 Flexible(
                                   flex:4,
                                   child: Column(
@@ -226,7 +226,7 @@ class _AgendaState extends State<Agenda> {
             height: 35,width: 99,
             decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(Radius.circular(8)),
-                gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red],
+                gradient: LinearGradient(colors: AppColor.gradientColors,
                     begin: Alignment.centerLeft,end: Alignment.centerRight
                 )
             ),
@@ -240,7 +240,7 @@ class _AgendaState extends State<Agenda> {
             padding: const EdgeInsets.all(1),
             decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(Radius.circular(9)),
-                gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red],
+                gradient: LinearGradient(colors: AppColor.gradientColors,
                     begin: Alignment.centerLeft,end: Alignment.centerRight
                 )
             ),
@@ -270,7 +270,7 @@ class _AgendaState extends State<Agenda> {
             height: 35,width: 99,
             decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(Radius.circular(8)),
-                gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red],
+                gradient: LinearGradient(colors: AppColor.gradientColors,
                     begin: Alignment.centerLeft,end: Alignment.centerRight
                 )
             ),
@@ -284,7 +284,7 @@ class _AgendaState extends State<Agenda> {
             padding: const EdgeInsets.all(1),
             decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(Radius.circular(9)),
-                gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red],
+                gradient: LinearGradient(colors: AppColor.gradientColors,
                     begin: Alignment.centerLeft,end: Alignment.centerRight
                 )
             ),
@@ -314,7 +314,7 @@ class _AgendaState extends State<Agenda> {
             height: 35,width: 99,
             decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(Radius.circular(8)),
-                gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red],
+                gradient: LinearGradient(colors: AppColor.gradientColors,
                     begin: Alignment.centerLeft,end: Alignment.centerRight
                 )
             ),
@@ -328,7 +328,7 @@ class _AgendaState extends State<Agenda> {
             padding: const EdgeInsets.all(1),
             decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(Radius.circular(9)),
-                gradient: LinearGradient(colors: [AppColor.primaryColor,AppColor.red],
+                gradient: LinearGradient(colors: AppColor.gradientColors,
                     begin: Alignment.centerLeft,end: Alignment.centerRight
                 )
             ),
