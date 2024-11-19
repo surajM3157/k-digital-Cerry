@@ -157,8 +157,8 @@ class _SurveyPageState extends State<SurveyPage> {
         }}
       }
 
-      print("Question1 ${globalQuestionList[0].question}");
-      print("Question2 ${globalQuestionList[1].question}");
+      // print("Question1 ${globalQuestionList[0].question}");
+      // print("Question2 ${globalQuestionList[1].question}");
 
       setState(() {
 
@@ -541,8 +541,7 @@ class _SurveyPageState extends State<SurveyPage> {
                 setState(() {
                   globalSessionList()[index].selectedRadioOption = value;
                 });
-
-              },
+                },
             ),
           );
         }):globalSessionList()[index].typeOf?.toLowerCase()== "stars"?Row(
