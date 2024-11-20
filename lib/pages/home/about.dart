@@ -195,7 +195,7 @@ class _AboutState extends State<About> with SingleTickerProviderStateMixin{
                       const SizedBox(height: 26),
                       Center(
                         child: GradientText(
-                          text: "About PANIIT",
+                          text: "About PanIIT",
                           style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: appFontFamily),
                           gradient: LinearGradient(colors: AppColor.gradientColors),
                         ),
@@ -220,7 +220,7 @@ class _AboutState extends State<About> with SingleTickerProviderStateMixin{
                       Center(
                         child: GradientText(
                           text: "Office Bearers",
-                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: appFontFamily),
+                          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600, fontFamily: appFontFamily),
                           gradient: LinearGradient(colors: AppColor.gradientColors),
                         ),
                       ),

@@ -2,6 +2,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:googleapis/composer/v1.dart';
 import 'package:intl/intl.dart';
 import 'package:piwotapp/constants/api_urls.dart';
 import 'package:piwotapp/constants/font_family.dart';
@@ -115,23 +116,23 @@ class _SessionDetailsPageState extends State<SessionDetailsPage> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SizedBox(height: 20,),
+                        const SizedBox(height: 14,),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: Text(_sessionListData?.sessionName??"",style: AppThemes.titleTextStyle().copyWith(
-                              fontWeight: FontWeight.w600,fontSize: 24
-                          ),),
+                          child: GradientText(text:_sessionListData?.sessionName??"",style: AppThemes.titleTextStyle().copyWith(
+                              fontWeight: FontWeight.w600,fontSize: 20
+                          ), gradient: LinearGradient(colors: AppColor.gradientColors),),
                         ),
-                        const SizedBox(height: 20,),
+                        const SizedBox(height: 14,),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: Text(_sessionListData?.sessionDescription??"",style:AppThemes.subtitleTextStyle().copyWith(fontSize: 16)),
                         ),
-                        const SizedBox(height: 20,),
+                        const SizedBox(height: 12,),
                         Container(width: Get.width,
                           height: 1,color: AppColor.primaryColor,
                         ),
-                        const SizedBox(height: 20,),
+                        const SizedBox(height: 17,),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: Row(
@@ -218,7 +219,7 @@ class _SessionDetailsPageState extends State<SessionDetailsPage> {
                                       child: Container(
                                         margin: const EdgeInsets.symmetric(horizontal: 20),
                                         width: 210,
-                                        height: 80,
+                                        // height: 80,
                                         decoration: BoxDecoration(
                                             color: AppColor.black.withOpacity(0.85),
                                             borderRadius: const BorderRadius.all(Radius.circular(10))
@@ -242,11 +243,7 @@ class _SessionDetailsPageState extends State<SessionDetailsPage> {
                             );
                           }),
                     ):const SizedBox.shrink(),
-                    const SizedBox(height: 20,),
-                    Container(width: Get.width,
-                      height: 1,color: AppColor.primaryColor,
-                    ),
-                    const SizedBox(height: 20,),
+                    const SizedBox(height: 30,),
                  //  DateTime.parse(_sessionListData?.date??"") == DateTime.now()?
                   isSurvey? AppButton(title: "Take Survey", onTap: (){
                       Get.toNamed(Routes.survey, arguments: {

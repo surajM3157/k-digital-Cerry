@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:googleapis/admob/v1.dart';
 import 'package:piwotapp/constants/api_urls.dart';
 import 'package:piwotapp/constants/colors.dart';
 import 'package:get/get.dart';
@@ -454,18 +455,26 @@ class _DelegatesState extends State<Delegates> with SingleTickerProviderStateMix
       return ListTile(
         title: Row(
           children: [
-            SizedBox(
-                height: 70,
-                width: 70,
-                child: ClipRRect(
-                    borderRadius: BorderRadius.circular(100),
-                    child: data['profile']!= null?Image.network(data['profile'],fit: BoxFit.fill,):Image.asset(Images.defaultProfile,fit: BoxFit.fill,))),
+            Container(
+              height: 71,width: 71,
+              padding: EdgeInsets.all(1),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: LinearGradient(colors: AppColor.gradientColors)
+              ),
+              child: Container(
+                  height: 70,
+                  width: 70,
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: data['profile']!= null?Image.network(data['profile'],fit: BoxFit.fill,):Image.asset(Images.defaultProfile,fit: BoxFit.fill,))),
+            ),
             const SizedBox(width: 20,),
             Expanded(
               flex: 4,
               child: Container(
                 width: Get.width/1.5,
-                padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 10),
                 decoration: BoxDecoration(
                     color: AppColor.white,
                     border: Border.all(color: AppColor.black.withOpacity(0.12)),
@@ -475,7 +484,7 @@ class _DelegatesState extends State<Delegates> with SingleTickerProviderStateMix
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(data['name'],style: TextStyle(color: Colors.black,fontWeight: FontWeight.w600,fontFamily: appFontFamily),),
-                    SizedBox(height: 3,),
+                    SizedBox(height: 6,),
                     StreamBuilder(
                         stream: chatService.getMessages(Prefs.checkUserId, data['uid']),
                         builder: (context, snapshot) {
@@ -547,7 +556,7 @@ class _DelegatesState extends State<Delegates> with SingleTickerProviderStateMix
                   margin: const EdgeInsets.all(8),
                   padding: const EdgeInsets.all(1),
                   decoration: BoxDecoration(
-                    color: AppColor.black,
+                    gradient: LinearGradient(colors: AppColor.gradientColors),
                     borderRadius: const BorderRadius.all(Radius.circular(50)),
                   ),
                   child: ClipRRect(
@@ -672,12 +681,12 @@ class _DelegatesState extends State<Delegates> with SingleTickerProviderStateMix
                   margin: const EdgeInsets.all(8),
                   padding: const EdgeInsets.all(1),
                   decoration: BoxDecoration(
-                    color: AppColor.black,
+                    gradient: LinearGradient(colors: AppColor.gradientColors),
                     borderRadius: const BorderRadius.all(Radius.circular(50)),
                   ),
                   child: ClipRRect(
                       borderRadius: BorderRadius.circular(50),
-                      child: guestListData.guestProfileImage != null?Image.network(ApiUrls.imageUrl+(guestListData.guestProfileImage??""),fit: BoxFit.cover,):Image.asset(Images.profileDefault,fit: BoxFit.cover,))),
+                      child: guestListData.guestProfileImage != null?Image.network(ApiUrls.imageUrl+(guestListData.guestProfileImage??""),fit: BoxFit.cover,):Image.asset(Images.defaultProfile,fit: BoxFit.cover,))),
               const SizedBox(width: 10,),
               Flexible(
                 child : Column(

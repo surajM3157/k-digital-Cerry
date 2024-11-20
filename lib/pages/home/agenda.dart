@@ -146,7 +146,7 @@ class _AgendaState extends State<Agenda> {
                                       ),
                                       Flexible(
                                         fit: FlexFit.loose,
-                                        child: Container(width: 1,color: AppColor.primaryColor,
+                                        child: Container(width: 1,color: AppColor.lightGrey,
                                           child: Column(
                                             children: [
                                               Text("",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 12,color: AppColor.FF161616,fontFamily: appFontFamily),),
@@ -177,9 +177,9 @@ class _AgendaState extends State<Agenda> {
                                     children: [
                                       //SizedBox(height: 7,),
                                       Text(agendaList[index].agendas?[agendasIndex].time??"",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 12,color: AppColor.FF161616,fontFamily: appFontFamily),),
-                                      const SizedBox(height: 20,),
-                                      Text(agendaList[index].agendas?[agendasIndex].title??"",style: TextStyle(fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.FF161616),),
                                       const SizedBox(height: 10,),
+                                      Text(agendaList[index].agendas?[agendasIndex].title??"",style: TextStyle(fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.FF161616),),
+                                      const SizedBox(height: 8,),
                                       ListView(
                                         padding: const EdgeInsets.only(right: 10),
                                         shrinkWrap: true,physics: const NeverScrollableScrollPhysics(),

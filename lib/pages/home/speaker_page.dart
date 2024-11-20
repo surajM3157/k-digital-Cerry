@@ -83,7 +83,7 @@ class _SpeakerPageState extends State<SpeakerPage> {
             children: [
               Padding(
                 padding: const EdgeInsets.all(10),
-                child: GradientText(text: "Paniit - 2024 SPEAKERS ", style: const TextStyle(fontSize: 20,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
+                child: GradientText(text: "PanIIT - 2025 Speakers ", style: const TextStyle(fontSize: 20,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
                   colors: AppColor.gradientColors,
                   begin: Alignment.centerLeft,
                   end: Alignment.centerRight,
@@ -100,7 +100,7 @@ class _SpeakerPageState extends State<SpeakerPage> {
                     hintText: "Search Speaker",
                     hintStyle: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w400,fontSize: 14,color: AppColor.black.withOpacity(0.50)),
                     suffixIcon: Container(
-                      height: 60,width: 80,
+                      height: 60,width: 60,
                       decoration: BoxDecoration(
                         color: AppColor.primaryColor,
                         borderRadius: const BorderRadius.only(topRight: Radius.circular(8),bottomRight: Radius.circular(8))
@@ -151,7 +151,7 @@ class _SpeakerPageState extends State<SpeakerPage> {
                         bottom: -30,
                         left: 16,right: 16,
                         child: Container(
-                          height: 102,
+                          // height: 102,
                           width: Get.width,
                           decoration: BoxDecoration(
                               color: AppColor.black.withOpacity(0.85),
@@ -161,6 +161,7 @@ class _SpeakerPageState extends State<SpeakerPage> {
                             padding: const EdgeInsets.all(8.0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
                               children: [
                                 Text(speakerList[index].speakerName??"",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600,color: AppColor.white,fontFamily: appFontFamily),),
                                 Text(speakerList[index].designation??"",style: TextStyle(fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.white,fontFamily: appFontFamily),),
@@ -233,9 +234,11 @@ class _SpeakerPageState extends State<SpeakerPage> {
                     //   ],
                     // ),
                     const SizedBox(height: 20,),
-                    Text(title,style: TextStyle(fontFamily: appFontFamily,fontSize: 16,fontWeight: FontWeight.w700,color: AppColor.FF050505),),
+                    GradientText(text:title,style: TextStyle(fontFamily: appFontFamily,fontSize: 16,fontWeight: FontWeight.w700), gradient: LinearGradient(
+                      colors: AppColor.gradientColors
+                    ),),
                     const SizedBox(height: 10,),
-                    Text(subtitle,style: TextStyle(fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.primaryColor),),
+                    Text(subtitle,style: TextStyle(fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w700,color: AppColor.primaryColor),),
                     const SizedBox(height: 20,),
                     Text(body,style: TextStyle(fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w400,color: AppColor.FF050505),),
                     const SizedBox(height: 20,)

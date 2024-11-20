@@ -366,7 +366,7 @@ class _HomeState extends State<Home> {
               child: Column(
                 children: [
                   const SizedBox(height: 23,),
-                  Text("PANIIT 2025 Highlights",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w700,fontFamily: appFontFamily,color: AppColor.white),),
+                  Text("PanIIT 2025 Highlights",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w700,fontFamily: appFontFamily,color: AppColor.white),),
                   const SizedBox(height: 26,),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -693,7 +693,7 @@ class _HomeState extends State<Home> {
                       const SizedBox(height: 18,),
                       SvgPicture.asset(Images.logo,height: 40,width: 116,),
                       const SizedBox(height: 50,),
-                      Text("PANIIT - 2025\nEvent",textAlign: TextAlign.center,style: TextStyle(
+                      Text("PanIIT - 2025\nEvent",textAlign: TextAlign.center,style: TextStyle(
                         fontWeight: FontWeight.w700,fontSize: 22,color: AppColor.white,fontFamily: appFontFamily
                       ),)
                     ],
@@ -781,16 +781,16 @@ class _HomeState extends State<Home> {
             ),
             child: Container(
               height: Get.height *0.1,width: Get.width*0.21,
-              padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 16),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(9),
                 color: AppColor.white
               ),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   GradientText(text: _formatDuration(_timeRemaining)[0].toString(),style: const TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 20), gradient: LinearGradient(colors: AppColor.gradientColors),),
                   const SizedBox(height: 5,),
-                  GradientText(text:"DAYS",style: const TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 10), gradient: LinearGradient(colors: AppColor.gradientColors))
+                  GradientText(text:"DAYS",style:  TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize:10), gradient: LinearGradient(colors: AppColor.gradientColors))
                 ],
               ),
             ),
@@ -803,12 +803,12 @@ class _HomeState extends State<Home> {
             ),
             child: Container(
               height: Get.height *0.1,width: Get.width*0.21,
-              padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 16),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(9),
                 color: AppColor.white
               ),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   GradientText(text:_formatDuration(_timeRemaining)[1].toString(),style: const TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 20), gradient: LinearGradient(colors: AppColor.gradientColors)),
                   const SizedBox(height: 5,),
@@ -825,12 +825,12 @@ class _HomeState extends State<Home> {
             ),
             child: Container(
               height: Get.height *0.1,width: Get.width*0.21,
-              padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 16),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(9),
                 color: AppColor.white
               ),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   GradientText(text:_formatDuration(_timeRemaining)[2].toString(),style: const TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 20), gradient: LinearGradient(colors: AppColor.gradientColors)),
                   const SizedBox(height: 5,),
@@ -847,12 +847,12 @@ class _HomeState extends State<Home> {
             ),
             child: Container(
               height: Get.height *0.1,width: Get.width*0.21,
-              padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 16),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(9),
                 color: AppColor.white
               ),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   GradientText(text:_formatDuration(_timeRemaining)[3].toString(),style: const TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 20), gradient: LinearGradient(colors: AppColor.gradientColors)),
                   const SizedBox(height: 5,),
@@ -884,12 +884,12 @@ class _HomeState extends State<Home> {
               ),
               child: Container(
                 height: Get.height*0.11,width: Get.width*0.28,
-                padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 16),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(9),
                     color: AppColor.white
                 ),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SvgPicture.asset(Images.sponsorIcon,height: Get.height*0.037,width: Get.width*0.037,),
                     const SizedBox(height: 10,),
@@ -911,12 +911,12 @@ class _HomeState extends State<Home> {
               ),
               child: Container(
                 height: Get.height*0.11,width: Get.width*0.28,
-                padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 16),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(9),
                     color: AppColor.white
                 ),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SvgPicture.asset(Images.piwotAgendaIcon,height: Get.height*0.037,width: Get.width*0.037,),
                     const SizedBox(height: 10,),
@@ -938,12 +938,12 @@ class _HomeState extends State<Home> {
               ),
               child: Container(
                 height: Get.height*0.11,width: Get.width*0.28,
-                padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 16),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(9),
                     color: AppColor.white
                 ),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SvgPicture.asset(Images.floorPlanIcon,height: Get.height*0.037,width: Get.width*0.037,),
                     const SizedBox(height: 10,),
