@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:googleapis/admob/v1.dart';
 import 'package:piwotapp/widgets/app_button.dart';
 import '../../constants/colors.dart';
 import '../../constants/font_family.dart';
@@ -226,7 +225,7 @@ class _ContactUsPageState extends State<ContactUsPage> {
                 ),
               ),
               const SizedBox(height: 30,),
-              AppButton(title: "Send Message", onTap: (){
+              AppButton(title: "Submit", onTap: (){
                 if(_formKey.currentState!.validate()){
                   print("validate");
                   contactus();
