@@ -423,7 +423,7 @@ class _DelegatesState extends State<Delegates> with SingleTickerProviderStateMix
           return const Text("Error");
         }
         if(snapshot.connectionState ==ConnectionState.waiting){
-          return const Text("Loading...");
+          return const Text("");
         }
         // Client-side filtering (optional, based on your requirements)
         final allDocs = snapshot.data!.docs;
@@ -509,14 +509,22 @@ class _DelegatesState extends State<Delegates> with SingleTickerProviderStateMix
             ),
           ],
         ),
-        onTap: (){
+        onTap: ()async{
           if(lastMessageDoc != null) {
-            FirebaseFirestore.instance
+              FirebaseFirestore.instance
               .collection("chat_rooms")
               .doc("${Prefs.checkUserId}_${data['uid']}")
               .collection('messages')
               .doc(lastMessageDoc.id)  // Use the ID of the last document
               .update({'isRead': true});
+
+              FirebaseFirestore.instance
+                  .collection("chat_rooms")
+                  .doc("${data['uid']}_${Prefs.checkUserId}")
+                  .collection('messages')
+                  .doc(lastMessageDoc.id)
+                  .update({'isRead': true});
+
           }
           Get.toNamed(Routes.chat,arguments: {
             'receiverName':data['name'],
@@ -537,7 +545,7 @@ class _DelegatesState extends State<Delegates> with SingleTickerProviderStateMix
 
   Widget requestDelegateList(PendingRequestData pendingRequestData){
     return Container(
-      height: 160,
+      height: 170,
       width: Get.width,
       margin: const EdgeInsets.all(10),
       decoration: BoxDecoration(
@@ -548,12 +556,13 @@ class _DelegatesState extends State<Delegates> with SingleTickerProviderStateMix
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          SizedBox(height: 10,),
           Row(
             children: [
               Container(
                   height: 70,
                   width: 70,
-                  margin: const EdgeInsets.all(8),
+                  margin: const EdgeInsets.all(12),
                   padding: const EdgeInsets.all(1),
                   decoration: BoxDecoration(
                     gradient: LinearGradient(colors: AppColor.gradientColors),
@@ -561,15 +570,15 @@ class _DelegatesState extends State<Delegates> with SingleTickerProviderStateMix
                   ),
                   child: ClipRRect(
                       borderRadius: BorderRadius.circular(50),
-                      child: pendingRequestData.requestSentUserDetails?[0].guestProfileImage!=null?Image.network(ApiUrls.imageUrl+(pendingRequestData.requestSentUserDetails?[0].guestProfileImage??""),fit: BoxFit.cover,):Image.asset(Images.defaultProfile,fit: BoxFit.cover,))),
+                      child: pendingRequestData.requestSentUserDetails?[0].guestProfileImage!=null?Image.network(ApiUrls.imageUrl+(pendingRequestData.requestSentUserDetails?[0].guestProfileImage??""),fit: BoxFit.fill,):Image.asset(Images.defaultProfile,fit: BoxFit.cover,))),
               const SizedBox(width: 10,),
               Flexible(
                 child : Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text((pendingRequestData.requestSentUserDetails?[0].firstName??"")+" "+(pendingRequestData.requestSentUserDetails?[0].lastName??""),style: TextStyle(fontWeight: FontWeight.w600,fontSize: 14,fontFamily: appFontFamily,color: AppColor.primaryColor),),
-                    const SizedBox(height: 10,),
-                    Text((pendingRequestData.requestSentUserDetails?[0].designation??"")+" | "+(pendingRequestData.requestSentUserDetails?[0].companyName??""),style: TextStyle(fontWeight: FontWeight.w400,fontSize: 14,fontFamily: appFontFamily,color: AppColor.FF161616,overflow: TextOverflow.ellipsis, // Prevents overflow by showing ellipsis
+                    const SizedBox(height: 7,),
+                    Text((pendingRequestData.requestSentUserDetails?[0].designation??"")+" | "+(pendingRequestData.requestSentUserDetails?[0].companyName??""),style: TextStyle(fontWeight: FontWeight.w400,fontSize: 14,fontFamily: appFontFamily,color: AppColor.FF161616,overflow: TextOverflow.ellipsis,
                     ),maxLines: 2, // Adjust maxLines as needed
                       softWrap: true,),
                   ],
@@ -662,7 +671,7 @@ class _DelegatesState extends State<Delegates> with SingleTickerProviderStateMix
 
   Widget inviteDelegateList(GuestListData guestListData){
     return guestListData.sId == Prefs.checkUserId?const SizedBox.shrink():Container(
-      height: 170,
+      height: 150,
       width: Get.width,
       margin: const EdgeInsets.symmetric(horizontal: 16,vertical: 10),
       decoration: BoxDecoration(
@@ -686,14 +695,14 @@ class _DelegatesState extends State<Delegates> with SingleTickerProviderStateMix
                   ),
                   child: ClipRRect(
                       borderRadius: BorderRadius.circular(50),
-                      child: guestListData.guestProfileImage != null?Image.network(ApiUrls.imageUrl+(guestListData.guestProfileImage??""),fit: BoxFit.cover,):Image.asset(Images.defaultProfile,fit: BoxFit.cover,))),
+                      child: guestListData.guestProfileImage != null?Image.network(ApiUrls.imageUrl+(guestListData.guestProfileImage??""),fit: BoxFit.fill,):Image.asset(Images.defaultProfile,fit: BoxFit.cover,))),
               const SizedBox(width: 10,),
               Flexible(
                 child : Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text((guestListData.firstName??"")+" "+(guestListData.lastName??""),style: TextStyle(fontWeight: FontWeight.w600,fontSize: 14,fontFamily: appFontFamily,color: AppColor.primaryColor),),
-                    const SizedBox(height: 10,),
+                    const SizedBox(height: 7,),
                     Text((guestListData.designation??"")+" | "+(guestListData.companyName??""),style: TextStyle(fontWeight: FontWeight.w400,fontSize: 14,fontFamily: appFontFamily,color: AppColor.FF161616,overflow: TextOverflow.ellipsis, // Prevents overflow by showing ellipsis
                       ),maxLines: 2, // Adjust maxLines as needed
                       softWrap: true,),
@@ -733,7 +742,7 @@ class _DelegatesState extends State<Delegates> with SingleTickerProviderStateMix
           //     ),
           //   ],
           // ),
-          const SizedBox(height: 20,),
+          const SizedBox(height: 10,),
           Row(
             children: [
               GestureDetector(

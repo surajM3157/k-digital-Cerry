@@ -24,10 +24,11 @@ class ChatBubble extends StatelessWidget {
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
               ),
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(25),
+              borderRadius:  BorderRadius.only(
+                topLeft: isMe?Radius.circular(25):Radius.circular(0),
               bottomRight: Radius.circular(25),
-              bottomLeft:Radius.circular(25)
+              bottomLeft:Radius.circular(25),
+                topRight: isMe?Radius.circular(0):Radius.circular(25),
             ),
             border: isMe? Border.all(color: AppColor.black.withOpacity(0.10)):null
           ),

@@ -51,6 +51,7 @@ class SessionListData {
   String? updatedAt;
   int? iV;
   RoomDetails? roomDetails;
+  FloorDetails? floorDetails;
   List<SpeakerDetails>? speakerDetails;
 
   SessionListData(
@@ -68,6 +69,7 @@ class SessionListData {
         this.updatedAt,
         this.iV,
         this.roomDetails,
+        this.floorDetails,
         this.speakerDetails});
 
   SessionListData.fromJson(Map<String, dynamic> json) {
@@ -86,6 +88,9 @@ class SessionListData {
     iV = json['__v'];
     roomDetails = json['roomDetails'] != null
         ? new RoomDetails.fromJson(json['roomDetails'])
+        : null;
+    floorDetails = json['floorDetails'] != null
+        ? new FloorDetails.fromJson(json['floorDetails'])
         : null;
     if (json['speakerDetails'] != null) {
       speakerDetails = <SpeakerDetails>[];
@@ -112,6 +117,9 @@ class SessionListData {
     data['__v'] = this.iV;
     if (this.roomDetails != null) {
       data['roomDetails'] = this.roomDetails!.toJson();
+    }
+    if (this.floorDetails != null) {
+      data['floorDetails'] = this.floorDetails!.toJson();
     }
     if (this.speakerDetails != null) {
       data['speakerDetails'] =
@@ -158,6 +166,27 @@ class RoomDetails {
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     data['__v'] = this.iV;
+    return data;
+  }
+}
+
+class FloorDetails {
+  String? sId;
+  String? floorName;
+
+  FloorDetails(
+      {this.sId,
+        this.floorName,});
+
+  FloorDetails.fromJson(Map<String, dynamic> json) {
+    sId = json['_id'];
+    floorName = json['floor_name'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['_id'] = this.sId;
+    data['floor_name'] = this.floorName;
     return data;
   }
 }

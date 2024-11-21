@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:googleapis/composer/v1.dart';
 import 'package:intl/intl.dart';
 import 'package:piwotapp/constants/api_urls.dart';
+import 'package:piwotapp/constants/constants.dart';
 import 'package:piwotapp/constants/font_family.dart';
 import 'package:piwotapp/responses/session_list_response.dart';
 import 'package:piwotapp/widgets/app_button.dart';
@@ -137,10 +138,22 @@ class _SessionDetailsPageState extends State<SessionDetailsPage> {
                           padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: Row(
                             children: [
-                              GradientText(text:"Room No: ", style: const TextStyle(fontSize: 16,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
+                              GradientText(text:"Room: ", style: const TextStyle(fontSize: 16,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
                                 colors: AppColor.gradientColors
                               ),),
                               Text(_sessionListData?.roomDetails?.roomNo??"",style: TextStyle(fontSize: 16,fontFamily: appFontFamily,fontWeight: FontWeight.w400,color: AppColor.FF161616),)
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 7,),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Row(
+                            children: [
+                              GradientText(text:"Floor: ", style: const TextStyle(fontSize: 16,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
+                                colors: AppColor.gradientColors
+                              ),),
+                              Text(capitalizeText(_sessionListData?.floorDetails!.floorName?.toLowerCase()??""),style: TextStyle(fontSize: 16,fontFamily: appFontFamily,fontWeight: FontWeight.w400,color: AppColor.FF161616),)
                             ],
                           ),
                         ),
@@ -162,7 +175,7 @@ class _SessionDetailsPageState extends State<SessionDetailsPage> {
                         const SizedBox(height: 10,),
                         Padding(
                           padding: const EdgeInsets.only(left: 40),
-                          child: Text(DateFormat('dd MMM yyyy').format(DateTime.parse(_sessionListData?.date??"")),style: AppThemes.subtitleTextStyle(),),
+                          child: Text(DateFormat('dd MMMM yyyy, EEEE').format(DateTime.parse(_sessionListData?.date??"")),style: AppThemes.subtitleTextStyle(),),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 40),

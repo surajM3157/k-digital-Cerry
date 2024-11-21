@@ -238,7 +238,7 @@ class _SpeakerPageState extends State<SpeakerPage> {
                       colors: AppColor.gradientColors
                     ),),
                     const SizedBox(height: 10,),
-                    Text(subtitle,style: TextStyle(fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w700,color: AppColor.primaryColor),),
+                    Text(subtitle,style: TextStyle(fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w700,color: AppColor.FF161616),),
                     const SizedBox(height: 20,),
                     Text(body,style: TextStyle(fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w400,color: AppColor.FF050505),),
                     const SizedBox(height: 20,)

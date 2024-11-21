@@ -1189,38 +1189,119 @@ class _HomeState extends State<Home> {
         itemCount: (speakers.length < 5)?speakers.length:5,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context,index){
-          return Container(
-            height: 150,
-            width: 173,
-            margin:index ==0? EdgeInsets.only(left: 16):index==((speakers.length < 5)?speakers.length:5)-1?EdgeInsets.only(right: 16):EdgeInsets.zero,
-            padding: const EdgeInsets.all(5),
-            decoration: BoxDecoration(
-                color: AppColor.secondaryColor,
-                gradient: LinearGradient(
-              colors: AppColor.gradientColors,
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-                borderRadius: const BorderRadius.all(Radius.circular(15))
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(100),
-                    child: Image.network(ApiUrls.imageUrl+(speakers[index].speakerImage??""),height: 80,width: 80,fit: BoxFit.fill,)),
-                const SizedBox(height: 5,),
-                Text(speakers[index].speakerName??"",style: TextStyle(fontFamily: appFontFamily,color: AppColor.white,fontSize: 16,fontWeight: FontWeight.w500),textAlign: TextAlign.center,),
-                const SizedBox(height: 16,),
-                Text(speakers[index].designation??"",style: TextStyle(fontFamily: appFontFamily,color: AppColor.white,fontSize: 12,fontWeight: FontWeight.w500),),
-              ],
+          return GestureDetector(
+            onTap: (){
+              speakerDetails(title: speakers[index].speakerName??"", subtitle: speakers[index].designation??"", body: speakers[index].bio??"" , image: (speakers[index].speakerImage??""));
+            },
+            child: Container(
+              height: 150,
+              width: 173,
+              margin:index ==0? EdgeInsets.only(left: 16):index==((speakers.length < 5)?speakers.length:5)-1?EdgeInsets.only(right: 16):EdgeInsets.zero,
+              padding: const EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                  color: AppColor.secondaryColor,
+                  gradient: LinearGradient(
+                colors: AppColor.gradientColors,
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+                  borderRadius: const BorderRadius.all(Radius.circular(15))
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(100),
+                      child: Image.network(ApiUrls.imageUrl+(speakers[index].speakerImage??""),height: 80,width: 80,fit: BoxFit.fill,)),
+                  const SizedBox(height: 5,),
+                  Text(speakers[index].speakerName??"",style: TextStyle(fontFamily: appFontFamily,color: AppColor.white,fontSize: 16,fontWeight: FontWeight.w500),textAlign: TextAlign.center,),
+                  const SizedBox(height: 16,),
+                  Text(speakers[index].designation??"",style: TextStyle(fontFamily: appFontFamily,color: AppColor.white,fontSize: 12,fontWeight: FontWeight.w500),),
+                ],
+              ),
             ),
           );
         }, separatorBuilder: (BuildContext context, int index) { return const SizedBox(width: 16,); },):const SizedBox.shrink(),
     );
   }
 
+  speakerDetails({required String title, required String subtitle, required String body, required String image}){
+
+    return showModalBottomSheet<void>(
+      // context and builder are
+      // required properties in this widget
+      isScrollControlled: true,
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(32.0)),
+      ),
+      backgroundColor: Colors.transparent,
+      builder: (BuildContext context) {
+        // we set up a container inside which
+        // we create center column and display text
+
+        // Returning SizedBox instead of a Container
+        return Stack(
+          alignment: Alignment.topRight,
+          children: [
+            Container(
+              width: Get.width,
+              height: Get.height/1.5,
+              decoration: BoxDecoration(
+                  color: AppColor.white,
+                  borderRadius: const BorderRadius.only(topLeft: Radius.circular(32),topRight: Radius.circular(32))
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 30,),
+                    Container(
+                      width: 148,height: 156,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        gradient: LinearGradient(colors: AppColor.gradientColors),
+                      ),
+                      child:ClipRRect(
+                          borderRadius: BorderRadius.circular(16),
+                          child: Image.network(ApiUrls.imageUrl+image,fit: BoxFit.fill,)),
+                    ),
+                    // const SizedBox(height: 10,),
+                    // Row(
+                    //   children: [
+                    //     Icon(Icons.flag,color: AppColor.FF050505,),
+                    //     const SizedBox(width: 5,),
+                    //     Text("India",style: TextStyle(fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w400,color: AppColor.FF444444),)
+                    //   ],
+                    // ),
+                    const SizedBox(height: 20,),
+                    GradientText(text:title,style: TextStyle(fontFamily: appFontFamily,fontSize: 16,fontWeight: FontWeight.w700), gradient: LinearGradient(
+                        colors: AppColor.gradientColors
+                    ),),
+                    const SizedBox(height: 10,),
+                    Text(subtitle,style: TextStyle(fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w700,color: AppColor.FF161616),),
+                    const SizedBox(height: 20,),
+                    Text(body,style: TextStyle(fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w400,color: AppColor.FF050505),),
+                    const SizedBox(height: 20,)
+                  ],
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: GestureDetector(
+                  onTap: (){
+                    Get.back();
+                  },
+                  child: Image.asset(Images.cancelIcon)),
+            )
+          ],
+        );
+      },
+    );
+  }
 
 
   Widget viewDetailsButton(){

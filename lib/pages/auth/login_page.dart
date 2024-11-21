@@ -187,7 +187,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
                           GestureDetector(
                             onTap:(){
                               if(_formKey.currentState!.validate()){
-                                apiCalling();
+                                apiCalling('mail');
                               }
                             },
                             child: Container(
@@ -209,7 +209,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
                           GestureDetector(
                             onTap: (){
                               if(_formKey.currentState!.validate()){
-                                apiCalling();
+                                apiCalling('whatsapp');
                               }
                             },
                             child: Container(
@@ -252,7 +252,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
   }
 
 
-  void apiCalling()
+  void apiCalling(String type)
   {
 
 
@@ -265,7 +265,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
       showLoader(context);
     });
 
-    ApiRepo().loginResponse(params);
+    ApiRepo().loginResponse(params,type);
   }
 }
 

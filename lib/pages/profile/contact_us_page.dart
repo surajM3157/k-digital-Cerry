@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:googleapis/admob/v1.dart';
 import 'package:piwotapp/widgets/app_button.dart';
 import '../../constants/colors.dart';
 import '../../constants/font_family.dart';
@@ -71,7 +72,7 @@ class _ContactUsPageState extends State<ContactUsPage> {
               const SizedBox(height: 10,),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Text("We’d love to hear from you! Share your questions , and we’ll get back to you as soon as possible.",style:  TextStyle(fontSize: 14,fontWeight: FontWeight.w400,fontFamily: appFontFamily,color: AppColor.mediumGrey),),
+                child: Text("We’d love to hear from you! Share your questions, and we’ll get back to you as soon as possible.",style:  TextStyle(fontSize: 14,fontWeight: FontWeight.w400,fontFamily: appFontFamily,color: AppColor.mediumGrey),),
               ),
               const SizedBox(height: 20,),
               Padding(
@@ -82,7 +83,7 @@ class _ContactUsPageState extends State<ContactUsPage> {
                   decoration: InputDecoration(
                     hintText: "Enter your name",
                     labelText: "Name",
-                    labelStyle: const TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
+                    labelStyle:  TextStyle(color:AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
                     hintStyle: const TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
                     contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
                     focusedBorder:  OutlineInputBorder(
@@ -97,6 +98,7 @@ class _ContactUsPageState extends State<ContactUsPage> {
                     focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: const BorderSide(color: Colors.red, width: 2.0)),
                   ),
                   autovalidateMode: AutovalidateMode.onUserInteraction,
+                  inputFormatters: [ FilteringTextInputFormatter.allow(RegExp("[a-zA-Z\\s\\.]")), ],
                   validator: (value)
                   {
                     if (value.toString() == "")
@@ -118,7 +120,7 @@ class _ContactUsPageState extends State<ContactUsPage> {
                     hintText: "Enter your email",
                     labelText: "Email",
                     prefixIcon: Icon(Icons.email_outlined,color: AppColor.primaryColor,),
-                    labelStyle: const TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
+                    labelStyle:  TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
                     hintStyle: const TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
                     contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
                     focusedBorder:  OutlineInputBorder(
@@ -166,7 +168,7 @@ class _ContactUsPageState extends State<ContactUsPage> {
                     hintText: "Enter your phone number",
                     labelText: "Phone Number",
                     prefixIcon: Icon(Icons.call,color: AppColor.primaryColor,),
-                    labelStyle: const TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
+                    labelStyle:  TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
                     hintStyle: const TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
                     contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
                     focusedBorder:  OutlineInputBorder(
@@ -207,7 +209,7 @@ class _ContactUsPageState extends State<ContactUsPage> {
                     alignLabelWithHint: true,
                     hintText: "Enter your message",
                     labelText: "Write your message",
-                    labelStyle:  TextStyle(color: AppColor.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
+                    labelStyle:  TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
                     hintStyle:  TextStyle(color: AppColor.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
                     contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
                     focusedBorder:  OutlineInputBorder(

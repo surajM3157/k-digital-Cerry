@@ -391,7 +391,7 @@ class _SessionState extends State<Session> with SingleTickerProviderStateMixin{
                   children: [
                     Icon(Icons.date_range,size: 17,color: AppColor.primaryColor,),
                     const SizedBox(width: 5,),
-                    Text(DateFormat('dd MMM yyyy').format(DateTime.parse(session.date??"")),style: AppThemes.labelTextStyle().copyWith(color: AppColor.black,fontWeight: FontWeight.w400),)
+                    Text(DateFormat('dd MMMM yyyy').format(DateTime.parse(session.date??"")),style: AppThemes.labelTextStyle().copyWith(color: AppColor.black,fontWeight: FontWeight.w400),)
                   ],
                 ),
                 const SizedBox(height: 20,),

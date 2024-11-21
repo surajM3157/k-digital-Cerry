@@ -40,15 +40,15 @@ class ApiRepo
 
 
 
-  loginResponse(var params) async {
-    final response = await http.post(Uri.parse("${ApiUrls.loginApiUrl}"),
+  loginResponse(var params,String type) async {
+    final response = await http.post(Uri.parse("${ApiUrls.loginApiUrl}?type=$type"),
       body: params,
     );
 
     Get.back();
 
     print("params ${params}");
-    print("Api url ${ApiUrls.loginApiUrl}");
+    print("Api url ${ApiUrls.loginApiUrl}?type=$type");
     print("response ${response.body}");
 
 

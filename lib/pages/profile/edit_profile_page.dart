@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:piwotapp/constants/api_urls.dart';
 import 'package:piwotapp/responses/guest_details_response.dart';
@@ -16,6 +17,7 @@ import '../../constants/colors.dart';
 import '../../constants/font_family.dart';
 import '../../constants/images.dart';
 import '../../repository/api_repo.dart';
+import '../../shared prefs/pref_manager.dart';
 import '../../widgets/app_themes.dart';
 
 class EditProfilPage extends StatefulWidget {
@@ -645,6 +647,7 @@ class _EditProfilPageState extends State<EditProfilPage> {
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Text("If Yes, Please Select Your IIT: ",style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,color: AppColor.primaryColor,fontSize: 14),),
                   ):const SizedBox.shrink(),
+                  SizedBox(height: 10,),
                   _isAlumni == "Yes"?const SizedBox(height: 10,):const SizedBox.shrink(),
                   _isAlumni == "Yes"?isLoading == true?SizedBox.shrink():Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -782,7 +785,7 @@ class _EditProfilPageState extends State<EditProfilPage> {
                 ),
               ),
             ),
-            GestureDetector(
+            Prefs.checkProfile == true?SizedBox.shrink():GestureDetector(
               onTap: (){
                 Get.back();
               },
@@ -1000,12 +1003,39 @@ class _EditProfilPageState extends State<EditProfilPage> {
     //_image.clear();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery, imageQuality: 25);
 
+    // if (pickedFile != null) {
+    //   var _file = File(pickedFile.path);
+    //   _image = _file;
+    //   tapGallery = true;
+    // } else {
+    //   print('No image selected.');
+    // }
+
     if (pickedFile != null) {
-      var _file = File(pickedFile.path);
-      _image = _file;
-      tapGallery = true;
-    } else {
-      print('No image selected.');
+      // Step 2: Crop the image with a specific aspect ratio
+      final CroppedFile? croppedFile = await ImageCropper().cropImage(
+        sourcePath: pickedFile.path,
+        aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
+        uiSettings: [
+          AndroidUiSettings(
+            toolbarTitle: 'Crop Image',
+            lockAspectRatio: true,
+          ),
+          IOSUiSettings(
+            title: 'Crop Image',
+            aspectRatioLockEnabled: true,
+          ),
+        ],
+      );
+
+      if (croppedFile != null) {
+        // Use the cropped image
+        setState(() {
+          // Update your UI with the cropped image
+          _image = File(croppedFile.path);
+          tapGallery = true;
+        });
+      }
     }
     setState(() {});
   }
@@ -1015,12 +1045,39 @@ class _EditProfilPageState extends State<EditProfilPage> {
     final pickedFile =
     await picker.pickImage(source: ImageSource.camera, imageQuality: 25);
 
+    // if (pickedFile != null) {
+    //   var _file = File(pickedFile.path);
+    //   _image = _file;
+    //   tapCamera = true;
+    // } else {
+    //   print('No image selected.');
+    // }
+
     if (pickedFile != null) {
-      var _file = File(pickedFile.path);
-      _image = _file;
-      tapCamera = true;
-    } else {
-      print('No image selected.');
+      // Step 2: Crop the image with a specific aspect ratio
+      final CroppedFile? croppedFile = await ImageCropper().cropImage(
+        sourcePath: pickedFile.path,
+        aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
+        uiSettings: [
+          AndroidUiSettings(
+            toolbarTitle: 'Crop Image',
+            lockAspectRatio: true,
+          ),
+          IOSUiSettings(
+            title: 'Crop Image',
+            aspectRatioLockEnabled: true,
+          ),
+        ],
+      );
+
+      if (croppedFile != null) {
+        // Use the cropped image
+        setState(() {
+          // Update your UI with the cropped image
+          _image = File(croppedFile.path);
+          tapCamera = true;
+        });
+      }
     }
     setState(() {});
   }

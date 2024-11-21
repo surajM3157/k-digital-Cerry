@@ -1,5 +1,6 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:piwotapp/responses/agenda_response.dart';
 import '../../constants/colors.dart';
 import '../../constants/font_family.dart';
@@ -123,8 +124,7 @@ class _AgendaState extends State<Agenda> {
                     ),
                     if (expandedIndex == index)
                       agendaList[index].agendas!.isNotEmpty? Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16.0, vertical: 8.0),
+                      padding: const EdgeInsets.only(top: 8,bottom: 8,left: 16,right: 5),
                       child: ListView.builder(
                           shrinkWrap: true,physics: const NeverScrollableScrollPhysics(),
                           itemCount: agendaList[index].agendas?.length,
@@ -171,7 +171,8 @@ class _AgendaState extends State<Agenda> {
                                 ),
                                 const SizedBox(width: 7,),
                                 Flexible(
-                                  flex:4,
+                                  flex:6,
+                                  fit:FlexFit.loose,
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
@@ -180,15 +181,14 @@ class _AgendaState extends State<Agenda> {
                                       const SizedBox(height: 10,),
                                       Text(agendaList[index].agendas?[agendasIndex].title??"",style: TextStyle(fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.FF161616),),
                                       const SizedBox(height: 8,),
-                                      ListView(
-                                        padding: const EdgeInsets.only(right: 10),
-                                        shrinkWrap: true,physics: const NeverScrollableScrollPhysics(),
-                                        children: agendaList[index].agendas![agendasIndex].activities!.map((item) {
-                                          return AppThemes.buildBulletPoint(Text(item,style: TextStyle(
+                                      ListView.builder(
+                                        shrinkWrap: true,physics: NeverScrollableScrollPhysics(),
+                                          itemCount: agendaList[index].agendas![agendasIndex].activities?.length,
+                                            itemBuilder: (context,activityIndex){
+                                          return buildBulletPoint(Text(agendaList[index].agendas![agendasIndex].activities![activityIndex],style: TextStyle(
                                               fontWeight: FontWeight.w400,fontSize: 14,fontFamily: appFontFamily,color: AppColor.FF161616
                                           ),));
-                                        }).toList(), // Convert the iterable to a list
-                                      ),
+                                        }),
                                     ],
                                   ),
                                 )
@@ -207,6 +207,18 @@ class _AgendaState extends State<Agenda> {
         ),
       ),
     ):const Center(child: Text("OOPS! NO INTERNET.",style: TextStyle(color: Colors.black87,fontWeight: FontWeight.w600,fontFamily: appFontFamily,fontSize: 20),));
+  }
+
+  static  Widget buildBulletPoint(Widget text,) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text("• ", style: TextStyle(fontSize: 20)),
+        SizedBox(
+          width: Get.width/1.45,
+            child: text),
+      ],
+    );
   }
 
   Widget dateFilter(){
