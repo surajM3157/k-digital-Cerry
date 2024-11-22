@@ -7,7 +7,6 @@ import '../../constants/font_family.dart';
 import '../../constants/images.dart';
 import '../../repository/api_repo.dart';
 import '../../shared prefs/pref_manager.dart';
-import '../../widgets/app_button.dart';
 import '../../widgets/gradient_text.dart';
 
 class LoginPage extends StatefulWidget {
@@ -154,7 +153,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
                         validator: (value) {
                           if (value.toString() == "" )
                           {
-                            return 'Enter a valid Phone number!';
+                            return 'Enter a valid phone number.';
                           }
                           else if (value.toString().length < 10)
                           {
