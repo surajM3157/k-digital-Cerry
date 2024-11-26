@@ -1,10 +1,8 @@
 import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:googleapis/admob/v1.dart';
 import 'package:piwotapp/constants/api_urls.dart';
 import 'package:piwotapp/constants/colors.dart';
 import 'package:get/get.dart';
@@ -81,7 +79,6 @@ class _DelegatesState extends State<Delegates> with SingleTickerProviderStateMix
         for (String friend in _friendListResponse!.data![0].friends!) {
           friendList.add(friend);
         }
-        print("f");
         print("floorPlanList ${friendList.length}");
         print("friendList $friendList");
         print("userId ${Prefs.checkUserId}");
@@ -117,7 +114,7 @@ class _DelegatesState extends State<Delegates> with SingleTickerProviderStateMix
           sentRequestList.add(sentRequest.requestSentUserDetails?[0].sId??"");
         }
 
-        print("sentRequestList ${sentRequestList}");
+        print("sentRequestList $sentRequestList");
         fetchGuestList("");
       }
 
@@ -153,7 +150,7 @@ class _DelegatesState extends State<Delegates> with SingleTickerProviderStateMix
           // notificationService.unsubscribeFromTopic(guest.sId ?? "");
           // print("done Unsubscription ${guest.sId}");
         }
-        print("guestList ${guestList}");
+        print("guestList $guestList");
       }
 
       setState(() {
@@ -457,12 +454,12 @@ class _DelegatesState extends State<Delegates> with SingleTickerProviderStateMix
           children: [
             Container(
               height: 71,width: 71,
-              padding: EdgeInsets.all(1),
+              padding: const EdgeInsets.all(1),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 gradient: LinearGradient(colors: AppColor.gradientColors)
               ),
-              child: Container(
+              child: SizedBox(
                   height: 70,
                   width: 70,
                   child: ClipRRect(
@@ -483,8 +480,8 @@ class _DelegatesState extends State<Delegates> with SingleTickerProviderStateMix
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(data['name'],style: TextStyle(color: Colors.black,fontWeight: FontWeight.w600,fontFamily: appFontFamily),),
-                    SizedBox(height: 6,),
+                    Text(data['name'],style: const TextStyle(color: Colors.black,fontWeight: FontWeight.w600,fontFamily: appFontFamily),),
+                    const SizedBox(height: 6,),
                     StreamBuilder(
                         stream: chatService.getMessages(Prefs.checkUserId, data['uid']),
                         builder: (context, snapshot) {

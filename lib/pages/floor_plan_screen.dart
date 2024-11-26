@@ -110,7 +110,7 @@ class _FloorPlanScreenState extends State<FloorPlanScreen> {
                   ),
                 );
               }, separatorBuilder: (BuildContext context, int index) {
-                  return SizedBox(height: 16,);
+                  return const SizedBox(height: 16,);
               },):Center(child: Text("No Data Found",style: AppThemes.appBarTitleStyle(),))
             ],
           ),

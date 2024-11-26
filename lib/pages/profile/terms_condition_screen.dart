@@ -108,7 +108,7 @@ class _TermsConditionScreenState extends State<TermsConditionScreen> {
             },
             child: Icon(Icons.arrow_back_ios,size: 20,color: AppColor.white,)),
       ),
-      body: isConnected? listLinkData?.termsAndConditionsLink!=null?WebViewWidget(controller: controller!):SizedBox.shrink():const Center(child: Text("OOPS! NO INTERNET.",style: TextStyle(color: Colors.black87,fontWeight: FontWeight.w600,fontFamily: appFontFamily,fontSize: 20),)),
+      body: isConnected? listLinkData?.termsAndConditionsLink!=null?WebViewWidget(controller: controller!):const SizedBox.shrink():const Center(child: Text("OOPS! NO INTERNET.",style: TextStyle(color: Colors.black87,fontWeight: FontWeight.w600,fontFamily: appFontFamily,fontSize: 20),)),
     );
   }
 }

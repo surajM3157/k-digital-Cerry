@@ -177,7 +177,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
                       padding: const EdgeInsets.only(left: 20),
                       child: Text('Send OTP to',style: TextStyle(fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.primaryColor),),
                     ),
-                    SizedBox(height: 10,),
+                    const SizedBox(height: 10,),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
@@ -199,7 +199,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   SvgPicture.asset(Images.emailIdIcon),
-                                  SizedBox(width: 8,),
+                                  const SizedBox(width: 8,),
                                   Text("Email",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 14,fontFamily: appFontFamily,color: AppColor.white),)
                                 ],
                               ),
@@ -221,7 +221,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   SvgPicture.asset(Images.whatsappIcon),
-                                  SizedBox(width: 8,),
+                                  const SizedBox(width: 8,),
                                   Text("Whatsapp",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 14,fontFamily: appFontFamily,color: AppColor.white),)
                                 ],
                               ),
@@ -255,7 +255,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
   {
 
 
-    Map<String, String> params = new Map<String, String>();
+    Map<String, String> params = <String, String>{};
     params["mobile_number"] = _phoneNumberController.text.trim();
 
 

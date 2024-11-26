@@ -22,6 +22,6 @@ class YouTubeThumbnail extends StatelessWidget {
 
     return videoId.isNotEmpty
         ? Image.network(thumbnailUrl,fit: BoxFit.fill,)
-        : Text('Invalid YouTube URL');
+        : const Text('Invalid YouTube URL');
   }
 }

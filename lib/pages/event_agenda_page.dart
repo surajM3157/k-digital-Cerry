@@ -95,11 +95,11 @@ class _EventAgendaPageState extends State<EventAgendaPage> {
             ListView.separated(
               itemCount: agendaList.length,
               shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index){
                 return Card(
                   elevation: 2,
-                  margin: EdgeInsets.symmetric(horizontal: 16),
+                  margin: const EdgeInsets.symmetric(horizontal: 16),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -108,7 +108,7 @@ class _EventAgendaPageState extends State<EventAgendaPage> {
                       ListTile(
                         title: GradientText(
                           text: agendaList[index].roomId?.roomNo??"",
-                          style: TextStyle(fontWeight: FontWeight.w600,fontSize: 15,fontFamily: appFontFamily), gradient: LinearGradient(colors: AppColor.gradientColors
+                          style: const TextStyle(fontWeight: FontWeight.w600,fontSize: 15,fontFamily: appFontFamily), gradient: LinearGradient(colors: AppColor.gradientColors
 
                         ),
                         ),
@@ -129,7 +129,7 @@ class _EventAgendaPageState extends State<EventAgendaPage> {
                               Flexible(
                                 flex: 1,
                                 child: ListView.builder(
-                                    shrinkWrap: true,physics: NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,physics: const NeverScrollableScrollPhysics(),
                                     itemCount: agendaList[index].agendas?.length,
                                     itemBuilder: (index,context){
                                       return Column(
@@ -149,7 +149,7 @@ class _EventAgendaPageState extends State<EventAgendaPage> {
                               Flexible(
                                 flex: 4,
                                 child: ListView.separated(
-                                  shrinkWrap: true,physics: NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,physics: const NeverScrollableScrollPhysics(),
                                   itemCount: agendaList[index].agendas!.length,
                                   itemBuilder: (context, index){
                                     return Column(
@@ -160,8 +160,8 @@ class _EventAgendaPageState extends State<EventAgendaPage> {
                                         Text(agendaList[index].agendas?[index].title??"",style: TextStyle(fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.FF161616),),
                                         const SizedBox(height: 10,),
                                         ListView(
-                                          padding: EdgeInsets.only(right: 10),
-                                          shrinkWrap: true,physics: NeverScrollableScrollPhysics(),
+                                          padding: const EdgeInsets.only(right: 10),
+                                          shrinkWrap: true,physics: const NeverScrollableScrollPhysics(),
                                           children: agendaList[index].agendas![index].activities!.map((item) {
                                             return AppThemes.buildBulletPoint(Text(item,style: TextStyle(
                                                 fontWeight: FontWeight.w400,fontSize: 14,fontFamily: appFontFamily,color: AppColor.FF161616
@@ -171,19 +171,19 @@ class _EventAgendaPageState extends State<EventAgendaPage> {
                                       ],
                                     );
                                   }, separatorBuilder: (BuildContext context, int index) {
-                                  return SizedBox(height: 10,);
+                                  return const SizedBox(height: 10,);
                                 },),
                               )
                             ],
                           ),
-                        ):SizedBox.shrink(),
+                        ):const SizedBox.shrink(),
                     ],
                   ),
                 );
-              }, separatorBuilder: (BuildContext context, int index) { return SizedBox(
+              }, separatorBuilder: (BuildContext context, int index) { return const SizedBox(
               height: 10,
             ); },),
-            SizedBox(height: 20,)
+            const SizedBox(height: 20,)
           ],
         ),
       ));

@@ -3,7 +3,6 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:googleapis/admin/directory_v1.dart';
 import 'package:piwotapp/constants/api_urls.dart';
 import 'package:piwotapp/responses/speaker_response.dart';
 import '../../constants/colors.dart';
@@ -234,7 +233,7 @@ class _SpeakerPageState extends State<SpeakerPage> {
                     //   ],
                     // ),
                     const SizedBox(height: 20,),
-                    GradientText(text:title,style: TextStyle(fontFamily: appFontFamily,fontSize: 16,fontWeight: FontWeight.w700), gradient: LinearGradient(
+                    GradientText(text:title,style: const TextStyle(fontFamily: appFontFamily,fontSize: 16,fontWeight: FontWeight.w700), gradient: LinearGradient(
                       colors: AppColor.gradientColors
                     ),),
                     const SizedBox(height: 10,),

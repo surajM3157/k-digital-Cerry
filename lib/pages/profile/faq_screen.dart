@@ -118,7 +118,7 @@ class _FAQScreenState extends State<FAQScreen> {
             ),
             const SizedBox(height: 24,),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
+              padding:const EdgeInsets.symmetric(horizontal: 16),
               child: TextFormField(
                 onChanged: onSearchChanged,
                 cursorColor: AppColor.black,
@@ -137,12 +137,12 @@ class _FAQScreenState extends State<FAQScreen> {
             ),
             const SizedBox(height: 24,),
             faqList.isNotEmpty?ListView.separated(
-              shrinkWrap: true,physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,physics: const NeverScrollableScrollPhysics(),
               itemCount: faqList.length,
               itemBuilder: (context, index) {
                 return Card(
                   elevation: 2,
-                  margin: EdgeInsets.symmetric(horizontal: 16),
+                  margin:const EdgeInsets.symmetric(horizontal: 16),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -176,7 +176,7 @@ class _FAQScreenState extends State<FAQScreen> {
                   ),
                 );
               }, separatorBuilder: (BuildContext context, int index) {
-                return SizedBox(height: 24,);
+                return const SizedBox(height: 24,);
             },
             ):Center(child: Text("No FAQ Found",style: TextStyle(color: AppColor.primaryColor,fontWeight: FontWeight.w600,fontFamily: appFontFamily,fontSize: 20),)),
             const SizedBox(height: 24,)

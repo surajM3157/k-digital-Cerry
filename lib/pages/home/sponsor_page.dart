@@ -75,7 +75,7 @@ class _SponsorPageState extends State<SponsorPage> with SingleTickerProviderStat
       body: isConnected?Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 10,),
+          const SizedBox(height: 10,),
           TabBar(
             controller: _tabController,
             indicatorSize: TabBarIndicatorSize.label,
@@ -102,7 +102,7 @@ class _SponsorPageState extends State<SponsorPage> with SingleTickerProviderStat
             ],
           ),
           Container(
-            margin: EdgeInsets.only(top: 1),
+            margin: const EdgeInsets.only(top: 1),
             height: 1,width: Get.width,color: AppColor.grey,),
           const SizedBox(height: 10,),
           Expanded(
@@ -119,7 +119,7 @@ class _SponsorPageState extends State<SponsorPage> with SingleTickerProviderStat
                     (
                     margin: const EdgeInsets.all(10),
                     height: 143,width: 155,
-                    padding: EdgeInsets.all(5),
+                    padding: const EdgeInsets.all(5),
                     decoration: BoxDecoration(
                         color: AppColor.FFFFFDFD,
                         borderRadius: const BorderRadius.all(Radius.circular(8),),
@@ -138,7 +138,7 @@ class _SponsorPageState extends State<SponsorPage> with SingleTickerProviderStat
                     ),
                   ),
                   itemCount: sponsorList.length,),
-              ):SizedBox.shrink(),
+              ):const SizedBox.shrink(),
               partnerList.isNotEmpty?RefreshIndicator(
                 onRefresh: () async{
                   fetchPartnerList();
@@ -148,7 +148,7 @@ class _SponsorPageState extends State<SponsorPage> with SingleTickerProviderStat
                   itemBuilder: (_, index) => Container
                     (
                     margin: const EdgeInsets.all(10),
-                    padding: EdgeInsets.all(5),
+                    padding:const EdgeInsets.all(5),
                     height: 143,width: 155,
                     decoration: BoxDecoration(
                         color: AppColor.FFFFFDFD,
@@ -166,7 +166,7 @@ class _SponsorPageState extends State<SponsorPage> with SingleTickerProviderStat
                     ),
                   ),
                   itemCount: partnerList.length,),
-              ):SizedBox.shrink()
+              ):const SizedBox.shrink()
             ],
 
             ),

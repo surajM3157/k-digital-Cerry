@@ -13,7 +13,7 @@ class ChatBubble extends StatelessWidget {
     return Align(
       alignment: isMe?Alignment.centerRight:Alignment.centerLeft,
       child: Padding(
-        padding: isMe?EdgeInsets.only(left: 50):EdgeInsets.only(right: 50),
+        padding: isMe?const EdgeInsets.only(left: 50):const EdgeInsets.only(right: 50),
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
           padding: const EdgeInsets.only(top: 20,bottom: 20,right: 20,left: 20),
@@ -25,10 +25,10 @@ class ChatBubble extends StatelessWidget {
                 end: Alignment.centerRight,
               ),
               borderRadius:  BorderRadius.only(
-                topLeft: isMe?Radius.circular(25):Radius.circular(0),
-              bottomRight: Radius.circular(25),
-              bottomLeft:Radius.circular(25),
-                topRight: isMe?Radius.circular(0):Radius.circular(25),
+                topLeft: isMe?const Radius.circular(25):const Radius.circular(0),
+              bottomRight: const Radius.circular(25),
+              bottomLeft:const Radius.circular(25),
+                topRight: isMe?const Radius.circular(0):const Radius.circular(25),
             ),
             border: isMe? Border.all(color: AppColor.black.withOpacity(0.10)):null
           ),

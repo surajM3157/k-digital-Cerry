@@ -439,7 +439,7 @@ class _EditProfilPageState extends State<EditProfilPage> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: isLoading
-                        ? SizedBox.shrink()
+                        ?const SizedBox.shrink()
                         : DropdownSearch<String>(
                       popupProps: PopupProps.menu(
                         showSearchBox: true,
@@ -467,12 +467,12 @@ class _EditProfilPageState extends State<EditProfilPage> {
                               fontFamily: appFontFamily,
                               fontWeight: FontWeight.w400,
                               fontSize: 14),
-                          hintStyle: TextStyle(
+                          hintStyle: const TextStyle(
                               color: Colors.black,
                               fontFamily: appFontFamily,
                               fontWeight: FontWeight.w400,
                               fontSize: 14),
-                          contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                          contentPadding:const EdgeInsets.fromLTRB(20, 10, 20, 10),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
                             borderSide: BorderSide(color: AppColor.black.withOpacity(0.12)),
@@ -511,7 +511,7 @@ class _EditProfilPageState extends State<EditProfilPage> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: isLoading
-                        ? SizedBox.shrink()
+                        ? const SizedBox.shrink()
                         : DropdownSearch<String>(
                       popupProps: PopupProps.menu(
                         showSearchBox: true,
@@ -539,12 +539,12 @@ class _EditProfilPageState extends State<EditProfilPage> {
                               fontFamily: appFontFamily,
                               fontWeight: FontWeight.w400,
                               fontSize: 14),
-                          hintStyle: TextStyle(
+                          hintStyle: const TextStyle(
                               color: Colors.black,
                               fontFamily: appFontFamily,
                               fontWeight: FontWeight.w400,
                               fontSize: 14),
-                          contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                          contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
                             borderSide: BorderSide(color: AppColor.black.withOpacity(0.12)),
@@ -568,7 +568,7 @@ class _EditProfilPageState extends State<EditProfilPage> {
                             .firstWhere((country) => country.name == selectedCountry)
                             .isoCode, states
                             .firstWhere((state) => state.name == newValue)
-                            .isoCode!);
+                            .isoCode);
                       },
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -582,7 +582,7 @@ class _EditProfilPageState extends State<EditProfilPage> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: isLoading
-                        ? SizedBox.shrink()
+                        ? const SizedBox.shrink()
                         : DropdownSearch<String>(
                       popupProps: PopupProps.menu(
                         showSearchBox: true,
@@ -609,12 +609,12 @@ class _EditProfilPageState extends State<EditProfilPage> {
                               fontFamily: appFontFamily,
                               fontWeight: FontWeight.w400,
                               fontSize: 14),
-                          hintStyle: TextStyle(
+                          hintStyle: const TextStyle(
                               color: Colors.black,
                               fontFamily: appFontFamily,
                               fontWeight: FontWeight.w400,
                               fontSize: 14),
-                          contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                          contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
                             borderSide: BorderSide(color: AppColor.black.withOpacity(0.12)),
@@ -647,9 +647,9 @@ class _EditProfilPageState extends State<EditProfilPage> {
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Text("If Yes, Please Select Your IIT: ",style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,color: AppColor.primaryColor,fontSize: 14),),
                   ):const SizedBox.shrink(),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   _isAlumni == "Yes"?const SizedBox(height: 10,):const SizedBox.shrink(),
-                  _isAlumni == "Yes"?isLoading == true?SizedBox.shrink():Padding(
+                  _isAlumni == "Yes"?isLoading == true?const SizedBox.shrink():Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: DropdownButtonFormField<String>(
                       value: iitName==""?null:iitName,
@@ -699,7 +699,7 @@ class _EditProfilPageState extends State<EditProfilPage> {
                     ),
                   ):const SizedBox.shrink(),
                   _isAlumni == "Yes"?const SizedBox(height: 25,):const SizedBox.shrink(),
-                  _isAlumni == "Yes"?isLoading == true?SizedBox.shrink(): AppTextField(hintText: "Type your Batch",controller: batchController,labelText:"Batch",keyboardType: TextInputType.number,inputFormatters: [LengthLimitingTextInputFormatter(4),FilteringTextInputFormatter.digitsOnly],)
+                  _isAlumni == "Yes"?isLoading == true?const SizedBox.shrink(): AppTextField(hintText: "Type your Batch",controller: batchController,labelText:"Batch",keyboardType: TextInputType.number,inputFormatters: [LengthLimitingTextInputFormatter(4),FilteringTextInputFormatter.digitsOnly],)
                   // Padding(
                   //   padding: const EdgeInsets.symmetric(horizontal: 20),
                   //   child: DropdownButtonFormField<String>(
@@ -785,7 +785,7 @@ class _EditProfilPageState extends State<EditProfilPage> {
                 ),
               ),
             ),
-            Prefs.checkProfile == true?SizedBox.shrink():GestureDetector(
+            Prefs.checkProfile == true?const SizedBox.shrink():GestureDetector(
               onTap: (){
                 Get.back();
               },

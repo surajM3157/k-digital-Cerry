@@ -143,7 +143,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
 
                 const SizedBox(height: 70,),
-                guestDetails?.firstName !=null?Text(AppThemes.capitalizeFirst(guestDetails?.firstName??"") +" "+AppThemes.capitalizeFirst(guestDetails?.lastName??""),style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16,color: AppColor.primaryColor,fontFamily: appFontFamily),):SizedBox.shrink(),
+                guestDetails?.firstName !=null?Text(AppThemes.capitalizeFirst(guestDetails?.firstName??"") +" "+AppThemes.capitalizeFirst(guestDetails?.lastName??""),style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16,color: AppColor.primaryColor,fontFamily: appFontFamily),):const SizedBox.shrink(),
                 const SizedBox(height: 2,),
                 Text(guestDetails?.emailId??"",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 16,color: AppColor.black,fontFamily: appFontFamily),),
                 const SizedBox(height: 16,),

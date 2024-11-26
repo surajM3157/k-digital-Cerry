@@ -790,7 +790,7 @@ class _HomeState extends State<Home> {
                 children: [
                   GradientText(text: _formatDuration(_timeRemaining)[0].toString(),style: const TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize: 20), gradient: LinearGradient(colors: AppColor.gradientColors),),
                   const SizedBox(height: 5,),
-                  GradientText(text:"DAYS",style:  TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize:10), gradient: LinearGradient(colors: AppColor.gradientColors))
+                  GradientText(text:"DAYS",style:  const TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w600,fontSize:10), gradient: LinearGradient(colors: AppColor.gradientColors))
                 ],
               ),
             ),
@@ -966,7 +966,7 @@ class _HomeState extends State<Home> {
           itemBuilder: (context,index){
         return Container(
           height: Get.height*0.3,width: Get.width*0.4,
-          margin: index ==0?EdgeInsets.only(left: 16):index ==2?EdgeInsets.only(right: 16):EdgeInsets.zero,
+          margin: index ==0?const EdgeInsets.only(left: 16):index ==2?const EdgeInsets.only(right: 16):EdgeInsets.zero,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(9),
             border: Border.all(color: AppColor.primaryColor)
@@ -1034,7 +1034,7 @@ class _HomeState extends State<Home> {
         scrollDirection: Axis.horizontal,
           itemBuilder: (context,index){
         return liveSessions[index].link!.contains("=")?Padding(
-          padding: index==0? EdgeInsets.only(left: 16):index ==((liveSessions.length < 3)?liveSessions.length:3)-1?EdgeInsets.only(right: 16):EdgeInsets.zero,
+          padding: index==0? const EdgeInsets.only(left: 16):index ==((liveSessions.length < 3)?liveSessions.length:3)-1?const EdgeInsets.only(right: 16):EdgeInsets.zero,
           child: InkWell(
               onTap: (){
                 Get.toNamed(Routes.liveSession,arguments: {
@@ -1196,7 +1196,7 @@ class _HomeState extends State<Home> {
             child: Container(
               height: 150,
               width: 173,
-              margin:index ==0? EdgeInsets.only(left: 16):index==((speakers.length < 5)?speakers.length:5)-1?EdgeInsets.only(right: 16):EdgeInsets.zero,
+              margin:index ==0? const EdgeInsets.only(left: 16):index==((speakers.length < 5)?speakers.length:5)-1?const EdgeInsets.only(right: 16):EdgeInsets.zero,
               padding: const EdgeInsets.all(5),
               decoration: BoxDecoration(
                   color: AppColor.secondaryColor,
@@ -1277,7 +1277,7 @@ class _HomeState extends State<Home> {
                     //   ],
                     // ),
                     const SizedBox(height: 20,),
-                    GradientText(text:title,style: TextStyle(fontFamily: appFontFamily,fontSize: 16,fontWeight: FontWeight.w700), gradient: LinearGradient(
+                    GradientText(text:title,style: const TextStyle(fontFamily: appFontFamily,fontSize: 16,fontWeight: FontWeight.w700), gradient: LinearGradient(
                         colors: AppColor.gradientColors
                     ),),
                     const SizedBox(height: 10,),

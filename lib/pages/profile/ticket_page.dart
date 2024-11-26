@@ -1,9 +1,13 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:piwotapp/constants/constants.dart';
 import '../../constants/colors.dart';
 import 'package:get/get.dart';
 import '../../constants/font_family.dart';
 import '../../constants/images.dart';
+import '../../repository/api_repo.dart';
+import '../../responses/guest_details_response.dart';
 import '../../widgets/app_themes.dart';
 import '../../widgets/gradient_text.dart';
 
@@ -15,6 +19,42 @@ class TicketPage extends StatefulWidget {
 }
 
 class _TicketPageState extends State<TicketPage> {
+
+  GuestDetailsData? guestDetails;
+  bool  isConnected = true;
+
+  fetchGuestDetails() async
+  {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      isConnected = false;
+      setState(() {
+
+      });
+    }else {
+      isConnected = true;
+
+      Future.delayed(Duration.zero, () {
+        showLoader(context);
+      });
+
+      var response = await ApiRepo().getGuestDetailsResponse();
+
+      if (response.data != null) {
+        guestDetails = response.data;
+      }
+
+      setState(() {
+
+      });
+    }
+  }
+  @override
+  void initState() {
+    fetchGuestDetails();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +83,6 @@ class _TicketPageState extends State<TicketPage> {
             ),),
           ),
           Container(
-            height: Get.height/1.5,
             width: Get.width,
             margin: const EdgeInsets.all(20),
             padding: const EdgeInsets.all(20),
@@ -51,103 +90,41 @@ class _TicketPageState extends State<TicketPage> {
                 gradient: LinearGradient(colors: AppColor.gradientColors),
                 borderRadius: const BorderRadius.all(Radius.circular(12))
             ),
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                Container(
-                  height: Get.height,
-                  width: 288,
-                  decoration: BoxDecoration(
-                      color: AppColor.white,
-                      borderRadius: const BorderRadius.all(Radius.circular(12))
+            child: Container(
+              width: 288,
+              padding: const EdgeInsets.only(top: 0,bottom: 20,left: 10,right: 10),
+              decoration: BoxDecoration(
+                  color: AppColor.white,
+                  borderRadius: const BorderRadius.all(Radius.circular(12))
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ClipRRect(
+                    borderRadius:const BorderRadius.only(topRight: Radius.circular(12),topLeft: Radius.circular(12)),
+                      child: Image.asset(Images.qrCode,height:250 ,width: 288,fit: BoxFit.fill,)),
+                  Text("${guestDetails?.firstName??""} ${guestDetails?.lastName??""}",style: AppThemes.titleTextStyle(),),
+                  const SizedBox(
+                    height: 5,
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ClipRRect(
-                        borderRadius:const BorderRadius.only(topRight: Radius.circular(12),topLeft: Radius.circular(12)),
-                          child: Image.asset(Images.eventDetailsBanner)),
-                     Row(
-                       crossAxisAlignment: CrossAxisAlignment.end,
-                       children: [
-                         Column(
-                           crossAxisAlignment: CrossAxisAlignment.start,
-                           children: [ const SizedBox(
-                             height: 20,
-                           ),
-                             Padding(
-                               padding: const EdgeInsets.only(left: 20),
-                               child: GradientText(text:"Event Name",style: AppThemes.subtitleTextStyle().copyWith(fontWeight: FontWeight.w600),gradient:LinearGradient(
-                                 colors: AppColor.gradientColors,
-                                 begin: Alignment.centerLeft,
-                                 end: Alignment.centerRight,
-                               ),),
-                             ),
-                             const SizedBox(height: 5,),
-                             Padding(
-                               padding: const EdgeInsets.only(left: 20),
-                               child: Text("NETWORKING DINNER",style: AppThemes.subtitleTextStyle().copyWith(color: AppColor.FF161616),),
-                             ),
-                             const SizedBox(
-                               height: 20,
-                             ),
-                             Padding(
-                               padding: const EdgeInsets.only(left: 20),
-                               child: GradientText(text:"Time",style: AppThemes.subtitleTextStyle().copyWith(fontWeight: FontWeight.w600),gradient:LinearGradient(
-                                 colors: AppColor.gradientColors,
-                                 begin: Alignment.centerLeft,
-                                 end: Alignment.centerRight,
-                               ),),
-                             ),
-                             const SizedBox(height: 5,),
-                             Padding(
-                               padding: const EdgeInsets.only(left: 20),
-                               child: Text("10:00 AM",style: AppThemes.subtitleTextStyle().copyWith(color: AppColor.FF161616),),
-                             ),
-                             const SizedBox(height: 20,),
-                             Padding(
-                               padding: const EdgeInsets.only(left: 20),
-                               child: GradientText(text:"Date",style: AppThemes.subtitleTextStyle().copyWith(fontWeight: FontWeight.w600),gradient:LinearGradient(
-                                 colors: AppColor.gradientColors,
-                                 begin: Alignment.centerLeft,
-                                 end: Alignment.centerRight,
-                               ),),
-                             ),
-                             const SizedBox(height: 5,),
-                             Padding(
-                               padding: const EdgeInsets.only(left: 20),
-                               child: Text("20 August 2024 ",style: AppThemes.subtitleTextStyle().copyWith(color: AppColor.FF161616),),
-                             ),],
-                         ),
-                         Image.asset(Images.qrCode,height: 106,width: 106,)
-                       ],
-                     ),
-                    ],
+                  Container(height: 2,width: 200,decoration: BoxDecoration(
+                    gradient: LinearGradient(colors: AppColor.gradientColors)
+                  ),),
+                  const SizedBox(
+                    height: 16,
                   ),
-                ),
-                Positioned(
-                    left: -7,
-                    bottom: 50,
-                    child: Container(
-                      height: 40,
-                      width: 40,
-                      decoration:  BoxDecoration(
-                          color: AppColor.primaryColor,
-                          shape: BoxShape.circle
-                      ),
-                    )),
-                Positioned(
-                    right: -7,
-                    bottom: 50,
-                    child: Container(
-                      height: 40,
-                      width: 40,
-                      decoration:  BoxDecoration(
-                          color: AppColor.red,
-                          shape: BoxShape.circle
-                      ),
-                    )),
-              ],
+                  Text(guestDetails?.companyName??"",style: AppThemes.subtitleTextStyle().copyWith(color: AppColor.FF161616,fontSize: 16)),
+                  const SizedBox(
+                    height: 7,
+                  ),
+                  Text(capitalizeText(guestDetails?.designation?.toLowerCase()??""),style: AppThemes.subtitleTextStyle().copyWith(color: AppColor.FF161616,fontSize: 16)),
+                  const SizedBox(
+                    height: 7,
+                  ),
+                 (guestDetails?.alumniOfIit??false)? Text('${guestDetails?.iitName??""}, ${guestDetails?.batch??""}',style: AppThemes.subtitleTextStyle().copyWith(color: AppColor.FF161616,fontSize: 16)):const SizedBox.shrink()
+                ],
+              ),
             ),
           ),
         ],

@@ -1,6 +1,5 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:piwotapp/responses/agenda_response.dart';
 import '../../constants/colors.dart';
 import '../../constants/font_family.dart';
@@ -182,7 +181,7 @@ class _AgendaState extends State<Agenda> {
                                       Text(agendaList[index].agendas?[agendasIndex].title??"",style: TextStyle(fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.FF161616),),
                                       const SizedBox(height: 8,),
                                       ListView.builder(
-                                        shrinkWrap: true,physics: NeverScrollableScrollPhysics(),
+                                        shrinkWrap: true,physics: const NeverScrollableScrollPhysics(),
                                           itemCount: agendaList[index].agendas![agendasIndex].activities?.length,
                                             itemBuilder: (context,activityIndex){
                                           return buildBulletPoint(Text(agendaList[index].agendas![agendasIndex].activities![activityIndex],style: TextStyle(
@@ -214,8 +213,7 @@ class _AgendaState extends State<Agenda> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text("• ", style: TextStyle(fontSize: 20)),
-        SizedBox(
-          width: Get.width/1.45,
+        Expanded(
             child: text),
       ],
     );

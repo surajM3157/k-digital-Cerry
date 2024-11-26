@@ -2,7 +2,6 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:googleapis/composer/v1.dart';
 import 'package:intl/intl.dart';
 import 'package:piwotapp/constants/api_urls.dart';
 import 'package:piwotapp/constants/constants.dart';

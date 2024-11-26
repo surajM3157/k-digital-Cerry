@@ -31,7 +31,7 @@ class _ChatPageState extends State<ChatPage> {
   final ScrollController _scrollController = ScrollController();
   Future<void> _scrollToBottom() async {
     // Delay ensures ListView is fully rendered before scrolling
-    await Future.delayed(Duration(milliseconds: 100));
+    await Future.delayed(const Duration(milliseconds: 100));
     if (_scrollController.hasClients) {
       _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
     }
@@ -183,7 +183,7 @@ class _ChatPageState extends State<ChatPage> {
             return Text("error ${snapshot.error}");
           }
           if(snapshot.connectionState == ConnectionState.waiting){
-            return Text("Loading...");
+            return const Text("Loading...");
           }
 
           WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToBottom());

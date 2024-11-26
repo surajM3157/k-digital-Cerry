@@ -12,7 +12,6 @@ import 'package:piwotapp/pages/home/agenda.dart';
 import 'package:piwotapp/pages/home/delegates.dart';
 import 'package:piwotapp/pages/home/session.dart';
 import 'package:piwotapp/services/notification_service.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../../repository/api_repo.dart';
 import '../../responses/list_link_response.dart';
 import '../../route/route_names.dart';
