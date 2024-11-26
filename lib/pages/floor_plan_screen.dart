@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:piwotapp/constants/api_urls.dart';
+import 'package:piwotapp/constants/constants.dart';
 import 'package:piwotapp/responses/floor_plan_response.dart';
 import '../constants/colors.dart';
 import '../constants/font_family.dart';
@@ -97,7 +98,7 @@ class _FloorPlanScreenState extends State<FloorPlanScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(floorPlanList[index].floorName??"",style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor),),
+                      Text(capitalizeText(floorPlanList[index].floorName?.toLowerCase()??""),style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor),),
                       const SizedBox(height: 10,),
                       SizedBox(
                         width: Get.width,

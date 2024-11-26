@@ -22,6 +22,7 @@ class _TicketPageState extends State<TicketPage> {
 
   GuestDetailsData? guestDetails;
   bool  isConnected = true;
+  String qrLink = '';
 
   fetchGuestDetails() async
   {
@@ -49,8 +50,32 @@ class _TicketPageState extends State<TicketPage> {
       });
     }
   }
+
+  fetchQRCode() async
+  {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      isConnected = false;
+      setState(() {
+
+      });
+    }else {
+      isConnected = true;
+
+      var response = await ApiRepo().getQRCodeResponse();
+
+      if (response != null) {
+        qrLink = response;
+      }
+
+      setState(() {
+
+      });
+    }
+  }
   @override
   void initState() {
+    fetchQRCode();
     fetchGuestDetails();
     super.initState();
   }
@@ -101,9 +126,9 @@ class _TicketPageState extends State<TicketPage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  ClipRRect(
+                  qrLink.isNotEmpty?ClipRRect(
                     borderRadius:const BorderRadius.only(topRight: Radius.circular(12),topLeft: Radius.circular(12)),
-                      child: Image.asset(Images.qrCode,height:250 ,width: 288,fit: BoxFit.fill,)),
+                      child: Image.network(qrLink,height:250 ,width: 288,fit: BoxFit.fill,)):const SizedBox.shrink(),
                   Text("${guestDetails?.firstName??""} ${guestDetails?.lastName??""}",style: AppThemes.titleTextStyle(),),
                   const SizedBox(
                     height: 5,

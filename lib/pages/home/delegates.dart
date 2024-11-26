@@ -83,6 +83,7 @@ class _DelegatesState extends State<Delegates> with SingleTickerProviderStateMix
         print("friendList $friendList");
         print("userId ${Prefs.checkUserId}");
         fetchSentRequestList();
+        fetchGuestList('');
       }
 
       setState(() {
@@ -429,10 +430,7 @@ class _DelegatesState extends State<Delegates> with SingleTickerProviderStateMix
           return name.toLowerCase().contains(chatSearchText.toLowerCase());
         }).toList();
         return ListView(
-          children: filteredDocs.map<Widget>((doc) => Padding(
-            padding: const EdgeInsets.only(bottom: 5),
-            child: _buildUserListItem(doc),
-          )).toList(),
+          children: filteredDocs.map<Widget>((doc) => _buildUserListItem(doc)).toList(),
         );
       },): Center(child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),

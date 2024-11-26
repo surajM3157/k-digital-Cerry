@@ -363,6 +363,16 @@ class ApiRepo
     return listLinkResponseFromJson(response.body);
   }
 
+  Future<String> getQRCodeResponse() async {
+
+    final response = await http.get(Uri.parse("${ApiUrls.qrcodeApiUrl}?id=${Prefs.checkUserId}"), headers: {'token': '${Prefs.checkAuthToken}',});
+    var res = await json.decode(response.body);
+    print("Api url ${ApiUrls.qrcodeApiUrl}?id=${Prefs.checkUserId}");
+    print("response ${response.body}");
+
+    return res['data'];
+  }
+
   Future<LiveSessionResponse> getLiveSessionResponse(bool isHome) async {
 
     final response = await http.get(Uri.parse("${ApiUrls.liveSessionApiUrl}"), headers: {'token': '${Prefs.checkAuthToken}',});

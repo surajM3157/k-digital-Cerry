@@ -31,6 +31,7 @@ class ApiUrls
    static String globalSurveyApiUrl = "$baseUrl/event/global-survey";
    static String contactusApiUrl = "$baseUrl/event/contact-us";
    static String surveyStatusApiUrl = "$baseUrl/event/check-survey-status";
+   static String qrcodeApiUrl = "$baseUrl/auth/print-qr";
 
 }
 
