@@ -82,8 +82,10 @@ class _DelegatesState extends State<Delegates> with SingleTickerProviderStateMix
         print("floorPlanList ${friendList.length}");
         print("friendList $friendList");
         print("userId ${Prefs.checkUserId}");
-        fetchSentRequestList();
+
       }
+      fetchGuestList('');
+      fetchSentRequestList();
 
       setState(() {
 
@@ -144,9 +146,11 @@ class _DelegatesState extends State<Delegates> with SingleTickerProviderStateMix
       if (response.data != null) {
         _guestListResponse = response;
         for (GuestListData guest in _guestListResponse!.data!) {
-          //if (!friendList.contains(guest.sId)) {
+          if(friendList.isEmpty){
             guestList.add(guest);
-          //}
+          }else if(!friendList.contains(guest.sId)) {
+            guestList.add(guest);
+          }
           // notificationService.unsubscribeFromTopic(guest.sId ?? "");
           // print("done Unsubscription ${guest.sId}");
         }
@@ -255,7 +259,6 @@ class _DelegatesState extends State<Delegates> with SingleTickerProviderStateMix
   @override
   void initState() {
     _controller =  TabController(length: 3, vsync: this);
-    fetchGuestList("");
     fetchFriendList();
     widget.tabController.addListener(_handleTabChange);
     Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
