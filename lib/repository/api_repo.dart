@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:googleapis/apigeeregistry/v1.dart';
 import 'package:googleapis_auth/auth_io.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as p;
@@ -28,6 +30,7 @@ import 'package:piwotapp/responses/speaker_response.dart';
 import 'package:piwotapp/responses/sponsor_response.dart';
 import 'package:http_parser/http_parser.dart';
 import '../constants/api_urls.dart';
+import '../responses/Stall_Response.dart';
 import '../route/route_names.dart';
 import '../services/notification_service.dart';
 import '../shared prefs/pref_manager.dart';
@@ -595,6 +598,39 @@ class ApiRepo
 
     return friendListResponseFromJson(response.body);
   }
+  Future<StallListResponse> getStallListResponse() async {
+
+    final response = await http.get(Uri.parse(ApiUrls.stallApiUrl), headers: {'token': Prefs.checkAuthToken,});
+    // Debugging
+    if (kDebugMode) {
+      print("Request URL: ${ApiUrls.stallApiUrl}");
+      print("Response12345 Data: ${response.body}");
+    }
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to load data: ${response.statusCode}');
+    }
+
+    var res = json.decode(response.body);
+
+    if (res['message'] == "Token expired." || res['message'] == 'Your account has been suspended. Please contact admin.') {
+      Prefs.setBool('is_logged_in_new', false);
+      Prefs.setString('user_id_new', "");
+      Prefs.setString('user_email_new', "");
+      Prefs.setString('user_auth_token', "");
+      Prefs.setString("user_name_new", "");
+      Prefs.setString("mobile_no", "");
+      Get.offAllNamed(Routes.login);
+      return StallListResponse();  // Return an empty response or handle accordingly
+    }
+
+    print("API Response: ${res}");
+
+    return StallListResponse.fromJson(res);
+  }
+
+
+
 
   Future<GuestListResponse> getGuestListResponse(String search) async {
 

@@ -119,7 +119,6 @@ class Images{
 
   //icons
   static String qrCode = 'assets/images/icons/qr_code.png';
-
   static String cameraIcon = 'assets/images/icons/camera_icon.svg';
   static String lockIcon = 'assets/images/icons/lock_icon.svg';
   static String emailIcon = 'assets/images/icons/email_icon.svg';
@@ -133,12 +132,14 @@ class Images{
   static String homeSelectedIcon = 'assets/images/icons/home_selected_icon.svg';
   static String bookingUnselectedIcon = 'assets/images/icons/booking_unselected_icon.svg';
   static String bookingSelectedIcon = 'assets/images/icons/booking_selected_icon.svg';
+  static String stallSelectedIcon = 'assets/images/icons/stall_icon.svg';
   static String sessionUnselectedIcon = 'assets/images/icons/session_unselected_icon.svg';
   static String sessionSelectedIcon = 'assets/images/icons/session_selected_icon.svg';
   static String delegatesUnselectedIcon = 'assets/images/icons/delegates_unselected_icon.svg';
   static String delegatesSelectedIcon = 'assets/images/icons/delegates_selected_icon.svg';
   static String chatIcon = 'assets/images/icons/chat_icon.svg';
   static String aboutIcon = 'assets/images/icons/about_icon.svg';
+  static String stallIcon = 'assets/images/icons/stall_icon.svg';
   static String ticketIcon = 'assets/images/icons/ticket_icon.svg';
   static String contactIcon = 'assets/images/icons/contact_icon.svg';
   static String feedbackIcon = 'assets/images/icons/feedback_icon.svg';

@@ -11,6 +11,7 @@ import 'package:piwotapp/pages/home/about.dart';
 import 'package:piwotapp/pages/home/agenda.dart';
 import 'package:piwotapp/pages/home/delegates.dart';
 import 'package:piwotapp/pages/home/session.dart';
+import 'package:piwotapp/pages/home/stall_page.dart';
 import 'package:piwotapp/services/notification_service.dart';
 import '../../repository/api_repo.dart';
 import '../../responses/list_link_response.dart';
@@ -28,9 +29,12 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
+
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
 
-  GlobalKey<CurvedNavigationBarState> bottomNavigationKey = GlobalKey();
+  GlobalKey<CurvedNavigationBarState> bottomNavigationKey =
+
+  GlobalKey();
   int page = 0;
   int bottomNavbarIndex = 0;
   TextEditingController searchController = TextEditingController();
@@ -141,7 +145,15 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
           //bottomNavbarIndex == 1||bottomNavbarIndex == 4?AppColor.white:
           AppColor.primaryColor,
       ),
-        body: bottomNavbarIndex == 0?const Home():bottomNavbarIndex == 1?Delegates(tabController: _controller!,):bottomNavbarIndex == 2?const Session():bottomNavbarIndex == 3?const Agenda():bottomNavbarIndex == 4?About(tabController: _aboutController!):const SizedBox(),
+        body: bottomNavbarIndex == 0?const Home():
+        bottomNavbarIndex == 1?Delegates(tabController: _controller!,):
+        bottomNavbarIndex == 2?const Session():
+        bottomNavbarIndex == 3?const Agenda():
+        bottomNavbarIndex == 4?About(tabController: _aboutController!):
+        bottomNavbarIndex == 5?const StallPage():
+        const SizedBox(),
+
+
         bottomNavigationBar:bottomNavbar(),
       ),
     );
@@ -393,6 +405,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
           _buildNavItem(Images.chatIcon, "Chat", 1),
           _buildNavItem(Images.sessionSelectedIcon, "Session", 2),
           _buildNavItem(Images.agendaIcon, "Agenda", 3),
+          _buildNavItem(Images.stallIcon, "Stall", 5),
           _buildNavItem(Images.aboutIcon, "About", 4),
 
         ],
@@ -427,7 +440,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
           const SizedBox(height: 10,),
           Text(label,style: TextStyle(fontSize: 12,fontWeight: FontWeight.w600,fontFamily: appFontFamily,color: AppColor.white),),
           const SizedBox(height: 10,),
-
         ],
       ),
     );
