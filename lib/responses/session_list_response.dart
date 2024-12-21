@@ -180,7 +180,7 @@ class FloorDetails {
 
   FloorDetails.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
-    floorName = json['floor_name'];
+    floorName = json['floor_name'] ?? ' ';
   }
 
   Map<String, dynamic> toJson() {

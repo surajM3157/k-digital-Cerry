@@ -121,71 +121,165 @@ class ApiRepo
     }
   }
 
+
   verifyOtp(var params, String id) async {
-    final response = await http.post(Uri.parse("${ApiUrls.otpApiUrl}/$id"),
+    final response = await http.post(
+      Uri.parse("${ApiUrls.otpApiUrl}/$id"),
       body: params,
     );
 
     Get.back();
 
-    print("params ${params}");
-    print("Api url ${ApiUrls.otpApiUrl}/$id");
-    print("response ${response.body}");
+    print("params_otp: $params");
+    print("Api ur-otp: ${ApiUrls.otpApiUrl}/$id");
+    print("response status code_otp: ${response.statusCode}");
+    print("response body: ${response.body}");
 
+    if (response.statusCode == 200) {
+      // Parsing the response body if it's successful
+      try {
+        OtpResponse model = otpResponseFromJson(response.body);
 
-    if(response.statusCode == 200)
-    {
+        EasyLoading.showToast("${model.message}",
+            dismissOnTap: true,
+            duration: const Duration(seconds: 1),
+            toastPosition: EasyLoadingToastPosition.center);
 
-      OtpResponse model = otpResponseFromJson(response.body);
+        Prefs.setBool('is_logged_in_new', true);
+        Prefs.setString('user_id_new', "${model.data?.guestDetails?.sId ?? ""}");
+        Prefs.setString('user_email_new', "${model.data?.guestDetails?.emailId ?? ""}");
+        Prefs.setString('user_auth_token', "${model.data?.token ?? ""}");
+        Prefs.setString("user_name_new", "${model.data?.guestDetails?.firstName ?? ""} ${model.data?.guestDetails?.lastName ?? ""}");
+        Prefs.setString("mobile_no", "${model.data?.guestDetails?.mobileNumber}");
+        Prefs.setBool("notificationsEnabled", true);
+        Prefs.loadData();
+        Prefs.load();
 
-      EasyLoading.showToast("${model.message}",
-          dismissOnTap: true,
-          duration: const Duration(seconds: 1),
-          toastPosition: EasyLoadingToastPosition.center);
+        // Firestore update
+        _firestore.collection("users").doc("${model.data?.guestDetails?.sId ?? ""}").set({
+          "uid": "${model.data?.guestDetails?.sId ?? ""}",
+          "name": "${model.data?.guestDetails?.firstName ?? ""} ${model.data?.guestDetails?.lastName ?? ""}",
+        }, SetOptions(merge: true));
 
-      Prefs.setBool('is_logged_in_new', true);
-      Prefs.setString('user_id_new', "${model.data?.guestDetails?.sId?? ""}");
-      Prefs.setString('user_email_new', "${model.data?.guestDetails?.emailId ?? ""}");
-      Prefs.setString('user_auth_token', "${model.data?.token ?? ""}");
-      Prefs.setString("user_name_new", "${model.data?.guestDetails?.firstName ?? ""} ${model.data?.guestDetails?.lastName ?? ""}");
-      Prefs.setString("mobile_no", "${model.data?.guestDetails?.mobileNumber}");
-      Prefs.setBool("notificationsEnabled", true);
-      Prefs.loadData();
-      Prefs.load();
+        print("Prefs.checkProfile ${Prefs.checkProfile}");
+        NotificationService fcmService = NotificationService();
+        if (Prefs.checkNotificationEnabled == true) {
+          fcmService.subscribeToTopic('allUsers');
+          fcmService.subscribeToTopic(model.data?.guestDetails?.sId ?? "");
+          print("subscribed to topic: ${model.data?.guestDetails?.sId ?? ""}");
+        }
 
-
-
-
-      _firestore.collection("users").doc("${model.data?.guestDetails?.sId?? ""}").set(
-          {
-            "uid":"${model.data?.guestDetails?.sId?? ""}",
-            "name":"${model.data?.guestDetails?.firstName ?? ""} ${model.data?.guestDetails?.lastName ?? ""}",
-          }, SetOptions(merge: true)
-      );
-      print("Prefs.checkProfile ${Prefs.checkProfile}");
-      NotificationService fcmService = NotificationService();
-      if(Prefs.checkNotificationEnabled == true){
-        fcmService.subscribeToTopic('allUsers');
-        fcmService.subscribeToTopic(model.data?.guestDetails?.sId?? "");
-        print("subscribe to ${model.data?.guestDetails?.sId?? ""}");
+        if (Prefs.checkProfile == true) {
+          Get.offAllNamed(Routes.editProfile);
+        } else {
+          Get.offAllNamed(Routes.home);
+        }
       }
-      if(Prefs.checkProfile == true){
-        Get.offAllNamed(Routes.editProfile);
-      }else{
-      Get.offAllNamed(Routes.home);
-      }
-
-    }
-    else
-    {
-      var res = await json.decode(response.body);
-
-      EasyLoading.showToast("${res['message']}",
+      catch (e) {
+        print("Error while parsing the OTP response: $e");
+        EasyLoading.showToast(
+          'An error occurred while processing the response.',
           dismissOnTap: true,
-          duration: const Duration(seconds: 1),
-          toastPosition: EasyLoadingToastPosition.center);
+          duration: const Duration(seconds: 2),
+          toastPosition: EasyLoadingToastPosition.center,
+        );
+      }
+    } else {
+      // Error handling when status code is not 200
+      try {
+        var res = json.decode(response.body);
+
+        String errorMessage = res['message'] ?? 'Invalid OTP or something went wrong!';
+        EasyLoading.showToast(
+          errorMessage,
+          dismissOnTap: true,
+          duration: const Duration(seconds: 2),
+          toastPosition: EasyLoadingToastPosition.center,
+        );
+
+        print("Error response: $res");
+      } catch (e) {
+        print("Error parsing the error response: $e");
+        EasyLoading.showToast(
+          'Failed to decode error message.',
+          dismissOnTap: true,
+          duration: const Duration(seconds: 2),
+          toastPosition: EasyLoadingToastPosition.center,
+        );
+      }
     }
   }
+
+
+
+  // verifyOtp(var params, String id) async {
+  //   final response = await http.post(Uri.parse("${ApiUrls.otpApiUrl}/$id"),
+  //     body: params,
+  //   );
+  //
+  //   Get.back();
+  //
+  //   print("params ${params}");
+  //   print("Api url ${ApiUrls.otpApiUrl}/$id");
+  //   print("response___-ssss ${response.body}");
+  //
+  //
+  //   if(response.statusCode == 200)
+  //   {
+  //
+  //     OtpResponse model = otpResponseFromJson(response.body);
+  //
+  //     print("response___-ssss ${response.body}");
+  //     print("response___-ssss $model");
+  //
+  //     EasyLoading.showToast("${model.message}",
+  //         dismissOnTap: true,
+  //         duration: const Duration(seconds: 1),
+  //         toastPosition: EasyLoadingToastPosition.center);
+  //
+  //     Prefs.setBool('is_logged_in_new', true);
+  //     Prefs.setString('user_id_new', "${model.data?.guestDetails?.sId?? ""}");
+  //     Prefs.setString('user_email_new', "${model.data?.guestDetails?.emailId ?? ""}");
+  //     Prefs.setString('user_auth_token', "${model.data?.token ?? ""}");
+  //     Prefs.setString("user_name_new", "${model.data?.guestDetails?.firstName ?? ""} ${model.data?.guestDetails?.lastName ?? ""}");
+  //     Prefs.setString("mobile_no", "${model.data?.guestDetails?.mobileNumber}");
+  //     Prefs.setBool("notificationsEnabled", true);
+  //     Prefs.loadData();
+  //     Prefs.load();
+  //
+  //
+  //
+  //
+  //     _firestore.collection("users").doc("${model.data?.guestDetails?.sId?? ""}").set(
+  //         {
+  //           "uid":"${model.data?.guestDetails?.sId?? ""}",
+  //           "name":"${model.data?.guestDetails?.firstName ?? ""} ${model.data?.guestDetails?.lastName ?? ""}",
+  //         }, SetOptions(merge: true)
+  //     );
+  //     print("Prefs.checkProfile ${Prefs.checkProfile}");
+  //     NotificationService fcmService = NotificationService();
+  //     if(Prefs.checkNotificationEnabled == true){
+  //       fcmService.subscribeToTopic('allUsers');
+  //       fcmService.subscribeToTopic(model.data?.guestDetails?.sId?? "");
+  //       print("subscribe to ${model.data?.guestDetails?.sId?? ""}");
+  //     }
+  //     if(Prefs.checkProfile == true){
+  //       Get.offAllNamed(Routes.editProfile);
+  //     }else{
+  //     Get.offAllNamed(Routes.home);
+  //     }
+  //
+  //   }
+  //   else
+  //   {
+  //     var res = await json.decode(response.body);
+  //
+  //     EasyLoading.showToast("${res['message']}",
+  //         dismissOnTap: true,
+  //         duration: const Duration(seconds: 1),
+  //         toastPosition: EasyLoadingToastPosition.center);
+  //   }
+  // }
 
   Future<SpeakerResponse> getSpeakerResponse(String search,bool isHome) async {
 
@@ -603,8 +697,8 @@ class ApiRepo
     final response = await http.get(Uri.parse(ApiUrls.stallApiUrl), headers: {'token': Prefs.checkAuthToken,});
     // Debugging
     if (kDebugMode) {
-      print("Request URL: ${ApiUrls.stallApiUrl}");
-      print("Response12345 Data: ${response.body}");
+      print("Request URL: $response");
+      print("Response12345: ${response.body}");
     }
 
     if (response.statusCode != 200) {

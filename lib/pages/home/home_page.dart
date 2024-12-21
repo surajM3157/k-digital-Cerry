@@ -395,55 +395,137 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
     });
   }
 
-  Widget bottomNavbar(){
+  // Widget bottomNavbar(){
+  //   return BottomAppBar(
+  //     color: AppColor.primaryColor,
+  //     child: Row(
+  //       mainAxisAlignment: MainAxisAlignment.spaceAround,
+  //       children: [
+  //         _buildNavItem(Images.homeSelectedIcon, "Home", 0),
+  //         _buildNavItem(Images.chatIcon, "Chat", 1),
+  //         _buildNavItem(Images.sessionSelectedIcon, "Session", 2),
+  //         _buildNavItem(Images.agendaIcon, "Agenda", 3),
+  //         _buildNavItem(Images.stallIcon, "Stall", 5),
+  //         _buildNavItem(Images.aboutIcon, "About", 4),
+  //
+  //       ],
+  //     ),
+  //   );
+  // }
+
+
+  Widget bottomNavbar() {
     return BottomAppBar(
       color: AppColor.primaryColor,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          _buildNavItem(Images.homeSelectedIcon, "Home", 0),
-          _buildNavItem(Images.chatIcon, "Chat", 1),
-          _buildNavItem(Images.sessionSelectedIcon, "Session", 2),
-          _buildNavItem(Images.agendaIcon, "Agenda", 3),
-          _buildNavItem(Images.stallIcon, "Stall", 5),
-          _buildNavItem(Images.aboutIcon, "About", 4),
-
-        ],
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10),  // Add some padding for better spacing
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween, // Ensures items are spaced evenly
+          children: [
+            _buildNavItem(Images.homeSelectedIcon, "Home", 0),
+            _buildNavItem(Images.chatIcon, "Chat", 1),
+            _buildNavItem(Images.sessionSelectedIcon, "Session", 2),
+            _buildNavItem(Images.agendaIcon, "Agenda", 3),
+            _buildNavItem(Images.stallIcon, "Stall", 5),
+            _buildNavItem(Images.aboutIcon, "About", 4),
+          ],
+        ),
       ),
     );
   }
+
 
   Widget _buildNavItem(String icon, String label, int index) {
     return InkWell(
       onTap: () => _onItemTapped(index),
-      child:  bottomNavbarIndex==index?Container(
-        padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 10),
+      child: bottomNavbarIndex == index
+          ? Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(25),
-          color: AppColor.FFEFEEFF
-        ),
+            borderRadius: BorderRadius.circular(25),
+            color: AppColor.FFEFEEFF),
         child: Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SvgPicture.asset(icon,color: AppColor.primaryColor,),
-              const SizedBox(width: 4,),
-              Text(label,style: TextStyle(fontSize: 12,fontWeight: FontWeight.w600,fontFamily: appFontFamily,color: AppColor.primaryColor),),
-
-            ],)
-      ):Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              icon,
+              color: AppColor.primaryColor,
+              height: 16, // Adjust icon size
+              width: 16,  // Adjust icon size
+            ),
+            const SizedBox(width: 4),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+                fontFamily: appFontFamily,
+                color: AppColor.primaryColor,
+              ),
+            ),
+          ],
+        ),
+      )
+          : Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const SizedBox(height: 10,),
-          SvgPicture.asset(icon),
-          const SizedBox(height: 10,),
-          Text(label,style: TextStyle(fontSize: 12,fontWeight: FontWeight.w600,fontFamily: appFontFamily,color: AppColor.white),),
-          const SizedBox(height: 10,),
+          const SizedBox(height: 10),
+          SvgPicture.asset(
+            icon,
+            height: 20, // Adjust icon size
+            width: 20,  // Adjust icon size
+          ),
+          const SizedBox(height: 4),
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+              fontFamily: appFontFamily,
+              color: AppColor.white,
+            ),
+          ),
         ],
       ),
     );
   }
+
+
+
+
+  // Widget _buildNavItem(String icon, String label, int index) {
+  //   return InkWell(
+  //     onTap: () => _onItemTapped(index),
+  //     child:  bottomNavbarIndex==index?Container(
+  //       padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 10),
+  //       decoration: BoxDecoration(
+  //         borderRadius: BorderRadius.circular(25),
+  //         color: AppColor.FFEFEEFF
+  //       ),
+  //       child: Row(
+  //           mainAxisSize: MainAxisSize.min,
+  //           mainAxisAlignment: MainAxisAlignment.center,
+  //           children: [
+  //             SvgPicture.asset(icon,color: AppColor.primaryColor,),
+  //             const SizedBox(width: 4,),
+  //             Text(label,style: TextStyle(fontSize: 12,fontWeight: FontWeight.w600,fontFamily: appFontFamily,color: AppColor.primaryColor),),
+  //
+  //           ],)
+  //     ):Column(
+  //       mainAxisSize: MainAxisSize.min,
+  //       mainAxisAlignment: MainAxisAlignment.center,
+  //       children: [
+  //         const SizedBox(height: 10,),
+  //         SvgPicture.asset(icon),
+  //         const SizedBox(height: 10,),
+  //         Text(label,style: TextStyle(fontSize: 12,fontWeight: FontWeight.w600,fontFamily: appFontFamily,color: AppColor.white),),
+  //         const SizedBox(height: 10,),
+  //       ],
+  //     ),
+  //   );
+  // }
 
 }
 

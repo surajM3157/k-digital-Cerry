@@ -10,6 +10,7 @@ import '../../constants/font_family.dart';
 import '../../repository/api_repo.dart';
 import '../../route/route_names.dart';
 import '../../widgets/custom_tabbar_indicator.dart';
+import '../session_details_page.dart';
 
 
 class Session extends StatefulWidget {
@@ -427,7 +428,7 @@ class _SessionState extends State<Session> with SingleTickerProviderStateMixin{
   Widget joinSessionButton(SessionListData sessionModel){
     return InkWell(
       onTap: (){
-        // Get.to(SessionDetailsPage(title: sessionModel.sessionName,image: sessionModel.sessionImage,));
+        Get.to(SessionDetailsPage(title: sessionModel.sessionName,image: sessionModel.sessionImage,));
         Get.toNamed(Routes.sessionDetails,arguments: {
           "data":sessionModel
         });

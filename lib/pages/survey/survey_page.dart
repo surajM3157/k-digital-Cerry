@@ -13,6 +13,7 @@ import '../../route/route_names.dart';
 import '../../shared prefs/pref_manager.dart';
 import '../../widgets/app_themes.dart';
 import '../../widgets/custom_progress_indicator.dart';
+import '../../widgets/gradient_text.dart';
 
 class SurveyPage extends StatefulWidget {
   const SurveyPage({super.key});
@@ -25,6 +26,7 @@ class _SurveyPageState extends State<SurveyPage> {
 
   String sessionId = "";
   String type = "";
+  String surveyName = ""; // Declare the variable for survey name
 
   int index = 0;
 
@@ -77,7 +79,7 @@ class _SurveyPageState extends State<SurveyPage> {
         showLoader(context);
       });
 
-     isSurvey =  await ApiRepo().surveyStatus(params);
+      isSurvey =  await ApiRepo().surveyStatus(params);
     }
   }
 
@@ -102,10 +104,11 @@ class _SurveyPageState extends State<SurveyPage> {
         for(SessionSurveysData session in response.data!){
           if(sessionId == session.sessionId){
             sessionSurveysData = session;
+            surveyName = session.surveyName ?? "";
             await surveyStatus(session.sId??"");
             if(isSurvey){
               Get.offAllNamed(Routes.thankYou,arguments: {
-              'surveyStatus':true
+                'surveyStatus':true
               });
             }else {
               for (QuestionsDetails question in session.questionsDetails!) {
@@ -144,17 +147,19 @@ class _SurveyPageState extends State<SurveyPage> {
 
       if( response.data != null)
       {
-            globalSurveyData = response.data?[0];
-            await surveyStatus(globalSurveyData?.sId??"");
-            if(isSurvey){
-              Get.offAllNamed(Routes.thankYou,arguments: {
-                'surveyStatus':true
-              });
-            }else{
-            for(Questions question in globalSurveyData!.questions!){
-              globalQuestionList.add(question);
+        globalSurveyData = response.data?[0];
+        surveyName = globalSurveyData?.surveyName ?? "";
+        await surveyStatus(globalSurveyData?.sId??"");
 
-        }}
+        if(isSurvey){
+          Get.offAllNamed(Routes.thankYou,arguments: {
+            'surveyStatus':true
+          });
+        }else{
+          for(Questions question in globalSurveyData!.questions!){
+            globalQuestionList.add(question);
+
+          }}
       }
 
       // print("Question1 ${globalQuestionList[0].question}");
@@ -308,60 +313,81 @@ class _SurveyPageState extends State<SurveyPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.white,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: AppColor.primaryColor,
-        title: Padding(
-          padding: const EdgeInsets.only(right: 60),
-          child: Center(child: SvgPicture.asset(Images.logo, height: 40,width: 147)),
+        backgroundColor: AppColor.white,
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: AppColor.primaryColor,
+          title: Padding(
+            padding: const EdgeInsets.only(right: 60),
+            child: Center(child: SvgPicture.asset(Images.logo, height: 40,width: 147)),
+          ),
+          leading: InkWell(
+              onTap: (){
+                Get.back();
+              },
+              child: Icon(Icons.arrow_back_ios,size: 20,color: AppColor.white,)),
         ),
-        leading: InkWell(
-            onTap: (){
-              Get.back();
-            },
-            child: Icon(Icons.arrow_back_ios,size: 20,color: AppColor.white,)),
-      ),
-      body: SafeArea(
-        child:globalSessionList().isNotEmpty? ListView(
-          children: [
-            const SizedBox(height: 20,),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: CustomProgressIndicator(
-                  totalSteps: globalSessionList().length, currentStep: index, size: 20, padding: 6, selectedColor: AppColor.primaryColor, unselectedColor: AppColor.secondaryColor, roundedEdges: const Radius.circular(10)),
-            ),
-            // SizedBox(height: 20,),
-            //
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(horizontal: 10),
-            //   child: StepProgressIndicator(
-            //     totalSteps: 5,
-            //     currentStep: index,
-            //     size: 20,
-            //     padding: 6,
-            //     selectedColor: AppColor.primaryColor,
-            //     unselectedColor: AppColor.secondaryColor,
-            //     roundedEdges: Radius.circular(10),
-            //   ),
-            // ),
-            const SizedBox(height: 20,),
-           questionItem(),
-            const SizedBox(height: 20,),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  backButton(),
-                  nextButton(),
 
-                ],
+        body: SafeArea(
+          child: globalSessionList().isNotEmpty
+              ? ListView(
+            children: [
+              const SizedBox(height: 20),
+
+              // Survey Name with Gradient Text
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: GradientText(
+                  text: surveyName,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24,
+                    fontFamily: appFontFamily,
+                  ),
+                  gradient: LinearGradient(
+                    colors: AppColor.gradientColors,
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                  ),
+                ),
               ),
-            )
-          ],
-        ):const SizedBox.shrink(),
-      ),
+
+              const SizedBox(height: 25),
+
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: CustomProgressIndicator(
+                  totalSteps: globalSessionList().length,
+                  currentStep: index,
+                  size: 14,
+                  padding: 6,
+                  selectedColor: AppColor.primaryColor,
+                  unselectedColor: AppColor.secondaryColor,
+                  roundedEdges: const Radius.circular(10),
+                ),
+              ),
+
+              const SizedBox(height: 25),
+
+              questionItem(),
+
+              const SizedBox(height: 20),
+
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    backButton(),
+                    nextButton(),
+                  ],
+                ),
+              ),
+            ],
+          )
+              : const SizedBox.shrink(),
+        )
+
     );
   }
 
@@ -390,7 +416,7 @@ class _SurveyPageState extends State<SurveyPage> {
                 dismissOnTap: true,
                 duration: const Duration(seconds: 1));
           }else{
-          addSurvey();}
+            addSurvey();}
         }else{
           if(globalSessionList()[index].typeOf?.toLowerCase() == "multiline"&& globalSessionList()[index].multiLineController.text.isEmpty){
             EasyLoading.showToast("Please enter feedback",
@@ -422,7 +448,7 @@ class _SurveyPageState extends State<SurveyPage> {
       child: Container(
         height: 41,width: 105,
         decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(Radius.circular(10)),
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
           gradient: LinearGradient(
             colors: AppColor.gradientColors,
             begin: Alignment.topLeft,
@@ -462,8 +488,8 @@ class _SurveyPageState extends State<SurveyPage> {
         child: Container(
           width: 103, height: 39,
           decoration: BoxDecoration(
-              color: AppColor.white,
-              borderRadius: const BorderRadius.all(Radius.circular(10)),
+            color: AppColor.white,
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
           ),
           child: Center(
             child: Text("Back",style: TextStyle(
@@ -476,35 +502,66 @@ class _SurveyPageState extends State<SurveyPage> {
   }
 
   Widget questionItem(){
-    return  Column(
+    return Column(
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Text(globalSessionList()[index].question??"",
-            style: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w500,fontSize: 20,color: AppColor.primaryColor),
-          ),
-        ),
-        const SizedBox(height: 20,),
-        globalSessionList()[index].typeOf?.toLowerCase() == "multiline"?
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: TextFormField(
-                controller: globalSessionList()[index].multiLineController,
-                maxLines: 5,
-                cursorColor: AppColor.primaryColor,
-                decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppColor.lightGrey),borderRadius: BorderRadius.circular(10)),
-                  focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: AppColor.lightGrey),borderRadius: BorderRadius.circular(10))
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start, // Ensure text starts from top
+            children: [
+              Text(
+                "${index + 1}. ",  // This will show question number starting from 1
+                style: TextStyle(
+                  fontFamily: appFontFamily,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 20,
+                  color: AppColor.primaryColor,
                 ),
               ),
-            )
-            :globalSessionList()[index].typeOf?.toLowerCase()=="multiplechoice"?ListView(
+              Expanded(
+                child: Text(
+                  globalSessionList()[index].question ?? "",
+                  style: const TextStyle(
+                    fontFamily: appFontFamily,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 19,
+                    color: Color(0xFF1B1464), // Set question text color here
+                  ),
+                  maxLines: null,
+                  overflow: TextOverflow.visible,
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 20),
+        // Based on question type, show appropriate widgets (multiline, multiplechoice, etc.)
+        globalSessionList()[index].typeOf?.toLowerCase() == "multiline" ?
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: TextFormField(
+            controller: globalSessionList()[index].multiLineController,
+            maxLines: 5,
+            cursorColor: AppColor.primaryColor,
+            decoration: InputDecoration(
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: AppColor.lightGrey),
+                borderRadius: BorderRadius.circular(0),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: AppColor.lightGrey),
+                borderRadius: BorderRadius.circular(0),
+              ),
+            ),
+          ),
+        )
+            : globalSessionList()[index].typeOf?.toLowerCase() == "multiplechoice" ?
+        ListView(
           shrinkWrap: true,
           padding: const EdgeInsets.symmetric(horizontal: 16),
           children: [
             if (globalSessionList()[index].typeOf?.toLowerCase() == "multiplechoice")
               ...List.generate(globalSessionList()[index].options!.length, (optionIndex) {
-                // Ensure `selectedCheckboxOptions` is initialized as a boolean list
                 if (globalSessionList()[index].selectedCheckboxOptions.length != globalSessionList()[index].options!.length) {
                   globalSessionList()[index].selectedCheckboxOptions = List<bool>.filled(
                       globalSessionList()[index].options!.length, false);
@@ -523,28 +580,38 @@ class _SurveyPageState extends State<SurveyPage> {
               })
           ],
         )
-            :globalSessionList()[index].typeOf?.toLowerCase()== "singlechoice"?ListView.builder(
-          itemCount: globalSessionList()[index].options?.length,
-          shrinkWrap: true,
+            : globalSessionList()[index].typeOf?.toLowerCase() == "singlechoice" ?
+        ListView.builder(
+            itemCount: globalSessionList()[index].options?.length,
+            shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context,radioIndex){
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: RadioListTile<String>(
-              contentPadding:EdgeInsets.zero,
-              title: Text(globalSessionList()[index].options?[radioIndex]??"",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w400,fontFamily: appFontFamily,color: AppColor.primaryColor),),
-              value: globalSessionList()[index].options![radioIndex],
-              activeColor: AppColor.primaryColor,
-              groupValue: globalSessionList()[index].selectedRadioOption,
-              onChanged: (String? value) {
-                print(value!);
-                setState(() {
-                  globalSessionList()[index].selectedRadioOption = value;
-                });
-                },
-            ),
-          );
-        }):globalSessionList()[index].typeOf?.toLowerCase()== "stars"?Row(
+            itemBuilder: (context, radioIndex) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: RadioListTile<String>(
+                  contentPadding: EdgeInsets.zero,
+                  title: Text(
+                    globalSessionList()[index].options?[radioIndex] ?? "",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400,
+                      fontFamily: appFontFamily,
+                      color: AppColor.primaryColor,
+                    ),
+                  ),
+                  value: globalSessionList()[index].options![radioIndex],
+                  activeColor: AppColor.primaryColor,
+                  groupValue: globalSessionList()[index].selectedRadioOption,
+                  onChanged: (String? value) {
+                    setState(() {
+                      globalSessionList()[index].selectedRadioOption = value;
+                    });
+                  },
+                ),
+              );
+            })
+            : globalSessionList()[index].typeOf?.toLowerCase() == "stars" ?
+        Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: List.generate(5, (starIndex) {
               return IconButton(
@@ -555,14 +622,16 @@ class _SurveyPageState extends State<SurveyPage> {
                 iconSize: 40.0,
                 onPressed: () {
                   setState(() {
-                    // Update the rating based on tapped star
                     globalSessionList()[index].selectedStarOption = starIndex + 1;
                   });
                 },
               );
-            })):const SizedBox.shrink(),
+            })
+        )
+            : const SizedBox.shrink(),
       ],
     );
   }
-}
 
+
+}

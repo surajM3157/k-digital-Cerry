@@ -113,6 +113,7 @@ class _OtpPageState extends State<OtpPage> {
                          inactiveFillColor: AppColor.white,
                          selectedFillColor: AppColor.white
                      ),
+
                      // focusNode: unitCodeCtrlFocusNode
                      autoFocus: true,
                      enablePinAutofill: true,
@@ -152,7 +153,7 @@ class _OtpPageState extends State<OtpPage> {
                    },
                    child: Padding(
                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                     child: Text("Resend Code",style: AppThemes.subtitleTextStyle(),),
+                     // child: Text("Resend Code",style: AppThemes.subtitleTextStyle(),),
                    ),
                  ),
                  const SizedBox(height: 20,),

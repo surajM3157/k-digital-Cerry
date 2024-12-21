@@ -38,6 +38,7 @@ class _SessionDetailsPageState extends State<SessionDetailsPage> {
   void initState() {
     _sessionListData = Get.arguments['data'];
     fetchSessionSurvey();
+    print ( " call this ");
     super.initState();
   }
 
@@ -57,9 +58,12 @@ class _SessionDetailsPageState extends State<SessionDetailsPage> {
 
       var response = await ApiRepo().getSessionSurveysResponse();
 
+      print("ssession survey detAILS ${response.data}");
+
       if( response.data != null)
       {
         for(SessionSurveysData session in response.data!){
+          print('single session => ${session}');
           if(_sessionListData?.sId == session.sessionId){
             sessionSurveysData = session;
             if(sessionSurveysData != null){

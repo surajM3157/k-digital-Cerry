@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:piwotapp/constants/colors.dart';
 import 'package:get/get.dart';
@@ -111,58 +112,60 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
                     const SizedBox(height: 10),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: TextFormField(
-                        controller: _phoneNumberController,
-                        cursorColor: AppColor.primaryColor,
-                        maxLength: 10,
-                        keyboardType: TextInputType.phone,
-                        decoration: InputDecoration(
-                          counterText: '',
-                          hintText: "+91 987065****",
-                          prefixIcon: Icon(
-                            Icons.call,
-                            color: AppColor.FFA2A2A2,
-                          ),
-                          labelStyle: const TextStyle(
-                            color: Colors.black,
-                            fontFamily: appFontFamily,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 14,
-                          ),
-                          hintStyle: TextStyle(
-                            color: AppColor.FFA2A2A2,
-                            fontFamily: appFontFamily,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 14,
-                          ),
-                          contentPadding:
-                          const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: AppColor.primaryColor),
-                          ),
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: AppColor.primaryColor),
-                          ),
-                          errorBorder: const UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.red, width: 2.0),
-                          ),
-                          focusedErrorBorder: const UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.red, width: 2.0),
-                          ),
+
+
+                    child: TextFormField(
+                    controller: _phoneNumberController,
+                      cursorColor: AppColor.primaryColor,
+                      maxLength: 10,
+                      keyboardType: TextInputType.phone,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,  // Only allows digits
+                      ],
+                      decoration: InputDecoration(
+                        counterText: '',
+                        hintText: "9876543210",
+                        prefixIcon: Icon(
+                          Icons.call,
+                          color: AppColor.FFA2A2A2,
                         ),
-                        validator: (value) {
-                          if (value.toString() == "" )
-                          {
-                            return 'Enter a valid phone number.';
-                          }
-                          else if (value.toString().length < 10)
-                          {
-                            return "The phone number must be 10 digit.";
-                          }
-                          return null;
-                        },
+                        labelStyle: const TextStyle(
+                          color: Colors.black,
+                          fontFamily: appFontFamily,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14,
+                        ),
+                        hintStyle: TextStyle(
+                          color: AppColor.FFA2A2A2,
+                          fontFamily: appFontFamily,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14,
+                        ),
+                        contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: AppColor.primaryColor),
+                        ),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: AppColor.primaryColor),
+                        ),
+                        errorBorder: const UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.red, width: 2.0),
+                        ),
+                        focusedErrorBorder: const UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.red, width: 2.0),
+                        ),
                       ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Enter a valid phone number.';
+                        } else if (value.length != 10) {
+                          return "The phone number must be 10 digits.";
+                        }
+                        return null;
+                      },
                     ),
+
+              ),
                     const SizedBox(height: 30),
                     // AppButton(
                     //   title: "Next",

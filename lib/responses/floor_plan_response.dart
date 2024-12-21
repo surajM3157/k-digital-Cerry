@@ -38,7 +38,7 @@ class FloorPlanResponse {
 class FloorPlanData {
   String? sId;
   String? floorName;
-  String? floorPlanImage;
+  List<String>? floorPlanImage; // List of images
   bool? status;
   String? insertedBy;
   String? updatedBy;
@@ -47,22 +47,25 @@ class FloorPlanData {
   String? updatedAt;
   int? iV;
 
-  FloorPlanData(
-      {this.sId,
-        this.floorName,
-        this.floorPlanImage,
-        this.status,
-        this.insertedBy,
-        this.updatedBy,
-        this.deletedAt,
-        this.createdAt,
-        this.updatedAt,
-        this.iV});
+  FloorPlanData({
+    this.sId,
+    this.floorName,
+    this.floorPlanImage,
+    this.status,
+    this.insertedBy,
+    this.updatedBy,
+    this.deletedAt,
+    this.createdAt,
+    this.updatedAt,
+    this.iV,
+  });
 
   FloorPlanData.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     floorName = json['floor_name'];
-    floorPlanImage = json['floor_plan_image'];
+    if (json['floor_plan_image'] != null) {
+      floorPlanImage = List<String>.from(json['floor_plan_image']);
+    }
     status = json['status'];
     insertedBy = json['inserted_by'];
     updatedBy = json['updated_by'];
@@ -73,7 +76,7 @@ class FloorPlanData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = {};
     data['_id'] = this.sId;
     data['floor_name'] = this.floorName;
     data['floor_plan_image'] = this.floorPlanImage;
@@ -87,5 +90,3 @@ class FloorPlanData {
     return data;
   }
 }
-
-
