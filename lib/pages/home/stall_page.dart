@@ -13,7 +13,7 @@ class StallPage extends StatefulWidget {
 
 class _StallPageState extends State<StallPage> {
   List<Data> stallList = [];
-  List<Data> filteredStalls = [];  // This will hold the filtered list
+  List<Data> filteredStalls = []; // This will hold the filtered list
   TextEditingController _controller = TextEditingController();
   bool isLoading = false;
 
@@ -22,8 +22,6 @@ class _StallPageState extends State<StallPage> {
     super.initState();
     fetchStallList();
   }
-
-
 
   fetchStallList() async {
     var connectivityResult = await (Connectivity().checkConnectivity());
@@ -35,17 +33,21 @@ class _StallPageState extends State<StallPage> {
       setState(() {
         isLoading = true;
       });
+
+      await Future.delayed(Duration.zero);
       // await Future.delayed(const Duration(seconds:1)); // Simulating delay
       var response = await ApiRepo().getStallListResponse();
 
       setState(() {
         isLoading = false;
-        stallList = response.data ?? [];  // Ensure this is populated
-        filteredStalls = List.from(stallList);  // Initially, the filtered list is the same as the full list
+        stallList = response.data ?? []; // Ensure this is populated
+        filteredStalls = List.from(
+            stallList); // Initially, the filtered list is the same as the full list
       });
 
       // Debugging output to check if the data is correct
-      print("Stall List: ${stallList.map((e) => e.stallNo).toList()}");  // Check stallNo values
+      print(
+          "Stall List: ${stallList.map((e) => e.stallNo).toList()}"); // Check stallNo values
     }
   }
 
@@ -53,7 +55,8 @@ class _StallPageState extends State<StallPage> {
   void _filterStalls(String query) {
     if (query.isEmpty) {
       setState(() {
-        filteredStalls = List.from(stallList);  // Reset to full list if query is empty
+        filteredStalls =
+            List.from(stallList); // Reset to full list if query is empty
       });
     } else {
       setState(() {
@@ -80,27 +83,32 @@ class _StallPageState extends State<StallPage> {
                 style: TextStyle(fontSize: 14),
                 decoration: InputDecoration(
                   hintText: 'Search Stall Number',
-                  prefixIcon: Icon(Icons.search, color: Colors.grey,),
-
-                  contentPadding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
+                  prefixIcon: Icon(
+                    Icons.search,
+                    color: Colors.grey,
+                  ),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30), // Rounded corners
                     borderSide: BorderSide(
                       color: Colors.grey, // Color of the border
-                      width: 1,           // Border width
+                      width: 1, // Border width
                     ),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(15), // Rounded corners
                     borderSide: BorderSide(
-                      color: Colors.grey, // Border color when the TextField is enabled
+                      color: Colors
+                          .grey, // Border color when the TextField is enabled
                       width: 1,
                     ),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(15), // Rounded corners
                     borderSide: BorderSide(
-                      color: Colors.grey, // Border color when the TextField is focused
+                      color: Colors
+                          .grey, // Border color when the TextField is focused
                       width: 1,
                     ),
                   ),
@@ -108,126 +116,146 @@ class _StallPageState extends State<StallPage> {
                 cursorColor: Colors.grey,
                 cursorWidth: 2.0,
                 onChanged: (value) {
-                  _filterStalls(value);  // Filter the stalls as the user types
+                  _filterStalls(value); // Filter the stalls as the user types
                 },
               ),
             ),
-
-
-
-          isLoading
-                ?
-               CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(AppColor.primaryColor), // Change the color here
-              )
+            isLoading
+                ? CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                        AppColor.primaryColor), // Change the color here
+                  )
                 : filteredStalls.isEmpty
-                ? Center(child: Text('No stalls available'))
-                : Expanded(
-              child: Column(
-                children: [
-                  // Top row for Stall No and Stall Name headers
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 0.0),
-                    child: Container(
-                      padding: EdgeInsets.all(13.0),  // Padding inside the container for spacing
-                      decoration: const BoxDecoration(
-                        color: Color(0xFF1B1464),  // Background color for the header
-                      ),
-                      child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          // Stall No text
-                          Text(
-                            'Stall No',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                              color: Colors.white,  // Text color matching the border
-                            ),
-                          ),
-                          SizedBox(width: 38),  // Space between Stall No and Stall Name
-                          // Stall Name text
-                          Align(
-                            alignment: Alignment.centerLeft, // Aligns the text to the left
-                            child: Text(
-                              'Stall Name',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16,
-                                color: Colors.white,  // Text color matching the border
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 12,),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: filteredStalls.length,
-                      itemBuilder: (context, index) {
-                        final stall = filteredStalls[index];
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 2.0),  // Reduced vertical padding between stalls
-                          child: Column(
-                            children: [
-
-                              Padding(
-                                padding: const EdgeInsets.only(left: 32.0), // Left margin for the entire table
-                                child: Table(
-                                  border: TableBorder.symmetric(
-                                    // inside: BorderSide(color: Colors.black, width: 0.5), // Slightly thinner divider lines
-                                  ),
-                                  columnWidths: const {
-                                    0: FixedColumnWidth(63),  // Set a fixed width for Stall No
-                                    1: FlexColumnWidth(),  // The second column (Stall Name) will take up remaining space
-                                  },
+                    ? Center(child: Text('No stalls available'))
+                    : Expanded(
+                        child: Column(
+                          children: [
+                            // Top row for Stall No and Stall Name headers
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 0.0),
+                              child: Container(
+                                padding: EdgeInsets.all(
+                                    13.0), // Padding inside the container for spacing
+                                decoration: const BoxDecoration(
+                                  color: Color(
+                                      0xFF1B1464), // Background color for the header
+                                ),
+                                child: const Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    // Data Row for each stall
-                                    TableRow(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 6.0),  // Reduced padding
-                                          child: Text(
-                                            stall.stallNo ?? 'N/A', // Display 'N/A' if null
-                                            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
-                                          ),
+                                    // Stall No text
+                                    Text(
+                                      'Stall No',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16,
+                                        color: Colors
+                                            .white, // Text color matching the border
+                                      ),
+                                    ),
+                                    SizedBox(
+                                        width:
+                                            38), // Space between Stall No and Stall Name
+                                    // Stall Name text
+                                    Align(
+                                      alignment: Alignment
+                                          .centerLeft, // Aligns the text to the left
+                                      child: Text(
+                                        'Stall Name',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 16,
+                                          color: Colors
+                                              .white, // Text color matching the border
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),  // Reduced padding
-                                          child: Text(
-                                            stall.stallName ?? 'N/A',
-                                            style: const TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w400,
-                                              fontFamily: 'w6oo',
-                                            ),
-
-                                            // Handle long names
-                                          ),
-                                        ),
-                                      ],
+                                      ),
                                     ),
                                   ],
                                 ),
                               ),
-                              Divider(
-                                thickness: 0.5,
-                                color: Colors.black,
+                            ),
+                            SizedBox(
+                              height: 12,
+                            ),
+                            Expanded(
+                              child: ListView.builder(
+                                itemCount: filteredStalls.length,
+                                itemBuilder: (context, index) {
+                                  final stall = filteredStalls[index];
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical:
+                                            2.0), // Reduced vertical padding between stalls
+                                    child: Column(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left:
+                                                  32.0), // Left margin for the entire table
+                                          child: Table(
+                                            border: TableBorder.symmetric(
+                                                // inside: BorderSide(color: Colors.black, width: 0.5), // Slightly thinner divider lines
+                                                ),
+                                            columnWidths: const {
+                                              0: FixedColumnWidth(
+                                                  63), // Set a fixed width for Stall No
+                                              1: FlexColumnWidth(), // The second column (Stall Name) will take up remaining space
+                                            },
+                                            children: [
+                                              // Data Row for each stall
+                                              TableRow(
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        vertical: 4.0,
+                                                        horizontal:
+                                                            6.0), // Reduced padding
+                                                    child: Text(
+                                                      stall.stallNo ??
+                                                          'N/A', // Display 'N/A' if null
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w400),
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        vertical: 4.0,
+                                                        horizontal:
+                                                            8.0), // Reduced padding
+                                                    child: Text(
+                                                      stall.stallName ?? 'N/A',
+                                                      style: const TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        fontFamily: 'w6oo',
+                                                      ),
+
+                                                      // Handle long names
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Divider(
+                                          thickness: 0.5,
+                                          color: Colors.black,
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
                               ),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                  ),
+                            ),
 
-
-
-
-                  // ListView for displaying stalls
-                 /* Expanded(
+                            // ListView for displaying stalls
+                            /* Expanded(
                     child: ListView.builder(
                       itemCount: filteredStalls.length,
                       itemBuilder: (context, index) {
@@ -272,14 +300,12 @@ class _StallPageState extends State<StallPage> {
                       },
                     ),
                   ),*/
-
-                ],
-              ),
-            ),
+                          ],
+                        ),
+                      ),
           ],
         ),
       ),
     );
   }
 }
-
