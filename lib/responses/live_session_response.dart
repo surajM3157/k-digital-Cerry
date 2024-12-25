@@ -1,8 +1,7 @@
-
 import 'dart:convert';
 
-LiveSessionResponse liveSessionResponseFromJson(String str) => LiveSessionResponse.fromJson(json.decode(str));
-
+LiveSessionResponse liveSessionResponseFromJson(String str) =>
+    LiveSessionResponse.fromJson(json.decode(str));
 
 class LiveSessionResponse {
   int? statusCode;
@@ -52,17 +51,17 @@ class LiveSessionData {
 
   LiveSessionData(
       {this.sId,
-        this.link,
-        this.description,
-        this.title,
-        this.eventDate,
-        this.status,
-        this.insertedBy,
-        this.updatedBy,
-        this.deletedAt,
-        this.createdAt,
-        this.updatedAt,
-        this.iV});
+      this.link,
+      this.description,
+      this.title,
+      this.eventDate,
+      this.status,
+      this.insertedBy,
+      this.updatedBy,
+      this.deletedAt,
+      this.createdAt,
+      this.updatedAt,
+      this.iV});
 
   LiveSessionData.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];

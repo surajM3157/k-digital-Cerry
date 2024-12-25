@@ -21,20 +21,15 @@ import '../../widgets/app_themes.dart';
 import 'home.dart';
 
 class HomePage extends StatefulWidget {
-
   int bottomNavIndex;
-   HomePage({super.key,required this.bottomNavIndex});
+  HomePage({super.key, required this.bottomNavIndex});
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
-
-class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
-
-  GlobalKey<CurvedNavigationBarState> bottomNavigationKey =
-
-  GlobalKey();
+class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
+  GlobalKey<CurvedNavigationBarState> bottomNavigationKey = GlobalKey();
   int page = 0;
   int bottomNavbarIndex = 0;
   TextEditingController searchController = TextEditingController();
@@ -43,48 +38,54 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   double _calculateAppBarHeight() {
-    double baseHeight = 40.0;  // Height of the logo or any other static element
-    double tabBarHeight = 76.0;  // Height of the TabBar
-    double additionalPadding = 20.0;  // Any additional padding
+    double baseHeight = 40.0; // Height of the logo or any other static element
+    double tabBarHeight = 76.0; // Height of the TabBar
+    double additionalPadding = 20.0; // Any additional padding
     return baseHeight + tabBarHeight + additionalPadding;
   }
+
   NotificationService? _fcmService;
   ListLinkData? _listLinkData;
-  fetchListLink() async
-  {
+  fetchListLink() async {
+    await Future.delayed(Duration.zero);
     // Future.delayed(Duration.zero, () {
     //   showLoader(context);
     // });
 
-      var response = await ApiRepo().getListLinksResponse(true);
+    var response = await ApiRepo().getListLinksResponse(true);
 
-      if (response.data != null) {
-        _listLinkData = response.data?[0];
-      }
+    if (response.data != null) {
+      _listLinkData = response.data?[0];
+    }
 
-      setState(() {
-
-      });
-
-
+    setState(() {});
   }
 
   @override
   void initState() {
     _fcmService = NotificationService();
-    FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage? message) {
+    FirebaseMessaging.instance
+        .getInitialMessage()
+        .then((RemoteMessage? message) {
       if (message != null) {
-        FirebaseFirestore.instance.collection("notifications").doc(Prefs.checkUserId).collection('notification').doc(message.messageId).set(
-            {
+        FirebaseFirestore.instance
+            .collection("notifications")
+            .doc(Prefs.checkUserId)
+            .collection('notification')
+            .doc(message.messageId)
+            .set(
+                {
               // "data": message.data,
-              "title":message.notification?.title,
-              "body":message.notification?.body,
-            }, SetOptions(merge: true)
-        ); // Store notification when app opens via a tap
+              "title": message.notification?.title,
+              "body": message.notification?.body,
+            },
+                SetOptions(
+                    merge:
+                        true)); // Store notification when app opens via a tap
       }
     });
-    _controller =  TabController(length: 3, vsync: this);
-    _aboutController =  TabController(length: 2, vsync: this);
+    _controller = TabController(length: 3, vsync: this);
+    _aboutController = TabController(length: 2, vsync: this);
     bottomNavbarIndex = widget.bottomNavIndex;
     fetchListLink();
     super.initState();
@@ -98,8 +99,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     return WillPopScope(
-      onWillPop: () async{
-        if(bottomNavbarIndex != 0) {
+      onWillPop: () async {
+        if (bottomNavbarIndex != 0) {
           Get.offAllNamed(Routes.home);
         }
         return true;
@@ -111,76 +112,107 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
         appBar: AppBar(
           elevation: 0,
           // toolbarHeight: bottomNavbarIndex == 3?screenHeight*0.152:null,
-            flexibleSpace: FlexibleSpaceBar(
-              titlePadding: EdgeInsets.zero, // Removes the padding
-              title: Padding(
-                padding: const EdgeInsets.only(left: 10,bottom: 10),
-                child: Align(
+          flexibleSpace: FlexibleSpaceBar(
+            titlePadding: EdgeInsets.zero, // Removes the padding
+            title: Padding(
+              padding: const EdgeInsets.only(left: 10, bottom: 10),
+              child: Align(
                   alignment: Alignment.bottomCenter,
-                    child: GestureDetector(
-                        onTap: (){
-                          Get.offAllNamed(Routes.home);
-                        },
-                        child: SvgPicture.asset(Images.logo,height: 40,width: 147,))),
-              ),
+                  child: GestureDetector(
+                      onTap: () {
+                        Get.offAllNamed(Routes.home);
+                      },
+                      child: SvgPicture.asset(
+                        Images.logo,
+                        height: 40,
+                        width: 147,
+                      ))),
             ),
+          ),
           automaticallyImplyLeading:
-         // bottomNavbarIndex == 1||bottomNavbarIndex == 4?false:
-          true,
+              // bottomNavbarIndex == 1||bottomNavbarIndex == 4?false:
+              true,
           actions:
-          //bottomNavbarIndex == 1||bottomNavbarIndex == 4?null:
-          [
+              //bottomNavbarIndex == 1||bottomNavbarIndex == 4?null:
+              [
             InkWell(
-                onTap: (){
+                onTap: () {
                   Get.toNamed(Routes.profile);
                 },
-                child: SvgPicture.asset(Images.profileIcon,color: AppColor.white,)),
+                child: SvgPicture.asset(
+                  Images.profileIcon,
+                  color: AppColor.white,
+                )),
             InkWell(
-              onTap: (){
-                Get.toNamed(Routes.notification);
-              },
-                child: SvgPicture.asset(Images.notificationIcon,color: AppColor.white,)),
+                onTap: () {
+                  Get.toNamed(Routes.notification);
+                },
+                child: SvgPicture.asset(
+                  Images.notificationIcon,
+                  color: AppColor.white,
+                )),
           ],
           backgroundColor:
-          //bottomNavbarIndex == 1||bottomNavbarIndex == 4?AppColor.white:
-          AppColor.primaryColor,
-      ),
-        body: bottomNavbarIndex == 0?const Home():
-        bottomNavbarIndex == 1?Delegates(tabController: _controller!,):
-        bottomNavbarIndex == 2?const Session():
-        bottomNavbarIndex == 3?const Agenda():
-        bottomNavbarIndex == 4?About(tabController: _aboutController!):
-        bottomNavbarIndex == 5?const StallPage():
-        const SizedBox(),
+              //bottomNavbarIndex == 1||bottomNavbarIndex == 4?AppColor.white:
+              AppColor.primaryColor,
+        ),
+        body: bottomNavbarIndex == 0
+            ? const Home()
+            : bottomNavbarIndex == 1
+                ? Delegates(
+                    tabController: _controller!,
+                  )
+                : bottomNavbarIndex == 2
+                    ? const Session()
+                    : bottomNavbarIndex == 3
+                        ? const Agenda()
+                        : bottomNavbarIndex == 4
+                            ? About(tabController: _aboutController!)
+                            : bottomNavbarIndex == 5
+                                ? const StallPage()
+                                : const SizedBox(),
 
-
-        bottomNavigationBar:bottomNavbar(),
+        bottomNavigationBar: bottomNavbar(),
       ),
     );
   }
 
-
-  Widget drawerWidget(){
+  Widget drawerWidget() {
     return SafeArea(
       child: Drawer(
         backgroundColor: AppColor.FFF4F4F4,
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            const SizedBox(height: 30,),
+            const SizedBox(
+              height: 30,
+            ),
             Row(
               children: [
-                const SizedBox(width: 30,),
+                const SizedBox(
+                  width: 30,
+                ),
                 InkWell(
-                  onTap: (){
-                    Get.back();
-                  },
-                    child: Icon(Icons.arrow_back_ios,color: AppColor.primaryColor,)),
-                const SizedBox(width: 20,),
-                SvgPicture.asset(Images.logoDark,height: 40,width: 147,)
+                    onTap: () {
+                      Get.back();
+                    },
+                    child: Icon(
+                      Icons.arrow_back_ios,
+                      color: AppColor.primaryColor,
+                    )),
+                const SizedBox(
+                  width: 20,
+                ),
+                SvgPicture.asset(
+                  Images.logoDark,
+                  height: 40,
+                  width: 147,
+                )
               ],
             ),
-            const SizedBox(height: 30,),
+            const SizedBox(
+              height: 30,
+            ),
             // InkWell(
             //   onTap: (){
             //     Get.toNamed(Routes.agenda);
@@ -204,7 +236,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
             // ),
             // const SizedBox(height: 20,),
             InkWell(
-              onTap: (){
+              onTap: () {
                 Get.toNamed(Routes.speaker);
               },
               child: Padding(
@@ -214,19 +246,34 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                   children: [
                     Row(
                       children: [
-                        SvgPicture.asset(Images.speakerIcon,height: 21,width: 21,),
-                        const SizedBox(width: 15,),
-                        Text("Speaker",style: AppThemes.subtitle1TextStyle(),)
+                        SvgPicture.asset(
+                          Images.speakerIcon,
+                          height: 21,
+                          width: 21,
+                        ),
+                        const SizedBox(
+                          width: 15,
+                        ),
+                        Text(
+                          "Speaker",
+                          style: AppThemes.subtitle1TextStyle(),
+                        )
                       ],
                     ),
-                    Icon(Icons.arrow_forward_ios,color: AppColor.black,size: 16,)
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      color: AppColor.black,
+                      size: 16,
+                    )
                   ],
                 ),
               ),
             ),
-            const SizedBox(height: 20,),
+            const SizedBox(
+              height: 20,
+            ),
             InkWell(
-              onTap: (){
+              onTap: () {
                 Get.toNamed(Routes.sponsor);
               },
               child: Padding(
@@ -236,19 +283,34 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                   children: [
                     Row(
                       children: [
-                        SvgPicture.asset(Images.sponsorIcon,height: 21,width: 21,),
-                        const SizedBox(width: 15,),
-                        Text("Sponsor",style: AppThemes.subtitle1TextStyle(),)
+                        SvgPicture.asset(
+                          Images.sponsorIcon,
+                          height: 21,
+                          width: 21,
+                        ),
+                        const SizedBox(
+                          width: 15,
+                        ),
+                        Text(
+                          "Sponsor",
+                          style: AppThemes.subtitle1TextStyle(),
+                        )
                       ],
                     ),
-                    Icon(Icons.arrow_forward_ios,color: AppColor.black,size: 16,)
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      color: AppColor.black,
+                      size: 16,
+                    )
                   ],
                 ),
               ),
             ),
-            const SizedBox(height: 20,),
+            const SizedBox(
+              height: 20,
+            ),
             InkWell(
-              onTap: (){
+              onTap: () {
                 Get.toNamed(Routes.liveEvents);
               },
               child: Padding(
@@ -258,22 +320,37 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                   children: [
                     Row(
                       children: [
-                        SvgPicture.asset(Images.liveEventIcon,height: 21,width: 21,),
-                        const SizedBox(width: 15,),
-                        Text("Live Event",style: AppThemes.subtitle1TextStyle(),)
+                        SvgPicture.asset(
+                          Images.liveEventIcon,
+                          height: 21,
+                          width: 21,
+                        ),
+                        const SizedBox(
+                          width: 15,
+                        ),
+                        Text(
+                          "Live Event",
+                          style: AppThemes.subtitle1TextStyle(),
+                        )
                       ],
                     ),
-                    Icon(Icons.arrow_forward_ios,color: AppColor.black,size: 16,)
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      color: AppColor.black,
+                      size: 16,
+                    )
                   ],
                 ),
               ),
             ),
-            const SizedBox(height: 20,),
+            const SizedBox(
+              height: 20,
+            ),
             InkWell(
-              onTap: (){
+              onTap: () {
                 //launchUrl(Uri.parse(_listLinkData?.privacyPolicyLink??""));
 
-               Get.toNamed(Routes.privacyPolicy);
+                Get.toNamed(Routes.privacyPolicy);
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -282,20 +359,35 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                   children: [
                     Row(
                       children: [
-                        SvgPicture.asset(Images.privacyPolicyIcon,height: 21,width: 21,),
-                        const SizedBox(width: 15,),
-                        Text("Privacy Policy",style: AppThemes.subtitle1TextStyle(),)
+                        SvgPicture.asset(
+                          Images.privacyPolicyIcon,
+                          height: 21,
+                          width: 21,
+                        ),
+                        const SizedBox(
+                          width: 15,
+                        ),
+                        Text(
+                          "Privacy Policy",
+                          style: AppThemes.subtitle1TextStyle(),
+                        )
                       ],
                     ),
-                    Icon(Icons.arrow_forward_ios,color: AppColor.black,size: 16,)
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      color: AppColor.black,
+                      size: 16,
+                    )
                   ],
                 ),
               ),
             ),
 
-            const SizedBox(height: 20,),
+            const SizedBox(
+              height: 20,
+            ),
             InkWell(
-              onTap: (){
+              onTap: () {
                 //launchUrl(Uri.parse(_listLinkData?.termsAndConditionsLink??""));
                 Get.toNamed(Routes.termsCondition);
               },
@@ -306,19 +398,34 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                   children: [
                     Row(
                       children: [
-                        SvgPicture.asset(Images.termsConditionIcon,height: 21,width: 21,),
-                        const SizedBox(width: 15,),
-                        Text("Terms & Condition",style: AppThemes.subtitle1TextStyle(),)
+                        SvgPicture.asset(
+                          Images.termsConditionIcon,
+                          height: 21,
+                          width: 21,
+                        ),
+                        const SizedBox(
+                          width: 15,
+                        ),
+                        Text(
+                          "Terms & Condition",
+                          style: AppThemes.subtitle1TextStyle(),
+                        )
                       ],
                     ),
-                    Icon(Icons.arrow_forward_ios,color: AppColor.black,size: 16,)
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      color: AppColor.black,
+                      size: 16,
+                    )
                   ],
                 ),
               ),
             ),
-            const SizedBox(height: 20,),
+            const SizedBox(
+              height: 20,
+            ),
             InkWell(
-              onTap: (){
+              onTap: () {
                 Get.toNamed(Routes.faq);
               },
               child: Padding(
@@ -328,22 +435,37 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                   children: [
                     Row(
                       children: [
-                        SvgPicture.asset(Images.faqIcon,height: 21,width: 21,),
-                        const SizedBox(width: 15,),
-                        Text("FAQ",style: AppThemes.subtitle1TextStyle(),)
+                        SvgPicture.asset(
+                          Images.faqIcon,
+                          height: 21,
+                          width: 21,
+                        ),
+                        const SizedBox(
+                          width: 15,
+                        ),
+                        Text(
+                          "FAQ",
+                          style: AppThemes.subtitle1TextStyle(),
+                        )
                       ],
                     ),
-                    Icon(Icons.arrow_forward_ios,color: AppColor.black,size: 16,)
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      color: AppColor.black,
+                      size: 16,
+                    )
                   ],
                 ),
               ),
             ),
-            const SizedBox(height: 20,),
+            const SizedBox(
+              height: 20,
+            ),
             InkWell(
-              onTap: (){
-                Get.toNamed(Routes.survey,arguments: {
-                  "session_id": "","type":"Global Survey"
-                });              },
+              onTap: () {
+                Get.toNamed(Routes.survey,
+                    arguments: {"session_id": "", "type": "Global Survey"});
+              },
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
@@ -351,19 +473,34 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                   children: [
                     Row(
                       children: [
-                        SvgPicture.asset(Images.surveyIcon,height: 21,width: 21,),
-                        const SizedBox(width: 15,),
-                        Text("Survey",style: AppThemes.subtitle1TextStyle(),)
+                        SvgPicture.asset(
+                          Images.surveyIcon,
+                          height: 21,
+                          width: 21,
+                        ),
+                        const SizedBox(
+                          width: 15,
+                        ),
+                        Text(
+                          "Survey",
+                          style: AppThemes.subtitle1TextStyle(),
+                        )
                       ],
                     ),
-                    Icon(Icons.arrow_forward_ios,color: AppColor.black,size: 16,)
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      color: AppColor.black,
+                      size: 16,
+                    )
                   ],
                 ),
               ),
             ),
-            const SizedBox(height: 20,),
+            const SizedBox(
+              height: 20,
+            ),
             InkWell(
-              onTap: (){
+              onTap: () {
                 Get.toNamed(Routes.contactUs);
               },
               child: Padding(
@@ -373,12 +510,25 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                   children: [
                     Row(
                       children: [
-                        SvgPicture.asset(Images.contactIcon,height: 21,width: 21,),
-                        const SizedBox(width: 15,),
-                        Text("Contact Us",style: AppThemes.subtitle1TextStyle(),)
+                        SvgPicture.asset(
+                          Images.contactIcon,
+                          height: 21,
+                          width: 21,
+                        ),
+                        const SizedBox(
+                          width: 15,
+                        ),
+                        Text(
+                          "Contact Us",
+                          style: AppThemes.subtitle1TextStyle(),
+                        )
                       ],
                     ),
-                    Icon(Icons.arrow_forward_ios,color: AppColor.black,size: 16,)
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      color: AppColor.black,
+                      size: 16,
+                    )
                   ],
                 ),
               ),
@@ -413,14 +563,15 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
   //   );
   // }
 
-
   Widget bottomNavbar() {
     return BottomAppBar(
       color: AppColor.primaryColor,
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10),  // Add some padding for better spacing
+        padding: const EdgeInsets.symmetric(
+            vertical: 10), // Add some padding for better spacing
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween, // Ensures items are spaced evenly
+          mainAxisAlignment:
+              MainAxisAlignment.spaceBetween, // Ensures items are spaced evenly
           children: [
             _buildNavItem(Images.homeSelectedIcon, "Home", 0),
             _buildNavItem(Images.chatIcon, "Chat", 1),
@@ -434,66 +585,62 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
     );
   }
 
-
   Widget _buildNavItem(String icon, String label, int index) {
     return InkWell(
       onTap: () => _onItemTapped(index),
       child: bottomNavbarIndex == index
           ? Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(25),
-            color: AppColor.FFEFEEFF),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SvgPicture.asset(
-              icon,
-              color: AppColor.primaryColor,
-              height: 16, // Adjust icon size
-              width: 16,  // Adjust icon size
-            ),
-            const SizedBox(width: 4),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-                fontFamily: appFontFamily,
-                color: AppColor.primaryColor,
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25),
+                  color: AppColor.FFEFEEFF),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SvgPicture.asset(
+                    icon,
+                    color: AppColor.primaryColor,
+                    height: 16, // Adjust icon size
+                    width: 16, // Adjust icon size
+                  ),
+                  const SizedBox(width: 4),
+                  Text(
+                    label,
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      fontFamily: appFontFamily,
+                      color: AppColor.primaryColor,
+                    ),
+                  ),
+                ],
               ),
-            ),
-          ],
-        ),
-      )
+            )
           : Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const SizedBox(height: 10),
-          SvgPicture.asset(
-            icon,
-            height: 20, // Adjust icon size
-            width: 20,  // Adjust icon size
-          ),
-          const SizedBox(height: 4),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
-              fontFamily: appFontFamily,
-              color: AppColor.white,
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(height: 10),
+                SvgPicture.asset(
+                  icon,
+                  height: 20, // Adjust icon size
+                  width: 20, // Adjust icon size
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  label,
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: appFontFamily,
+                    color: AppColor.white,
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
     );
   }
-
-
-
 
   // Widget _buildNavItem(String icon, String label, int index) {
   //   return InkWell(
@@ -526,7 +673,4 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
   //     ),
   //   );
   // }
-
 }
-
-

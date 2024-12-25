@@ -5,6 +5,7 @@ class Prefs {
   static const String LANGUAGE = "language";
   static bool checkLogin = false;
   static String checkUserId = "-1";
+  static String fmcToken = "";
   static String checkEmail = "";
   static String checkUsername = "";
   static String checkAuthToken = "";
@@ -13,24 +14,27 @@ class Prefs {
   static bool checkNotificationEnabled = true;
   static late SharedPreferences _prefs;
 
-  static void loadData()
-  {
+  // Load SharedPreferences instance
+  static Future<void> load() async {
+    _prefs = await SharedPreferences.getInstance();
+  }
+
+  // Load data from SharedPreferences and assign to static variables
+  static Future<void> loadData() async {
+    await load(); // Ensure SharedPreferences is loaded before accessing
+
     checkLogin = getBool('is_logged_in_new');
-    checkProfile = getBool('is_profile_new',def:true);
+    checkProfile = getBool('is_profile_new', def: true);
     checkUserId = getString('user_id_new');
     checkEmail = getString("user_email_new");
     checkUsername = getString('user_name_new');
     checkAuthToken = getString("user_auth_token");
     checkMobileNo = getString("mobile_no");
-    checkNotificationEnabled = getBool("notificationsEnabled",def: true);
+    fmcToken = getString("fmc_token");
+    checkNotificationEnabled = getBool("notificationsEnabled", def: true);
   }
 
-
-  static Future<SharedPreferences> load() async {
-    return _prefs = await SharedPreferences.getInstance();
-  }
-
-  //sets
+  // Sets
   static Future<bool> setBool(String key, bool value) async =>
       _prefs.setBool(key, value);
 
@@ -46,7 +50,7 @@ class Prefs {
   static Future<bool> setStringList(String key, List<String> value) async =>
       _prefs.setStringList(key, value);
 
-  //gets
+  // Gets
   static bool getBool(String key, {bool def = false}) =>
       _prefs.getBool(key) ?? def;
 
@@ -58,6 +62,7 @@ class Prefs {
   static String getString(String key, {String def = ''}) =>
       _prefs.getString(key) ?? def;
 
+  // Clear all stored preferences
   static void clear() {
     _prefs.clear();
   }
