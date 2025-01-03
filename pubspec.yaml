@@ -73,6 +73,7 @@ dependencies:
   dropdown_search: ^5.0.3
   excel: ^2.0.4
   photo_view: ^0.15.0
+  win32: ^5.0.0
 
 
 dev_dependencies:

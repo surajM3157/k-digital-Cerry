@@ -24,15 +24,12 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-
-
   GuestDetailsData? guestDetails;
-  bool  isConnected = true;
+  bool isConnected = true;
   bool _notificationsEnabled = true;
 
   ListLinkData? _listLinkData;
-  fetchListLink() async
-  {
+  fetchListLink() async {
     // Future.delayed(Duration.zero, () {
     //   showLoader(context);
     // });
@@ -43,23 +40,15 @@ class _ProfilePageState extends State<ProfilePage> {
       _listLinkData = response.data?[0];
     }
 
-    setState(() {
-
-    });
-
-
+    setState(() {});
   }
 
-
-  fetchGuestDetails() async
-  {
+  fetchGuestDetails() async {
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
       isConnected = false;
-      setState(() {
-
-      });
-    }else {
+      setState(() {});
+    } else {
       isConnected = true;
 
       Future.delayed(Duration.zero, () {
@@ -72,9 +61,7 @@ class _ProfilePageState extends State<ProfilePage> {
         guestDetails = response.data;
       }
 
-      setState(() {
-
-      });
+      setState(() {});
     }
   }
 
@@ -118,329 +105,575 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColor.white,
-      body: isConnected?SingleChildScrollView(
-        child: Stack(
-          children: [
-            Column(
-              children: [
-              Container(
-                height: 250,width: Get.width,
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: AppColor.gradientColors,
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                    ),
-                  borderRadius: const BorderRadius.only(bottomRight: Radius.circular(170),bottomLeft: Radius.circular(170))
-                ),
-                child: Column(
-                  children: [
-                    const SizedBox(height: 50,),
-                    Center(child: SvgPicture.asset(Images.logo, height: 40,width: 147)),
-
-                  ],
-                ),
-              ),
-
-                const SizedBox(height: 70,),
-                guestDetails?.firstName !=null?Text(AppThemes.capitalizeFirst(guestDetails?.firstName??"") +" "+AppThemes.capitalizeFirst(guestDetails?.lastName??""),style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16,color: AppColor.primaryColor,fontFamily: appFontFamily),):const SizedBox.shrink(),
-                const SizedBox(height: 2,),
-                Text(guestDetails?.emailId??"",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 16,color: AppColor.black,fontFamily: appFontFamily),),
-                const SizedBox(height: 16,),
-                GestureDetector(
-                  onTap: (){
-                    Get.toNamed(Routes.editProfile);
-                  },
-                  child: Container(
-                    height: 32,width: 110,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: AppColor.primaryColor
-                    ),
-                    child: Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(Images.editIcon,color: AppColor.white,height: 13,width: 13,),
-                          const SizedBox(width: 5,),
-                          Text("Edit Profile",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 13,color: AppColor.white,fontFamily: appFontFamily),),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 16,),
-                InkWell(
-                  onTap: (){
-                    Get.toNamed(Routes.ticket);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 18),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            SvgPicture.asset(Images.ticketIcon),
-                            const SizedBox(width: 20,),
-                            Text("QR Code Badge",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400,color: AppColor.primaryColor,fontFamily: appFontFamily),)
-                          ],
-                        ),
-                        Icon(Icons.arrow_forward_ios,size: 16,color: AppColor.primaryColor,)
-                      ],
-                    ),
-                  ),
-                ),
-                Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
-                InkWell(
-                  onTap: (){
-                    Get.toNamed(Routes.contactUs);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 18),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            SvgPicture.asset(Images.contactIcon),
-                            const SizedBox(width: 20,),
-                            Text("Contact Us",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400,color: AppColor.primaryColor,fontFamily: appFontFamily),)
-                          ],
-                        ),
-                        Icon(Icons.arrow_forward_ios,size: 16,color: AppColor.primaryColor,)
-                      ],
-                    ),
-                  ),
-                ),
-                Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
-                InkWell(
-                  onTap: (){
-                    Get.toNamed(Routes.survey,arguments: {
-                      "session_id": "","type":"Global Survey"
-                    });
-                    },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 18),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            SvgPicture.asset(Images.surveyIcon),
-                            const SizedBox(width: 20,),
-                            Text("Survey",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400,color: AppColor.primaryColor,fontFamily: appFontFamily),)
-                          ],
-                        ),
-                        Icon(Icons.arrow_forward_ios,size: 16,color: AppColor.primaryColor,)
-                      ],
-                    ),
-                  ),
-                ),
-                Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: isConnected
+          ? SingleChildScrollView(
+              child: Stack(
+                children: [
+                  Column(
                     children: [
-                      Row(
-                        children: [
-                          SvgPicture.asset(Images.profileNotificationIcon),
-                          const SizedBox(width: 20,),
-                          Text("Notification",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400,color: AppColor.primaryColor,fontFamily: appFontFamily),)
-                        ],
+                      Container(
+                        height: 250,
+                        width: Get.width,
+                        decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: AppColor.gradientColors,
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                            ),
+                            borderRadius: const BorderRadius.only(
+                                bottomRight: Radius.circular(170),
+                                bottomLeft: Radius.circular(170))),
+                        child: Column(
+                          children: [
+                            const SizedBox(
+                              height: 50,
+                            ),
+                            Center(
+                                child: SvgPicture.asset(Images.logo,
+                                    height: 40, width: 147)),
+                          ],
+                        ),
                       ),
-                      CupertinoSwitch(
-                        value: _notificationsEnabled,
-                        thumbColor: AppColor.primaryColor,
-                        onChanged: _toggleNotifications,
+                      const SizedBox(
+                        height: 70,
                       ),
-                      // Transform.scale(
-                      //   scale: 0.7,
-                      //   child: Container(
-                      //     decoration: BoxDecoration(
-                      //       borderRadius: BorderRadius.circular(20.0),
-                      //       color: isNotificationOn
-                      //           ? AppColor.primaryColor
-                      //           : AppColor.primaryColor,
-                      //     ),
-                      //     child: CupertinoSwitch(
-                      //       value: isNotificationOn,
-                      //       activeColor: AppColor.white,
-                      //       trackColor: AppColor.white,
-                      //       thumbColor: AppColor.primaryColor,
-                      //       onChanged: (v) => setState(() {
-                      //         isNotificationOn = v;
-                      //       }),
-                      //     ),
-                      //   ),
-                      // ),
+                      guestDetails?.firstName != null
+                          ? Text(
+                              AppThemes.capitalizeFirst(
+                                      guestDetails?.firstName ?? "") +
+                                  " " +
+                                  AppThemes.capitalizeFirst(
+                                      guestDetails?.lastName ?? ""),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16,
+                                  color: AppColor.primaryColor,
+                                  fontFamily: appFontFamily),
+                            )
+                          : const SizedBox.shrink(),
+                      const SizedBox(
+                        height: 2,
+                      ),
+                      Text(
+                        guestDetails?.emailId ?? "",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 16,
+                            color: AppColor.black,
+                            fontFamily: appFontFamily),
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Get.toNamed(Routes.editProfile);
+                        },
+                        child: Container(
+                          height: 32,
+                          width: 110,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: AppColor.primaryColor),
+                          child: Center(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SvgPicture.asset(
+                                  Images.editIcon,
+                                  color: AppColor.white,
+                                  height: 13,
+                                  width: 13,
+                                ),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  "Edit Profile",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 13,
+                                      color: AppColor.white,
+                                      fontFamily: appFontFamily),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Get.toNamed(Routes.ticket);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 18),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  SvgPicture.asset(Images.ticketIcon),
+                                  const SizedBox(
+                                    width: 20,
+                                  ),
+                                  Text(
+                                    "QR Code Badge",
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w400,
+                                        color: AppColor.primaryColor,
+                                        fontFamily: appFontFamily),
+                                  )
+                                ],
+                              ),
+                              Icon(
+                                Icons.arrow_forward_ios,
+                                size: 16,
+                                color: AppColor.primaryColor,
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 1,
+                        width: Get.width,
+                        color: AppColor.black.withOpacity(0.12),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Get.toNamed(Routes.contactUs);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 18),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  SvgPicture.asset(Images.contactIcon),
+                                  const SizedBox(
+                                    width: 20,
+                                  ),
+                                  Text(
+                                    "Contact Us",
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w400,
+                                        color: AppColor.primaryColor,
+                                        fontFamily: appFontFamily),
+                                  )
+                                ],
+                              ),
+                              Icon(
+                                Icons.arrow_forward_ios,
+                                size: 16,
+                                color: AppColor.primaryColor,
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 1,
+                        width: Get.width,
+                        color: AppColor.black.withOpacity(0.12),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Get.toNamed(Routes.survey, arguments: {
+                            "session_id": "",
+                            "type": "Global Survey"
+                          });
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 18),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  SvgPicture.asset(Images.surveyIcon),
+                                  const SizedBox(
+                                    width: 20,
+                                  ),
+                                  Text(
+                                    "Survey",
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w400,
+                                        color: AppColor.primaryColor,
+                                        fontFamily: appFontFamily),
+                                  )
+                                ],
+                              ),
+                              Icon(
+                                Icons.arrow_forward_ios,
+                                size: 16,
+                                color: AppColor.primaryColor,
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 1,
+                        width: Get.width,
+                        color: AppColor.black.withOpacity(0.12),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                SvgPicture.asset(
+                                    Images.profileNotificationIcon),
+                                const SizedBox(
+                                  width: 20,
+                                ),
+                                Text(
+                                  "Notification",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                      color: AppColor.primaryColor,
+                                      fontFamily: appFontFamily),
+                                )
+                              ],
+                            ),
+                            CupertinoSwitch(
+                              value: _notificationsEnabled,
+                              thumbColor: AppColor.primaryColor,
+                              onChanged: _toggleNotifications,
+                            ),
+                            // Transform.scale(
+                            //   scale: 0.7,
+                            //   child: Container(
+                            //     decoration: BoxDecoration(
+                            //       borderRadius: BorderRadius.circular(20.0),
+                            //       color: isNotificationOn
+                            //           ? AppColor.primaryColor
+                            //           : AppColor.primaryColor,
+                            //     ),
+                            //     child: CupertinoSwitch(
+                            //       value: isNotificationOn,
+                            //       activeColor: AppColor.white,
+                            //       trackColor: AppColor.white,
+                            //       thumbColor: AppColor.primaryColor,
+                            //       onChanged: (v) => setState(() {
+                            //         isNotificationOn = v;
+                            //       }),
+                            //     ),
+                            //   ),
+                            // ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        height: 1,
+                        width: Get.width,
+                        color: AppColor.black.withOpacity(0.12),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          //launchUrl(Uri.parse(_listLinkData?.privacyPolicyLink??""));
+                          Get.toNamed(Routes.privacyPolicy);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 18),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  SvgPicture.asset(Images.privacyPolicyIcon),
+                                  const SizedBox(
+                                    width: 20,
+                                  ),
+                                  Text(
+                                    "Privacy Policy",
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w400,
+                                        color: AppColor.primaryColor,
+                                        fontFamily: appFontFamily),
+                                  )
+                                ],
+                              ),
+                              Icon(
+                                Icons.arrow_forward_ios,
+                                size: 16,
+                                color: AppColor.primaryColor,
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 1,
+                        width: Get.width,
+                        color: AppColor.black.withOpacity(0.12),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          //launchUrl(Uri.parse(_listLinkData?.termsAndConditionsLink??""));
+                          Get.toNamed(Routes.termsCondition);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 18),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  SvgPicture.asset(Images.termsConditionIcon),
+                                  const SizedBox(
+                                    width: 20,
+                                  ),
+                                  Text(
+                                    "Terms and Conditions",
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w400,
+                                        color: AppColor.primaryColor,
+                                        fontFamily: appFontFamily),
+                                  )
+                                ],
+                              ),
+                              Icon(
+                                Icons.arrow_forward_ios,
+                                size: 16,
+                                color: AppColor.primaryColor,
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 1,
+                        width: Get.width,
+                        color: AppColor.black.withOpacity(0.12),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Get.toNamed(Routes.faq);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 18),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  SvgPicture.asset(Images.faqIcon),
+                                  const SizedBox(
+                                    width: 20,
+                                  ),
+                                  Text(
+                                    "Frequently Asked Questions",
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w400,
+                                        color: AppColor.primaryColor,
+                                        fontFamily: appFontFamily),
+                                  )
+                                ],
+                              ),
+                              Icon(
+                                Icons.arrow_forward_ios,
+                                size: 16,
+                                color: AppColor.primaryColor,
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 1,
+                        width: Get.width,
+                        color: AppColor.black.withOpacity(0.12),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Get.toNamed(Routes.survey, arguments: {
+                            "session_id": "",
+                            "type": "Mobile Feedback"
+                          });
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 18),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  SvgPicture.asset(Images.feedbackIcon),
+                                  const SizedBox(
+                                    width: 20,
+                                  ),
+                                  Text(
+                                    "Feedback",
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w400,
+                                        color: AppColor.primaryColor,
+                                        fontFamily: appFontFamily),
+                                  )
+                                ],
+                              ),
+                              Icon(
+                                Icons.arrow_forward_ios,
+                                size: 16,
+                                color: AppColor.primaryColor,
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 1,
+                        width: Get.width,
+                        color: AppColor.black.withOpacity(0.12),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          logoutAlert();
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 18),
+                          child: Row(
+                            children: [
+                              SvgPicture.asset(
+                                Images.logoutIcon,
+                                color: AppColor.red,
+                              ),
+                              const SizedBox(
+                                width: 20,
+                              ),
+                              Text(
+                                "Logout",
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColor.red,
+                                    fontFamily: appFontFamily),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 1,
+                        width: Get.width,
+                        color: AppColor.black.withOpacity(0.12),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
                     ],
                   ),
-                ),
-                Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
-                InkWell(
-                  onTap: (){
-                    //launchUrl(Uri.parse(_listLinkData?.privacyPolicyLink??""));
-                    Get.toNamed(Routes.privacyPolicy);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 18),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            SvgPicture.asset(Images.privacyPolicyIcon),
-                            const SizedBox(width: 20,),
-                            Text("Privacy Policy",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400,color: AppColor.primaryColor,fontFamily: appFontFamily),)
-                          ],
-                        ),
-                        Icon(Icons.arrow_forward_ios,size: 16,color: AppColor.primaryColor,)
-                      ],
+                  Align(
+                    alignment: Alignment.center,
+                    child: Container(
+                      width: 200,
+                      height: 200,
+                      margin: const EdgeInsets.only(top: 110),
+                      padding: guestDetails?.guestProfileImage != null
+                          ? null
+                          : const EdgeInsets.all(50),
+                      decoration: BoxDecoration(
+                          color: AppColor.white,
+                          border: Border.all(color: AppColor.grey),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(100))),
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.circular(200),
+                          child: guestDetails?.guestProfileImage != null
+                              ? Image.network(
+                                  ApiUrls.imageUrl +
+                                      (guestDetails?.guestProfileImage ?? ""),
+                                  fit: BoxFit.fill,
+                                )
+                              : Image.asset(
+                                  Images.profileDefault,
+                                  height: 64,
+                                  width: 64,
+                                  fit: BoxFit.fill,
+                                )),
                     ),
                   ),
-                ),
-                Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
-                InkWell(
-                  onTap: (){
-                    //launchUrl(Uri.parse(_listLinkData?.termsAndConditionsLink??""));
-                    Get.toNamed(Routes.termsCondition);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 18),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            SvgPicture.asset(Images.termsConditionIcon),
-                            const SizedBox(width: 20,),
-                            Text("Terms and Conditions",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400,color: AppColor.primaryColor,fontFamily: appFontFamily),)
-                          ],
-                        ),
-                        Icon(Icons.arrow_forward_ios,size: 16,color: AppColor.primaryColor,)
-                      ],
+                  GestureDetector(
+                    onTap: () {
+                      Get.back();
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 20, top: 60),
+                      child: Icon(
+                        Icons.arrow_back_ios,
+                        color: AppColor.white,
+                      ),
                     ),
-                  ),
-                ),
-                Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
-                InkWell(
-                  onTap: (){
-                    Get.toNamed(Routes.faq);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 18),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            SvgPicture.asset(Images.faqIcon),
-                            const SizedBox(width: 20,),
-                            Text("Frequently Asked Questions",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400,color: AppColor.primaryColor,fontFamily: appFontFamily),)
-                          ],
-                        ),
-                        Icon(Icons.arrow_forward_ios,size: 16,color: AppColor.primaryColor,)
-                      ],
-                    ),
-                  ),
-                ),
-                Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
-                InkWell(
-                  onTap: (){
-                    Get.toNamed(Routes.survey,arguments: {
-                      "session_id": "","type":"Mobile Feedback"
-                    });
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 18),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            SvgPicture.asset(Images.feedbackIcon),
-                            const SizedBox(width: 20,),
-                            Text("Feedback",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400,color: AppColor.primaryColor,fontFamily: appFontFamily),)
-                          ],
-                        ),
-                        Icon(Icons.arrow_forward_ios,size: 16,color: AppColor.primaryColor,)
-                      ],
-                    ),
-                  ),
-                ),
-                Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
-
-                InkWell(
-                  onTap: (){
-                    logoutAlert();
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 18),
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(Images.logoutIcon,color: AppColor.red,),
-                        const SizedBox(width: 20,),
-                        Text("Logout",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400,color: AppColor.red,fontFamily: appFontFamily),)
-                      ],
-                    ),
-                  ),
-                ),
-                Container(height: 1,width: Get.width,color: AppColor.black.withOpacity(0.12),),
-                const SizedBox(height: 20,),
-              ],
-            ),
-            Align(
-              alignment: Alignment.center,
-              child: Container(
-                width: 200,height: 200,
-                margin: const EdgeInsets.only(top: 110),
-                padding: guestDetails?.guestProfileImage != null?null:const EdgeInsets.all(50),
-                decoration: BoxDecoration(
-                    color: AppColor.white,
-                    border: Border.all(color: AppColor.grey),
-                    borderRadius: const BorderRadius.all(Radius.circular(100))
-                ),
-                child: ClipRRect(
-                    borderRadius: BorderRadius.circular(200),
-                    child:  guestDetails?.guestProfileImage != null?Image.network(ApiUrls.imageUrl+(guestDetails?.guestProfileImage??""),fit: BoxFit.fill,):Image.asset(Images.profileDefault,height: 64,width: 64,fit: BoxFit.fill,)),
-              ),
-            ),
-            GestureDetector(
-              onTap: (){
-                Get.back();
-              },
-              child: Padding(
-                padding: const EdgeInsets.only(left: 20,top: 60),
-                child: Icon(Icons.arrow_back_ios,color: AppColor.white,),
+                  )
+                ],
               ),
             )
-          ],
-        ),
-      ):const Center(child: Text("OOPS! NO INTERNET.",style: TextStyle(color: Colors.black87,fontWeight: FontWeight.w600,fontFamily: appFontFamily,fontSize: 20),)),
+          : const Center(
+              child: Text(
+              "OOPS! NO INTERNET.",
+              style: TextStyle(
+                  color: Colors.black87,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: appFontFamily,
+                  fontSize: 20),
+            )),
     );
   }
 
-   logoutAlert(){
-
+  logoutAlert() {
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       shape: RoundedRectangleBorder(
         borderRadius: const BorderRadius.all(Radius.circular(32.0)),
         side: BorderSide(
           color: AppColor.lightGrey, // Border color
-          width: 2.0,               // Border width
+          width: 2.0, // Border width
         ),
       ),
-      title: Center(child: Text("Logout",style: AppThemes.titleTextStyle(),)),
+      title: Center(
+          child: Text(
+        "Logout",
+        style: AppThemes.titleTextStyle(),
+      )),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text("Are you sure you want to log out?",style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500,fontFamily: appFontFamily,color: AppColor.mediumGrey),),
-          const SizedBox(height: 20,),
+          Text(
+            "Are you sure you want to log out?",
+            style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                fontFamily: appFontFamily,
+                color: AppColor.mediumGrey),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
           InkWell(
-            onTap: (){
+            onTap: () {
               NotificationService notification = NotificationService();
               notification.unsubscribeFromTopic(Prefs.checkUserId);
               print("Unsubscribe to ${Prefs.checkUserId}");
@@ -450,7 +683,7 @@ class _ProfilePageState extends State<ProfilePage> {
               Prefs.setString('user_email_new', "");
               Prefs.setString('user_auth_token', "");
               Prefs.setString("user_name_new", "");
-              Prefs.setString("mobile_no", "");
+              Prefs.setString("mobile_number", "");
               Prefs.setBool("notificationsEnabled", false);
               Prefs.loadData();
               Prefs.load();
@@ -462,18 +695,24 @@ class _ProfilePageState extends State<ProfilePage> {
               margin: const EdgeInsets.symmetric(horizontal: 20),
               decoration: BoxDecoration(
                   color: AppColor.red,
-                  borderRadius: const BorderRadius.all(Radius.circular(8))
-              ),
+                  borderRadius: const BorderRadius.all(Radius.circular(8))),
               child: Center(
                 child: Text(
-                  "Logout",style: TextStyle(color: AppColor.white,fontSize: 16,fontWeight: FontWeight.w500,fontFamily: appFontFamily),
+                  "Logout",
+                  style: TextStyle(
+                      color: AppColor.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      fontFamily: appFontFamily),
                 ),
               ),
             ),
           ),
-          const SizedBox(height: 10,),
+          const SizedBox(
+            height: 10,
+          ),
           InkWell(
-            onTap: (){
+            onTap: () {
               Get.back();
             },
             child: Container(
@@ -482,12 +721,16 @@ class _ProfilePageState extends State<ProfilePage> {
               margin: const EdgeInsets.symmetric(horizontal: 20),
               decoration: BoxDecoration(
                   color: AppColor.white,
-                  border: Border.all(color: AppColor.black,width: 1),
-                  borderRadius: const BorderRadius.all(Radius.circular(8))
-              ),
+                  border: Border.all(color: AppColor.black, width: 1),
+                  borderRadius: const BorderRadius.all(Radius.circular(8))),
               child: Center(
                 child: Text(
-                  "Cancel",style: TextStyle(color: AppColor.black,fontSize: 16,fontWeight: FontWeight.w500,fontFamily: appFontFamily),
+                  "Cancel",
+                  style: TextStyle(
+                      color: AppColor.black,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      fontFamily: appFontFamily),
                 ),
               ),
             ),
@@ -505,7 +748,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget profileItems(String icon,String title,Function() onTap){
+  Widget profileItems(String icon, String title, Function() onTap) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -519,7 +762,6 @@ class _ProfilePageState extends State<ProfilePage> {
             end: Alignment.bottomRight,
           ),
           borderRadius: BorderRadius.circular(12),
-
         ),
         child: Padding(
           padding: const EdgeInsets.all(2.0), // This is the border thickness
@@ -537,11 +779,24 @@ class _ProfilePageState extends State<ProfilePage> {
                 Row(
                   children: [
                     SvgPicture.asset(icon),
-                    const SizedBox(width: 10,),
-                    Text(title,style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400,color: AppColor.primaryColor,fontFamily: appFontFamily),)
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      title,
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          color: AppColor.primaryColor,
+                          fontFamily: appFontFamily),
+                    )
                   ],
                 ),
-                Icon(Icons.arrow_forward_ios,size: 16,color: AppColor.primaryColor,)
+                Icon(
+                  Icons.arrow_forward_ios,
+                  size: 16,
+                  color: AppColor.primaryColor,
+                )
               ],
             ),
           ),

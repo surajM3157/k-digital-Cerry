@@ -1,5 +1,4 @@
-class Routes{
-
+class Routes {
   static String splash = '/splash';
 
   static String login = '/login';
@@ -28,4 +27,5 @@ class Routes{
   static String privacyPolicy = '/privacy_policy';
   static String termsCondition = '/terms_condition';
   static String faq = '/faq';
+  static String delegates = '/Delegates';
 }

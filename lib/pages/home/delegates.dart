@@ -22,9 +22,10 @@ import '../../widgets/app_themes.dart';
 import '../../widgets/custom_tabbar_indicator.dart';
 
 class Delegates extends StatefulWidget {
-  Delegates({super.key, required this.tabController});
+  final int tabIndex;
+  Delegates({super.key, this.tabController, this.tabIndex = 0});
 
-  TabController tabController;
+  TabController? tabController;
 
   @override
   State<Delegates> createState() => _DelegatesState();
@@ -64,7 +65,7 @@ class _DelegatesState extends State<Delegates>
     } else {
       isConnected = true;
 
-      await Future.delayed(Duration.zero);
+      Future.delayed(Duration.zero);
       // Future.delayed(Duration.zero, () {
       //   showLoader(context);
       // });
@@ -121,7 +122,7 @@ class _DelegatesState extends State<Delegates>
       isConnected = true;
       guestList.clear();
       Future.delayed(Duration.zero, () {
-        showLoader(context);
+        // showLoader(context);
       });
       var response = await ApiRepo().getGuestListResponse(search);
 
@@ -151,10 +152,10 @@ class _DelegatesState extends State<Delegates>
       setState(() {});
     } else {
       isConnected = true;
-      Future.delayed(Duration.zero, () {
-        showLoader(context);
-      });
-
+      // Future.delayed(Duration.zero, () {
+      //   showLoader(context);
+      // });
+      Future.delayed(Duration.zero);
       pendingRequestList.clear();
       var response = await ApiRepo().pendingRequestResponse();
 
@@ -188,7 +189,7 @@ class _DelegatesState extends State<Delegates>
       params["to"] = receiverId;
 
       Future.delayed(Duration.zero, () {
-        showLoader(context);
+        // showLoader(context);
       });
 
       await ApiRepo().sendRequest(params, receiverId);
@@ -209,7 +210,7 @@ class _DelegatesState extends State<Delegates>
       isConnected = true;
 
       Future.delayed(Duration.zero, () {
-        showLoader(context);
+        // showLoader(context);
       });
 
       await ApiRepo().handleRequest(id, status);
@@ -224,9 +225,16 @@ class _DelegatesState extends State<Delegates>
 
   @override
   void initState() {
-    _controller = TabController(length: 3, vsync: this);
+    // _controller = TabController(length: 3, vsync: this);
+    // fetchFriendList();
+    if (_controller == null) {
+      _controller =
+          TabController(length: 3, vsync: this, initialIndex: widget.tabIndex);
+    }
+
+    print(" TabIndex123 -> ${widget.tabIndex}");
     fetchFriendList();
-    widget.tabController.addListener(_handleTabChange);
+    widget.tabController?.addListener(_handleTabChange);
     Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
       if (result == ConnectivityResult.none) {
         isConnected = false;
@@ -243,9 +251,9 @@ class _DelegatesState extends State<Delegates>
   }
 
   void _handleTabChange() {
-    if (widget.tabController.indexIsChanging) return;
+    if (widget.tabController!.indexIsChanging) return;
 
-    switch (widget.tabController.index) {
+    switch (widget.tabController?.index) {
       case 0:
         fetchGuestList("");
         break;
@@ -257,9 +265,40 @@ class _DelegatesState extends State<Delegates>
         break;
     }
   }
+  // void _handleTabChange() {
+  //   if (_controller?.indexIsChanging ?? false) return;
+  //
+  //   switch (_controller?.index) {
+  //     case 0:
+  //       fetchGuestList("");
+  //       break;
+  //     case 1:
+  //       fetchFriendList();
+  //       break;
+  //     case 2:
+  //       fetchPendingRequest();
+  //       break;
+  //   }
+  // }
+
+  @override
+  void dispose() {
+    // Dispose the TabController when the widget is disposed
+    _controller?.dispose();
+    super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    // _counter = Provider.of<int>(context);
+    print('didChangeDependencies(), counter = ${widget.tabIndex}');
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
+    print("timeIndexBuild-> ${widget.tabIndex}");
+
     return isConnected
         ? Column(
             children: [
@@ -500,8 +539,7 @@ class _DelegatesState extends State<Delegates>
               flex: 4,
               child: Container(
                 width: Get.width / 1.5,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                 decoration: BoxDecoration(
                     color: AppColor.white,
                     border: Border.all(color: AppColor.black.withOpacity(0.12)),
@@ -520,15 +558,12 @@ class _DelegatesState extends State<Delegates>
                       height: 6,
                     ),
                     StreamBuilder(
-                        stream: chatService.getMessages(
-                            Prefs.checkUserId, data['uid']),
+                        stream: chatService.getMessages(Prefs.checkUserId, data['uid']),
                         builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
                             return const Center(child: Text("Loading..."));
                           }
-                          if (!snapshot.hasData ||
-                              snapshot.data!.docs.isEmpty) {
+                          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
                             return const Text("No messages yet",
                                 style: TextStyle(
                                     color: Colors.grey,
@@ -537,31 +572,32 @@ class _DelegatesState extends State<Delegates>
                           }
                           lastMessageDoc = snapshot.data!.docs.last;
                           var lastMessageData =
-                              lastMessageDoc.data() as Map<String, dynamic>;
+                          lastMessageDoc.data() as Map<String, dynamic>;
                           return Text(
                             chatService.decryptMessage(
-                                lastMessageData['message'],
-                                'my_secure_passphrase'), // Display the message content
-                            overflow: TextOverflow.ellipsis,
+                                lastMessageData['message'], 'my_secure_passphrase'),
+                            overflow: TextOverflow.ellipsis, // Ensures long messages are truncated
+                            maxLines: 1, // Limits to 2 lines (adjust based on your design)
+                            softWrap: true, // Allows message to wrap to the next line
                             style: TextStyle(
-                                color: (lastMessageData['senderId'] ==
-                                        Prefs.checkUserId)
+                                color: (lastMessageData['senderId'] == Prefs.checkUserId)
                                     ? Colors.grey
                                     : lastMessageData['isRead']
-                                        ? Colors.grey
-                                        : Colors.black,
+                                    ? Colors.grey
+                                    : Colors.black,
                                 fontWeight: (lastMessageData['senderId'] ==
-                                        Prefs.checkUserId)
+                                    Prefs.checkUserId)
                                     ? FontWeight.normal
                                     : lastMessageData['isRead']
-                                        ? FontWeight.normal
-                                        : FontWeight.bold),
+                                    ? FontWeight.normal
+                                    : FontWeight.bold),
                           );
                         })
                   ],
                 ),
               ),
-            ),
+            )
+
           ],
         ),
         onTap: () async {
