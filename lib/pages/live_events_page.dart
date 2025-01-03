@@ -129,30 +129,19 @@ class _LiveEventsPageState extends State<LiveEventsPage> {
                                                 .withOpacity(0.3))),
                                     child: Row(
                                       children: [
-                                        ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            child: SizedBox(
-                                                height: 120,
-                                                width: 113,
+                                        ClipRRect(borderRadius: BorderRadius.circular(8),
+                                            child: SizedBox(height: 120, width: 113,
                                                 child: YouTubeThumbnail(
-                                                  youtubeUrl: liveSessions[
-                                                              index]
-                                                          .link ??
+                                                  youtubeUrl: liveSessions[index].link ??
                                                       "", // Replace with your YouTube link
                                                 ))),
-                                        const SizedBox(
-                                          width: 15,
-                                        ),
+                                        const SizedBox(width: 15),
                                         Expanded(
                                           child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              GradientText(
-                                                text:
-                                                    liveSessions[index].title ??
-                                                        "",
+                                              GradientText(text: liveSessions[index].title ?? "",
                                                 style: const TextStyle(
                                                   fontWeight: FontWeight.w600,
                                                   fontSize: 14,
@@ -164,49 +153,28 @@ class _LiveEventsPageState extends State<LiveEventsPage> {
                                               ),
                                               // const SizedBox(height: 5,),
                                               // Text(liveSessions[index].description??"",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 10,fontFamily: appFontFamily,color: AppColor.FF161616)),
-                                              const SizedBox(
-                                                height: 13,
-                                              ),
+                                              const SizedBox(height: 13),
                                               Row(
                                                 children: [
                                                   SvgPicture.asset(
                                                       Images.calendarIcon),
-                                                  const SizedBox(
-                                                    width: 2,
-                                                  ),
+                                                  const SizedBox(width: 2),
                                                   Text(
                                                     DateFormat("dd, MMM yyyy")
                                                         .format(DateTime.parse(
-                                                            liveSessions[index]
-                                                                    .eventDate ??
-                                                                "")),
-                                                    style: const TextStyle(
-                                                        fontFamily:
-                                                            appFontFamily,
-                                                        fontSize: 10,
-                                                        fontWeight:
-                                                            FontWeight.w600),
+                                                            liveSessions[index].eventDate ?? "")),
+                                                    style: const TextStyle(fontFamily: appFontFamily, fontSize: 10,
+                                                        fontWeight: FontWeight.w600),
                                                   )
                                                 ],
                                               ),
-                                              // const SizedBox(height: 10,),
-                                              // Row(
-                                              //   children: [
-                                              //     SvgPicture.asset(Images.participantIcon),
-                                              //     const SizedBox(width: 2,),
-                                              //     const Text("30k Participants",style: TextStyle(fontFamily: appFontFamily,fontSize: 10,fontWeight: FontWeight.w600),)
-                                              //   ],
-                                              // ),
                                               const SizedBox(
                                                 height: 10,
                                               ),
                                               GestureDetector(
                                                 onTap: () {
-                                                  Get.toNamed(
-                                                      Routes.liveSession,
-                                                      arguments: {
-                                                        "data":
-                                                            liveSessions[index]
+                                                  Get.toNamed(Routes.liveSession, arguments: {
+                                                    "data": liveSessions[index]
                                                       });
                                                 },
                                                 child: Container(
@@ -218,15 +186,9 @@ class _LiveEventsPageState extends State<LiveEventsPage> {
                                                               7),
                                                       color: AppColor.red),
                                                   child: Center(
-                                                      child: Text(
-                                                    "Watch Now",
-                                                    style: TextStyle(
-                                                        fontFamily:
-                                                            appFontFamily,
-                                                        fontSize: 12,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        color: AppColor.white),
+                                                      child: Text("Watch Now", style: TextStyle(
+                                                        fontFamily: appFontFamily, fontSize: 12, fontWeight:
+                                                            FontWeight.w600, color: AppColor.white),
                                                   )),
                                                 ),
                                               )

@@ -36,7 +36,7 @@ class _LiveSessionPageState extends State<LiveSessionPage> {
       initialVideoId: YoutubePlayer.convertUrlToId(liveSessionData?.link ?? "") ?? "",
       flags: const YoutubePlayerFlags(
         autoPlay: true,
-        mute: true,
+        mute: false,
       ),
     );
 
@@ -79,12 +79,12 @@ class _LiveSessionPageState extends State<LiveSessionPage> {
     return Scaffold(
       appBar: isFullScreen
           ? null
-          : AppBar(
+       : AppBar(
         elevation: 0,
         backgroundColor: AppColor.primaryColor,
-        title: Padding(
-          padding: const EdgeInsets.only(right: 60),
-          child: Center(child: SvgPicture.asset(Images.logo, height: 40, width: 147)),
+           title: Padding(
+             padding: const EdgeInsets.only(right: 60),
+             child: Center(child: SvgPicture.asset(Images.logo, height: 40, width: 147)),
         ),
         leading: InkWell(
           onTap: () {

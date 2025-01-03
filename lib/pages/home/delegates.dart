@@ -539,8 +539,7 @@ class _DelegatesState extends State<Delegates>
               flex: 4,
               child: Container(
                 width: Get.width / 1.5,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                 decoration: BoxDecoration(
                     color: AppColor.white,
                     border: Border.all(color: AppColor.black.withOpacity(0.12)),
@@ -559,15 +558,12 @@ class _DelegatesState extends State<Delegates>
                       height: 6,
                     ),
                     StreamBuilder(
-                        stream: chatService.getMessages(
-                            Prefs.checkUserId, data['uid']),
+                        stream: chatService.getMessages(Prefs.checkUserId, data['uid']),
                         builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
                             return const Center(child: Text("Loading..."));
                           }
-                          if (!snapshot.hasData ||
-                              snapshot.data!.docs.isEmpty) {
+                          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
                             return const Text("No messages yet",
                                 style: TextStyle(
                                     color: Colors.grey,
@@ -576,31 +572,32 @@ class _DelegatesState extends State<Delegates>
                           }
                           lastMessageDoc = snapshot.data!.docs.last;
                           var lastMessageData =
-                              lastMessageDoc.data() as Map<String, dynamic>;
+                          lastMessageDoc.data() as Map<String, dynamic>;
                           return Text(
                             chatService.decryptMessage(
-                                lastMessageData['message'],
-                                'my_secure_passphrase'), // Display the message content
-                            overflow: TextOverflow.ellipsis,
+                                lastMessageData['message'], 'my_secure_passphrase'),
+                            overflow: TextOverflow.ellipsis, // Ensures long messages are truncated
+                            maxLines: 1, // Limits to 2 lines (adjust based on your design)
+                            softWrap: true, // Allows message to wrap to the next line
                             style: TextStyle(
-                                color: (lastMessageData['senderId'] ==
-                                        Prefs.checkUserId)
+                                color: (lastMessageData['senderId'] == Prefs.checkUserId)
                                     ? Colors.grey
                                     : lastMessageData['isRead']
-                                        ? Colors.grey
-                                        : Colors.black,
+                                    ? Colors.grey
+                                    : Colors.black,
                                 fontWeight: (lastMessageData['senderId'] ==
-                                        Prefs.checkUserId)
+                                    Prefs.checkUserId)
                                     ? FontWeight.normal
                                     : lastMessageData['isRead']
-                                        ? FontWeight.normal
-                                        : FontWeight.bold),
+                                    ? FontWeight.normal
+                                    : FontWeight.bold),
                           );
                         })
                   ],
                 ),
               ),
-            ),
+            )
+
           ],
         ),
         onTap: () async {

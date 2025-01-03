@@ -36,7 +36,6 @@ class _EditProfilPageState extends State<EditProfilPage> {
   TextEditingController designationController = TextEditingController();
   TextEditingController streamController = TextEditingController();
   TextEditingController batchController = TextEditingController();
-  TextEditingController nameController = TextEditingController();
 
   var _formKey = GlobalKey<FormState>();
 
@@ -202,6 +201,8 @@ class _EditProfilPageState extends State<EditProfilPage> {
         emailController.text = guestDetails?.emailId ?? "";
         phoneNumberController.text =
             guestDetails?.mobileNumber.toString() ?? "";
+        print(
+            "Fetched Phone Number: ${phoneNumberController.text}"); // Debugging line
         companyController.text = guestDetails?.companyName ?? '';
         designationController.text = guestDetails?.designation ?? "";
         selectedCountry = guestDetails?.country ?? null;
@@ -288,50 +289,34 @@ class _EditProfilPageState extends State<EditProfilPage> {
                         const SizedBox(
                           height: 80,
                         ),
-                        // AppTextField(
-                        //   hintText: "Type your Name*",
-                        //   controller: nameController,
-                        //   labelText: "Name*",
-                        //   prefixIcon: Padding(
-                        //       padding:
-                        //           const EdgeInsets.symmetric(horizontal: 8.0),
-                        //       child: DropdownButtonHideUnderline(
-                        //         child: DropdownButton<String>(
-                        //           value: selectedPrefix,
-                        //           items:
-                        //               ['Mr', 'Ms', 'Mrs'].map((String prefix) {
-                        //             return DropdownMenuItem<String>(
-                        //               value: prefix,
-                        //               child: Text(
-                        //                 prefix,
-                        //                 style: TextStyle(
-                        //                     color: AppColor.primaryColor,
-                        //                     fontFamily: appFontFamily,
-                        //                     fontWeight: FontWeight.w400,
-                        //                     fontSize: 14),
-                        //               ),
-                        //             );
-                        //           }).toList(),
-                        //           onChanged: (String? newValue) {
-                        //             setState(() {
-                        //               selectedPrefix = newValue!;
-                        //               if (selectedPrefix == "Ms" ||
-                        //                   selectedPrefix == "Mrs") {
-                        //                 _gender = "Female";
-                        //               } else {
-                        //                 _gender = "Male";
-                        //               }
-                        //             });
-                        //           },
-                        //         ),
-                        //       )),
-                        //   autovalidateMode: AutovalidateMode.onUserInteraction,
-                        //   inputFormatters: [
-                        //     FilteringTextInputFormatter.allow(
-                        //         RegExp("[a-zA-Z\\s]")),
-                        //   ],
-                        //   validator: (value) {
-                        //     if (value.toString() == "") {
+                        // AppTextField(hintText: "Type your Name*",controller: nameController,labelText:"Name*",prefixIcon: Padding(
+                        //     padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        //     child: DropdownButtonHideUnderline(
+                        //       child: DropdownButton<String>(
+                        //         value: selectedPrefix,
+                        //         items: ['Mr', 'Ms', 'Mrs'].map((String prefix) {
+                        //           return DropdownMenuItem<String>(
+                        //             value: prefix,
+                        //             child: Text(prefix,style: TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),),
+                        //           );
+                        //         }).toList(),
+                        //         onChanged: (String? newValue) {
+                        //           setState(() {
+                        //             selectedPrefix = newValue!;
+                        //             if(selectedPrefix == "Ms"||selectedPrefix == "Mrs"){
+                        //               _gender = "Female";
+                        //             }else{
+                        //               _gender = "Male";
+                        //             }
+                        //           });
+                        //         },
+                        //       ),
+                        //     )), autovalidateMode: AutovalidateMode.onUserInteraction,
+                        //   inputFormatters: [ FilteringTextInputFormatter.allow(RegExp("[a-zA-Z\\s]")), ],
+                        //   validator: (value)
+                        //   {
+                        //     if (value.toString() == "")
+                        //     {
                         //       return 'Enter a valid name.';
                         //     }
                         //     return null;
@@ -339,8 +324,6 @@ class _EditProfilPageState extends State<EditProfilPage> {
                         // ),
                         Row(
                           children: [
-                            // [a-zA-Z0-9\\s\\.!@#\$%^&*(),_+-=]s
-
                             Expanded(
                               child: AppTextField(
                                 hintText: "Enter First Name*",
@@ -402,42 +385,6 @@ class _EditProfilPageState extends State<EditProfilPage> {
                         const SizedBox(
                           height: 25,
                         ),
-                        // Padding(
-                        //   padding: const EdgeInsets.symmetric(horizontal: 16),
-                        //   child: IntlPhoneField(
-                        //     controller: phoneNumberController,
-                        //     cursorColor: AppColor.primaryColor,
-                        //     autovalidateMode: AutovalidateMode.onUserInteraction,
-                        //     validator: (value)
-                        //     {
-                        //       if (value.toString() == ""||value.toString().length!=10)
-                        //       {
-                        //         return 'Enter a valid phone number.';
-                        //       }
-                        //       return null;
-                        //     },
-                        //     decoration: InputDecoration(
-                        //         labelText: "Phone Number*",
-                        //       labelStyle: TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
-                        //       hintStyle:  TextStyle(color:AppColor.FF9B9B9B,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
-                        //       contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                        //       focusedBorder:  OutlineInputBorder(
-                        //           borderRadius: BorderRadius.circular(10.0),
-                        //           borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
-                        //       ),
-                        //       enabledBorder:  OutlineInputBorder(
-                        //           borderRadius: BorderRadius.circular(10.0),
-                        //           borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
-                        //       ),
-                        //       errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: const BorderSide(color: Colors.red, width: 2.0)),
-                        //       focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: const BorderSide(color: Colors.red, width: 2.0)),
-                        //     ),
-                        //     initialCountryCode: 'IN',
-                        //     onChanged: (phone) {
-                        //       print(phone.completeNumber);
-                        //     },
-                        //   ),
-                        // ),
                         AppTextField(
                           hintText: "Type Phone number*",
                           controller: phoneNumberController,
@@ -445,6 +392,7 @@ class _EditProfilPageState extends State<EditProfilPage> {
                           keyboardType: TextInputType.phone,
                           inputFormatters: [
                             LengthLimitingTextInputFormatter(10),
+                            FilteringTextInputFormatter.digitsOnly,
                           ],
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (value) {
@@ -454,65 +402,11 @@ class _EditProfilPageState extends State<EditProfilPage> {
                             }
                             return null;
                           },
-                          // prefixIcon: Padding(
-                          //   padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          //   child: DropdownButtonHideUnderline(
-                          //     child: DropdownButton<String>(
-                          //       value: selectedCode,
-                          //       items: ['+91', '+1', '+3'].map((String prefix) {
-                          //         return DropdownMenuItem<String>(
-                          //           value: prefix,
-                          //           child: Text(prefix,style: TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),),
-                          //         );
-                          //       }).toList(),
-                          //       onChanged: (String? newValue) {
-                          //         setState(() {
-                          //           selectedCode = newValue!;
-                          //         });
-                          //       },
-                          //     ),
-                          //   )),
                         ),
                         const SizedBox(
                           height: 25,
                         ),
                         genderWidget(),
-                        // const SizedBox(height: 25,),
-                        // AppTextField(
-                        //     readOnly: true,
-                        //     suffixIcon: Icon(Icons.date_range,color: AppColor.primaryColor,),
-                        //     onTap: () async {
-                        //       DateTime? pickedDate = await showDatePicker(
-                        //           context: context,
-                        //           initialDate: DateTime.now(),
-                        //           firstDate: DateTime(1900),
-                        //           //DateTime.now() - not to allow to choose before today.
-                        //           lastDate: DateTime.now(),
-                        //           builder: (BuildContext? context, Widget? child){
-                        //             return Theme(
-                        //                 data: ThemeData.light().copyWith(
-                        //                   primaryColor: AppColor.primaryColor,
-                        //                   primaryColorLight: AppColor.primaryColor,
-                        //                   colorScheme: ColorScheme.light(primary: AppColor.primaryColor),
-                        //                   buttonTheme: const ButtonThemeData(
-                        //                       textTheme: ButtonTextTheme.primary
-                        //                   ),
-                        //                 ),
-                        //                 child: child!);
-                        //           }
-                        //       );
-                        //       if (pickedDate != null) {
-                        //         print(pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
-                        //
-                        //         String formattedDate = DateFormat('dd/MM/yyyy').format(pickedDate);
-                        //         print(formattedDate); //formatted date output using intl package =>  2021-03-16
-                        //         setState(() {
-                        //
-                        //           dobController.text = formattedDate; //set output date to TextField value.
-                        //         });
-                        //       } else {}
-                        //     },
-                        //     hintText: "Type your DOB",controller: dobController,labelText:"DOB"),
                         const SizedBox(
                           height: 25,
                         ),
@@ -520,14 +414,10 @@ class _EditProfilPageState extends State<EditProfilPage> {
                           hintText: "Type your Designation*",
                           controller: designationController,
                           labelText: "Designation*",
-                          // inputFormatters: [
-                          //   FilteringTextInputFormatter.allow(
-                          //     RegExp("[a-zA-Z\\s\\.]"),
-                          //   ),
-                          //
-                          //   // FilteringTextInputFormatter.allow(
-                          //   //     RegExp("[a-zA-Z]")),
-                          // ],
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(
+                                RegExp("[a-zA-Z\\s]")),
+                          ],
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (value) {
                             if (value == null || value.trim().isEmpty) {
@@ -544,12 +434,8 @@ class _EditProfilPageState extends State<EditProfilPage> {
                           controller: companyController,
                           labelText: "Company Name*",
                           autovalidateMode: AutovalidateMode.onUserInteraction,
-                          // inputFormatters: [
-                          //   FilteringTextInputFormatter.deny(RegExp(r"\s")),
-                          // ],
                           validator: (value) {
                             if (value == null || value.trim().isEmpty) {
-                              // if (value.toString() == "") {
                               return 'Enter a valid company name.';
                             }
                             return null;
@@ -937,56 +823,6 @@ class _EditProfilPageState extends State<EditProfilPage> {
                                       FilteringTextInputFormatter.digitsOnly
                                     ],
                                   )
-                            // Padding(
-                            //   padding: const EdgeInsets.symmetric(horizontal: 20),
-                            //   child: DropdownButtonFormField<String>(
-                            //     value: batch==""?null:batch,
-                            //     items: iitBatchItems.map<DropdownMenuItem<String>>((String value) {
-                            //       return DropdownMenuItem<String>(
-                            //         value: value,
-                            //         child: Text(value),
-                            //       );
-                            //     }).toList(),
-                            //     onChanged: (value) {
-                            //       batch = value!;
-                            //     },
-                            //     autovalidateMode: AutovalidateMode.onUserInteraction,
-                            //     validator: (_isAlumni=="Yes")?(value)
-                            //     {
-                            //
-                            //       if (value.toString() == ""||value == null)
-                            //       {
-                            //         return 'Select a valid IIT Batch.';
-                            //       }
-                            //       return null;
-                            //     }:null,
-                            //     dropdownColor: AppColor.white,
-                            //     iconSize: 30,
-                            //     decoration: InputDecoration(
-                            //       hintText: "Select your batch*",
-                            //       labelText: "Batch*",
-                            //       labelStyle:  TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
-                            //       hintStyle: const TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
-                            //       contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                            //       focusedBorder:  OutlineInputBorder(
-                            //           borderRadius: BorderRadius.circular(10.0),
-                            //           borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
-                            //       ),
-                            //       enabledBorder:  OutlineInputBorder(
-                            //           borderRadius: BorderRadius.circular(10.0),
-                            //           borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
-                            //       ),
-                            //       errorBorder: OutlineInputBorder(
-                            //         borderRadius: BorderRadius.circular(10.0),
-                            //         borderSide: const BorderSide(color: Colors.red, width: 2.0),
-                            //       ),
-                            //       focusedErrorBorder: OutlineInputBorder(
-                            //         borderRadius: BorderRadius.circular(10.0),
-                            //         borderSide: const BorderSide(color: Colors.red, width: 2.0),
-                            //       ),
-                            //     ),
-                            //   ),
-                            // )
                             : const SizedBox.shrink(),
                         _isAlumni == "Yes"
                             ? const SizedBox(
@@ -1111,7 +947,7 @@ class _EditProfilPageState extends State<EditProfilPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Are you an alumni of any IIT?*",
+            "Are you an alumnis of any IIT?*",
             style: TextStyle(
                 fontFamily: appFontFamily,
                 fontWeight: FontWeight.w600,
@@ -1437,8 +1273,9 @@ class _EditProfilPageState extends State<EditProfilPage> {
       Map<String, dynamic> params = new Map<String, dynamic>();
       params["last_name"] = lastNameController.text;
       params["first_name"] = firstNameController.text;
-      params["email"] = emailController.text.trim();
-      params["mobile_no"] = phoneNumberController.text.trim();
+      params["email_id"] = emailController.text.trim();
+      params["mobile_number"] = phoneNumberController.text.trim();
+      print("Updating Phone Number: ${params["mobile_number"]}"); //debug
       params["company_name"] = companyController.text.trim();
       params["designation"] = designationController.text.trim();
       params["country"] = selectedCountry;
@@ -1465,7 +1302,7 @@ class _EditProfilPageState extends State<EditProfilPage> {
       if (_gender != null) {
         params["gender"] = _gender!;
       }
-
+      print(params);
       if (_image != null) {
         ApiRepo().updateProfile(params, image: _image);
       } else {
