@@ -450,7 +450,7 @@ class _ProfilePageState extends State<ProfilePage> {
               Prefs.setString('user_email_new', "");
               Prefs.setString('user_auth_token', "");
               Prefs.setString("user_name_new", "");
-              Prefs.setString("mobile_no", "");
+              Prefs.setString("mobile_number", "");
               Prefs.setBool("notificationsEnabled", false);
               Prefs.loadData();
               Prefs.load();

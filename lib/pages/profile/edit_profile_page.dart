@@ -135,8 +135,7 @@ class _EditProfilPageState extends State<EditProfilPage> {
   bool isConnected = true;
 
 
-  fetchGuestDetails() async
-  {
+  fetchGuestDetails() async {
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
       isConnected = false;
@@ -158,6 +157,7 @@ class _EditProfilPageState extends State<EditProfilPage> {
         lastNameController.text = AppThemes.capitalizeFirst(guestDetails?.lastName??"");
         emailController.text = guestDetails?.emailId??"";
         phoneNumberController.text = guestDetails?.mobileNumber.toString()??"";
+        print("Fetched Phone Number: ${phoneNumberController.text}"); // Debugging line
         companyController.text = guestDetails?.companyName ??'';
         designationController.text = guestDetails?.designation ??"";
         selectedCountry = guestDetails?.country??null;
@@ -309,44 +309,11 @@ class _EditProfilPageState extends State<EditProfilPage> {
                     },
                   ),
                   const SizedBox(height: 25,),
-                  // Padding(
-                  //   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  //   child: IntlPhoneField(
-                  //     controller: phoneNumberController,
-                  //     cursorColor: AppColor.primaryColor,
-                  //     autovalidateMode: AutovalidateMode.onUserInteraction,
-                  //     validator: (value)
-                  //     {
-                  //       if (value.toString() == ""||value.toString().length!=10)
-                  //       {
-                  //         return 'Enter a valid phone number.';
-                  //       }
-                  //       return null;
-                  //     },
-                  //     decoration: InputDecoration(
-                  //         labelText: "Phone Number*",
-                  //       labelStyle: TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
-                  //       hintStyle:  TextStyle(color:AppColor.FF9B9B9B,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
-                  //       contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                  //       focusedBorder:  OutlineInputBorder(
-                  //           borderRadius: BorderRadius.circular(10.0),
-                  //           borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
-                  //       ),
-                  //       enabledBorder:  OutlineInputBorder(
-                  //           borderRadius: BorderRadius.circular(10.0),
-                  //           borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
-                  //       ),
-                  //       errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: const BorderSide(color: Colors.red, width: 2.0)),
-                  //       focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0), borderSide: const BorderSide(color: Colors.red, width: 2.0)),
-                  //     ),
-                  //     initialCountryCode: 'IN',
-                  //     onChanged: (phone) {
-                  //       print(phone.completeNumber);
-                  //     },
-                  //   ),
-                  // ),
-                  AppTextField(hintText: "Type Phone number*",controller: phoneNumberController,labelText:"Phone Number*",keyboardType: TextInputType.phone,inputFormatters:[
+                  AppTextField(hintText: "Type Phone number*",controller: phoneNumberController,
+                    labelText:"Phone Number*",
+                    keyboardType: TextInputType.phone,inputFormatters:[
                     LengthLimitingTextInputFormatter(10),
+                      FilteringTextInputFormatter.digitsOnly,
                   ],
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: (value)
@@ -357,63 +324,10 @@ class _EditProfilPageState extends State<EditProfilPage> {
                       }
                       return null;
                     },
-                    // prefixIcon: Padding(
-                    //   padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    //   child: DropdownButtonHideUnderline(
-                    //     child: DropdownButton<String>(
-                    //       value: selectedCode,
-                    //       items: ['+91', '+1', '+3'].map((String prefix) {
-                    //         return DropdownMenuItem<String>(
-                    //           value: prefix,
-                    //           child: Text(prefix,style: TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),),
-                    //         );
-                    //       }).toList(),
-                    //       onChanged: (String? newValue) {
-                    //         setState(() {
-                    //           selectedCode = newValue!;
-                    //         });
-                    //       },
-                    //     ),
-                    //   )),
+
                   ),
                   const SizedBox(height: 25,),
                   genderWidget(),
-                  // const SizedBox(height: 25,),
-                  // AppTextField(
-                  //     readOnly: true,
-                  //     suffixIcon: Icon(Icons.date_range,color: AppColor.primaryColor,),
-                  //     onTap: () async {
-                  //       DateTime? pickedDate = await showDatePicker(
-                  //           context: context,
-                  //           initialDate: DateTime.now(),
-                  //           firstDate: DateTime(1900),
-                  //           //DateTime.now() - not to allow to choose before today.
-                  //           lastDate: DateTime.now(),
-                  //           builder: (BuildContext? context, Widget? child){
-                  //             return Theme(
-                  //                 data: ThemeData.light().copyWith(
-                  //                   primaryColor: AppColor.primaryColor,
-                  //                   primaryColorLight: AppColor.primaryColor,
-                  //                   colorScheme: ColorScheme.light(primary: AppColor.primaryColor),
-                  //                   buttonTheme: const ButtonThemeData(
-                  //                       textTheme: ButtonTextTheme.primary
-                  //                   ),
-                  //                 ),
-                  //                 child: child!);
-                  //           }
-                  //       );
-                  //       if (pickedDate != null) {
-                  //         print(pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
-                  //
-                  //         String formattedDate = DateFormat('dd/MM/yyyy').format(pickedDate);
-                  //         print(formattedDate); //formatted date output using intl package =>  2021-03-16
-                  //         setState(() {
-                  //
-                  //           dobController.text = formattedDate; //set output date to TextField value.
-                  //         });
-                  //       } else {}
-                  //     },
-                  //     hintText: "Type your DOB",controller: dobController,labelText:"DOB"),
                   const SizedBox(height: 25,),
                   AppTextField(hintText: "Type your Designation*",controller: designationController,labelText:"Designation*",inputFormatters: [ FilteringTextInputFormatter.allow(RegExp("[a-zA-Z\\s]")), ],
                     autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -700,56 +614,7 @@ class _EditProfilPageState extends State<EditProfilPage> {
                   ):const SizedBox.shrink(),
                   _isAlumni == "Yes"?const SizedBox(height: 25,):const SizedBox.shrink(),
                   _isAlumni == "Yes"?isLoading == true?const SizedBox.shrink(): AppTextField(hintText: "Type your Batch",controller: batchController,labelText:"Batch",keyboardType: TextInputType.number,inputFormatters: [LengthLimitingTextInputFormatter(4),FilteringTextInputFormatter.digitsOnly],)
-                  // Padding(
-                  //   padding: const EdgeInsets.symmetric(horizontal: 20),
-                  //   child: DropdownButtonFormField<String>(
-                  //     value: batch==""?null:batch,
-                  //     items: iitBatchItems.map<DropdownMenuItem<String>>((String value) {
-                  //       return DropdownMenuItem<String>(
-                  //         value: value,
-                  //         child: Text(value),
-                  //       );
-                  //     }).toList(),
-                  //     onChanged: (value) {
-                  //       batch = value!;
-                  //     },
-                  //     autovalidateMode: AutovalidateMode.onUserInteraction,
-                  //     validator: (_isAlumni=="Yes")?(value)
-                  //     {
-                  //
-                  //       if (value.toString() == ""||value == null)
-                  //       {
-                  //         return 'Select a valid IIT Batch.';
-                  //       }
-                  //       return null;
-                  //     }:null,
-                  //     dropdownColor: AppColor.white,
-                  //     iconSize: 30,
-                  //     decoration: InputDecoration(
-                  //       hintText: "Select your batch*",
-                  //       labelText: "Batch*",
-                  //       labelStyle:  TextStyle(color: AppColor.primaryColor,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
-                  //       hintStyle: const TextStyle(color: Colors.black,fontFamily: appFontFamily,fontWeight:FontWeight.w400,fontSize: 14),
-                  //       contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                  //       focusedBorder:  OutlineInputBorder(
-                  //           borderRadius: BorderRadius.circular(10.0),
-                  //           borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
-                  //       ),
-                  //       enabledBorder:  OutlineInputBorder(
-                  //           borderRadius: BorderRadius.circular(10.0),
-                  //           borderSide: BorderSide(color: AppColor.black.withOpacity(0.12))
-                  //       ),
-                  //       errorBorder: OutlineInputBorder(
-                  //         borderRadius: BorderRadius.circular(10.0),
-                  //         borderSide: const BorderSide(color: Colors.red, width: 2.0),
-                  //       ),
-                  //       focusedErrorBorder: OutlineInputBorder(
-                  //         borderRadius: BorderRadius.circular(10.0),
-                  //         borderSide: const BorderSide(color: Colors.red, width: 2.0),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // )
+
                       :const SizedBox.shrink(),
                   _isAlumni == "Yes"?const SizedBox(height: 25,):const SizedBox.shrink(),
                   _isAlumni == "Yes"? AppTextField(hintText: "Type your Stream",controller: streamController,labelText:"Stream",):const SizedBox.shrink(),
@@ -1082,8 +947,7 @@ class _EditProfilPageState extends State<EditProfilPage> {
     setState(() {});
   }
 
-  void profileUpdate()async
-  {
+  void profileUpdate()async {
 
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
@@ -1096,45 +960,45 @@ class _EditProfilPageState extends State<EditProfilPage> {
           toastPosition: EasyLoadingToastPosition.center);
     }else {
       isConnected = true;
-    Map<String, dynamic> params = new Map<String, dynamic>();
-    params["last_name"] = lastNameController.text;
-    params["first_name"] = firstNameController.text;
-    params["email"] = emailController.text.trim();
-    params["mobile_no"] = phoneNumberController.text.trim();
-    params["company_name"] = companyController.text.trim();
-    params["designation"] = designationController.text.trim();
-    params["country"] = selectedCountry;
-    // isCountryChanged?countries
-    //     .firstWhere(
-    //       (country) => selectedCountry == country.isoCode,
-    //   // orElse: () => countries[0], // Provide a default value in case no match is found
-    // )
-     //   .name:selectedCountry;
-    params["state"] = selectedState;
-    // isStateChanged?states
-    //     .firstWhere(
-    //       (state) => selectedState == state.isoCode,
-    //   // orElse: () => countries[0], // Provide a default value in case no match is found
-    // )
-    //     .name:selectedState;
-    params["city"] = selectedCity;
-    params["alumni_of_iit"] = _isAlumni=="Yes"?true:false;
-    if(_isAlumni == "Yes"){
-      params["iit_name"] = iitName;
-      params["batch"] = batchController.text.trim();
-      params["stream"] = streamController.text.trim();
+      Map<String, dynamic> params = new Map<String, dynamic>();
+      params["last_name"] = lastNameController.text;
+      params["first_name"] = firstNameController.text;
+      params["email_id"] = emailController.text.trim();
+      params["mobile_number"] = phoneNumberController.text.trim();
+      print("Updating Phone Number: ${params["mobile_number"]}"); //debug
+      params["company_name"] = companyController.text.trim();
+      params["designation"] = designationController.text.trim();
+      params["country"] = selectedCountry;
+      // isCountryChanged?countries
+      //     .firstWhere(
+      //       (country) => selectedCountry == country.isoCode,
+      //   // orElse: () => countries[0], // Provide a default value in case no match is found
+      // )
+      //   .name:selectedCountry;
+      params["state"] = selectedState;
+      // isStateChanged?states
+      //     .firstWhere(
+      //       (state) => selectedState == state.isoCode,
+      //   // orElse: () => countries[0], // Provide a default value in case no match is found
+      // )
+      //     .name:selectedState;
+      params["city"] = selectedCity;
+      params["alumni_of_iit"] = _isAlumni == "Yes" ? true : false;
+      if (_isAlumni == "Yes") {
+        params["iit_name"] = iitName;
+        params["batch"] = batchController.text.trim();
+        params["stream"] = streamController.text.trim();
+      }
+      if (_gender != null) {
+        params["gender"] = _gender!;
+      }
+      print(params);
+      if (_image != null) {
+        ApiRepo().updateProfile(params, image: _image);
+      } else {
+        ApiRepo().updateProfile(params);
+      }
     }
-    if(_gender != null){
-      params["gender"] = _gender!;
-    }
-
-
-
-    if(_image != null) {
-      ApiRepo().updateProfile(params, image: _image);
-    } else {
-      ApiRepo().updateProfile(params);
-    }
-  }}
+  }
 }
 
