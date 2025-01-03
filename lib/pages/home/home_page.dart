@@ -160,6 +160,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             ? const Home()
             : bottomNavbarIndex == 1
                 ? Delegates(
+                    tabIndex: 0,
                     tabController: _controller!,
                   )
                 : bottomNavbarIndex == 2
@@ -568,7 +569,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       color: AppColor.primaryColor,
       child: Padding(
         padding: const EdgeInsets.symmetric(
-            vertical: 10), // Add some padding for better spacing
+            vertical: 10,
+            horizontal: 10), // Add some padding for better spacing
         child: Row(
           mainAxisAlignment:
               MainAxisAlignment.spaceBetween, // Ensures items are spaced evenly

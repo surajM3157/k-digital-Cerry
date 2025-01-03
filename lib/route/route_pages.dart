@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:piwotapp/pages/auth/forgot_password_page.dart';
 import 'package:piwotapp/pages/auth/login_page.dart';
@@ -26,6 +27,8 @@ import 'package:piwotapp/pages/splash/splash_page.dart';
 import 'package:piwotapp/pages/survey/survey_page.dart';
 import 'package:piwotapp/pages/survey/thank_you_page.dart';
 import 'package:piwotapp/route/route_names.dart';
+import '../pages/home/delegates.dart';
+import '../pages/home/delegates.dart';
 import '../pages/session_details_page.dart';
 
 final getPages = [
@@ -34,7 +37,11 @@ final getPages = [
   GetPage(name: Routes.forgotPassword, page: () => ForgotPasswordPage()),
   GetPage(name: Routes.resetPassword, page: () => ResetPasswordPage()),
   GetPage(name: Routes.otp, page: () => OtpPage()),
-  GetPage(name: Routes.home, page: () => HomePage(bottomNavIndex: 0,)),
+  GetPage(
+      name: Routes.home,
+      page: () => HomePage(
+            bottomNavIndex: 0,
+          )),
   GetPage(name: Routes.eventDetails, page: () => EventDetailsPage()),
   GetPage(name: Routes.liveSession, page: () => LiveSessionPage()),
   GetPage(name: Routes.sessionDetails, page: () => SessionDetailsPage()),
@@ -56,4 +63,5 @@ final getPages = [
   GetPage(name: Routes.privacyPolicy, page: () => PrivacyPolicyScreen()),
   GetPage(name: Routes.termsCondition, page: () => TermsConditionScreen()),
   GetPage(name: Routes.faq, page: () => FAQScreen()),
+  // GetPage(name: Routes.delegates,page: () => Delegates()),
 ];

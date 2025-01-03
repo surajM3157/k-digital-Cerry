@@ -1653,6 +1653,99 @@ class _HomeState extends State<Home> {
                 return GestureDetector(
                   onTap: () {
                     speakerDetails(
+                      title: speakers[index].speakerName ?? "",
+                      subtitle: speakers[index].designation ?? "",
+                      body: speakers[index].bio ?? "",
+                      image: (speakers[index].speakerImage ?? ""),
+                    );
+                  },
+                  child: Container(
+                    height: 150,
+                    width: 173,
+                    margin: index == 0
+                        ? const EdgeInsets.only(left: 16)
+                        : index ==
+                                ((speakers.length < 5) ? speakers.length : 5) -
+                                    1
+                            ? const EdgeInsets.only(right: 16)
+                            : EdgeInsets.zero,
+                    padding: const EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      color: AppColor.secondaryColor,
+                      gradient: LinearGradient(
+                        colors: AppColor.gradientColors,
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      borderRadius: const BorderRadius.all(Radius.circular(15)),
+                    ),
+                    child: SingleChildScrollView(
+                      // Wrap content in scrollable view
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(height: 20),
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(100),
+                            child: Image.network(
+                              ApiUrls.imageUrl +
+                                  (speakers[index].speakerImage ?? ""),
+                              height: 80,
+                              width: 80,
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                          const SizedBox(height: 5),
+                          Text(
+                            speakers[index].speakerName ?? "",
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                                fontFamily: appFontFamily,
+                                color: AppColor.white,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
+                                overflow: TextOverflow.ellipsis),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 8),
+                          const Divider(
+                            height: 0,
+                            thickness: 0.7,
+                            color: Colors.white,
+                            indent: 35,
+                            endIndent: 35,
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            speakers[index].designation ?? "",
+                            style: TextStyle(
+                                fontFamily: appFontFamily,
+                                color: AppColor.white,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                                overflow: TextOverflow.ellipsis),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              },
+              separatorBuilder: (BuildContext context, int index) {
+                return const SizedBox(width: 16);
+              },
+            )
+
+          /* ? ListView.separated(
+              padding: EdgeInsets.zero,
+              itemCount: (speakers.length < 5) ? speakers.length : 5,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  onTap: () {
+                    speakerDetails(
                         title: speakers[index].speakerName ?? "",
                         subtitle: speakers[index].designation ?? "",
                         body: speakers[index].bio ?? "",
@@ -1724,7 +1817,7 @@ class _HomeState extends State<Home> {
                   width: 16,
                 );
               },
-            )
+            )*/
           : const SizedBox.shrink(),
     );
   }

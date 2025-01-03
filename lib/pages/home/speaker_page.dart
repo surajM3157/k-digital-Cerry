@@ -20,10 +20,8 @@ class SpeakerPage extends StatefulWidget {
 }
 
 class _SpeakerPageState extends State<SpeakerPage> {
-
   TextEditingController searchController = TextEditingController();
   SpeakerResponse? speakerResponse;
-
 
   List<SpeakerData> speakerList = [];
   Timer? debounceTimer;
@@ -63,127 +61,282 @@ class _SpeakerPageState extends State<SpeakerPage> {
         backgroundColor: AppColor.primaryColor,
         title: Padding(
           padding: const EdgeInsets.only(right: 60),
-          child: Center(child: SvgPicture.asset(Images.logo, height: 40,width: 147)),
+          child: Center(
+              child: SvgPicture.asset(Images.logo, height: 40, width: 147)),
         ),
         leading: InkWell(
-            onTap: (){
+            onTap: () {
               Get.back();
             },
-            child: Icon(Icons.arrow_back_ios,size: 20,color: AppColor.white,)),
+            child: Icon(
+              Icons.arrow_back_ios,
+              size: 20,
+              color: AppColor.white,
+            )),
       ),
-      body:isConnected? RefreshIndicator(
-        onRefresh: () async{
-          fetchSpeakerList("");
-        },
-        color: AppColor.primaryColor,
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: GradientText(text: "PanIIT - 2025 Speakers ", style: const TextStyle(fontSize: 20,fontWeight: FontWeight.w600,fontFamily: appFontFamily), gradient: LinearGradient(
-                  colors: AppColor.gradientColors,
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                )),
-              ),
-              const SizedBox(height: 10,),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: TextFormField(
-                  controller: searchController,
-                  onChanged: onSearchChanged,
-                  cursorColor: AppColor.primaryColor,
-                  decoration: InputDecoration(
-                    hintText: "Search Speaker",
-                    hintStyle: TextStyle(fontFamily: appFontFamily,fontWeight: FontWeight.w400,fontSize: 14,color: AppColor.black.withOpacity(0.50)),
-                    suffixIcon: Container(
-                      height: 60,width: 60,
-                      decoration: BoxDecoration(
-                        color: AppColor.primaryColor,
-                        borderRadius: const BorderRadius.only(topRight: Radius.circular(8),bottomRight: Radius.circular(8))
-                      ),
-                      child: Center(child: Icon(Icons.search_rounded,color: AppColor.white,)),
+      body: isConnected
+          ? RefreshIndicator(
+              onRefresh: () async {
+                fetchSpeakerList("");
+              },
+              color: AppColor.primaryColor,
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: GradientText(
+                          text: "PanIIT - 2025 Speakers ",
+                          style: const TextStyle(
+                              fontSize: 26,
+                              fontWeight: FontWeight.w600,
+                              fontFamily: appFontFamily),
+                          gradient: LinearGradient(
+                            colors: AppColor.gradientColors,
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                          )),
                     ),
-                    enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8),borderSide: BorderSide(width: 0.5,color: AppColor.black.withOpacity(0.10))),
-                    focusedBorder:  OutlineInputBorder(borderRadius: BorderRadius.circular(8),borderSide: BorderSide(width: 0.5,color: AppColor.black.withOpacity(0.10))),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 10,),
-              speakerList.isEmpty&& isLoading == false?
-              Center(child: Text("No Data Found.",
-                textAlign: TextAlign.center,
-                style: TextStyle(color: AppColor.primaryColor,fontWeight: FontWeight.w600,fontFamily: appFontFamily,fontSize: 20),)):
-              ListView.separated(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: speakerList.length,
-                  itemBuilder: (context,index){
-                return GestureDetector(
-                  onTap: (){
-                    speakerDetails(title: speakerList[index].speakerName??"", subtitle: speakerList[index].designation??"", body: speakerList[index].bio??"", image: speakerList[index].speakerImage??"");
-                  },
-                  child: Stack(
-                    alignment: Alignment.bottomCenter,
-                    clipBehavior: Clip.none,
-                    children: [
-                      Container(
-                        width: Get.width,
-                        height: 325,
-                        margin: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.all(Radius.circular(10)),
-                            // gradient: LinearGradient(
-                            //   colors: AppColor.gradientColors,
-                            //   begin: Alignment.centerLeft,
-                            //   end: Alignment.centerRight,
-                            // )
-                          color: AppColor.white
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                            child: Image.network(ApiUrls.imageUrl+(speakerList[index].speakerImage??""),fit: BoxFit.fill,)),
-                      ),
-                      Positioned(
-                        bottom: -30,
-                        left: 16,right: 16,
-                        child: Container(
-                          // height: 102,
-                          width: Get.width,
-                          decoration: BoxDecoration(
-                              color: AppColor.black.withOpacity(0.85),
-                              borderRadius: const BorderRadius.all(Radius.circular(10))
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 11),
+                      child: TextFormField(
+                        controller: searchController,
+                        onChanged: onSearchChanged,
+                        cursorColor: AppColor.primaryColor,
+                        decoration: InputDecoration(
+                          hintText: "Search Speaker",
+                          hintStyle: TextStyle(
+                            fontFamily: appFontFamily,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 14,
+                            color: AppColor.black.withOpacity(0.50),
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(speakerList[index].speakerName??"",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600,color: AppColor.white,fontFamily: appFontFamily),),
-                                Text(speakerList[index].designation??"",style: TextStyle(fontSize: 14,fontWeight: FontWeight.w600,color: AppColor.white,fontFamily: appFontFamily),),
-                              ],
+                          // Modify the suffix icon container size
+                          suffixIcon: Container(
+                            height:
+                                40, // Modify the height of the suffix icon container
+                            width:
+                                40, // Modify the width of the suffix icon container
+                            decoration: BoxDecoration(
+                              color: AppColor.primaryColor,
+                              borderRadius: const BorderRadius.only(
+                                topRight: Radius.circular(8),
+                                bottomRight: Radius.circular(8),
+                              ),
+                            ),
+                            child: Center(
+                              child: Icon(
+                                Icons.search_rounded,
+                                color: AppColor.white,
+                                size: 20, // Modify the size of the search icon
+                              ),
+                            ),
+                          ),
+                          // Modify the TextFormField container size
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 15,
+                              horizontal:
+                                  10), // Adjust padding inside the TextFormField
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(
+                              width: 0.5,
+                              color: AppColor.black.withOpacity(0.10),
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(
+                              width: 0.5,
+                              color: AppColor.black.withOpacity(0.10),
                             ),
                           ),
                         ),
-                      )
-                    ],
-                  ),
-                );
-              }, separatorBuilder: (BuildContext context, int index) { return const SizedBox(height: 40,); },),
-              const SizedBox(height: 50,)
-            ],
-          ),
-        ),
-      ):const Center(child: Text("OOPS! NO INTERNET.",style: TextStyle(color: Colors.black87,fontWeight: FontWeight.w600,fontFamily: appFontFamily,fontSize: 20),)),
+                      ),
+                    ),
+
+                    // Padding(
+                    //   padding: const EdgeInsets.symmetric(horizontal: 11),
+                    //   child: TextFormField(
+                    //     controller: searchController,
+                    //     onChanged: onSearchChanged,
+                    //     cursorColor: AppColor.primaryColor,
+                    //     decoration: InputDecoration(
+                    //       hintText: "Search Speaker",
+                    //       hintStyle: TextStyle(
+                    //           fontFamily: appFontFamily,
+                    //           fontWeight: FontWeight.w400,
+                    //           fontSize: 14,
+                    //           color: AppColor.black.withOpacity(0.50)),
+                    //       suffixIcon: Container(
+                    //         height: 60,
+                    //         width: 60,
+                    //         decoration: BoxDecoration(
+                    //             color: AppColor.primaryColor,
+                    //             borderRadius: const BorderRadius.only(
+                    //                 topRight: Radius.circular(8),
+                    //                 bottomRight: Radius.circular(8))),
+                    //         child: Center(
+                    //             child: Icon(
+                    //           Icons.search_rounded,
+                    //           color: AppColor.white,
+                    //         )),
+                    //       ),
+                    //       enabledBorder: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.circular(8),
+                    //           borderSide: BorderSide(
+                    //               width: 0.5,
+                    //               color: AppColor.black.withOpacity(0.10))),
+                    //       focusedBorder: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.circular(8),
+                    //           borderSide: BorderSide(
+                    //               width: 0.5,
+                    //               color: AppColor.black.withOpacity(0.10))),
+                    //     ),
+                    //   ),
+                    // ),
+                    const SizedBox(
+                      height: 2,
+                    ),
+                    speakerList.isEmpty && isLoading == false
+                        ? Center(
+                            child: Text(
+                            "No Data Found.",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: AppColor.primaryColor,
+                                fontWeight: FontWeight.w600,
+                                fontFamily: appFontFamily,
+                                fontSize: 20),
+                          ))
+                        : ListView.separated(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: speakerList.length,
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                onTap: () {
+                                  speakerDetails(
+                                      title:
+                                          speakerList[index].speakerName ?? "",
+                                      subtitle:
+                                          speakerList[index].designation ?? "",
+                                      body: speakerList[index].bio ?? "",
+                                      image: speakerList[index].speakerImage ??
+                                          "");
+                                },
+                                child: Stack(
+                                  alignment: Alignment.bottomCenter,
+                                  clipBehavior: Clip.none,
+                                  children: [
+                                    Container(
+                                      width: Get.width,
+                                      height: 325,
+                                      margin: const EdgeInsets.all(23),
+                                      decoration: BoxDecoration(
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(10)),
+                                          // gradient: LinearGradient(
+                                          //   colors: AppColor.gradientColors,
+                                          //   begin: Alignment.centerLeft,
+                                          //   end: Alignment.centerRight,
+                                          // )
+                                          color: AppColor.white),
+                                      child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          child: Image.network(
+                                            ApiUrls.imageUrl +
+                                                (speakerList[index]
+                                                        .speakerImage ??
+                                                    ""),
+                                            fit: BoxFit.fill,
+                                          )),
+                                    ),
+                                    Positioned(
+                                      bottom: -1,
+                                      left: 34,
+                                      right: 34,
+                                      child: Container(
+                                        // height: 102,
+                                        width: Get.width,
+                                        decoration: BoxDecoration(
+                                            color: AppColor.black
+                                                .withOpacity(0.85),
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(10))),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Text(
+                                                speakerList[index]
+                                                        .speakerName ??
+                                                    "",
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: AppColor.white,
+                                                    fontFamily: appFontFamily),
+                                              ),
+                                              Text(
+                                                speakerList[index]
+                                                        .designation ??
+                                                    "",
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: AppColor.white,
+                                                    fontFamily: appFontFamily),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              );
+                            },
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              return const SizedBox(
+                                height: 2,
+                              );
+                            },
+                          ),
+                    const SizedBox(
+                      height: 50,
+                    )
+                  ],
+                ),
+              ),
+            )
+          : const Center(
+              child: Text(
+              "OOPS! NO INTERNET.",
+              style: TextStyle(
+                  color: Colors.black87,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: appFontFamily,
+                  fontSize: 20),
+            )),
     );
   }
 
-
-  speakerDetails({required String title, required String subtitle, required String body, required String image}){
-
+  speakerDetails(
+      {required String title,
+      required String subtitle,
+      required String body,
+      required String image}) {
     return showModalBottomSheet<void>(
       // context and builder are
       // required properties in this widget
@@ -192,7 +345,7 @@ class _SpeakerPageState extends State<SpeakerPage> {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(32.0)),
       ),
-        backgroundColor: Colors.transparent,
+      backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
         // we set up a container inside which
         // we create center column and display text
@@ -203,26 +356,34 @@ class _SpeakerPageState extends State<SpeakerPage> {
           children: [
             Container(
               width: Get.width,
-              height: Get.height/1.5,
+              height: Get.height / 1.5,
               decoration: BoxDecoration(
-                color: AppColor.white,
-                borderRadius: const BorderRadius.only(topLeft: Radius.circular(32),topRight: Radius.circular(32))
-              ),
+                  color: AppColor.white,
+                  borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(32),
+                      topRight: Radius.circular(32))),
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 30,),
+                    const SizedBox(
+                      height: 30,
+                    ),
                     Container(
-                      width: 148,height: 156,
+                      width: 148,
+                      height: 156,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(16),
-                        gradient: LinearGradient(colors: AppColor.gradientColors),
+                        gradient:
+                            LinearGradient(colors: AppColor.gradientColors),
                       ),
-                      child:ClipRRect(
-                        borderRadius: BorderRadius.circular(16),
-                          child: Image.network(ApiUrls.imageUrl+image,fit: BoxFit.fill,)),
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.circular(16),
+                          child: Image.network(
+                            ApiUrls.imageUrl + image,
+                            fit: BoxFit.fill,
+                          )),
                     ),
                     // const SizedBox(height: 10,),
                     // Row(
@@ -232,15 +393,42 @@ class _SpeakerPageState extends State<SpeakerPage> {
                     //     Text("India",style: TextStyle(fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w400,color: AppColor.FF444444),)
                     //   ],
                     // ),
-                    const SizedBox(height: 20,),
-                    GradientText(text:title,style: const TextStyle(fontFamily: appFontFamily,fontSize: 16,fontWeight: FontWeight.w700), gradient: LinearGradient(
-                      colors: AppColor.gradientColors
-                    ),),
-                    const SizedBox(height: 10,),
-                    Text(subtitle,style: TextStyle(fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w700,color: AppColor.FF161616),),
-                    const SizedBox(height: 20,),
-                    Text(body,style: TextStyle(fontFamily: appFontFamily,fontSize: 14,fontWeight: FontWeight.w400,color: AppColor.FF050505),),
-                    const SizedBox(height: 20,)
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    GradientText(
+                      text: title,
+                      style: const TextStyle(
+                          fontFamily: appFontFamily,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700),
+                      gradient: LinearGradient(colors: AppColor.gradientColors),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      subtitle,
+                      style: TextStyle(
+                          fontFamily: appFontFamily,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
+                          color: AppColor.FF161616),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      body,
+                      style: TextStyle(
+                          fontFamily: appFontFamily,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: AppColor.FF050505),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    )
                   ],
                 ),
               ),
@@ -248,9 +436,9 @@ class _SpeakerPageState extends State<SpeakerPage> {
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: GestureDetector(
-                onTap: (){
-                  Get.back();
-                },
+                  onTap: () {
+                    Get.back();
+                  },
                   child: Image.asset(Images.cancelIcon)),
             )
           ],
@@ -259,15 +447,12 @@ class _SpeakerPageState extends State<SpeakerPage> {
     );
   }
 
-  fetchSpeakerList(String search) async
-  {
+  fetchSpeakerList(String search) async {
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
       isConnected = false;
-      setState(() {
-
-      });
-    }else {
+      setState(() {});
+    } else {
       isConnected = true;
       setState(() {
         isLoading = true;
@@ -288,10 +473,7 @@ class _SpeakerPageState extends State<SpeakerPage> {
         print("speakerlist ${speakerList.length}");
       }
 
-      setState(() {
-
-      });
+      setState(() {});
     }
-
   }
 }

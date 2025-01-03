@@ -244,7 +244,7 @@ class ApiRepo {
     };
     print("Auth Token Saved___new: $token");
     final response = await http.post(
-      Uri.parse(ApiUrls.otpApiUrl),
+      Uri.parse(ApiUrls.fmcTokenSendApiUrl),
       body: params,
       headers: {
         'token': token,
