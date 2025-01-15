@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -17,7 +16,6 @@ import 'package:piwotapp/responses/live_session_response.dart';
 import 'package:piwotapp/shared%20prefs/pref_manager.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import '../../constants/colors.dart';
 import '../../constants/font_family.dart';
 import '../../constants/images.dart';
@@ -41,7 +39,11 @@ class _HomeState extends State<Home> {
 
   Timer? _timer;
   Duration _timeRemaining = const Duration();
-  final DateTime _endTime = DateTime(2025, 01, 16, 32, 59, 59); // Your end time
+  //final DateTime _endTime = DateTime(2025, 01, 16, 32, 59, 59);
+  final DateTime _endTime = DateTime(2025, 01, 16, 23, 59, 59); // Your end
+
+
+  bool isCountdownFinished = false;
 
   BannerResponse? bannerResponse;
   List<BannerData> bannerList = [];
@@ -155,6 +157,10 @@ class _HomeState extends State<Home> {
               // );
             } else if (type == "live_event") {
               String? sId = message.data['event_id'];
+              print("Live event - > $sId");
+              Get.to(LiveEventsPage(sid: sId));
+            } else if (type == "survey") {
+              String? sId = message.data['session_id'];
               print("Live event - > $sId");
               Get.to(LiveEventsPage(sid: sId));
             }
@@ -279,7 +285,9 @@ class _HomeState extends State<Home> {
 
       setState(() {});
       EasyLoading.showToast("No Internet",
-          dismissOnTap: true, duration: const Duration(seconds: 1), toastPosition: EasyLoadingToastPosition.center);
+          dismissOnTap: true,
+          duration: const Duration(seconds: 1),
+          toastPosition: EasyLoadingToastPosition.center);
     } else {
       isConnected = true;
       var response = await ApiRepo().getListLinksResponse(true);
@@ -292,13 +300,27 @@ class _HomeState extends State<Home> {
     }
   }
 
-  void _startTimer() {
+  /*void _startTimer() {
     _timer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
       setState(() {
         _timeRemaining = _endTime.difference(DateTime.now());
 
         if (_timeRemaining.isNegative) {
           timer.cancel();
+        }
+      });
+    });
+  }*/
+
+  void _startTimer() {
+    _timer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
+      setState(() {
+        _timeRemaining = _endTime.difference(DateTime.now());
+
+        // If countdown is finished, cancel the timer
+        if (_timeRemaining.isNegative || _timeRemaining == Duration.zero) {
+          isCountdownFinished = true; // Set the flag to true when time is over
+          timer.cancel(); // Stop the timer
         }
       });
     });
@@ -336,33 +358,32 @@ class _HomeState extends State<Home> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   bannerCarousel(),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  Padding(
+                  const SizedBox(height: 7),
+                /* Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: GradientText(
                       text: "Countdown For PIWOT Event 2025",
-                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: appFontFamily),
+                      style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: appFontFamily),
                       gradient: LinearGradient(
                         colors: AppColor.gradientColors,
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
+                  ),*/
                   countdownWidget(),
-                  const SizedBox(
-                    height: 16,
-                  ),
+                  const SizedBox(height: 8),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: GradientText(
                       text: "Explore",
-                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: appFontFamily),
+                      style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: appFontFamily),
                       gradient: LinearGradient(
                         colors: AppColor.gradientColors,
                         begin: Alignment.topLeft,
@@ -384,7 +405,10 @@ class _HomeState extends State<Home> {
                       children: [
                         GradientText(
                           text: "About Event",
-                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: appFontFamily),
+                          style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              fontFamily: appFontFamily),
                           gradient: LinearGradient(
                             colors: AppColor.gradientColors,
                             begin: Alignment.topLeft,
@@ -402,7 +426,9 @@ class _HomeState extends State<Home> {
                               GradientText(
                                 text: "View More",
                                 style: const TextStyle(
-                                    fontSize: 12, fontWeight: FontWeight.w600, fontFamily: appFontFamily),
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: appFontFamily),
                                 gradient: LinearGradient(
                                   colors: AppColor.gradientColors,
                                   begin: Alignment.topLeft,
@@ -765,7 +791,10 @@ class _HomeState extends State<Home> {
                       children: [
                         GradientText(
                           text: "Speaker",
-                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: appFontFamily),
+                          style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              fontFamily: appFontFamily),
                           gradient: LinearGradient(
                             colors: AppColor.gradientColors,
                             begin: Alignment.topLeft,
@@ -783,7 +812,9 @@ class _HomeState extends State<Home> {
                               GradientText(
                                 text: "View More",
                                 style: const TextStyle(
-                                    fontSize: 12, fontWeight: FontWeight.w600, fontFamily: appFontFamily),
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: appFontFamily),
                                 gradient: LinearGradient(
                                   colors: AppColor.gradientColors,
                                   begin: Alignment.topLeft,
@@ -815,7 +846,10 @@ class _HomeState extends State<Home> {
                       children: [
                         GradientText(
                           text: "Sponsor",
-                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: appFontFamily),
+                          style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              fontFamily: appFontFamily),
                           gradient: LinearGradient(
                             colors: AppColor.gradientColors,
                             begin: Alignment.topLeft,
@@ -833,7 +867,9 @@ class _HomeState extends State<Home> {
                               GradientText(
                                 text: "View More",
                                 style: const TextStyle(
-                                    fontSize: 12, fontWeight: FontWeight.w600, fontFamily: appFontFamily),
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: appFontFamily),
                                 gradient: LinearGradient(
                                   colors: AppColor.gradientColors,
                                   begin: Alignment.topLeft,
@@ -862,7 +898,10 @@ class _HomeState extends State<Home> {
                       children: [
                         GradientText(
                           text: "Live Events",
-                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: appFontFamily),
+                          style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              fontFamily: appFontFamily),
                           gradient: LinearGradient(
                             colors: AppColor.gradientColors,
                             begin: Alignment.topLeft,
@@ -880,7 +919,9 @@ class _HomeState extends State<Home> {
                               GradientText(
                                 text: "View More",
                                 style: const TextStyle(
-                                    fontSize: 12, fontWeight: FontWeight.w600, fontFamily: appFontFamily),
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: appFontFamily),
                                 gradient: LinearGradient(
                                   colors: AppColor.gradientColors,
                                   begin: Alignment.topLeft,
@@ -908,7 +949,8 @@ class _HomeState extends State<Home> {
                     height: 210,
                     decoration: BoxDecoration(
                         border: Border.all(color: AppColor.FFC7C7C7),
-                        borderRadius: const BorderRadius.all(Radius.circular(10)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
                         color: AppColor.FFCBC7FF.withOpacity(0.15)),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -925,16 +967,21 @@ class _HomeState extends State<Home> {
                               ),
                               Text(
                                 "We value your",
-                                style: AppThemes.titleTextStyle().copyWith(fontWeight: FontWeight.w600),
+                                style: AppThemes.titleTextStyle()
+                                    .copyWith(fontWeight: FontWeight.w600),
                               ),
                               Text("Feedback!",
-                                  style: AppThemes.titleTextStyle().copyWith(fontWeight: FontWeight.w600)),
+                                  style: AppThemes.titleTextStyle()
+                                      .copyWith(fontWeight: FontWeight.w600)),
                               const SizedBox(
                                 height: 8,
                               ),
-                              Text("We'd love to hear about", style: AppThemes.subtitleTextStyle()),
-                              Text("your recent experience", style: AppThemes.subtitleTextStyle()),
-                              Text("with our services", style: AppThemes.subtitleTextStyle()),
+                              Text("We'd love to hear about",
+                                  style: AppThemes.subtitleTextStyle()),
+                              Text("your recent experience",
+                                  style: AppThemes.subtitleTextStyle()),
+                              Text("with our services",
+                                  style: AppThemes.subtitleTextStyle()),
                               const SizedBox(
                                 height: 16,
                               ),
@@ -952,7 +999,10 @@ class _HomeState extends State<Home> {
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: GradientText(
                       text: "Venue",
-                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: appFontFamily),
+                      style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: appFontFamily),
                       gradient: LinearGradient(
                         colors: AppColor.gradientColors,
                         begin: Alignment.topLeft,
@@ -960,13 +1010,14 @@ class _HomeState extends State<Home> {
                       ),
                     ),
                   ),
-                  Container(
+                 /* Container(
                     width: Get.width,
                     margin: const EdgeInsets.all(16),
                     height: 208,
                     padding: const EdgeInsets.only(left: 16),
                     decoration: BoxDecoration(
-                        gradient: LinearGradient(colors: AppColor.gradientColors),
+                        gradient:
+                            LinearGradient(colors: AppColor.gradientColors),
                         borderRadius: BorderRadius.circular(8)),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -985,8 +1036,7 @@ class _HomeState extends State<Home> {
                             const SizedBox(
                               height: 50,
                             ),
-                            Text(
-                              "PanIIT - 2025\nEvent",
+                            Text("PanIIT - 2025\nEvent",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontWeight: FontWeight.w700,
@@ -997,11 +1047,60 @@ class _HomeState extends State<Home> {
                           ],
                         ),
                         Expanded(
+
                           child: Image.asset(Images.bannerIcon),
                         ),
                       ],
                     ),
+                  ),*/
+                  Container(
+                    width: Get.width,
+                    margin: const EdgeInsets.all(16),
+                    height: 208,
+                    padding: const EdgeInsets.only(left: 16),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(colors: AppColor.gradientColors),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Column(
+                          children: [
+                            const SizedBox(
+                              height: 18,
+                            ),
+                            SvgPicture.asset(
+                              Images.logo,
+                              height: 40,
+                              width: 116,
+                            ),
+                            const SizedBox(
+                              height: 50,
+                            ),
+                            Text("PanIIT - 2025\nEvent",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 22,
+                                color: AppColor.white,
+                                fontFamily: appFontFamily,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Align(
+                          alignment: Alignment.bottomRight, // Right and bottom alignment
+                          child: Image.asset(
+                            Images.bannerIcon,
+                            fit: BoxFit.cover,  // Ensure image covers the space properly
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
+
                   const SizedBox(
                     height: 4,
                   ),
@@ -1010,7 +1109,8 @@ class _HomeState extends State<Home> {
                     children: [
                       InkWell(
                           onTap: () {
-                            launchUrl(Uri.parse(_listLinkData?.facebookLink ?? ""));
+                            launchUrl(
+                                Uri.parse(_listLinkData?.facebookLink ?? ""));
                           },
                           child: SvgPicture.asset(Images.facebookIcon)),
                       const SizedBox(
@@ -1018,7 +1118,8 @@ class _HomeState extends State<Home> {
                       ),
                       InkWell(
                           onTap: () {
-                            launchUrl(Uri.parse(_listLinkData?.instagramLink ?? ""));
+                            launchUrl(
+                                Uri.parse(_listLinkData?.instagramLink ?? ""));
                           },
                           child: SvgPicture.asset(Images.instagramIcon)),
                       const SizedBox(
@@ -1026,7 +1127,8 @@ class _HomeState extends State<Home> {
                       ),
                       InkWell(
                           onTap: () {
-                            launchUrl(Uri.parse(_listLinkData?.linkedinLink ?? ""));
+                            launchUrl(
+                                Uri.parse(_listLinkData?.linkedinLink ?? ""));
                           },
                           child: SvgPicture.asset(Images.linkedinIcon)),
                       const SizedBox(
@@ -1034,7 +1136,8 @@ class _HomeState extends State<Home> {
                       ),
                       InkWell(
                           onTap: () {
-                            launchUrl(Uri.parse(_listLinkData?.twitterLink ?? ""));
+                            launchUrl(
+                                Uri.parse(_listLinkData?.twitterLink ?? ""));
                           },
                           child: SvgPicture.asset(Images.twitterIcon)),
                       const SizedBox(
@@ -1042,7 +1145,8 @@ class _HomeState extends State<Home> {
                       ),
                       InkWell(
                           onTap: () {
-                            launchUrl(Uri.parse(_listLinkData?.youtubeLink ?? ""));
+                            launchUrl(
+                                Uri.parse(_listLinkData?.youtubeLink ?? ""));
                           },
                           child: Image.asset(
                             Images.youtubeIcon,
@@ -1065,7 +1169,8 @@ class _HomeState extends State<Home> {
                       margin: const EdgeInsets.symmetric(horizontal: 16),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(50),
-                          gradient: LinearGradient(colors: AppColor.gradientColors)),
+                          gradient:
+                              LinearGradient(colors: AppColor.gradientColors)),
                       child: Center(
                         child: Text(
                           "Direction To Venue",
@@ -1088,12 +1193,15 @@ class _HomeState extends State<Home> {
         : const Center(
             child: Text(
             "OOPS! NO INTERNET.",
-            style:
-                TextStyle(color: Colors.black87, fontWeight: FontWeight.w600, fontFamily: appFontFamily, fontSize: 20),
+            style: TextStyle(
+                color: Colors.black87,
+                fontWeight: FontWeight.w600,
+                fontFamily: appFontFamily,
+                fontSize: 20),
           ));
   }
 
-  Widget countdownWidget() {
+  /*Widget countdownWidget() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
@@ -1102,17 +1210,23 @@ class _HomeState extends State<Home> {
           Container(
             padding: const EdgeInsets.all(1),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(9), gradient: LinearGradient(colors: AppColor.gradientColors)),
+                borderRadius: BorderRadius.circular(9),
+                gradient: LinearGradient(colors: AppColor.gradientColors)),
             child: Container(
               height: Get.height * 0.1,
               width: Get.width * 0.21,
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(9), color: AppColor.white),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(9),
+                  color: AppColor.white),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   GradientText(
                     text: _formatDuration(_timeRemaining)[0].toString(),
-                    style: const TextStyle(fontFamily: appFontFamily, fontWeight: FontWeight.w600, fontSize: 20),
+                    style: const TextStyle(
+                        fontFamily: appFontFamily,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 20),
                     gradient: LinearGradient(colors: AppColor.gradientColors),
                   ),
                   const SizedBox(
@@ -1120,7 +1234,10 @@ class _HomeState extends State<Home> {
                   ),
                   GradientText(
                       text: "DAYS",
-                      style: const TextStyle(fontFamily: appFontFamily, fontWeight: FontWeight.w600, fontSize: 10),
+                      style: const TextStyle(
+                          fontFamily: appFontFamily,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 10),
                       gradient: LinearGradient(colors: AppColor.gradientColors))
                 ],
               ),
@@ -1129,24 +1246,34 @@ class _HomeState extends State<Home> {
           Container(
             padding: const EdgeInsets.all(1),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(9), gradient: LinearGradient(colors: AppColor.gradientColors)),
+                borderRadius: BorderRadius.circular(9),
+                gradient: LinearGradient(colors: AppColor.gradientColors)),
             child: Container(
               height: Get.height * 0.1,
               width: Get.width * 0.21,
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(9), color: AppColor.white),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(9),
+                  color: AppColor.white),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   GradientText(
                       text: _formatDuration(_timeRemaining)[1].toString(),
-                      style: const TextStyle(fontFamily: appFontFamily, fontWeight: FontWeight.w600, fontSize: 20),
-                      gradient: LinearGradient(colors: AppColor.gradientColors)),
+                      style: const TextStyle(
+                          fontFamily: appFontFamily,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 20),
+                      gradient:
+                          LinearGradient(colors: AppColor.gradientColors)),
                   const SizedBox(
                     height: 5,
                   ),
                   GradientText(
                       text: "HOURS",
-                      style: const TextStyle(fontFamily: appFontFamily, fontWeight: FontWeight.w600, fontSize: 10),
+                      style: const TextStyle(
+                          fontFamily: appFontFamily,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 10),
                       gradient: LinearGradient(colors: AppColor.gradientColors))
                 ],
               ),
@@ -1155,18 +1282,25 @@ class _HomeState extends State<Home> {
           Container(
             padding: const EdgeInsets.all(1),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(9), gradient: LinearGradient(colors: AppColor.gradientColors)),
+                borderRadius: BorderRadius.circular(9),
+                gradient: LinearGradient(colors: AppColor.gradientColors)),
             child: Container(
               height: Get.height * 0.1,
               width: Get.width * 0.21,
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(9), color: AppColor.white),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(9),
+                  color: AppColor.white),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   GradientText(
                       text: _formatDuration(_timeRemaining)[2].toString(),
-                      style: const TextStyle(fontFamily: appFontFamily, fontWeight: FontWeight.w600, fontSize: 20),
-                      gradient: LinearGradient(colors: AppColor.gradientColors)),
+                      style: const TextStyle(
+                          fontFamily: appFontFamily,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 20),
+                      gradient:
+                          LinearGradient(colors: AppColor.gradientColors)),
                   const SizedBox(
                     height: 5,
                   ),
@@ -1185,30 +1319,128 @@ class _HomeState extends State<Home> {
           Container(
             padding: const EdgeInsets.all(1),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(9), gradient: LinearGradient(colors: AppColor.gradientColors)),
+                borderRadius: BorderRadius.circular(9),
+                gradient: LinearGradient(colors: AppColor.gradientColors)),
             child: Container(
               height: Get.height * 0.1,
               width: Get.width * 0.21,
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(9), color: AppColor.white),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(9),
+                  color: AppColor.white),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   GradientText(
                       text: _formatDuration(_timeRemaining)[3].toString(),
-                      style: const TextStyle(fontFamily: appFontFamily, fontWeight: FontWeight.w600, fontSize: 20),
-                      gradient: LinearGradient(colors: AppColor.gradientColors)),
+                      style: const TextStyle(
+                          fontFamily: appFontFamily,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 20),
+                      gradient:
+                          LinearGradient(colors: AppColor.gradientColors)),
                   const SizedBox(
                     height: 5,
                   ),
                   GradientText(
                       text: "SECONDS",
-                      style: const TextStyle(fontFamily: appFontFamily, fontWeight: FontWeight.w600, fontSize: 10),
+                      style: const TextStyle(
+                          fontFamily: appFontFamily,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 10),
                       gradient: LinearGradient(colors: AppColor.gradientColors))
                 ],
               ),
             ),
           ),
         ],
+      ),
+    );
+  }*/
+
+  Widget countdownWidget() {
+    if (isCountdownFinished) {
+      return const Center(
+        child: Text(' ', style: TextStyle(
+          fontSize: 15, color: Colors.black, fontWeight: FontWeight.bold,
+        ),
+        ),
+      );
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (!isCountdownFinished)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: GradientText(
+              text: "Countdown For PIWOT Event 202225",
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                fontFamily: appFontFamily,
+              ),
+              gradient: LinearGradient(
+                colors: AppColor.gradientColors,
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+            ),
+          ),
+        const SizedBox(height: 15),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _buildTimeContainer(_formatDuration(_timeRemaining)[0].toString(), "DAYS"),
+              _buildTimeContainer(_formatDuration(_timeRemaining)[1].toString(), "HOURS"),
+              _buildTimeContainer(_formatDuration(_timeRemaining)[2].toString(), "MINUTES"),
+              _buildTimeContainer(_formatDuration(_timeRemaining)[3].toString(), "SECONDS"),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTimeContainer(String time, String label) {
+    return Container(
+      padding: const EdgeInsets.all(1),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(9),
+        gradient: LinearGradient(colors: AppColor.gradientColors),  // Gradient Color
+      ),
+      child: Container(
+        height: Get.height * 0.1,
+        width: Get.width * 0.21,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(9),
+          color: AppColor.white,  // Background color
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            GradientText(
+              text: time,
+              style: const TextStyle(
+                fontFamily: appFontFamily,
+                fontWeight: FontWeight.w600,
+                fontSize: 20,
+              ),
+              gradient: LinearGradient(colors: AppColor.gradientColors),  // Gradient text
+            ),
+            const SizedBox(height: 5),
+            GradientText(
+              text: label,
+              style: const TextStyle(
+                fontFamily: appFontFamily,
+                fontWeight: FontWeight.w600,
+                fontSize: 10,
+              ),
+              gradient: LinearGradient(colors: AppColor.gradientColors),  // Gradient text
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -1226,11 +1458,14 @@ class _HomeState extends State<Home> {
             child: Container(
               padding: const EdgeInsets.all(1),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(9), gradient: LinearGradient(colors: AppColor.gradientColors)),
+                  borderRadius: BorderRadius.circular(9),
+                  gradient: LinearGradient(colors: AppColor.gradientColors)),
               child: Container(
                 height: Get.height * 0.11,
                 width: Get.width * 0.28,
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(9), color: AppColor.white),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(9),
+                    color: AppColor.white),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -1244,8 +1479,12 @@ class _HomeState extends State<Home> {
                     ),
                     GradientText(
                         text: "Delegates",
-                        style: const TextStyle(fontFamily: appFontFamily, fontWeight: FontWeight.w600, fontSize: 10),
-                        gradient: LinearGradient(colors: AppColor.gradientColors))
+                        style: const TextStyle(
+                            fontFamily: appFontFamily,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 10),
+                        gradient:
+                            LinearGradient(colors: AppColor.gradientColors))
                   ],
                 ),
               ),
@@ -1258,11 +1497,14 @@ class _HomeState extends State<Home> {
             child: Container(
               padding: const EdgeInsets.all(1),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(9), gradient: LinearGradient(colors: AppColor.gradientColors)),
+                  borderRadius: BorderRadius.circular(9),
+                  gradient: LinearGradient(colors: AppColor.gradientColors)),
               child: Container(
                 height: Get.height * 0.11,
                 width: Get.width * 0.28,
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(9), color: AppColor.white),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(9),
+                    color: AppColor.white),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -1276,8 +1518,12 @@ class _HomeState extends State<Home> {
                     ),
                     GradientText(
                         text: "Agenda",
-                        style: const TextStyle(fontFamily: appFontFamily, fontWeight: FontWeight.w600, fontSize: 10),
-                        gradient: LinearGradient(colors: AppColor.gradientColors))
+                        style: const TextStyle(
+                            fontFamily: appFontFamily,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 10),
+                        gradient:
+                            LinearGradient(colors: AppColor.gradientColors))
                   ],
                 ),
               ),
@@ -1290,11 +1536,14 @@ class _HomeState extends State<Home> {
             child: Container(
               padding: const EdgeInsets.all(1),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(9), gradient: LinearGradient(colors: AppColor.gradientColors)),
+                  borderRadius: BorderRadius.circular(9),
+                  gradient: LinearGradient(colors: AppColor.gradientColors)),
               child: Container(
                 height: Get.height * 0.11,
                 width: Get.width * 0.28,
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(9), color: AppColor.white),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(9),
+                    color: AppColor.white),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -1308,8 +1557,12 @@ class _HomeState extends State<Home> {
                     ),
                     GradientText(
                         text: "Floor Plan",
-                        style: const TextStyle(fontFamily: appFontFamily, fontWeight: FontWeight.w600, fontSize: 10),
-                        gradient: LinearGradient(colors: AppColor.gradientColors))
+                        style: const TextStyle(
+                            fontFamily: appFontFamily,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 10),
+                        gradient:
+                            LinearGradient(colors: AppColor.gradientColors))
                   ],
                 ),
               ),
@@ -1334,8 +1587,9 @@ class _HomeState extends State<Home> {
                 : index == 2
                     ? const EdgeInsets.only(right: 16)
                     : EdgeInsets.zero,
-            decoration:
-                BoxDecoration(borderRadius: BorderRadius.circular(9), border: Border.all(color: AppColor.primaryColor)),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(9),
+                border: Border.all(color: AppColor.primaryColor)),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -1434,12 +1688,17 @@ class _HomeState extends State<Home> {
                     ? Padding(
                         padding: index == 0
                             ? const EdgeInsets.only(left: 16)
-                            : index == ((liveSessions.length < 3) ? liveSessions.length : 3) - 1
+                            : index ==
+                                    ((liveSessions.length < 3)
+                                            ? liveSessions.length
+                                            : 3) -
+                                        1
                                 ? const EdgeInsets.only(right: 16)
                                 : EdgeInsets.zero,
                         child: InkWell(
                             onTap: () {
-                              Get.toNamed(Routes.liveSession, arguments: {"data": liveSessions[index]});
+                              Get.toNamed(Routes.liveSession,
+                                  arguments: {"data": liveSessions[index]});
                             },
                             child: Stack(
                               alignment: Alignment.bottomLeft,
@@ -1448,22 +1707,26 @@ class _HomeState extends State<Home> {
                                   height: 205,
                                   width: 203,
                                   decoration: const BoxDecoration(
-                                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(8)),
                                   ),
                                   child: ClipRRect(
-                                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(10)),
                                       child: SizedBox(
                                         height: 203,
                                         width: 204,
                                         child: YouTubeThumbnail(
-                                          youtubeUrl: liveSessions[index].link ?? "",
+                                          youtubeUrl:
+                                              liveSessions[index].link ?? "",
                                         ),
                                       )),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
                                       // Text(liveSessions[index].title??"",style: TextStyle(color: AppColor.white,fontSize: 14,fontWeight: FontWeight.bold,fontFamily: appFontFamily),),
@@ -1473,9 +1736,12 @@ class _HomeState extends State<Home> {
                                         width: 98,
                                         decoration: BoxDecoration(
                                             color: AppColor.red,
-                                            borderRadius: const BorderRadius.all(Radius.circular(8))),
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(8))),
                                         child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
                                             Text(
                                               "Event Details",
@@ -1488,7 +1754,8 @@ class _HomeState extends State<Home> {
                                             const SizedBox(
                                               width: 2,
                                             ),
-                                            SvgPicture.asset(Images.crossArrowIcon)
+                                            SvgPicture.asset(
+                                                Images.crossArrowIcon)
                                           ],
                                         ),
                                       )
@@ -1560,7 +1827,9 @@ class _HomeState extends State<Home> {
               return Padding(
                 padding: EdgeInsets.only(
                   left: index == 0 ? 16.0 : 0, // Padding for the first item
-                  right: index == sponsors.length - 1 ? 16.0 : 0, // Padding for the last item
+                  right: index == sponsors.length - 1
+                      ? 16.0
+                      : 0, // Padding for the last item
                 ),
                 child: Builder(
                   builder: (BuildContext context) {
@@ -1619,7 +1888,9 @@ class _HomeState extends State<Home> {
                     width: 173,
                     margin: index == 0
                         ? const EdgeInsets.only(left: 16)
-                        : index == ((speakers.length < 5) ? speakers.length : 5) - 1
+                        : index ==
+                                ((speakers.length < 5) ? speakers.length : 5) -
+                                    1
                             ? const EdgeInsets.only(right: 16)
                             : EdgeInsets.zero,
                     padding: const EdgeInsets.all(5),
@@ -1642,7 +1913,8 @@ class _HomeState extends State<Home> {
                           ClipRRect(
                             borderRadius: BorderRadius.circular(100),
                             child: Image.network(
-                              ApiUrls.imageUrl + (speakers[index].speakerImage ?? ""),
+                              ApiUrls.imageUrl +
+                                  (speakers[index].speakerImage ?? ""),
                               height: 80,
                               width: 80,
                               fit: BoxFit.fill,
@@ -1774,7 +2046,11 @@ class _HomeState extends State<Home> {
     );
   }
 
-  speakerDetails({required String title, required String subtitle, required String body, required String image}) {
+  speakerDetails(
+      {required String title,
+      required String subtitle,
+      required String body,
+      required String image}) {
     return showModalBottomSheet<void>(
       // context and builder are
       // required properties in this widget
@@ -1797,7 +2073,9 @@ class _HomeState extends State<Home> {
               height: Get.height / 1.5,
               decoration: BoxDecoration(
                   color: AppColor.white,
-                  borderRadius: const BorderRadius.only(topLeft: Radius.circular(32), topRight: Radius.circular(32))),
+                  borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(32),
+                      topRight: Radius.circular(32))),
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: SingleChildScrollView(
                 child: Column(
@@ -1811,7 +2089,8 @@ class _HomeState extends State<Home> {
                       height: 156,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(16),
-                        gradient: LinearGradient(colors: AppColor.gradientColors),
+                        gradient:
+                            LinearGradient(colors: AppColor.gradientColors),
                       ),
                       child: ClipRRect(
                           borderRadius: BorderRadius.circular(16),
@@ -1833,7 +2112,10 @@ class _HomeState extends State<Home> {
                     ),
                     GradientText(
                       text: title,
-                      style: const TextStyle(fontFamily: appFontFamily, fontSize: 16, fontWeight: FontWeight.w700),
+                      style: const TextStyle(
+                          fontFamily: appFontFamily,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700),
                       gradient: LinearGradient(colors: AppColor.gradientColors),
                     ),
                     const SizedBox(
@@ -1887,12 +2169,14 @@ class _HomeState extends State<Home> {
       child: Container(
         height: 45,
         width: 127,
-        decoration:
-            BoxDecoration(color: AppColor.primaryColor, borderRadius: const BorderRadius.all(Radius.circular(8))),
+        decoration: BoxDecoration(
+            color: AppColor.primaryColor,
+            borderRadius: const BorderRadius.all(Radius.circular(8))),
         child: Center(
             child: Text(
           "View Details",
-          style: AppThemes.titleTextStyle().copyWith(color: AppColor.white, fontSize: 17),
+          style: AppThemes.titleTextStyle()
+              .copyWith(color: AppColor.white, fontSize: 17),
         )),
       ),
     );
@@ -1901,16 +2185,20 @@ class _HomeState extends State<Home> {
   Widget surveyButton() {
     return InkWell(
       onTap: () {
-        Get.toNamed(Routes.survey, arguments: {"session_id": "", "type": "Global Survey"});
+        Get.toNamed(Routes.survey,
+            arguments: {"session_id": "", "type": "Global Survey"});
       },
       child: Container(
         height: 32,
         width: 150,
-        decoration: BoxDecoration(color: AppColor.red, borderRadius: const BorderRadius.all(Radius.circular(8))),
+        decoration: BoxDecoration(
+            color: AppColor.red,
+            borderRadius: const BorderRadius.all(Radius.circular(8))),
         child: Center(
             child: Text(
           "Take Survey",
-          style: AppThemes.titleTextStyle().copyWith(color: AppColor.white, fontSize: 17),
+          style: AppThemes.titleTextStyle()
+              .copyWith(color: AppColor.white, fontSize: 17),
         )),
       ),
     );

@@ -36,6 +36,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   TextEditingController searchController = TextEditingController();
   TabController? _controller;
   TabController? _aboutController;
+  bool showBadge = false;
+  Color iconColor = Colors.red;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   double _calculateAppBarHeight() {
@@ -145,15 +147,61 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 child: SvgPicture.asset(
                   Images.profileIcon,
                   color: AppColor.white,
-                )),
+                )
+            ),
+            // InkWell(
+            //     onTap: () {
+            //       Get.toNamed(Routes.notification);
+            //     },
+            //     child: SvgPicture.asset(
+            //       Images.notificationIcon,
+            //       color: AppColor.white,
+            //     )),
+
             InkWell(
-                onTap: () {
-                  Get.toNamed(Routes.notification);
-                },
-                child: SvgPicture.asset(
-                  Images.notificationIcon,
-                  color: AppColor.white,
-                )),
+              onTap: () {
+                Get.toNamed(Routes.notification);
+
+                setState(() {
+                  showBadge = false;
+                  iconColor = AppColor.primaryColor;
+                });
+              },
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  SvgPicture.asset(
+                    Images.notificationIcon,
+                    color: AppColor.white,
+                  ),
+                  // if (unreadNotificationCount > 0)
+                  // if (showBadge)
+                  Positioned(
+                    left: 25,
+                    top: 15,
+                    child: Container(
+                      width: 10, // Slightly increased the size for readability
+                      height: 10,
+                      padding: const EdgeInsets.all(6),
+                      decoration: const BoxDecoration(
+                        color: Colors.red,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Center(
+                        child: Text(
+                          _fcmService.toString(),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize:
+                                8, // Adjusted font size for better visibility
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
           backgroundColor:
               //bottomNavbarIndex == 1||bottomNavbarIndex == 4?AppColor.white:
@@ -273,8 +321,40 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 ),
               ),
             ),
+            InkWell(
+              onTap: () {
+                Get.toNamed(Routes.qrcode);  // QR Code page
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        SvgPicture.asset(
+                          'assets/images/icons/qr_code.svg',
+                          width: 19, height: 19,
+                          color: AppColor.primaryColor,  // This will change the entire icon color
+                        ),
+                        const SizedBox(width: 15),
+                        Text(
+                          "Scan QR Code",style: AppThemes.subtitle1TextStyle(),
+                        ),
+                      ],
+                    ),
+
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      size: 16,
+                      color: AppColor.primaryColor,
+                    ),
+                  ],
+                ),
+              ),
+            ),
             const SizedBox(
-              height: 20,
+              height: 5,
             ),
             InkWell(
               onTap: () {

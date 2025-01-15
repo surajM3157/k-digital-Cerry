@@ -246,6 +246,50 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       InkWell(
                         onTap: () {
+                          Get.toNamed(Routes.qrcode);  // QR Code page
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    'assets/images/icons/qr_code.svg',
+                                    width: 22, height: 22,
+                                    color: AppColor.primaryColor,  // This will change the entire icon color
+                                  ),
+                                  const SizedBox(width: 20),
+                                  Text(
+                                    "Scan QR Code",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                      color: AppColor.primaryColor,
+                                      fontFamily: appFontFamily,
+                                    ),
+                                  ),
+                                ],
+                              ),
+
+                              Icon(
+                                Icons.arrow_forward_ios,
+                                size: 16,
+                                color: AppColor.primaryColor,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                      Container(
+                        height: 1,
+                        width: Get.width,
+                        color: AppColor.black.withOpacity(0.12),
+                      ),
+                      InkWell(
+                        onTap: () {
                           Get.toNamed(Routes.contactUs);
                         },
                         child: Padding(

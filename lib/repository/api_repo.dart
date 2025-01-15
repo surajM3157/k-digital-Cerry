@@ -32,6 +32,7 @@ import 'package:piwotapp/responses/sponsor_response.dart';
 import 'package:http_parser/http_parser.dart';
 import '../constants/api_urls.dart';
 import '../responses/Stall_Response.dart';
+import '../responses/qrcode_response.dart';
 import '../route/route_names.dart';
 import '../services/notification_service.dart';
 import '../shared prefs/pref_manager.dart';
@@ -719,6 +720,95 @@ class ApiRepo {
 
     return guestDetailsResponseFromJson(response.body);
   }
+
+  //Scan Barcode
+
+  Future<QRCodeResponse> getQRCodeDetails(String id) async {
+    try {
+      // Make sure you pass the id as a query parameter in the URL
+      final String url = "${ApiUrls.qrCodeApiUrl}?id=$id"; // Append ID dynamically
+
+      // Make GET request to the API
+      final response = await http.get(
+        Uri.parse(url), // Use the dynamically constructed URL
+        headers: {
+          "Content-Type": "application/json",
+          'token': '${Prefs.checkAuthToken}', // Pass the token from local storage
+        },
+      );
+
+      print("API URL: $url"); // Debug: Print the complete API URL
+      print("Response Body: ${response.body}"); // Debug: Print response body for further debugging
+
+      if (response.statusCode == 200) {
+        // Check if the response message indicates token expiration or suspension
+        var res = json.decode(response.body);
+
+        // Handle special cases where token is expired or account is suspended
+        if (res['message'] == "Token expired." ||
+            res['message'] == 'Your account has been suspended. Please contact admin.') {
+          Prefs.setBool('is_logged_in_new', false);
+          Prefs.setString('user_id_new', "");
+          Prefs.setString('user_email_new', "");
+          Prefs.setString('user_auth_token', "");
+          Prefs.setString("user_name_new", "");
+          Prefs.setString("mobile_no", "");
+          Get.offAllNamed(Routes.login);
+        }
+
+        // If API response is successful, convert the response body into QRCodeResponse
+        return qrcodeResponseFromJson(response.body);
+      } else {
+        // Handle response error (non-200 status code)
+        print("Error: ${response.statusCode}");
+        throw Exception('Failed to load QR Code details');
+      }
+    } catch (error) {
+      // Handle any errors (network issues, parsing errors, etc.)
+      print("Error fetching QR Code details: $error");
+      throw Exception('Error fetching QR Code details: $error');
+    }
+  }
+  //Send Request
+
+/*  Future<void> sendConnectRequest(String fromId, String toId) async {
+    try {
+
+      if (fromId == null || toId == null || fromId.isEmpty || toId.isEmpty) {
+        EasyLoading.showError("Invalid IDs");
+        return;
+      }
+
+      final String url = "${ApiUrls.requestApiUrl}?id=$toId";
+      print("API URL: $url");
+
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {
+          "Content-Type": "application/json",
+          "token": '${Prefs.checkAuthToken}',
+        },
+        body: json.encode({
+          "from": fromId,
+          "to": toId,
+        }),
+      );
+
+      print("Request Body: ${json.encode({"from": fromId, "to": toId})}");
+
+      if (response.statusCode == 200) {
+        var res = json.decode(response.body);
+        print("Connect Request Response: $res");
+        EasyLoading.showSuccess("Connection request sent successfully");
+      } else {
+        EasyLoading.showError("Failed to send connection request");
+        print("Error: ${response.statusCode}");
+      }
+    } catch (e) {
+      EasyLoading.showError("Error occurred: $e");
+      print("Error sending request: $e");
+    }
+  }*/
 
   updateProfile(Map<String, dynamic> params, {File? image}) async {
     var uri = Uri.parse("${ApiUrls.updateProfileApiUrl}/${Prefs.checkUserId}");

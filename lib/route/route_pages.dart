@@ -21,6 +21,7 @@ import 'package:piwotapp/pages/profile/faq_screen.dart';
 import 'package:piwotapp/pages/profile/feedback_page.dart';
 import 'package:piwotapp/pages/profile/privacy_policy_screen.dart';
 import 'package:piwotapp/pages/profile/profile_page.dart';
+import 'package:piwotapp/pages/profile/qr_code.dart';
 import 'package:piwotapp/pages/profile/terms_condition_screen.dart';
 import 'package:piwotapp/pages/profile/ticket_page.dart';
 import 'package:piwotapp/pages/splash/splash_page.dart';
@@ -63,5 +64,6 @@ final getPages = [
   GetPage(name: Routes.privacyPolicy, page: () => PrivacyPolicyScreen()),
   GetPage(name: Routes.termsCondition, page: () => TermsConditionScreen()),
   GetPage(name: Routes.faq, page: () => FAQScreen()),
-  // GetPage(name: Routes.delegates,page: () => Delegates()),
+  GetPage(name: Routes.delegates, page: () => Delegates()),
+  GetPage(name: Routes.qrcode, page: () => QRCode()), // Add New Page
 ];

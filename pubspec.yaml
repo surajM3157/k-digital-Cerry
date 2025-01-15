@@ -59,6 +59,7 @@ dependencies:
   firebase_storage: ^11.6.0
   flutter_easyloading: ^3.0.1
   shimmer: ^3.0.0
+  fluttertoast: any
   webview_flutter: ^4.0.0
   url_launcher: ^6.2.4
   connectivity_plus: ^5.0.2
@@ -74,7 +75,9 @@ dependencies:
   excel: ^2.0.4
   intl_phone_number_input: ^0.7.0
   libphonenumber_plugin: ^0.3.3
-#  intl_phone_number_input:
+  qr_code_scanner: any
+
+  #  intl_phone_number_input:
 #    git:
 #      url: https://github.com/Shahidbangash/intl_phone_number_input.git
 #      ref: develop ̰

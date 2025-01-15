@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; // Importing Clipboard functionality
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:url_launcher/url_launcher.dart'; // Importing url_launcher to handle mailto
 import 'package:piwotapp/constants/font_family.dart';
@@ -247,7 +248,7 @@ class _FAQScreenState extends State<FAQScreen> {
     );
   }
 
-  // Function to build the answer text with clickable links (URLs and emails)
+  // Function to build the answer text with clickable links (URLs and emails) and clipboard support
   List<TextSpan> _buildAnswerText(String text) {
     final List<TextSpan> textSpans = [];
     final regexUrl = RegExp(r'http[s]?://\S+');
@@ -259,8 +260,7 @@ class _FAQScreenState extends State<FAQScreen> {
       final url = match.group(0)!;
       textSpans.add(TextSpan(
         text: url,
-        style: const TextStyle(color: Colors.blue,
-            decoration: TextDecoration.underline),
+        style: const TextStyle(color: Colors.blue, decoration: TextDecoration.underline),
         recognizer: TapGestureRecognizer()..onTap = () => _launchLink(url),
       ));
       return ''; // Returning an empty string for the URL match
@@ -270,13 +270,26 @@ class _FAQScreenState extends State<FAQScreen> {
         final email = nonMatch;
         textSpans.add(TextSpan(
           text: email,
-          style: const TextStyle(color: Colors.black), // Email color red
+          style: const TextStyle(color: Colors.black), // Email color
           recognizer: TapGestureRecognizer()..onTap = () => _launchLink(email), // Mailto link
         ));
       } else {
+        // Add normal text and implement long press for copying to clipboard
         textSpans.add(TextSpan(
           text: nonMatch,
-          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12, fontFamily: appFontFamily, color: AppColor.black),
+          style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 12,
+              fontFamily: appFontFamily,
+              color: AppColor.black),
+          recognizer: LongPressGestureRecognizer()
+            ..onLongPress = () {
+              Clipboard.setData(ClipboardData(text: nonMatch));
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                content: Text("Copied to clipboard!"),
+                duration: Duration(seconds: 2),
+              ));
+            },
         ));
       }
       return nonMatch;

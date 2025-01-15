@@ -13,7 +13,7 @@ import 'package:piwotapp/responses/guest_list_response.dart';
 import 'package:piwotapp/responses/pending_request_response.dart';
 import 'package:piwotapp/services/notification_service.dart';
 import 'package:piwotapp/widgets/app_textfield.dart';
-
+import 'package:fluttertoast/fluttertoast.dart';
 import '../../constants/font_family.dart';
 import '../../constants/images.dart';
 import '../../repository/api_repo.dart';
@@ -307,21 +307,6 @@ class _DelegatesState extends State<Delegates> with SingleTickerProviderStateMix
     print("widget.tabController?.index ${widget.tabController?.index}");
     // print("widget.tabController?.index ${widget.tabIndex}");
   }
-  // void _handleTabChange() {
-  //   if (_controller?.indexIsChanging ?? false) return;
-  //
-  //   switch (_controller?.index) {
-  //     case 0:
-  //       fetchGuestList("");
-  //       break;
-  //     case 1:
-  //       fetchFriendList();
-  //       break;
-  //     case 2:
-  //       fetchPendingRequest();
-  //       break;
-  //   }
-  // }
 
   @override
   void dispose() {
@@ -538,11 +523,11 @@ class _DelegatesState extends State<Delegates> with SingleTickerProviderStateMix
               return _buildUserListItem(index);
             },
           )
-        : Center(
+       : Center(
             child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Text(
-              "No delegates yet. Click 'Connect' to invite",
+             padding: const EdgeInsets.symmetric(horizontal: 16),
+             child: Text(
+              "No delegates yet.",
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: AppColor.primaryColor, fontWeight: FontWeight.w600, fontFamily: appFontFamily, fontSize: 20),
@@ -571,18 +556,40 @@ class _DelegatesState extends State<Delegates> with SingleTickerProviderStateMix
               child: SizedBox(
                   height: 70,
                   width: 70,
-                  child: ClipRRect(
-                      borderRadius: BorderRadius.circular(100),
-                      child: userChatList[index]['profile'] != null
-                          ? Image.network(
-                              userChatList[index]['profile'],
-                              fit: BoxFit.fill,
-                            )
-                          : Image.asset(
-                              Images.defaultProfile,
-                              fit: BoxFit.fill,
-                            ))),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: GestureDetector(
+                    onTap: () {
+                      // Ensure context is valid for showDialog
+                      if (userChatList[index]['profile'] != null && userChatList[index]['profile'].isNotEmpty) {
+                        // If profile image is available, show it full-screen
+                        _showFullScreenImage(userChatList[index]['profile'], context);  // Pass context here
+                      } else {
+                        // If profile image is not available, show toast message
+                        Fluttertoast.showToast(
+                          msg: "No profile photo",  // Message for the toast
+                          toastLength: Toast.LENGTH_SHORT,  // Duration of the toast
+                          gravity: ToastGravity.CENTER,  // Position of the toast
+                          backgroundColor: Colors.black12,  // Toast background color
+                          textColor: Colors.black,  // Text color
+                          fontSize: 16.0,  // Font size of the toast
+                        );
+                      }
+                    },
+                    child: userChatList[index]['profile'] != null && userChatList[index]['profile'].isNotEmpty
+                        ? Image.network(
+                      userChatList[index]['profile'],
+                      fit: BoxFit.fill,
+                    )
+                        : Image.asset(
+                      Images.defaultProfile,
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                ),
+              ),
             ),
+            
             const SizedBox(
               width: 20,
             ),
@@ -910,180 +917,167 @@ class _DelegatesState extends State<Delegates> with SingleTickerProviderStateMix
   Widget inviteDelegateList(GuestListData guestListData) {
     return guestListData.sId == Prefs.checkUserId
         ? const SizedBox.shrink()
-        : Container(
-            height: 150,
-            width: Get.width,
-            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-            decoration: BoxDecoration(
-                color: AppColor.white,
-                border: Border.all(color: AppColor.black.withOpacity(0.12)),
-                borderRadius: const BorderRadius.all(Radius.circular(8))),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Container(
-                        height: 70,
-                        width: 70,
-                        margin: const EdgeInsets.all(8),
-                        padding: const EdgeInsets.all(1),
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(colors: AppColor.gradientColors),
-                          borderRadius: const BorderRadius.all(Radius.circular(50)),
-                        ),
-                        child: ClipRRect(
-                            borderRadius: BorderRadius.circular(50),
-                            child: guestListData.guestProfileImage != null
-                                ? Image.network(
-                                    ApiUrls.imageUrl + (guestListData.guestProfileImage ?? ""),
-                                    fit: BoxFit.fill,
-                                  )
-                                : Image.asset(
-                                    Images.defaultProfile,
-                                    fit: BoxFit.cover,
-                                  ))),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Flexible(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "${guestListData.firstName ?? ""} ${guestListData.lastName ?? ""}",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 14,
-                                fontFamily: appFontFamily,
-                                color: AppColor.primaryColor),
-                          ),
-                          const SizedBox(
-                            height: 7,
-                          ),
-                          Text(
-                            "${(guestListData.designation != null && guestListData.companyName != null)
-                                ? '${guestListData.designation} | ${guestListData.companyName}'
-                                : (guestListData.designation ?? guestListData.companyName ?? '')}",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 14,
-                              fontFamily: appFontFamily,
-                              color: AppColor.FF161616,
-                              overflow: TextOverflow.ellipsis, // Prevents overflow by showing ellipsis
-                            ),
-                            maxLines: 2, // Adjust maxLines as needed
-                            softWrap: true,
-                          ),
-
-                          /*Text(
-                            "${guestListData.designation ?? ""} | ${guestListData.companyName ?? ""}",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 14,
-                              fontFamily: appFontFamily,
-                              color: AppColor.FF161616,
-                              overflow: TextOverflow.ellipsis, // Prevents overflow by showing ellipsis
-                            ),
-                            maxLines: 2, // Adjust maxLines as needed
-                            softWrap: true,
-                          ),*/
-                        ],
-                      ),
+    : Container(
+      height: 150,
+      width: Get.width,
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      decoration: BoxDecoration(
+          color: AppColor.white,
+          border: Border.all(color: AppColor.black.withOpacity(0.12)),
+          borderRadius: const BorderRadius.all(Radius.circular(8))),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                height: 70,
+                width: 70,
+                margin: const EdgeInsets.all(8),
+                padding: const EdgeInsets.all(1),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(colors: AppColor.gradientColors),
+                  borderRadius: const BorderRadius.all(Radius.circular(50)),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(50), // Ensures image is circular
+                  child: GestureDetector(
+                    onTap: () {
+                      // Check if the profile image is available
+                      if (guestListData.guestProfileImage != null &&
+                          guestListData.guestProfileImage!.isNotEmpty) {
+                        // If profile image is available, show it full-screen
+                        _showFullScreenImage(ApiUrls.imageUrl + guestListData.guestProfileImage!, context);
+                      } else {
+                        // If no profile image, show a toast message
+                        Fluttertoast.showToast(
+                          msg: "No profile photo",  // Toast message
+                          toastLength: Toast.LENGTH_SHORT,  // Duration of toast
+                          gravity: ToastGravity.CENTER,  // Position of the toast
+                          backgroundColor: Colors.black12,  // Toast background color
+                          textColor: Colors.black,  // Text color
+                          fontSize: 16.0,  // Font size of the toast
+                        );
+                      }
+                    },
+                    child: guestListData.guestProfileImage != null &&
+                        guestListData.guestProfileImage!.isNotEmpty
+                        ? Image.network(
+                      ApiUrls.imageUrl + guestListData.guestProfileImage!,
+                      fit: BoxFit.cover, // Ensures image covers the circle
                     )
-                  ],
-                ),
-                // Row(
-                //   children: [
-                //     Container(
-                //       margin: const EdgeInsets.only(left: 10),
-                //       padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-                //       decoration: BoxDecoration(
-                //         color: AppColor.FFE7E7E7,
-                //         borderRadius: const BorderRadius.all(Radius.circular(9))
-                //       ),
-                //       child: Center(child: Text("Fintech",style: TextStyle(fontFamily: appFontFamily,fontSize: 10,fontWeight: FontWeight.w400,color: AppColor.FF161616),)),
-                //     ),
-                //     Container(
-                //       margin: const EdgeInsets.only(left: 10),
-                //       padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-                //       decoration: BoxDecoration(
-                //         color: AppColor.FFE7E7E7,
-                //         borderRadius: const BorderRadius.all(Radius.circular(9))
-                //       ),
-                //       child: Center(child: Text("Leading",style: TextStyle(fontFamily: appFontFamily,fontSize: 10,fontWeight: FontWeight.w400,color: AppColor.FF161616),)),
-                //     ),
-                //     Container(
-                //       margin: const EdgeInsets.only(left: 10),
-                //       padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-                //       decoration: BoxDecoration(
-                //         color: AppColor.FFE7E7E7,
-                //         borderRadius: const BorderRadius.all(Radius.circular(9))
-                //       ),
-                //       child: Center(child: Text("Venture Capital/ Funding",style: TextStyle(fontFamily: appFontFamily,fontSize: 10,fontWeight: FontWeight.w400,color: AppColor.FF161616),)),
-                //     ),
-                //   ],
-                // ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        if (sentRequestList.contains(guestListData.sId)) {
-                        } else {
-                          sendRequest(guestListData.sId ?? "");
-                        }
-                      },
-                      child: Container(
-                        width: 120,
-                        height: 35,
-                        margin: const EdgeInsets.only(left: 10),
-                        decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.all(Radius.circular(8)),
-                          gradient: LinearGradient(
-                            colors: AppColor.gradientColors,
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                        ),
-                        child: Center(
-                            child: Text(
-                          sentRequestList.contains(guestListData.sId) ? "Request Sent" : "Connect",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 14,
-                              color: AppColor.white,
-                              fontFamily: appFontFamily),
-                        )),
-                      ),
+                        : Image.asset(
+                      Images.defaultProfile, // Default profile image
+                      fit: BoxFit.cover, // Ensures default image covers the circle
                     ),
-                    // Container(
-                    //   width: 100,height: 35,
-                    //   margin: const EdgeInsets.only(left: 10),
-                    //   padding: const EdgeInsets.all(1),
-                    //   decoration: BoxDecoration(
-                    //     borderRadius: const BorderRadius.all(Radius.circular(9)),
-                    //     gradient:LinearGradient(
-                    //       colors: [AppColor.primaryColor, AppColor.red],
-                    //       begin: Alignment.topLeft,
-                    //       end: Alignment.bottomRight,
-                    //     ),
-                    //   ),
-                    //   child: Container(
-                    //       width: 100,height: 35,
-                    //       decoration: BoxDecoration(
-                    //           borderRadius: const BorderRadius.all(Radius.circular(8)),
-                    //           color: AppColor.white
-                    //       ),
-                    //       child: Center(child: Text("Send Note",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 14,color: AppColor.FF161616,fontFamily: appFontFamily,),))),
-                    // ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+              Flexible(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "${guestListData.firstName ?? ""} ${guestListData.lastName ?? ""}",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                          fontFamily: appFontFamily,
+                          color: AppColor.primaryColor),
+                    ),
+                    const SizedBox(
+                      height: 7,
+                    ),
+                    Text(
+                      "${(guestListData.designation != null && guestListData.companyName != null)
+                          ? '${guestListData.designation} | ${guestListData.companyName}'
+                          : (guestListData.designation ?? guestListData.companyName ?? '')}",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                        fontFamily: appFontFamily,
+                        color: AppColor.FF161616,
+                        overflow: TextOverflow.ellipsis, // Prevents overflow by showing ellipsis
+                      ),
+                      maxLines: 2, // Adjust maxLines as needed
+                      softWrap: true,
+                    ),
                   ],
-                )
-              ],
+                ),
+              )
+            ],
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Row(
+            children: [
+              GestureDetector(
+                onTap: () {
+                  if (sentRequestList.contains(guestListData.sId)) {
+                    // Request is already sent, no action
+                  } else {
+                    sendRequest(guestListData.sId ?? "");
+                  }
+                },
+                child: Container(
+                  width: 120,
+                  height: 35,
+                  margin: const EdgeInsets.only(left: 10),
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(8)),
+                    gradient: LinearGradient(
+                      colors: AppColor.gradientColors,
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                  ),
+                  child: Center(
+                    child: Text(
+                      sentRequestList.contains(guestListData.sId) ? "Request Sent" : "Connect",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                          color: AppColor.white,
+                          fontFamily: appFontFamily),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  void _showFullScreenImage(String imageUrl, BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          backgroundColor: Colors.transparent, // Make background transparent
+          child: Center(
+            child: GestureDetector(
+              onTap: () {
+                Navigator.pop(context); // Close the dialog on tap
+              },
+              child: ClipOval( // Clip the image into a circle
+                child: Image.network(
+                  imageUrl,
+                  fit: BoxFit.cover,
+                  width: 300,
+                  height: 300,
+                ),
+              ),
             ),
-          );
+          ),
+        );
+      },
+    );
   }
 
   Widget _chatListItem({required String name, required String message, required String profile}) {

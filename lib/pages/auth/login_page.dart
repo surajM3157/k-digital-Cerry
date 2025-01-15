@@ -21,8 +21,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage>
     with SingleTickerProviderStateMixin {
   final TextEditingController _phoneNumberController = TextEditingController();
-  PhoneNumber _phoneNumber =
-  PhoneNumber(isoCode: 'IN'); // Default country code (India)
+  PhoneNumber _phoneNumber = PhoneNumber(isoCode: 'IN'); // Default country code (India)
   bool isObscure = true;
 
   late AnimationController _animationController;
@@ -310,8 +309,7 @@ class _LoginPageState extends State<LoginPage>
 
     // Add country code and phone number to params
     params["country_code"] = countryCode; // Add country code to the params
-    params["mobile_number"] =
-        cleanedPhoneNumber; // Add cleaned phone number to the params
+    params["mobile_number"] = cleanedPhoneNumber; // Add cleaned phone number to the params
 
     // Debug log for params
     print("params $params");

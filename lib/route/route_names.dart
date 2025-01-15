@@ -28,4 +28,5 @@ class Routes {
   static String termsCondition = '/terms_condition';
   static String faq = '/faq';
   static String delegates = '/Delegates';
+  static String qrcode = '/QRCode';
 }

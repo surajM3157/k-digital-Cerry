@@ -1,7 +1,7 @@
 class ApiUrls {
-  static final String baseUrl = "https://piwotbe.kdcstaging.in/api/v1/guest";
+   static final String baseUrl = "https://piwotbe.kdcstaging.in/api/v1/guest";
   static final String imageUrl = "https://piwotbe.kdcstaging.in/";
-  // static final String baseUrl = "http://192.168.1.40:3001/api/v1/guest";
+ // static final String baseUrl = "http://192.168.1.40:3001/api/v1/guest";
   // https://piwotbe.kdcstaging.in
 
   static String loginApiUrl = "$baseUrl/auth/login-guest";
@@ -14,6 +14,8 @@ class ApiUrls {
   static String sessionListApiUrl = "$baseUrl/event/list-sessions-by-category";
   static String floorPlanApiUrl = "$baseUrl/event/list-floor-plan";
   static String guestDetailsApiUrl = "$baseUrl/auth/guest-details";
+  //qrcode
+  static String qrCodeApiUrl = "$baseUrl/event/guest-details";
   static String updateProfileApiUrl = "$baseUrl/auth/update-guest-details";
   static String listLinksApiUrl = "$baseUrl/event/list-links";
   static String liveSessionApiUrl = "$baseUrl/event/list-live-events";

@@ -38,7 +38,11 @@ class _SurveyPageState extends State<SurveyPage> {
   String selectedValue = "";
   final Map<String, bool> selectedOptions = {};
   List<int> rating = [];
+
   bool isSurvey = false;
+
+  bool isDataFound = true; // By default assuming data is found
+
 
   GlobalSurveyData? globalSurveyData;
 
@@ -55,7 +59,7 @@ class _SurveyPageState extends State<SurveyPage> {
     super.initState();
   }
 
-  surveyStatus(String surveyId)async{
+  /*surveyStatus(String surveyId)async{
 
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
@@ -81,10 +85,56 @@ class _SurveyPageState extends State<SurveyPage> {
 
       isSurvey =  await ApiRepo().surveyStatus(params);
     }
+  }*/
+
+  surveyStatus(String surveyId) async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      isConnected = false;
+      EasyLoading.showToast("No Internet",
+          dismissOnTap: true,
+          duration: const Duration(seconds: 2),
+          toastPosition: EasyLoadingToastPosition.center);
+      setState(() {});
+    } else {
+      isConnected = true;
+      Map<String, String> params = <String, String>{};
+      params["survey_id"] = surveyId;
+      params["guest_id"] = Prefs.checkUserId;
+
+      // Show loader while fetching data
+      Future.delayed(Duration.zero, () {
+        showLoader(context);
+      });
+
+      try {
+        // Fetch data from API
+        isSurvey = await ApiRepo().surveyStatus(params);
+
+        if (isSurvey == null ) {
+          // If no data is returned, show fallback message
+          EasyLoading.showToast("No Data Found",
+              dismissOnTap: true,
+              duration: const Duration(seconds: 3),
+              toastPosition: EasyLoadingToastPosition.center);
+        }
+
+        setState(() {
+          // Update UI if needed based on API response
+        });
+      } catch (e) {
+        EasyLoading.showToast("Error fetching data",
+            dismissOnTap: true,
+            duration: const Duration(seconds: 1),
+            toastPosition: EasyLoadingToastPosition.center);
+        setState(() {
+          // Handle error state
+        });
+      }
+    }
   }
 
-  fetchSessionSurvey() async
-  {
+ /* fetchSessionSurvey() async {
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
       isConnected = false;
@@ -127,10 +177,65 @@ class _SurveyPageState extends State<SurveyPage> {
 
       });}
 
+  }*/
+
+  fetchSessionSurvey() async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      isConnected = false;
+      setState(() {});
+    } else {
+      isConnected = true;
+      Future.delayed(Duration.zero, () {
+        showLoader(context);
+      });
+
+      try {
+        // API call to fetch session surveys
+        var response = await ApiRepo().getSessionSurveysResponse();
+
+        if (response.data != null && response.data!.isNotEmpty) {
+          // Data found, reset the flag
+          isDataFound = true;
+          // Iterate over the session data
+          for (SessionSurveysData session in response.data!) {
+            if (sessionId == session.sessionId) {
+              sessionSurveysData = session;
+              surveyName = session.surveyName ?? "";
+              await surveyStatus(session.sId ?? "");
+
+              if (isSurvey) {
+                // If survey status is true, navigate to thank you page
+                Get.offAllNamed(Routes.thankYou, arguments: {
+                  'surveyStatus': true
+                });
+              } else {
+                // If survey status is false, add questions to list
+                for (QuestionsDetails question in session.questionsDetails!) {
+                  questionList.add(question);
+                }
+              }
+            }
+          }
+        } else {
+          // If response is empty or null, show fallback message
+          isDataFound = false;
+          setState(() {});
+        }
+      } catch (e) {
+        // If API call fails, show an error message
+        EasyLoading.showToast("Error fetching session surveys",
+            dismissOnTap: true,
+            duration: const Duration(seconds: 1),
+            toastPosition: EasyLoadingToastPosition.center);
+        isDataFound = false;
+        setState(() {});
+      }
+    }
+    setState(() {});
   }
 
-  fetchGlobalSurvey(String type) async
-  {
+  /*fetchGlobalSurvey(String type) async {
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
       isConnected = false;
@@ -169,7 +274,56 @@ class _SurveyPageState extends State<SurveyPage> {
 
       });}
 
+  }*/
+
+  fetchGlobalSurvey(String type) async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      isConnected = false;
+      setState(() {});
+    } else {
+      isConnected = true;
+      Future.delayed(Duration.zero, () {
+        showLoader(context);
+      });
+
+      try {
+        // API call to fetch global surveys
+        var response = await ApiRepo().getGlobalSurveysResponse(type);
+
+        if (response.data != null && response.data!.isNotEmpty) {
+          globalSurveyData = response.data?[0];
+          surveyName = globalSurveyData?.surveyName ?? "";
+          // Check the survey status
+          await surveyStatus(globalSurveyData?.sId ?? "");
+
+          if (isSurvey) {
+            // If survey status is true, navigate to thank you page
+            Get.offAllNamed(Routes.thankYou, arguments: {
+              'surveyStatus': true
+            });
+          } else {
+            // If survey status is false, add questions to the global list
+            for (Questions question in globalSurveyData!.questions!) {
+              globalQuestionList.add(question);
+            }
+          }
+          isDataFound = true;
+        } else {
+          isDataFound = false;
+        }
+      } catch (e) {
+        EasyLoading.showToast("Error fetching global surveys",
+            dismissOnTap: true,
+            duration: const Duration(seconds: 1),
+            toastPosition: EasyLoadingToastPosition.center);
+        isDataFound = false;
+      }
+      setState(() {});
+    }
   }
+
+
 
   List globalSessionList(){
     if(sessionId.isEmpty){
@@ -330,7 +484,7 @@ class _SurveyPageState extends State<SurveyPage> {
 
         body: SafeArea(
           child: globalSessionList().isNotEmpty
-              ? ListView(
+          ? ListView(
             children: [
               const SizedBox(height: 20),
 
@@ -384,8 +538,16 @@ class _SurveyPageState extends State<SurveyPage> {
                 ),
               ),
             ],
-          )
-              : const SizedBox.shrink(),
+          ): Center(
+            child: Text(
+              'No Data Found',
+              style: TextStyle(
+                fontSize: 22,
+                color: AppColor.primaryColor,
+                fontWeight: FontWeight.normal,
+              ),
+            ),
+          ),
         )
 
     );

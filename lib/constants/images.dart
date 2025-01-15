@@ -118,7 +118,7 @@ class Images{
 
 
   //icons
-  static String qrCode = 'assets/images/icons/qr_code.png';
+  static String qrCode = 'assets/images/icons/qr_code.svg';
   static String cameraIcon = 'assets/images/icons/camera_icon.svg';
   static String lockIcon = 'assets/images/icons/lock_icon.svg';
   static String emailIcon = 'assets/images/icons/email_icon.svg';
