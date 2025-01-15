@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:get/get.dart';
@@ -83,13 +84,9 @@ class _OtpPageState extends State<OtpPage> {
                  const SizedBox(height: 5,),
                  Padding(
                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                   child: Text('"Enter the 4-digit code we just sent to your',style: AppThemes.subtitleTextStyle(),),
+                   child: Text('"Enter the 4-digit code to continue."',style: AppThemes.subtitleTextStyle(),),
                  ),
-                 Padding(
-                   padding: const EdgeInsets.symmetric(horizontal: 20),
-                   child: Text('mobile number to continue."',style: AppThemes.subtitleTextStyle(),),
-                 ),
-                 const SizedBox(height: 20,),
+                 const SizedBox(height: 18),
                  Padding(
                    padding: const EdgeInsets.symmetric(horizontal: 20),
                    child: PinCodeTextField(
@@ -144,15 +141,20 @@ class _OtpPageState extends State<OtpPage> {
                        //but you can show anything you want here, like your pop up saying wrong paste format or etc
                        return true;
                      },
-                     onChanged: (String value) {  },
+                     onChanged: (String value) {
+
+                     },
+                     inputFormatters: [
+                       FilteringTextInputFormatter.digitsOnly,
+                     ],
                    ),
                  ),
                  InkWell(
                    onTap: (){
                      resendOtp();
                    },
-                   child: Padding(
-                     padding: const EdgeInsets.symmetric(horizontal: 20),
+                   child: const Padding(
+                     padding: EdgeInsets.symmetric(horizontal: 20),
                      // child: Text("Resend Code",style: AppThemes.subtitleTextStyle(),),
                    ),
                  ),

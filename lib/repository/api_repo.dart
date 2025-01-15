@@ -203,7 +203,7 @@ class ApiRepo {
       } catch (e) {
         print("Error while parsing the OTP response: $e");
         EasyLoading.showToast(
-          'An error occurred while processing the response.',
+          'Invalid OTP',
           dismissOnTap: true,
           duration: const Duration(seconds: 2),
           toastPosition: EasyLoadingToastPosition.center,
@@ -244,7 +244,7 @@ class ApiRepo {
     };
     print("Auth Token Saved___new: $token");
     final response = await http.post(
-      Uri.parse(ApiUrls.otpApiUrl),
+      Uri.parse(ApiUrls.fmcTokenSendApiUrl),
       body: params,
       headers: {
         'token': token,
@@ -1073,7 +1073,7 @@ class ApiRepo {
             duration: const Duration(seconds: 1),
             toastPosition: EasyLoadingToastPosition.center);
         print("receiverId in  sent request $receiverId");
-        sendNotification(receiverId);
+        // sendNotification(receiverId);
       } else {
         var res = await json.decode(response.body);
 

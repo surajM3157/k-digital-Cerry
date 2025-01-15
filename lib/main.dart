@@ -8,7 +8,8 @@ import 'package:piwotapp/route/route_names.dart';
 import 'package:piwotapp/route/route_pages.dart';
 import 'package:piwotapp/services/notification_service.dart';
 import 'constants/firebase_options.dart';
-void main() async{
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // Load the .env file
   try {
@@ -27,6 +28,7 @@ void main() async{
     options: DefaultFirebaseOptions.currentPlatform,
   );
   NotificationService fcmService = NotificationService();
+
   fcmService.setupBackgroundHandler();
   await fcmService.initialize();
   fcmService.setupForegroundMessageHandler();
@@ -58,11 +60,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      initialRoute: Routes.splash,
-      getPages: getPages,
-        builder : EasyLoading.init()
-    );
+        debugShowCheckedModeBanner: false,
+        initialRoute: Routes.splash,
+        getPages: getPages,
+        builder: EasyLoading.init());
   }
 }
-

@@ -1,16 +1,19 @@
 import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:get/get.dart';
+import 'package:get/get_rx/src/rx_workers/utils/debouncer.dart';
 import 'package:piwotapp/constants/api_urls.dart';
 import 'package:piwotapp/constants/colors.dart';
-import 'package:get/get.dart';
 import 'package:piwotapp/responses/friend_list_response.dart';
 import 'package:piwotapp/responses/guest_list_response.dart';
 import 'package:piwotapp/responses/pending_request_response.dart';
 import 'package:piwotapp/services/notification_service.dart';
 import 'package:piwotapp/widgets/app_textfield.dart';
+
 import '../../constants/font_family.dart';
 import '../../constants/images.dart';
 import '../../repository/api_repo.dart';
@@ -22,16 +25,20 @@ import '../../widgets/app_themes.dart';
 import '../../widgets/custom_tabbar_indicator.dart';
 
 class Delegates extends StatefulWidget {
-  Delegates({super.key, required this.tabController});
+  final int tabIndex;
+  Delegates({
+    super.key,
+    this.tabController,
+    this.tabIndex = 0,
+  });
 
-  TabController tabController;
+  TabController? tabController;
 
   @override
   State<Delegates> createState() => _DelegatesState();
 }
 
-class _DelegatesState extends State<Delegates>
-    with SingleTickerProviderStateMixin {
+class _DelegatesState extends State<Delegates> with SingleTickerProviderStateMixin {
   FriendListResponse? _friendListResponse;
   List<String> friendList = [];
 
@@ -48,10 +55,45 @@ class _DelegatesState extends State<Delegates>
   bool isConnected = true;
   var lastMessageDoc;
 
+  final List<Map<String, dynamic>> userChatList = [];
+  late final StreamSubscription<QuerySnapshot> _subscription;
+
+  void _subscribeToUserCollection() {
+    _subscription = FirebaseFirestore.instance
+        .collection("users")
+        .orderBy("name") // Ensure the collection is ordered by name
+        .snapshots()
+        .listen((snapshot) {
+      final filteredDocs = snapshot.docs.where((doc) {
+        final name = (doc['name'] as String);
+        return name.toLowerCase().contains(chatSearchText.toLowerCase());
+      }).toList();
+
+      print("user list length ===> ${filteredDocs.length}");
+
+      userChatList.clear();
+
+      Timestamp currentTime = Timestamp.fromDate(DateTime.now());
+      for (var element in filteredDocs) {
+        Map<String, dynamic> data1 = element.data();
+        data1.addEntries([
+          MapEntry('message_time', currentTime),
+          MapEntry('message_text', 'Loading...'),
+          MapEntry('senderId', ''),
+          MapEntry('isRead', true),
+        ]);
+        userChatList.add(data1);
+      }
+      setState(() {});
+    }, onError: (error) {
+      print("Error listening to users collection: $error");
+    });
+  }
+
   void onSearchChanged(String query) {
     setState(() {});
     if (debounceTimer?.isActive ?? false) debounceTimer!.cancel();
-    debounceTimer = Timer(const Duration(milliseconds: 1500), () {
+    debounceTimer = Timer(const Duration(milliseconds: 300), () {
       fetchGuestList(searchDelegateController.text);
     });
   }
@@ -64,7 +106,7 @@ class _DelegatesState extends State<Delegates>
     } else {
       isConnected = true;
 
-      await Future.delayed(Duration.zero);
+      Future.delayed(Duration.zero);
       // Future.delayed(Duration.zero, () {
       //   showLoader(context);
       // });
@@ -72,6 +114,7 @@ class _DelegatesState extends State<Delegates>
       var response = await ApiRepo().getFriendListResponse();
 
       if (response.data != null && response.data!.isNotEmpty) {
+        friendList.clear();
         _friendListResponse = response;
         for (String friend in _friendListResponse!.data![0].friends!) {
           friendList.add(friend);
@@ -99,7 +142,7 @@ class _DelegatesState extends State<Delegates>
       var response = await ApiRepo().sendRequestsResponse();
 
       if (response.data != null) {
-        for (SentRequestsData sentRequest in response!.data!) {
+        for (SentRequestsData sentRequest in response.data!) {
           print("sentRequest ${sentRequest.requestSentUserDetails?[0].sId}");
           sentRequestList.add(sentRequest.requestSentUserDetails?[0].sId ?? "");
         }
@@ -121,7 +164,7 @@ class _DelegatesState extends State<Delegates>
       isConnected = true;
       guestList.clear();
       Future.delayed(Duration.zero, () {
-        showLoader(context);
+        // showLoader(context);
       });
       var response = await ApiRepo().getGuestListResponse(search);
 
@@ -151,17 +194,16 @@ class _DelegatesState extends State<Delegates>
       setState(() {});
     } else {
       isConnected = true;
-      Future.delayed(Duration.zero, () {
-        showLoader(context);
-      });
-
+      // Future.delayed(Duration.zero, () {
+      //   showLoader(context);
+      // });
+      Future.delayed(Duration.zero);
       pendingRequestList.clear();
       var response = await ApiRepo().pendingRequestResponse();
 
       if (response.data != null) {
         _pendingRequestResponse = response;
-        for (PendingRequestData pendingRequest
-            in _pendingRequestResponse!.data!) {
+        for (PendingRequestData pendingRequest in _pendingRequestResponse!.data!) {
           pendingRequestList.add(pendingRequest);
         }
 
@@ -177,18 +219,16 @@ class _DelegatesState extends State<Delegates>
     if (connectivityResult == ConnectivityResult.none) {
       isConnected = false;
       EasyLoading.showToast("No Internet",
-          dismissOnTap: true,
-          duration: const Duration(seconds: 1),
-          toastPosition: EasyLoadingToastPosition.center);
+          dismissOnTap: true, duration: const Duration(seconds: 1), toastPosition: EasyLoadingToastPosition.center);
       setState(() {});
     } else {
       isConnected = true;
-      Map<String, String> params = new Map<String, String>();
+      Map<String, String> params = <String, String>{};
       params["from"] = Prefs.checkUserId;
       params["to"] = receiverId;
 
       Future.delayed(Duration.zero, () {
-        showLoader(context);
+        // showLoader(context);
       });
 
       await ApiRepo().sendRequest(params, receiverId);
@@ -201,9 +241,7 @@ class _DelegatesState extends State<Delegates>
     if (connectivityResult == ConnectivityResult.none) {
       isConnected = false;
       EasyLoading.showToast("No Internet",
-          dismissOnTap: true,
-          duration: const Duration(seconds: 1),
-          toastPosition: EasyLoadingToastPosition.center);
+          dismissOnTap: true, duration: const Duration(seconds: 1), toastPosition: EasyLoadingToastPosition.center);
       setState(() {});
     } else {
       isConnected = true;
@@ -224,9 +262,17 @@ class _DelegatesState extends State<Delegates>
 
   @override
   void initState() {
-    _controller = TabController(length: 3, vsync: this);
-    fetchFriendList();
-    widget.tabController.addListener(_handleTabChange);
+    _subscribeToUserCollection();
+    print(" TabIndex-> ${widget.tabController}");
+    widget.tabController!.index = widget.tabIndex;
+    _handleTabChange();
+    // _controller = TabController(length: 3, vsync: this);
+    // fetchFriendList();
+    _controller ??= TabController(length: 3, vsync: this, initialIndex: widget.tabIndex);
+
+    print(" TabIndex123 -> ${widget.tabIndex}");
+    // fetchFriendList();
+    widget.tabController?.addListener(_handleTabChange);
     Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
       if (result == ConnectivityResult.none) {
         isConnected = false;
@@ -243,23 +289,102 @@ class _DelegatesState extends State<Delegates>
   }
 
   void _handleTabChange() {
-    if (widget.tabController.indexIsChanging) return;
+    if (widget.tabController!.indexIsChanging) return;
 
-    switch (widget.tabController.index) {
+    switch (widget.tabController?.index) {
       case 0:
-        fetchGuestList("");
+        searchDelegateController.clear();
+        fetchFriendList();
         break;
       case 1:
+        searchChatController.clear(); // Reset search in Chat tab
         fetchFriendList();
         break;
       case 2:
         fetchPendingRequest();
         break;
     }
+    print("widget.tabController?.index ${widget.tabController?.index}");
+    // print("widget.tabController?.index ${widget.tabIndex}");
+  }
+  // void _handleTabChange() {
+  //   if (_controller?.indexIsChanging ?? false) return;
+  //
+  //   switch (_controller?.index) {
+  //     case 0:
+  //       fetchGuestList("");
+  //       break;
+  //     case 1:
+  //       fetchFriendList();
+  //       break;
+  //     case 2:
+  //       fetchPendingRequest();
+  //       break;
+  //   }
+  // }
+
+  @override
+  void dispose() {
+    // Dispose the TabController when the widget is disposed
+    _subscription.cancel();
+    _controller?.dispose();
+    searchDelegateController.dispose();
+    searchChatController.dispose();
+    super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    // _counter = Provider.of<int>(context);
+    print('didChangeDependencies(), counter = ${widget.tabIndex}');
+    super.didChangeDependencies();
+  }
+
+  final Debouncer _debouncer = Debouncer(delay: const Duration(milliseconds: 500));
+  ValueNotifier<bool> upadteUi = ValueNotifier(true);
+
+  void shortList() {
+    print("list updated ===>>>??? ${userChatList.length}");
+
+    bool isRefreshList = true;
+    userChatList.forEach((element) {
+      if (element['message_text'] == "Loading...") {
+        isRefreshList = false;
+      }
+    });
+
+    if (isRefreshList) {
+      // _debouncer(() {
+      userChatList.sort((a, b) {
+        return a['message_time'].compareTo(b['message_time']);
+      });
+
+      List<Map<String, dynamic>> temp = userChatList.reversed.toList();
+      userChatList.clear();
+      userChatList.addAll(temp);
+      upadteUi.value = !upadteUi.value;
+      // });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    print("timeIndexBuild-> ${widget.tabIndex}");
+
+    List<Map<String, dynamic>> dumyList = [];
+    if (friendList.isNotEmpty && userChatList.isNotEmpty) {
+      for (var data in userChatList) {
+        // Map<String, dynamic> data =  element.data()! as Map<String, dynamic>;
+        if (Prefs.checkUserId != data['uid'] && friendList.contains(data['uid'])) {
+          dumyList.add(data);
+        }
+      }
+      userChatList.clear();
+      userChatList.addAll(dumyList);
+    }
+
+    shortList();
+
     return isConnected
         ? Column(
             children: [
@@ -271,8 +396,7 @@ class _DelegatesState extends State<Delegates>
                 labelPadding: const EdgeInsets.symmetric(horizontal: 25),
                 indicatorColor: AppColor.primaryColor,
                 indicator: CustomUnderlineTabIndicator(
-                  borderSide:
-                      BorderSide(width: 3.0, color: AppColor.primaryColor),
+                  borderSide: BorderSide(width: 3.0, color: AppColor.primaryColor),
                   insets: const EdgeInsets.symmetric(vertical: -8),
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(12.0),
@@ -282,21 +406,15 @@ class _DelegatesState extends State<Delegates>
                 tabs: [
                   Padding(
                     padding: const EdgeInsets.only(bottom: 17),
-                    child: Text("Delegates",
-                        style: AppThemes.labelTextStyle()
-                            .copyWith(color: AppColor.primaryColor)),
+                    child: Text("Delegates", style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor)),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 17),
-                    child: Text("Chat",
-                        style: AppThemes.labelTextStyle()
-                            .copyWith(color: AppColor.primaryColor)),
+                    child: Text("Chat", style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor)),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 17),
-                    child: Text("Request",
-                        style: AppThemes.labelTextStyle()
-                            .copyWith(color: AppColor.primaryColor)),
+                    child: Text("Request", style: AppThemes.labelTextStyle().copyWith(color: AppColor.primaryColor)),
                   ),
                 ],
               ),
@@ -317,8 +435,7 @@ class _DelegatesState extends State<Delegates>
                         AppTextField(
                           hintText: "Search Delegates",
                           controller: searchDelegateController,
-                          prefixIcon:
-                              Icon(Icons.search, color: AppColor.FF9B9B9B),
+                          prefixIcon: Icon(Icons.search, color: AppColor.FF9B9B9B),
                           onChanged: onSearchChanged,
                         ),
                         Expanded(
@@ -329,11 +446,9 @@ class _DelegatesState extends State<Delegates>
                                       padding: index == 0
                                           ? const EdgeInsets.only(top: 16)
                                           : index == guestList.length - 1
-                                              ? const EdgeInsets.only(
-                                                  bottom: 16)
+                                              ? const EdgeInsets.only(bottom: 16)
                                               : EdgeInsets.zero,
-                                      child:
-                                          inviteDelegateList(guestList[index]),
+                                      child: inviteDelegateList(guestList[index]),
                                     );
                                   },
                                   separatorBuilder: (context, index) {
@@ -354,24 +469,27 @@ class _DelegatesState extends State<Delegates>
                         ),
                       ],
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        const SizedBox(height: 20),
-                        AppTextField(
-                          hintText: "Search Delegates",
-                          controller: searchChatController,
-                          prefixIcon:
-                              Icon(Icons.search, color: AppColor.FF9B9B9B),
-                          onChanged: (value) {
-                            chatSearchText = value;
-                            setState(() {});
-                          },
-                        ),
-                        const SizedBox(height: 20),
-                        Expanded(child: _buildUserList()),
-                      ],
-                    ),
+                    ValueListenableBuilder(
+                        valueListenable: upadteUi,
+                        builder: (context, value, child) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              const SizedBox(height: 20),
+                              AppTextField(
+                                hintText: "Search Delegates",
+                                controller: searchChatController,
+                                prefixIcon: Icon(Icons.search, color: AppColor.FF9B9B9B),
+                                onChanged: (value) {
+                                  chatSearchText = value;
+                                  setState(() {});
+                                },
+                              ),
+                              const SizedBox(height: 20),
+                              Expanded(child: _buildUserList()),
+                            ],
+                          );
+                        }),
                     pendingRequestList.isNotEmpty
                         ? ListView.separated(
                             itemBuilder: (context, index) {
@@ -381,8 +499,7 @@ class _DelegatesState extends State<Delegates>
                                     : index == pendingRequestList.length - 1
                                         ? const EdgeInsets.only(bottom: 20)
                                         : EdgeInsets.zero,
-                                child: requestDelegateList(
-                                    pendingRequestList[index]),
+                                child: requestDelegateList(pendingRequestList[index]),
                               );
                             },
                             separatorBuilder: (context, index) {
@@ -408,41 +525,17 @@ class _DelegatesState extends State<Delegates>
         : const Center(
             child: Text(
             "OOPS! NO INTERNET.",
-            style: TextStyle(
-                color: Colors.black87,
-                fontWeight: FontWeight.w600,
-                fontFamily: appFontFamily,
-                fontSize: 20),
+            style:
+                TextStyle(color: Colors.black87, fontWeight: FontWeight.w600, fontFamily: appFontFamily, fontSize: 20),
           ));
   }
 
   Widget _buildUserList() {
-    return friendList.isNotEmpty
-        ? StreamBuilder<QuerySnapshot>(
-            stream: FirebaseFirestore.instance
-                .collection("users")
-                .orderBy("name") // Ensure the collection is ordered by name
-                .snapshots(),
-            builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                return const Text("Error");
-              }
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Text("");
-              }
-              // Client-side filtering (optional, based on your requirements)
-              final allDocs = snapshot.data!.docs;
-              final filteredDocs = allDocs.where((doc) {
-                final name = (doc['name'] as String);
-                return name
-                    .toLowerCase()
-                    .contains(chatSearchText.toLowerCase());
-              }).toList();
-              return ListView(
-                children: filteredDocs
-                    .map<Widget>((doc) => _buildUserListItem(doc))
-                    .toList(),
-              );
+    return userChatList.isNotEmpty
+        ? ListView.builder(
+            itemCount: userChatList.length,
+            itemBuilder: (context, index) {
+              return _buildUserListItem(index);
             },
           )
         : Center(
@@ -452,22 +545,20 @@ class _DelegatesState extends State<Delegates>
               "No delegates yet. Click 'Connect' to invite",
               textAlign: TextAlign.center,
               style: TextStyle(
-                  color: AppColor.primaryColor,
-                  fontWeight: FontWeight.w600,
-                  fontFamily: appFontFamily,
-                  fontSize: 20),
+                  color: AppColor.primaryColor, fontWeight: FontWeight.w600, fontFamily: appFontFamily, fontSize: 20),
             ),
           ));
   }
 
-  Widget _buildUserListItem(DocumentSnapshot document) {
-    Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
+  Widget _buildUserListItem(int index) {
+    friendList = friendList.toList();
+    // Map<String, dynamic> data = userChatList[index];
+    // print("other username ${userChatList[index]['name']}");
+    // print("friendList $friendList");
+    // print("uid ${userChatList[index]['uid']}");
 
-    print("other username ${data['name']}");
-    print("friendList $friendList");
-    print("uid ${data['uid']}");
-
-    if (Prefs.checkUserId != data['uid'] && friendList.contains(data['uid'])) {
+    if (Prefs.checkUserId != userChatList[index]['uid'] && friendList.contains(userChatList[index]['uid'])) {
+      friendList = friendList.toSet().toList();
       return ListTile(
         title: Row(
           children: [
@@ -475,17 +566,16 @@ class _DelegatesState extends State<Delegates>
               height: 71,
               width: 71,
               padding: const EdgeInsets.all(1),
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  gradient: LinearGradient(colors: AppColor.gradientColors)),
+              decoration:
+                  BoxDecoration(shape: BoxShape.circle, gradient: LinearGradient(colors: AppColor.gradientColors)),
               child: SizedBox(
                   height: 70,
                   width: 70,
                   child: ClipRRect(
                       borderRadius: BorderRadius.circular(100),
-                      child: data['profile'] != null
+                      child: userChatList[index]['profile'] != null
                           ? Image.network(
-                              data['profile'],
+                              userChatList[index]['profile'],
                               fit: BoxFit.fill,
                             )
                           : Image.asset(
@@ -500,8 +590,7 @@ class _DelegatesState extends State<Delegates>
               flex: 4,
               child: Container(
                 width: Get.width / 1.5,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                 decoration: BoxDecoration(
                     color: AppColor.white,
                     border: Border.all(color: AppColor.black.withOpacity(0.12)),
@@ -510,80 +599,110 @@ class _DelegatesState extends State<Delegates>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      data['name'],
-                      style: const TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: appFontFamily),
+                      userChatList[index]['name'],
+                      style:
+                          const TextStyle(color: Colors.black, fontWeight: FontWeight.w600, fontFamily: appFontFamily),
                     ),
                     const SizedBox(
                       height: 6,
                     ),
                     StreamBuilder(
-                        stream: chatService.getMessages(
-                            Prefs.checkUserId, data['uid']),
+                        stream: chatService.getMessages(Prefs.checkUserId, userChatList[index]['uid']),
                         builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const Center(child: Text("Loading..."));
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            // if (userChatList[index]['message_text'] == '') {
+                            return Text(
+                              userChatList[index]['message_text'],
+                              overflow: TextOverflow.ellipsis, // Ensures long messages are truncated
+                              maxLines: 1, // Limits to 2 lines (adjust based on your design)
+                              softWrap: true, // Allows message to wrap to the next line
+                              style: TextStyle(
+                                  color: (userChatList[index]['senderId'] == Prefs.checkUserId)
+                                      ? Colors.grey
+                                      : userChatList[index]['isRead']
+                                          ? Colors.grey
+                                          : Colors.black,
+                                  fontWeight: (userChatList[index]['senderId'] == Prefs.checkUserId)
+                                      ? FontWeight.normal
+                                      : userChatList[index]['isRead']
+                                          ? FontWeight.normal
+                                          : FontWeight.bold),
+                            );
                           }
-                          if (!snapshot.hasData ||
-                              snapshot.data!.docs.isEmpty) {
-                            return const Text("No messages yet",
-                                style: TextStyle(
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: appFontFamily));
+                          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                            userChatList[index]['message_text'] = "No messages yet";
+                            userChatList[index]['message_time'] =
+                                Timestamp.fromDate(DateTime.now().subtract(const Duration(days: 500)));
+                            userChatList[index]['senderId'] = '';
+                            userChatList[index]['isRead'] = true;
+
+                            return Text(userChatList[index]['message_text'],
+                                style: const TextStyle(color: Colors.grey, fontWeight: FontWeight.normal));
                           }
-                          lastMessageDoc = snapshot.data!.docs.last;
-                          var lastMessageData =
-                              lastMessageDoc.data() as Map<String, dynamic>;
+
+                          lastMessageDoc = snapshot.data?.docs.last;
+                          var lastMessageData = lastMessageDoc.data() as Map<String, dynamic>;
+
+                          if (userChatList[index]['message_text'] !=
+                              chatService.decryptMessage(lastMessageData['message'], 'my_secure_passphrase')) {
+                            userChatList[index]['message_text'] =
+                                chatService.decryptMessage(lastMessageData['message'], 'my_secure_passphrase');
+                            userChatList[index]['message_time'] = lastMessageData['timestamp'];
+                            userChatList[index]['senderId'] = lastMessageData['senderId'];
+                            userChatList[index]['isRead'] = lastMessageData['isRead'];
+                            shortList();
+                          } else {
+                            userChatList[index]['message_text'] =
+                                chatService.decryptMessage(lastMessageData['message'], 'my_secure_passphrase');
+                            userChatList[index]['message_time'] = lastMessageData['timestamp'];
+                            userChatList[index]['senderId'] = lastMessageData['senderId'];
+                            userChatList[index]['isRead'] = lastMessageData['isRead'];
+                          }
+
                           return Text(
-                            chatService.decryptMessage(
-                                lastMessageData['message'],
-                                'my_secure_passphrase'), // Display the message content
-                            overflow: TextOverflow.ellipsis,
+                            userChatList[index]['message_text'] ?? "",
+                            overflow: TextOverflow.ellipsis, // Ensures long messages are truncated
+                            maxLines: 1, // Limits to 2 lines (adjust based on your design)
+                            softWrap: true, // Allows message to wrap to the next line
                             style: TextStyle(
-                                color: (lastMessageData['senderId'] ==
-                                        Prefs.checkUserId)
+                                color: (userChatList[index]['senderId'] == Prefs.checkUserId)
                                     ? Colors.grey
-                                    : lastMessageData['isRead']
+                                    : userChatList[index]['isRead']
                                         ? Colors.grey
                                         : Colors.black,
-                                fontWeight: (lastMessageData['senderId'] ==
-                                        Prefs.checkUserId)
+                                fontWeight: (userChatList[index]['senderId'] == Prefs.checkUserId)
                                     ? FontWeight.normal
-                                    : lastMessageData['isRead']
+                                    : userChatList[index]['isRead']
                                         ? FontWeight.normal
                                         : FontWeight.bold),
                           );
-                        })
+                        }),
                   ],
                 ),
               ),
-            ),
+            )
           ],
         ),
         onTap: () async {
           if (lastMessageDoc != null) {
             FirebaseFirestore.instance
                 .collection("chat_rooms")
-                .doc("${Prefs.checkUserId}_${data['uid']}")
+                .doc("${Prefs.checkUserId}_${userChatList[index]['uid']}")
                 .collection('messages')
                 .doc(lastMessageDoc.id) // Use the ID of the last document
                 .update({'isRead': true});
 
             FirebaseFirestore.instance
                 .collection("chat_rooms")
-                .doc("${data['uid']}_${Prefs.checkUserId}")
+                .doc("${userChatList[index]['uid']}_${Prefs.checkUserId}")
                 .collection('messages')
                 .doc(lastMessageDoc.id)
                 .update({'isRead': true});
           }
           Get.toNamed(Routes.chat, arguments: {
-            'receiverName': data['name'],
-            'receiverId': data['uid'],
-            'profile': data['profile']
+            'receiverName': userChatList[index]['name'],
+            'receiverId': userChatList[index]['uid'],
+            'profile': userChatList[index]['profile']
           });
           // Navigator.push(
           //   context,
@@ -608,7 +727,7 @@ class _DelegatesState extends State<Delegates>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Row(
@@ -624,14 +743,10 @@ class _DelegatesState extends State<Delegates>
                   ),
                   child: ClipRRect(
                       borderRadius: BorderRadius.circular(50),
-                      child: pendingRequestData.requestSentUserDetails?[0]
-                                  .guestProfileImage !=
-                              null
+                      child: pendingRequestData.requestSentUserDetails?[0].guestProfileImage != null
                           ? Image.network(
                               ApiUrls.imageUrl +
-                                  (pendingRequestData.requestSentUserDetails?[0]
-                                          .guestProfileImage ??
-                                      ""),
+                                  (pendingRequestData.requestSentUserDetails?[0].guestProfileImage ?? ""),
                               fit: BoxFit.fill,
                             )
                           : Image.asset(
@@ -646,13 +761,8 @@ class _DelegatesState extends State<Delegates>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      (pendingRequestData
-                                  .requestSentUserDetails?[0].firstName ??
-                              "") +
-                          " " +
-                          (pendingRequestData
-                                  .requestSentUserDetails?[0].lastName ??
-                              ""),
+                      "${pendingRequestData.requestSentUserDetails?[0].firstName ?? ""} "
+                          "${pendingRequestData.requestSentUserDetails?[0].lastName ?? ""}",
                       style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 14,
@@ -663,13 +773,9 @@ class _DelegatesState extends State<Delegates>
                       height: 7,
                     ),
                     Text(
-                      (pendingRequestData
-                                  .requestSentUserDetails?[0].designation ??
-                              "") +
-                          " | " +
-                          (pendingRequestData
-                                  .requestSentUserDetails?[0].companyName ??
-                              ""),
+                      "${(pendingRequestData.requestSentUserDetails?[0].designation != null && pendingRequestData.requestSentUserDetails?[0].companyName != null)
+                          ? '${pendingRequestData.requestSentUserDetails?[0].designation} | ${pendingRequestData.requestSentUserDetails?[0].companyName}'
+                          : (pendingRequestData.requestSentUserDetails?[0].designation ?? pendingRequestData.requestSentUserDetails?[0].companyName ?? '')}",
                       style: TextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: 14,
@@ -680,6 +786,20 @@ class _DelegatesState extends State<Delegates>
                       maxLines: 2, // Adjust maxLines as needed
                       softWrap: true,
                     ),
+
+                    /*Text(
+                      "${pendingRequestData.requestSentUserDetails?[0].designation ?? ""} | "
+                          "${pendingRequestData.requestSentUserDetails?[0].companyName ?? ""}",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                        fontFamily: appFontFamily,
+                        color: AppColor.FF161616,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      maxLines: 2, // Adjust maxLines as needed
+                      softWrap: true,
+                    ),*/
                   ],
                 ),
               )
@@ -729,8 +849,7 @@ class _DelegatesState extends State<Delegates>
                   children: [
                     GestureDetector(
                       onTap: () {
-                        handlePendingRequest(
-                            "accepted", pendingRequestData.sId ?? "");
+                        handlePendingRequest("accepted", pendingRequestData.sId ?? "");
                         // pendingRequestList.remove(pendingRequestData);
                       },
                       child: Container(
@@ -738,8 +857,7 @@ class _DelegatesState extends State<Delegates>
                         height: 35,
                         margin: const EdgeInsets.only(left: 10),
                         decoration: BoxDecoration(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(8)),
+                          borderRadius: const BorderRadius.all(Radius.circular(8)),
                           gradient: LinearGradient(
                             colors: AppColor.gradientColors,
                             begin: Alignment.topLeft,
@@ -759,8 +877,7 @@ class _DelegatesState extends State<Delegates>
                     ),
                     GestureDetector(
                       onTap: () {
-                        handlePendingRequest(
-                            "rejected", pendingRequestData.sId ?? "");
+                        handlePendingRequest("rejected", pendingRequestData.sId ?? "");
                         // pendingRequestList.remove(pendingRequestData);
                       },
                       child: Container(
@@ -768,8 +885,7 @@ class _DelegatesState extends State<Delegates>
                           width: 100,
                           height: 35,
                           decoration: BoxDecoration(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(8)),
+                              borderRadius: const BorderRadius.all(Radius.circular(8)),
                               color: AppColor.white,
                               border: Border.all(color: AppColor.red)),
                           child: Center(
@@ -813,17 +929,14 @@ class _DelegatesState extends State<Delegates>
                         margin: const EdgeInsets.all(8),
                         padding: const EdgeInsets.all(1),
                         decoration: BoxDecoration(
-                          gradient:
-                              LinearGradient(colors: AppColor.gradientColors),
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(50)),
+                          gradient: LinearGradient(colors: AppColor.gradientColors),
+                          borderRadius: const BorderRadius.all(Radius.circular(50)),
                         ),
                         child: ClipRRect(
                             borderRadius: BorderRadius.circular(50),
                             child: guestListData.guestProfileImage != null
                                 ? Image.network(
-                                    ApiUrls.imageUrl +
-                                        (guestListData.guestProfileImage ?? ""),
+                                    ApiUrls.imageUrl + (guestListData.guestProfileImage ?? ""),
                                     fit: BoxFit.fill,
                                   )
                                 : Image.asset(
@@ -838,9 +951,7 @@ class _DelegatesState extends State<Delegates>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            (guestListData.firstName ?? "") +
-                                " " +
-                                (guestListData.lastName ?? ""),
+                            "${guestListData.firstName ?? ""} ${guestListData.lastName ?? ""}",
                             style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 14,
@@ -851,20 +962,32 @@ class _DelegatesState extends State<Delegates>
                             height: 7,
                           ),
                           Text(
-                            (guestListData.designation ?? "") +
-                                " | " +
-                                (guestListData.companyName ?? ""),
+                            "${(guestListData.designation != null && guestListData.companyName != null)
+                                ? '${guestListData.designation} | ${guestListData.companyName}'
+                                : (guestListData.designation ?? guestListData.companyName ?? '')}",
                             style: TextStyle(
                               fontWeight: FontWeight.w400,
                               fontSize: 14,
                               fontFamily: appFontFamily,
                               color: AppColor.FF161616,
-                              overflow: TextOverflow
-                                  .ellipsis, // Prevents overflow by showing ellipsis
+                              overflow: TextOverflow.ellipsis, // Prevents overflow by showing ellipsis
                             ),
                             maxLines: 2, // Adjust maxLines as needed
                             softWrap: true,
                           ),
+
+                          /*Text(
+                            "${guestListData.designation ?? ""} | ${guestListData.companyName ?? ""}",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 14,
+                              fontFamily: appFontFamily,
+                              color: AppColor.FF161616,
+                              overflow: TextOverflow.ellipsis, // Prevents overflow by showing ellipsis
+                            ),
+                            maxLines: 2, // Adjust maxLines as needed
+                            softWrap: true,
+                          ),*/
                         ],
                       ),
                     )
@@ -918,8 +1041,7 @@ class _DelegatesState extends State<Delegates>
                         height: 35,
                         margin: const EdgeInsets.only(left: 10),
                         decoration: BoxDecoration(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(8)),
+                          borderRadius: const BorderRadius.all(Radius.circular(8)),
                           gradient: LinearGradient(
                             colors: AppColor.gradientColors,
                             begin: Alignment.topLeft,
@@ -928,9 +1050,7 @@ class _DelegatesState extends State<Delegates>
                         ),
                         child: Center(
                             child: Text(
-                          sentRequestList.contains(guestListData.sId)
-                              ? "Request Sent"
-                              : "Connect",
+                          sentRequestList.contains(guestListData.sId) ? "Request Sent" : "Connect",
                           style: TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: 14,
@@ -966,10 +1086,7 @@ class _DelegatesState extends State<Delegates>
           );
   }
 
-  Widget _chatListItem(
-      {required String name,
-      required String message,
-      required String profile}) {
+  Widget _chatListItem({required String name, required String message, required String profile}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Row(
@@ -1028,11 +1145,7 @@ class _DelegatesState extends State<Delegates>
 }
 
 class ChatModel {
-  ChatModel(
-      {required this.name,
-      required this.message,
-      required this.profile,
-      required this.isInvited});
+  ChatModel({required this.name, required this.message, required this.profile, required this.isInvited});
   String name;
   String message;
   String profile;

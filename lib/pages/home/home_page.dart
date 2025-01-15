@@ -22,7 +22,8 @@ import 'home.dart';
 
 class HomePage extends StatefulWidget {
   int bottomNavIndex;
-  HomePage({super.key, required this.bottomNavIndex});
+  int delegateIndex;
+  HomePage({super.key, required this.bottomNavIndex, this.delegateIndex = 0});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -86,7 +87,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     });
     _controller = TabController(length: 3, vsync: this);
     _aboutController = TabController(length: 2, vsync: this);
+    print("bottomNavIndex -> ${widget.bottomNavIndex}");
     bottomNavbarIndex = widget.bottomNavIndex;
+    print("bottomNavbarIndex -> ${bottomNavbarIndex}");
     fetchListLink();
     super.initState();
   }
@@ -160,6 +163,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             ? const Home()
             : bottomNavbarIndex == 1
                 ? Delegates(
+                    tabIndex: widget.delegateIndex,
                     tabController: _controller!,
                   )
                 : bottomNavbarIndex == 2
@@ -542,6 +546,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   void _onItemTapped(int index) {
     setState(() {
       bottomNavbarIndex = index;
+      widget.delegateIndex = 0;
     });
   }
 
@@ -568,7 +573,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       color: AppColor.primaryColor,
       child: Padding(
         padding: const EdgeInsets.symmetric(
-            vertical: 10), // Add some padding for better spacing
+            vertical: 10,
+            horizontal: 10), // Add some padding for better spacing
         child: Row(
           mainAxisAlignment:
               MainAxisAlignment.spaceBetween, // Ensures items are spaced evenly

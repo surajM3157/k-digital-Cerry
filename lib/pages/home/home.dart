@@ -1,17 +1,23 @@
 import 'dart:async';
+
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:piwotapp/constants/api_urls.dart';
 import 'package:piwotapp/pages/home/home_page.dart';
+import 'package:piwotapp/pages/live_events_page.dart';
 import 'package:piwotapp/responses/banner_response.dart';
 import 'package:piwotapp/responses/list_link_response.dart';
 import 'package:piwotapp/responses/live_session_response.dart';
+import 'package:piwotapp/shared%20prefs/pref_manager.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 import '../../constants/colors.dart';
 import '../../constants/font_family.dart';
 import '../../constants/images.dart';
@@ -86,6 +92,75 @@ class _HomeState extends State<Home> {
         fetchLiveSessionList();
         fetchListLink();
       }
+    });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      FirebaseMessaging.instance.getInitialMessage().then((message) async {
+        print("Handling notification opened from termination state!");
+
+        if (message?.data != null && message != null) {
+          final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+          await _firestore
+              .collection("notifications")
+              .doc(Prefs.checkUserId)
+              .collection('notification')
+              .doc(message.messageId)
+              .set({
+            "title": message.notification?.title,
+            "body": message.notification?.body,
+            "timestamp": FieldValue.serverTimestamp(),
+          }, SetOptions(merge: true));
+
+          print("notification data type closed ===> ${message.data['type']}");
+
+          if (message.data.containsKey('type')) {
+            final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+            await _firestore
+                .collection("notifications")
+                .doc(Prefs.checkUserId)
+                .collection('notification')
+                .doc(message.messageId)
+                .set({
+              "title": message.notification?.title,
+              "body": message.notification?.body,
+              "timestamp": FieldValue.serverTimestamp(),
+            }, SetOptions(merge: true));
+            print("Notification Data: ${message.data}");
+
+            String type = message.data['type'] ?? '';
+            print("Notification Type: $type");
+            if (type == 'friend_request') {
+              Get.offAll(HomePage(bottomNavIndex: 1, delegateIndex: 2));
+              //     Get.toNamed(
+              //                   Routes.home;
+              //                   HomePage(bottomNavIndex: 1);
+              // )
+
+              // navigatorKey.currentState?.push(MaterialPageRoute(
+              //   builder: (_) {
+              //     // TabController tabController =
+              //     //     TabController(length: 3, initialIndex: 2, vsync: this);
+              //     // return Delegates(
+              //     //   tabIndex: 1,
+              //     //   tabController: null,
+              //     // );
+              //     return HomePage(
+              //       bottomNavIndex: 1,
+              //     );
+              //   },
+              // ));
+
+              // Get.toNamed(
+              //   Routes.notification,
+              // );
+            } else if (type == "live_event") {
+              String? sId = message.data['event_id'];
+              print("Live event - > $sId");
+              Get.to(LiveEventsPage(sid: sId));
+            }
+          }
+        }
+      });
     });
   }
 
@@ -204,9 +279,7 @@ class _HomeState extends State<Home> {
 
       setState(() {});
       EasyLoading.showToast("No Internet",
-          dismissOnTap: true,
-          duration: const Duration(seconds: 1),
-          toastPosition: EasyLoadingToastPosition.center);
+          dismissOnTap: true, duration: const Duration(seconds: 1), toastPosition: EasyLoadingToastPosition.center);
     } else {
       isConnected = true;
       var response = await ApiRepo().getListLinksResponse(true);
@@ -270,10 +343,7 @@ class _HomeState extends State<Home> {
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: GradientText(
                       text: "Countdown For PIWOT Event 2025",
-                      style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: appFontFamily),
+                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: appFontFamily),
                       gradient: LinearGradient(
                         colors: AppColor.gradientColors,
                         begin: Alignment.topLeft,
@@ -292,10 +362,7 @@ class _HomeState extends State<Home> {
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: GradientText(
                       text: "Explore",
-                      style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: appFontFamily),
+                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: appFontFamily),
                       gradient: LinearGradient(
                         colors: AppColor.gradientColors,
                         begin: Alignment.topLeft,
@@ -317,10 +384,7 @@ class _HomeState extends State<Home> {
                       children: [
                         GradientText(
                           text: "About Event",
-                          style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              fontFamily: appFontFamily),
+                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: appFontFamily),
                           gradient: LinearGradient(
                             colors: AppColor.gradientColors,
                             begin: Alignment.topLeft,
@@ -338,9 +402,7 @@ class _HomeState extends State<Home> {
                               GradientText(
                                 text: "View More",
                                 style: const TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: appFontFamily),
+                                    fontSize: 12, fontWeight: FontWeight.w600, fontFamily: appFontFamily),
                                 gradient: LinearGradient(
                                   colors: AppColor.gradientColors,
                                   begin: Alignment.topLeft,
@@ -703,10 +765,7 @@ class _HomeState extends State<Home> {
                       children: [
                         GradientText(
                           text: "Speaker",
-                          style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              fontFamily: appFontFamily),
+                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: appFontFamily),
                           gradient: LinearGradient(
                             colors: AppColor.gradientColors,
                             begin: Alignment.topLeft,
@@ -724,9 +783,7 @@ class _HomeState extends State<Home> {
                               GradientText(
                                 text: "View More",
                                 style: const TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: appFontFamily),
+                                    fontSize: 12, fontWeight: FontWeight.w600, fontFamily: appFontFamily),
                                 gradient: LinearGradient(
                                   colors: AppColor.gradientColors,
                                   begin: Alignment.topLeft,
@@ -758,10 +815,7 @@ class _HomeState extends State<Home> {
                       children: [
                         GradientText(
                           text: "Sponsor",
-                          style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              fontFamily: appFontFamily),
+                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: appFontFamily),
                           gradient: LinearGradient(
                             colors: AppColor.gradientColors,
                             begin: Alignment.topLeft,
@@ -779,9 +833,7 @@ class _HomeState extends State<Home> {
                               GradientText(
                                 text: "View More",
                                 style: const TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: appFontFamily),
+                                    fontSize: 12, fontWeight: FontWeight.w600, fontFamily: appFontFamily),
                                 gradient: LinearGradient(
                                   colors: AppColor.gradientColors,
                                   begin: Alignment.topLeft,
@@ -810,10 +862,7 @@ class _HomeState extends State<Home> {
                       children: [
                         GradientText(
                           text: "Live Events",
-                          style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              fontFamily: appFontFamily),
+                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: appFontFamily),
                           gradient: LinearGradient(
                             colors: AppColor.gradientColors,
                             begin: Alignment.topLeft,
@@ -831,9 +880,7 @@ class _HomeState extends State<Home> {
                               GradientText(
                                 text: "View More",
                                 style: const TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: appFontFamily),
+                                    fontSize: 12, fontWeight: FontWeight.w600, fontFamily: appFontFamily),
                                 gradient: LinearGradient(
                                   colors: AppColor.gradientColors,
                                   begin: Alignment.topLeft,
@@ -861,8 +908,7 @@ class _HomeState extends State<Home> {
                     height: 210,
                     decoration: BoxDecoration(
                         border: Border.all(color: AppColor.FFC7C7C7),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(10)),
+                        borderRadius: const BorderRadius.all(Radius.circular(10)),
                         color: AppColor.FFCBC7FF.withOpacity(0.15)),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -879,21 +925,16 @@ class _HomeState extends State<Home> {
                               ),
                               Text(
                                 "We value your",
-                                style: AppThemes.titleTextStyle()
-                                    .copyWith(fontWeight: FontWeight.w600),
+                                style: AppThemes.titleTextStyle().copyWith(fontWeight: FontWeight.w600),
                               ),
                               Text("Feedback!",
-                                  style: AppThemes.titleTextStyle()
-                                      .copyWith(fontWeight: FontWeight.w600)),
+                                  style: AppThemes.titleTextStyle().copyWith(fontWeight: FontWeight.w600)),
                               const SizedBox(
                                 height: 8,
                               ),
-                              Text("We'd love to hear about",
-                                  style: AppThemes.subtitleTextStyle()),
-                              Text("your recent experience",
-                                  style: AppThemes.subtitleTextStyle()),
-                              Text("with our services",
-                                  style: AppThemes.subtitleTextStyle()),
+                              Text("We'd love to hear about", style: AppThemes.subtitleTextStyle()),
+                              Text("your recent experience", style: AppThemes.subtitleTextStyle()),
+                              Text("with our services", style: AppThemes.subtitleTextStyle()),
                               const SizedBox(
                                 height: 16,
                               ),
@@ -911,10 +952,7 @@ class _HomeState extends State<Home> {
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: GradientText(
                       text: "Venue",
-                      style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: appFontFamily),
+                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: appFontFamily),
                       gradient: LinearGradient(
                         colors: AppColor.gradientColors,
                         begin: Alignment.topLeft,
@@ -928,8 +966,7 @@ class _HomeState extends State<Home> {
                     height: 208,
                     padding: const EdgeInsets.only(left: 16),
                     decoration: BoxDecoration(
-                        gradient:
-                            LinearGradient(colors: AppColor.gradientColors),
+                        gradient: LinearGradient(colors: AppColor.gradientColors),
                         borderRadius: BorderRadius.circular(8)),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -973,8 +1010,7 @@ class _HomeState extends State<Home> {
                     children: [
                       InkWell(
                           onTap: () {
-                            launchUrl(
-                                Uri.parse(_listLinkData?.facebookLink ?? ""));
+                            launchUrl(Uri.parse(_listLinkData?.facebookLink ?? ""));
                           },
                           child: SvgPicture.asset(Images.facebookIcon)),
                       const SizedBox(
@@ -982,8 +1018,7 @@ class _HomeState extends State<Home> {
                       ),
                       InkWell(
                           onTap: () {
-                            launchUrl(
-                                Uri.parse(_listLinkData?.instagramLink ?? ""));
+                            launchUrl(Uri.parse(_listLinkData?.instagramLink ?? ""));
                           },
                           child: SvgPicture.asset(Images.instagramIcon)),
                       const SizedBox(
@@ -991,8 +1026,7 @@ class _HomeState extends State<Home> {
                       ),
                       InkWell(
                           onTap: () {
-                            launchUrl(
-                                Uri.parse(_listLinkData?.linkedinLink ?? ""));
+                            launchUrl(Uri.parse(_listLinkData?.linkedinLink ?? ""));
                           },
                           child: SvgPicture.asset(Images.linkedinIcon)),
                       const SizedBox(
@@ -1000,8 +1034,7 @@ class _HomeState extends State<Home> {
                       ),
                       InkWell(
                           onTap: () {
-                            launchUrl(
-                                Uri.parse(_listLinkData?.twitterLink ?? ""));
+                            launchUrl(Uri.parse(_listLinkData?.twitterLink ?? ""));
                           },
                           child: SvgPicture.asset(Images.twitterIcon)),
                       const SizedBox(
@@ -1009,8 +1042,7 @@ class _HomeState extends State<Home> {
                       ),
                       InkWell(
                           onTap: () {
-                            launchUrl(
-                                Uri.parse(_listLinkData?.youtubeLink ?? ""));
+                            launchUrl(Uri.parse(_listLinkData?.youtubeLink ?? ""));
                           },
                           child: Image.asset(
                             Images.youtubeIcon,
@@ -1033,8 +1065,7 @@ class _HomeState extends State<Home> {
                       margin: const EdgeInsets.symmetric(horizontal: 16),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(50),
-                          gradient:
-                              LinearGradient(colors: AppColor.gradientColors)),
+                          gradient: LinearGradient(colors: AppColor.gradientColors)),
                       child: Center(
                         child: Text(
                           "Direction To Venue",
@@ -1057,11 +1088,8 @@ class _HomeState extends State<Home> {
         : const Center(
             child: Text(
             "OOPS! NO INTERNET.",
-            style: TextStyle(
-                color: Colors.black87,
-                fontWeight: FontWeight.w600,
-                fontFamily: appFontFamily,
-                fontSize: 20),
+            style:
+                TextStyle(color: Colors.black87, fontWeight: FontWeight.w600, fontFamily: appFontFamily, fontSize: 20),
           ));
   }
 
@@ -1074,23 +1102,17 @@ class _HomeState extends State<Home> {
           Container(
             padding: const EdgeInsets.all(1),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(9),
-                gradient: LinearGradient(colors: AppColor.gradientColors)),
+                borderRadius: BorderRadius.circular(9), gradient: LinearGradient(colors: AppColor.gradientColors)),
             child: Container(
               height: Get.height * 0.1,
               width: Get.width * 0.21,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(9),
-                  color: AppColor.white),
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(9), color: AppColor.white),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   GradientText(
                     text: _formatDuration(_timeRemaining)[0].toString(),
-                    style: const TextStyle(
-                        fontFamily: appFontFamily,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 20),
+                    style: const TextStyle(fontFamily: appFontFamily, fontWeight: FontWeight.w600, fontSize: 20),
                     gradient: LinearGradient(colors: AppColor.gradientColors),
                   ),
                   const SizedBox(
@@ -1098,10 +1120,7 @@ class _HomeState extends State<Home> {
                   ),
                   GradientText(
                       text: "DAYS",
-                      style: const TextStyle(
-                          fontFamily: appFontFamily,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 10),
+                      style: const TextStyle(fontFamily: appFontFamily, fontWeight: FontWeight.w600, fontSize: 10),
                       gradient: LinearGradient(colors: AppColor.gradientColors))
                 ],
               ),
@@ -1110,34 +1129,24 @@ class _HomeState extends State<Home> {
           Container(
             padding: const EdgeInsets.all(1),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(9),
-                gradient: LinearGradient(colors: AppColor.gradientColors)),
+                borderRadius: BorderRadius.circular(9), gradient: LinearGradient(colors: AppColor.gradientColors)),
             child: Container(
               height: Get.height * 0.1,
               width: Get.width * 0.21,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(9),
-                  color: AppColor.white),
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(9), color: AppColor.white),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   GradientText(
                       text: _formatDuration(_timeRemaining)[1].toString(),
-                      style: const TextStyle(
-                          fontFamily: appFontFamily,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 20),
-                      gradient:
-                          LinearGradient(colors: AppColor.gradientColors)),
+                      style: const TextStyle(fontFamily: appFontFamily, fontWeight: FontWeight.w600, fontSize: 20),
+                      gradient: LinearGradient(colors: AppColor.gradientColors)),
                   const SizedBox(
                     height: 5,
                   ),
                   GradientText(
                       text: "HOURS",
-                      style: const TextStyle(
-                          fontFamily: appFontFamily,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 10),
+                      style: const TextStyle(fontFamily: appFontFamily, fontWeight: FontWeight.w600, fontSize: 10),
                       gradient: LinearGradient(colors: AppColor.gradientColors))
                 ],
               ),
@@ -1146,25 +1155,18 @@ class _HomeState extends State<Home> {
           Container(
             padding: const EdgeInsets.all(1),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(9),
-                gradient: LinearGradient(colors: AppColor.gradientColors)),
+                borderRadius: BorderRadius.circular(9), gradient: LinearGradient(colors: AppColor.gradientColors)),
             child: Container(
               height: Get.height * 0.1,
               width: Get.width * 0.21,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(9),
-                  color: AppColor.white),
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(9), color: AppColor.white),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   GradientText(
                       text: _formatDuration(_timeRemaining)[2].toString(),
-                      style: const TextStyle(
-                          fontFamily: appFontFamily,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 20),
-                      gradient:
-                          LinearGradient(colors: AppColor.gradientColors)),
+                      style: const TextStyle(fontFamily: appFontFamily, fontWeight: FontWeight.w600, fontSize: 20),
+                      gradient: LinearGradient(colors: AppColor.gradientColors)),
                   const SizedBox(
                     height: 5,
                   ),
@@ -1183,34 +1185,24 @@ class _HomeState extends State<Home> {
           Container(
             padding: const EdgeInsets.all(1),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(9),
-                gradient: LinearGradient(colors: AppColor.gradientColors)),
+                borderRadius: BorderRadius.circular(9), gradient: LinearGradient(colors: AppColor.gradientColors)),
             child: Container(
               height: Get.height * 0.1,
               width: Get.width * 0.21,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(9),
-                  color: AppColor.white),
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(9), color: AppColor.white),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   GradientText(
                       text: _formatDuration(_timeRemaining)[3].toString(),
-                      style: const TextStyle(
-                          fontFamily: appFontFamily,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 20),
-                      gradient:
-                          LinearGradient(colors: AppColor.gradientColors)),
+                      style: const TextStyle(fontFamily: appFontFamily, fontWeight: FontWeight.w600, fontSize: 20),
+                      gradient: LinearGradient(colors: AppColor.gradientColors)),
                   const SizedBox(
                     height: 5,
                   ),
                   GradientText(
                       text: "SECONDS",
-                      style: const TextStyle(
-                          fontFamily: appFontFamily,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 10),
+                      style: const TextStyle(fontFamily: appFontFamily, fontWeight: FontWeight.w600, fontSize: 10),
                       gradient: LinearGradient(colors: AppColor.gradientColors))
                 ],
               ),
@@ -1234,14 +1226,11 @@ class _HomeState extends State<Home> {
             child: Container(
               padding: const EdgeInsets.all(1),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(9),
-                  gradient: LinearGradient(colors: AppColor.gradientColors)),
+                  borderRadius: BorderRadius.circular(9), gradient: LinearGradient(colors: AppColor.gradientColors)),
               child: Container(
                 height: Get.height * 0.11,
                 width: Get.width * 0.28,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(9),
-                    color: AppColor.white),
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(9), color: AppColor.white),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -1255,12 +1244,8 @@ class _HomeState extends State<Home> {
                     ),
                     GradientText(
                         text: "Delegates",
-                        style: const TextStyle(
-                            fontFamily: appFontFamily,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 10),
-                        gradient:
-                            LinearGradient(colors: AppColor.gradientColors))
+                        style: const TextStyle(fontFamily: appFontFamily, fontWeight: FontWeight.w600, fontSize: 10),
+                        gradient: LinearGradient(colors: AppColor.gradientColors))
                   ],
                 ),
               ),
@@ -1273,14 +1258,11 @@ class _HomeState extends State<Home> {
             child: Container(
               padding: const EdgeInsets.all(1),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(9),
-                  gradient: LinearGradient(colors: AppColor.gradientColors)),
+                  borderRadius: BorderRadius.circular(9), gradient: LinearGradient(colors: AppColor.gradientColors)),
               child: Container(
                 height: Get.height * 0.11,
                 width: Get.width * 0.28,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(9),
-                    color: AppColor.white),
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(9), color: AppColor.white),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -1294,12 +1276,8 @@ class _HomeState extends State<Home> {
                     ),
                     GradientText(
                         text: "Agenda",
-                        style: const TextStyle(
-                            fontFamily: appFontFamily,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 10),
-                        gradient:
-                            LinearGradient(colors: AppColor.gradientColors))
+                        style: const TextStyle(fontFamily: appFontFamily, fontWeight: FontWeight.w600, fontSize: 10),
+                        gradient: LinearGradient(colors: AppColor.gradientColors))
                   ],
                 ),
               ),
@@ -1312,14 +1290,11 @@ class _HomeState extends State<Home> {
             child: Container(
               padding: const EdgeInsets.all(1),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(9),
-                  gradient: LinearGradient(colors: AppColor.gradientColors)),
+                  borderRadius: BorderRadius.circular(9), gradient: LinearGradient(colors: AppColor.gradientColors)),
               child: Container(
                 height: Get.height * 0.11,
                 width: Get.width * 0.28,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(9),
-                    color: AppColor.white),
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(9), color: AppColor.white),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -1333,12 +1308,8 @@ class _HomeState extends State<Home> {
                     ),
                     GradientText(
                         text: "Floor Plan",
-                        style: const TextStyle(
-                            fontFamily: appFontFamily,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 10),
-                        gradient:
-                            LinearGradient(colors: AppColor.gradientColors))
+                        style: const TextStyle(fontFamily: appFontFamily, fontWeight: FontWeight.w600, fontSize: 10),
+                        gradient: LinearGradient(colors: AppColor.gradientColors))
                   ],
                 ),
               ),
@@ -1363,9 +1334,8 @@ class _HomeState extends State<Home> {
                 : index == 2
                     ? const EdgeInsets.only(right: 16)
                     : EdgeInsets.zero,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(9),
-                border: Border.all(color: AppColor.primaryColor)),
+            decoration:
+                BoxDecoration(borderRadius: BorderRadius.circular(9), border: Border.all(color: AppColor.primaryColor)),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -1464,17 +1434,12 @@ class _HomeState extends State<Home> {
                     ? Padding(
                         padding: index == 0
                             ? const EdgeInsets.only(left: 16)
-                            : index ==
-                                    ((liveSessions.length < 3)
-                                            ? liveSessions.length
-                                            : 3) -
-                                        1
+                            : index == ((liveSessions.length < 3) ? liveSessions.length : 3) - 1
                                 ? const EdgeInsets.only(right: 16)
                                 : EdgeInsets.zero,
                         child: InkWell(
                             onTap: () {
-                              Get.toNamed(Routes.liveSession,
-                                  arguments: {"data": liveSessions[index]});
+                              Get.toNamed(Routes.liveSession, arguments: {"data": liveSessions[index]});
                             },
                             child: Stack(
                               alignment: Alignment.bottomLeft,
@@ -1483,26 +1448,22 @@ class _HomeState extends State<Home> {
                                   height: 205,
                                   width: 203,
                                   decoration: const BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(8)),
+                                    borderRadius: BorderRadius.all(Radius.circular(8)),
                                   ),
                                   child: ClipRRect(
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(10)),
+                                      borderRadius: const BorderRadius.all(Radius.circular(10)),
                                       child: SizedBox(
                                         height: 203,
                                         width: 204,
                                         child: YouTubeThumbnail(
-                                          youtubeUrl:
-                                              liveSessions[index].link ?? "",
+                                          youtubeUrl: liveSessions[index].link ?? "",
                                         ),
                                       )),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
                                       // Text(liveSessions[index].title??"",style: TextStyle(color: AppColor.white,fontSize: 14,fontWeight: FontWeight.bold,fontFamily: appFontFamily),),
@@ -1512,12 +1473,9 @@ class _HomeState extends State<Home> {
                                         width: 98,
                                         decoration: BoxDecoration(
                                             color: AppColor.red,
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                                    Radius.circular(8))),
+                                            borderRadius: const BorderRadius.all(Radius.circular(8))),
                                         child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
+                                          mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
                                             Text(
                                               "Event Details",
@@ -1530,8 +1488,7 @@ class _HomeState extends State<Home> {
                                             const SizedBox(
                                               width: 2,
                                             ),
-                                            SvgPicture.asset(
-                                                Images.crossArrowIcon)
+                                            SvgPicture.asset(Images.crossArrowIcon)
                                           ],
                                         ),
                                       )
@@ -1603,9 +1560,7 @@ class _HomeState extends State<Home> {
               return Padding(
                 padding: EdgeInsets.only(
                   left: index == 0 ? 16.0 : 0, // Padding for the first item
-                  right: index == sponsors.length - 1
-                      ? 16.0
-                      : 0, // Padding for the last item
+                  right: index == sponsors.length - 1 ? 16.0 : 0, // Padding for the last item
                 ),
                 child: Builder(
                   builder: (BuildContext context) {
@@ -1646,6 +1601,96 @@ class _HomeState extends State<Home> {
       height: 200,
       child: speakers.isNotEmpty
           ? ListView.separated(
+              padding: EdgeInsets.zero,
+              itemCount: (speakers.length < 5) ? speakers.length : 5,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  onTap: () {
+                    speakerDetails(
+                      title: speakers[index].speakerName ?? "",
+                      subtitle: speakers[index].designation ?? "",
+                      body: speakers[index].bio ?? "",
+                      image: (speakers[index].speakerImage ?? ""),
+                    );
+                  },
+                  child: Container(
+                    height: 150,
+                    width: 173,
+                    margin: index == 0
+                        ? const EdgeInsets.only(left: 16)
+                        : index == ((speakers.length < 5) ? speakers.length : 5) - 1
+                            ? const EdgeInsets.only(right: 16)
+                            : EdgeInsets.zero,
+                    padding: const EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      color: AppColor.secondaryColor,
+                      gradient: LinearGradient(
+                        colors: AppColor.gradientColors,
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      borderRadius: const BorderRadius.all(Radius.circular(15)),
+                    ),
+                    child: SingleChildScrollView(
+                      // Wrap content in scrollable view
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(height: 20),
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(100),
+                            child: Image.network(
+                              ApiUrls.imageUrl + (speakers[index].speakerImage ?? ""),
+                              height: 80,
+                              width: 80,
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                          const SizedBox(height: 5),
+                          Text(
+                            speakers[index].speakerName ?? "",
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                                fontFamily: appFontFamily,
+                                color: AppColor.white,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
+                                overflow: TextOverflow.ellipsis),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 8),
+                          const Divider(
+                            height: 0,
+                            thickness: 0.7,
+                            color: Colors.white,
+                            indent: 35,
+                            endIndent: 35,
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            speakers[index].designation ?? "",
+                            style: TextStyle(
+                                fontFamily: appFontFamily,
+                                color: AppColor.white,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                                overflow: TextOverflow.ellipsis),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              },
+              separatorBuilder: (BuildContext context, int index) {
+                return const SizedBox(width: 16);
+              },
+            )
+
+          /* ? ListView.separated(
               padding: EdgeInsets.zero,
               itemCount: (speakers.length < 5) ? speakers.length : 5,
               scrollDirection: Axis.horizontal,
@@ -1724,16 +1769,12 @@ class _HomeState extends State<Home> {
                   width: 16,
                 );
               },
-            )
+            )*/
           : const SizedBox.shrink(),
     );
   }
 
-  speakerDetails(
-      {required String title,
-      required String subtitle,
-      required String body,
-      required String image}) {
+  speakerDetails({required String title, required String subtitle, required String body, required String image}) {
     return showModalBottomSheet<void>(
       // context and builder are
       // required properties in this widget
@@ -1756,9 +1797,7 @@ class _HomeState extends State<Home> {
               height: Get.height / 1.5,
               decoration: BoxDecoration(
                   color: AppColor.white,
-                  borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(32),
-                      topRight: Radius.circular(32))),
+                  borderRadius: const BorderRadius.only(topLeft: Radius.circular(32), topRight: Radius.circular(32))),
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: SingleChildScrollView(
                 child: Column(
@@ -1772,8 +1811,7 @@ class _HomeState extends State<Home> {
                       height: 156,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(16),
-                        gradient:
-                            LinearGradient(colors: AppColor.gradientColors),
+                        gradient: LinearGradient(colors: AppColor.gradientColors),
                       ),
                       child: ClipRRect(
                           borderRadius: BorderRadius.circular(16),
@@ -1795,10 +1833,7 @@ class _HomeState extends State<Home> {
                     ),
                     GradientText(
                       text: title,
-                      style: const TextStyle(
-                          fontFamily: appFontFamily,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700),
+                      style: const TextStyle(fontFamily: appFontFamily, fontSize: 16, fontWeight: FontWeight.w700),
                       gradient: LinearGradient(colors: AppColor.gradientColors),
                     ),
                     const SizedBox(
@@ -1852,14 +1887,12 @@ class _HomeState extends State<Home> {
       child: Container(
         height: 45,
         width: 127,
-        decoration: BoxDecoration(
-            color: AppColor.primaryColor,
-            borderRadius: const BorderRadius.all(Radius.circular(8))),
+        decoration:
+            BoxDecoration(color: AppColor.primaryColor, borderRadius: const BorderRadius.all(Radius.circular(8))),
         child: Center(
             child: Text(
           "View Details",
-          style: AppThemes.titleTextStyle()
-              .copyWith(color: AppColor.white, fontSize: 17),
+          style: AppThemes.titleTextStyle().copyWith(color: AppColor.white, fontSize: 17),
         )),
       ),
     );
@@ -1868,20 +1901,16 @@ class _HomeState extends State<Home> {
   Widget surveyButton() {
     return InkWell(
       onTap: () {
-        Get.toNamed(Routes.survey,
-            arguments: {"session_id": "", "type": "Global Survey"});
+        Get.toNamed(Routes.survey, arguments: {"session_id": "", "type": "Global Survey"});
       },
       child: Container(
         height: 32,
         width: 150,
-        decoration: BoxDecoration(
-            color: AppColor.red,
-            borderRadius: const BorderRadius.all(Radius.circular(8))),
+        decoration: BoxDecoration(color: AppColor.red, borderRadius: const BorderRadius.all(Radius.circular(8))),
         child: Center(
             child: Text(
           "Take Survey",
-          style: AppThemes.titleTextStyle()
-              .copyWith(color: AppColor.white, fontSize: 17),
+          style: AppThemes.titleTextStyle().copyWith(color: AppColor.white, fontSize: 17),
         )),
       ),
     );

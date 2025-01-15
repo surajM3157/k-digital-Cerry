@@ -145,10 +145,13 @@
 // }
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:get/get.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:piwotapp/constants/colors.dart';
+import 'package:piwotapp/pages/live_events_page.dart';
+
+import '../pages/home/home_page.dart';
 import '../shared prefs/pref_manager.dart';
 
 class NotificationService {
@@ -157,7 +160,8 @@ class NotificationService {
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   bool _isForegroundHandlerSetup = false;
 
-  // Request permission for iOS devices
+  late final int tabIndex;
+
   Future<void> requestNotificationPermission() async {
     NotificationSettings settings = await _firebaseMessaging.requestPermission(
       alert: true,
@@ -167,24 +171,18 @@ class NotificationService {
     print("Notification Permission: ${settings.authorizationStatus}");
   }
 
-  // Subscribe to a topic
   Future<void> subscribeToTopic(String topic) async {
     await _firebaseMessaging.subscribeToTopic(topic);
     print("Subscribed to $topic topic");
   }
 
-  // Unsubscribe from a topic
   Future<void> unsubscribeFromTopic(String topic) async {
     await _firebaseMessaging.unsubscribeFromTopic(topic);
     print("Unsubscribed from $topic topic");
   }
 
-  // Initialize Firebase Messaging and configure settings
   Future<void> initialize() async {
-    // Request permission for iOS devices (Foreground)
     await requestNotificationPermission();
-
-    // Get the device token
     String? token = await _firebaseMessaging.getToken();
     print("FCM Token: $token");
 
@@ -193,20 +191,16 @@ class NotificationService {
       print("FCM Token saved to SharedPreferences.");
     }
 
-    // Handle notifications when the app is in the background or terminated
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       print('Message clicked!');
+      print("Background Message: ${message.data}");
       _handleNotification(message);
     });
 
-    // Handle notifications when the app is in the foreground
     setupForegroundMessageHandler();
-
-    // Handle background messages
     setupBackgroundHandler();
   }
 
-  // Handle notification when the app is in the foreground
   void setupForegroundMessageHandler() {
     if (_isForegroundHandlerSetup) return;
     _isForegroundHandlerSetup = true;
@@ -220,7 +214,6 @@ class NotificationService {
 
         final messageId = message.messageId;
 
-        // Avoid duplicate notification entries in Firestore by checking for existing messageId
         _firestore
             .collection("notifications")
             .doc(Prefs.checkUserId)
@@ -240,17 +233,14 @@ class NotificationService {
             }, SetOptions(merge: true));
 
             // Show in-app notification using a Snackbar
-            _showNotification(
-                message.notification!.title, message.notification!.body);
+            _showNotification(message.notification!.title, message.notification!.body);
           }
         });
       }
     });
   }
 
-  // Show notification in-app (can be a Snackbar or AlertDialog)
   void _showNotification(String? title, String? body) {
-    // Displaying a simple Snackbar
     Get.snackbar(
       title ?? "New Notification",
       body ?? "You have a new message!",
@@ -259,11 +249,8 @@ class NotificationService {
     );
   }
 
-  // Handle notification when the app is in the background or killed
-  Future<void> _firebaseMessagingBackgroundHandler(
-      RemoteMessage message) async {
+  Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     print('Handling a background message: ${message.messageId}');
-    // Save notification data to Firestore
     _firestore
         .collection("notifications")
         .doc(Prefs.checkUserId)
@@ -275,18 +262,13 @@ class NotificationService {
     }, SetOptions(merge: true));
   }
 
-  // Set up the background handler
   void setupBackgroundHandler() {
-    // This is called when the app is terminated or in the background
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   }
 
-  // Handle notification when the app is opened from the notification
   Future<void> _handleNotification(RemoteMessage message) async {
     print("Handling notification opened from background!");
-
-    // Save notification in Firestore for tracking
-    _firestore
+    await _firestore
         .collection("notifications")
         .doc(Prefs.checkUserId)
         .collection('notification')
@@ -294,13 +276,123 @@ class NotificationService {
         .set({
       "title": message.notification?.title,
       "body": message.notification?.body,
+      "timestamp": FieldValue.serverTimestamp(),
     }, SetOptions(merge: true));
+    print("Notification Data: ${message.data}");
+    if (message.data.containsKey('type')) {
+      String type = message.data['type'] ?? '';
 
-    // Optionally, navigate to a specific screen or take action based on notification data
-    // For example, navigate to a specific screen based on notification data
-    if (message.data.containsKey('route')) {
-      String route = message.data['route'] ?? '/';
-      navigatorKey.currentState?.pushNamed(route);
+      // {"type": "live_event", "event_id": "deded"};
+
+      print("notification data type open ===> ${message.data['type']}");
+      print("Notification Type: $type");
+      if (type == 'friend_request') {
+        Get.offAll(HomePage(bottomNavIndex: 1, delegateIndex: 2));
+        //     Get.toNamed(
+        //                   Routes.home;
+        //                   HomePage(bottomNavIndex: 1);
+        // )
+
+        // navigatorKey.currentState?.push(MaterialPageRoute(
+        //   builder: (_) {
+        //     // TabController tabController =
+        //     //     TabController(length: 3, initialIndex: 2, vsync: this);
+        //     // return Delegates(
+        //     //   tabIndex: 1,
+        //     //   tabController: null,
+        //     // );
+        //     return HomePage(
+        //       bottomNavIndex: 1,
+        //     );
+        //   },
+        // ));
+
+        // Get.toNamed(
+        //   Routes.notification,
+        // );
+      } else if (type == "live_event") {
+        String? sId = message.data['event_id'];
+        print("Live event - > $sId");
+        Get.to(LiveEventsPage(sid: sId));
+      }
     }
   }
+
+  // Future<void> _handleNotification(RemoteMessage message) async {
+  //   print("Handling notification opened from background!");
+  //
+  //   // Save notification in Firestore for tracking
+  //   await _firestore
+  //       .collection("notifications")
+  //       .doc(Prefs.checkUserId)
+  //       .collection('notification')
+  //       .doc(message.messageId)
+  //       .set({
+  //     "title": message.notification?.title,
+  //     "body": message.notification?.body,
+  //     "timestamp": FieldValue.serverTimestamp(), // Add timestamp for tracking
+  //   }, SetOptions(merge: true));
+  //
+  //   // Navigate to a specific screen or take action based on notification data
+  //   if (message.data.containsKey('type')) {
+  //     String type = message.data['type'] ?? '';
+  //     print("Notification Type: $type");
+  //     // Determine route based on the 'type' field in the notification data
+  //     switch (type) {
+  //       case 'Survey':
+  //         Get.toNamed(
+  //           Routes.survey,
+  //           // arguments: {
+  //           //   "session_id": message.data['session_id'] ?? '',
+  //           //   "type": type,
+  //           // },
+  //         );
+  //         break;
+  //
+  //       case 'friend_request':
+  //         Get.toNamed(
+  //           Routes.chat,
+  //           // arguments: {
+  //           //   "chat_id": message.data['chat_id'] ?? '',
+  //           // },
+  //         );
+  //         break;
+  //
+  //       default:
+  //         print("Unknown notification type: $type");
+  //         Get.snackbar(
+  //           "Notification",
+  //           "No specific action for this notification type.",
+  //           snackPosition: SnackPosition.BOTTOM,
+  //         );
+  //     }
+  //   } else {
+  //     print("Notification does not contain a 'type' field.");
+  //   }
+  // }
+
+  // Future<void> _handleNotification(RemoteMessage message) async {
+  //   print("Handling notification opened from background!");
+  //
+  //   // Save notification in Firestore for tracking
+  //   _firestore
+  //       .collection("notifications")
+  //       .doc(Prefs.checkUserId)
+  //       .collection('notification')
+  //       .doc(message.messageId)
+  //       .set({
+  //     "title": message.notification?.title,
+  //     "body": message.notification?.body,
+  //   }, SetOptions(merge: true));
+  //
+  //   // Get.toNamed(Routes.survey,
+  //   //     arguments: {"session_id": "", "type": "Global Survey"});
+  //
+  //   // Optionally, navigate to a specific screen or take action based on notification data
+  //   // For example, navigate to a specific screen based on notification data
+  //   if (message.data.containsKey('type')) {
+  //     String route = message.data['type'] ?? '/chat';
+  //     navigatorKey.currentState?.pushNamed(route);
+  //   }
+  // }
 }

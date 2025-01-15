@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:piwotapp/constants/font_family.dart';
+
 import '../constants/colors.dart';
 import '../constants/images.dart';
 import '../repository/api_repo.dart';
@@ -14,7 +15,8 @@ import '../widgets/gradient_text.dart';
 import '../widgets/youtube_thumbnail.dart';
 
 class LiveEventsPage extends StatefulWidget {
-  const LiveEventsPage({super.key});
+  final String? sid;
+  const LiveEventsPage({super.key, this.sid});
 
   @override
   State<LiveEventsPage> createState() => _LiveEventsPageState();
@@ -25,7 +27,7 @@ class _LiveEventsPageState extends State<LiveEventsPage> {
   List<LiveSessionData> liveSessions = [];
   bool isConnected = true;
 
-  fetchLiveSessionList() async {
+  fetchLiveSessionList({bool isRedirect = false}) async {
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
       isConnected = false;
@@ -39,21 +41,33 @@ class _LiveEventsPageState extends State<LiveEventsPage> {
 
       var response = await ApiRepo().getLiveSessionResponse(false);
 
+      LiveSessionData? redirectData;
+
       if (response.data != null) {
         liveSessionResponse = response;
+        print("notification event id ===>%% ${widget.sid}");
         for (LiveSessionData live in liveSessionResponse!.data!) {
+          print("event id ===>%% ${live.sId}");
+          if (widget.sid != null) {
+            if (widget.sid == live.sId) {
+              redirectData = live;
+            }
+          }
           liveSessions.add(live);
         }
         print("liveSessions ${liveSessions.length}");
       }
-
       setState(() {});
+
+      if (widget.sid != null && redirectData != null && isRedirect) {
+        Get.toNamed(Routes.liveSession, arguments: {"data": redirectData});
+      }
     }
   }
 
   @override
   void initState() {
-    fetchLiveSessionList();
+    fetchLiveSessionList(isRedirect: true);
     Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
       if (result == ConnectivityResult.none) {
         isConnected = false;
@@ -74,8 +88,7 @@ class _LiveEventsPageState extends State<LiveEventsPage> {
         backgroundColor: AppColor.primaryColor,
         title: Padding(
           padding: const EdgeInsets.only(right: 60),
-          child: Center(
-              child: SvgPicture.asset(Images.logo, height: 40, width: 147)),
+          child: Center(child: SvgPicture.asset(Images.logo, height: 40, width: 147)),
         ),
         leading: InkWell(
             onTap: () {
@@ -101,10 +114,7 @@ class _LiveEventsPageState extends State<LiveEventsPage> {
                   Center(
                       child: GradientText(
                     text: "Live Event",
-                    style: const TextStyle(
-                        fontFamily: appFontFamily,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600),
+                    style: const TextStyle(fontFamily: appFontFamily, fontSize: 20, fontWeight: FontWeight.w600),
                     gradient: LinearGradient(colors: AppColor.gradientColors),
                   )),
                   const SizedBox(
@@ -118,114 +128,73 @@ class _LiveEventsPageState extends State<LiveEventsPage> {
                           itemBuilder: (context, index) {
                             return liveSessions[index].link!.contains("=")
                                 ? Container(
-                                    margin: const EdgeInsets.symmetric(
-                                        horizontal: 16),
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 10),
+                                    margin: const EdgeInsets.symmetric(horizontal: 16),
+                                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(8),
-                                        border: Border.all(
-                                            color: AppColor.FF646464
-                                                .withOpacity(0.3))),
+                                        border: Border.all(color: AppColor.FF646464.withOpacity(0.3))),
                                     child: Row(
                                       children: [
                                         ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
+                                            borderRadius: BorderRadius.circular(8),
                                             child: SizedBox(
                                                 height: 120,
                                                 width: 113,
                                                 child: YouTubeThumbnail(
-                                                  youtubeUrl: liveSessions[
-                                                              index]
-                                                          .link ??
-                                                      "", // Replace with your YouTube link
+                                                  youtubeUrl:
+                                                      liveSessions[index].link ?? "", // Replace with your YouTube link
                                                 ))),
-                                        const SizedBox(
-                                          width: 15,
-                                        ),
+                                        const SizedBox(width: 15),
                                         Expanded(
                                           child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               GradientText(
-                                                text:
-                                                    liveSessions[index].title ??
-                                                        "",
+                                                text: liveSessions[index].title ?? "",
                                                 style: const TextStyle(
                                                   fontWeight: FontWeight.w600,
                                                   fontSize: 14,
                                                   fontFamily: appFontFamily,
                                                 ),
-                                                gradient: LinearGradient(
-                                                    colors: AppColor
-                                                        .gradientColors),
+                                                gradient: LinearGradient(colors: AppColor.gradientColors),
                                               ),
                                               // const SizedBox(height: 5,),
                                               // Text(liveSessions[index].description??"",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 10,fontFamily: appFontFamily,color: AppColor.FF161616)),
-                                              const SizedBox(
-                                                height: 13,
-                                              ),
+                                              const SizedBox(height: 13),
                                               Row(
                                                 children: [
-                                                  SvgPicture.asset(
-                                                      Images.calendarIcon),
-                                                  const SizedBox(
-                                                    width: 2,
-                                                  ),
+                                                  SvgPicture.asset(Images.calendarIcon),
+                                                  const SizedBox(width: 2),
                                                   Text(
                                                     DateFormat("dd, MMM yyyy")
-                                                        .format(DateTime.parse(
-                                                            liveSessions[index]
-                                                                    .eventDate ??
-                                                                "")),
+                                                        .format(DateTime.parse(liveSessions[index].eventDate ?? "")),
                                                     style: const TextStyle(
-                                                        fontFamily:
-                                                            appFontFamily,
+                                                        fontFamily: appFontFamily,
                                                         fontSize: 10,
-                                                        fontWeight:
-                                                            FontWeight.w600),
+                                                        fontWeight: FontWeight.w600),
                                                   )
                                                 ],
                                               ),
-                                              // const SizedBox(height: 10,),
-                                              // Row(
-                                              //   children: [
-                                              //     SvgPicture.asset(Images.participantIcon),
-                                              //     const SizedBox(width: 2,),
-                                              //     const Text("30k Participants",style: TextStyle(fontFamily: appFontFamily,fontSize: 10,fontWeight: FontWeight.w600),)
-                                              //   ],
-                                              // ),
                                               const SizedBox(
                                                 height: 10,
                                               ),
                                               GestureDetector(
                                                 onTap: () {
-                                                  Get.toNamed(
-                                                      Routes.liveSession,
-                                                      arguments: {
-                                                        "data":
-                                                            liveSessions[index]
-                                                      });
+                                                  Get.toNamed(Routes.liveSession,
+                                                      arguments: {"data": liveSessions[index]});
                                                 },
                                                 child: Container(
                                                   width: 87,
                                                   height: 27,
                                                   decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              7),
-                                                      color: AppColor.red),
+                                                      borderRadius: BorderRadius.circular(7), color: AppColor.red),
                                                   child: Center(
                                                       child: Text(
                                                     "Watch Now",
                                                     style: TextStyle(
-                                                        fontFamily:
-                                                            appFontFamily,
+                                                        fontFamily: appFontFamily,
                                                         fontSize: 12,
-                                                        fontWeight:
-                                                            FontWeight.w600,
+                                                        fontWeight: FontWeight.w600,
                                                         color: AppColor.white),
                                                   )),
                                                 ),
@@ -252,10 +221,7 @@ class _LiveEventsPageState extends State<LiveEventsPage> {
               child: Text(
               "OOPS! NO INTERNET.",
               style: TextStyle(
-                  color: Colors.black87,
-                  fontWeight: FontWeight.w600,
-                  fontFamily: appFontFamily,
-                  fontSize: 20),
+                  color: Colors.black87, fontWeight: FontWeight.w600, fontFamily: appFontFamily, fontSize: 20),
             )),
     );
   }

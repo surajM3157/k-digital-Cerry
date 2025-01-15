@@ -39,6 +39,7 @@ class GuestDetailsData {
   int? guestId;
   String? lastName;
   int? mobileNumber;
+  String? countryCode;  // Added country code as a String
   String? otp;
   String? gender;
   String? companyName;
@@ -62,35 +63,37 @@ class GuestDetailsData {
   String? category;
   bool? alreadyLoggedIn;
 
-  GuestDetailsData(
-      {this.guestProfileImage,
-        this.sId,
-        this.firstName,
-        this.guestId,
-        this.lastName,
-        this.mobileNumber,
-        this.otp,
-        this.gender,
-        this.companyName,
-        this.designation,
-        this.city,
-        this.country,
-        this.state,
-        this.alumniOfIit,
-        this.iitName,
-        this.batch,
-        this.stream,
-        this.emailId,
-        this.status,
-        this.attendanceStatus,
-        this.inTime,
-        this.deletedAt,
-        this.registrationDate,
-        this.createdAt,
-        this.updatedAt,
-        this.iV,
-        this.category,
-        this.alreadyLoggedIn});
+  GuestDetailsData({
+    this.guestProfileImage,
+    this.sId,
+    this.firstName,
+    this.guestId,
+    this.lastName,
+    this.mobileNumber,
+    this.countryCode,  // Add this in the constructor
+    this.otp,
+    this.gender,
+    this.companyName,
+    this.designation,
+    this.city,
+    this.country,
+    this.state,
+    this.alumniOfIit,
+    this.iitName,
+    this.batch,
+    this.stream,
+    this.emailId,
+    this.status,
+    this.attendanceStatus,
+    this.inTime,
+    this.deletedAt,
+    this.registrationDate,
+    this.createdAt,
+    this.updatedAt,
+    this.iV,
+    this.category,
+    this.alreadyLoggedIn
+  });
 
   GuestDetailsData.fromJson(Map<String, dynamic> json) {
     guestProfileImage = json['guest_profile_image'];
@@ -99,6 +102,7 @@ class GuestDetailsData {
     guestId = json['guest_id'];
     lastName = json['last_name'];
     mobileNumber = json['mobile_number'];
+    countryCode = json['country_code'];  // Add this to receive country code
     otp = json['otp'];
     gender = json['gender'];
     companyName = json['company_name'];
@@ -131,6 +135,7 @@ class GuestDetailsData {
     data['guest_id'] = this.guestId;
     data['last_name'] = this.lastName;
     data['mobile_number'] = this.mobileNumber;
+    data['country_code'] = this.countryCode;  // Send country code in response
     data['otp'] = this.otp;
     data['gender'] = this.gender;
     data['company_name'] = this.companyName;
@@ -156,4 +161,5 @@ class GuestDetailsData {
     return data;
   }
 }
+
 

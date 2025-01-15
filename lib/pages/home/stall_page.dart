@@ -77,21 +77,21 @@ class _StallPageState extends State<StallPage> {
         child: Column(
           children: [
             Container(
-              margin: EdgeInsets.only(bottom: 16),
+              margin: const EdgeInsets.only(bottom: 16),
               child: TextField(
                 controller: _controller,
-                style: TextStyle(fontSize: 14),
+                style: const TextStyle(fontSize: 15),
                 decoration: InputDecoration(
-                  hintText: 'Search Stall Number',
-                  prefixIcon: Icon(
+                  hintText: 'Search Stall',
+                  prefixIcon: const Icon(
                     Icons.search,
-                    color: Colors.grey,
+                    color: Colors.black,
                   ),
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
+                      const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30), // Rounded corners
-                    borderSide: BorderSide(
+                    borderSide: const BorderSide(
                       color: Colors.grey, // Color of the border
                       width: 1, // Border width
                     ),

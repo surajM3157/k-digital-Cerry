@@ -393,60 +393,71 @@ class _SurveyPageState extends State<SurveyPage> {
 
   Widget nextButton(){
     return GestureDetector(
-      onTap: (){
-        if((globalSessionList().length-1) == index){
-
-          if(globalSessionList()[index].typeOf?.toLowerCase() == "multiline"&& globalSessionList()[index].multiLineController.text.isEmpty){
-            EasyLoading.showToast("Please enter feedback",
+      onTap: () {
+        // Check if the last question is a multi-line question and validate if the input is empty or only contains spaces
+        if ((globalSessionList().length - 1) == index) {
+          if (globalSessionList()[index].typeOf?.toLowerCase() == "multiline" &&
+              (globalSessionList()[index].multiLineController.text.trim().isEmpty)) {
+            EasyLoading.showToast("Please Enter Valid Feedback",
                 dismissOnTap: true,
                 duration: const Duration(seconds: 1),
                 toastPosition: EasyLoadingToastPosition.center);
-          }else if(globalSessionList()[index].typeOf?.toLowerCase() == "multiplechoice"&& globalSessionList()[index].selectedCheckboxOptions.every((element) => element == false)){
-
-            EasyLoading.showToast("Please select options",
+          } else if (globalSessionList()[index].typeOf?.toLowerCase() == "multiplechoice" &&
+              globalSessionList()[index].selectedCheckboxOptions.every((element) => element == false)) {
+            EasyLoading.showToast("Please select at least one option",
                 dismissOnTap: true,
                 duration: const Duration(seconds: 1),
                 toastPosition: EasyLoadingToastPosition.center);
-          }else if(globalSessionList()[index].typeOf?.toLowerCase() == "singlechoice"&& globalSessionList()[index].selectedRadioOption == null){
-            EasyLoading.showToast("Please select option",
+          } else if (globalSessionList()[index].typeOf?.toLowerCase() == "singlechoice" &&
+              globalSessionList()[index].selectedRadioOption == null) {
+            EasyLoading.showToast("Please select an option",
                 dismissOnTap: true,
-                duration: const Duration(seconds: 1));
-          }else if(globalSessionList()[index].typeOf?.toLowerCase()== "stars"&& globalSessionList()[index].selectedStarOption == 0){
+                duration: const Duration(seconds: 1),
+                toastPosition: EasyLoadingToastPosition.center);
+          } else if (globalSessionList()[index].typeOf?.toLowerCase() == "stars" &&
+              globalSessionList()[index].selectedStarOption == 0) {
             EasyLoading.showToast("Please select stars",
                 dismissOnTap: true,
-                duration: const Duration(seconds: 1));
-          }else{
-            addSurvey();}
-        }else{
-          if(globalSessionList()[index].typeOf?.toLowerCase() == "multiline"&& globalSessionList()[index].multiLineController.text.isEmpty){
-            EasyLoading.showToast("Please enter feedback",
+                duration: const Duration(seconds: 1),
+                toastPosition: EasyLoadingToastPosition.center);
+          } else {
+            addSurvey();
+          }
+        } else {
+          // For other question types
+          if (globalSessionList()[index].typeOf?.toLowerCase() == "multiline" &&
+              (globalSessionList()[index].multiLineController.text.trim().isEmpty)) {
+            EasyLoading.showToast("Please Enter Valid Feedback",
                 dismissOnTap: true,
                 duration: const Duration(seconds: 1),
                 toastPosition: EasyLoadingToastPosition.center);
-          }else if(globalSessionList()[index].typeOf?.toLowerCase() == "multiplechoice"&& globalSessionList()[index].selectedCheckboxOptions.every((element) => element == false)){
-            EasyLoading.showToast("Please select options",
+          } else if (globalSessionList()[index].typeOf?.toLowerCase() == "multiplechoice" &&
+              globalSessionList()[index].selectedCheckboxOptions.every((element) => element == false)) {
+            EasyLoading.showToast("Please select at least one option",
                 dismissOnTap: true,
                 duration: const Duration(seconds: 1),
                 toastPosition: EasyLoadingToastPosition.center);
-          }else if(globalSessionList()[index].typeOf?.toLowerCase() == "singlechoice"&& globalSessionList()[index].selectedRadioOption == null){
-            EasyLoading.showToast("Please select option",
+          } else if (globalSessionList()[index].typeOf?.toLowerCase() == "singlechoice" &&
+              globalSessionList()[index].selectedRadioOption == null) {
+            EasyLoading.showToast("Please select an option",
                 dismissOnTap: true,
-                duration: const Duration(seconds: 1));
-          }else if(globalSessionList()[index].typeOf?.toLowerCase()== "stars"&& globalSessionList()[index].selectedStarOption == 0){
+                duration: const Duration(seconds: 1),
+                toastPosition: EasyLoadingToastPosition.center);
+          } else if (globalSessionList()[index].typeOf?.toLowerCase() == "stars" &&
+              globalSessionList()[index].selectedStarOption == 0) {
             EasyLoading.showToast("Please select stars",
                 dismissOnTap: true,
-                duration: const Duration(seconds: 1));
-          }else{
+                duration: const Duration(seconds: 1),
+                toastPosition: EasyLoadingToastPosition.center);
+          } else {
             index++;
           }
-
         }
-        setState(() {
-
-        });
+        setState(() {});
       },
       child: Container(
-        height: 41,width: 105,
+        height: 41,
+        width: 105,
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(10)),
           gradient: LinearGradient(
@@ -456,9 +467,15 @@ class _SurveyPageState extends State<SurveyPage> {
           ),
         ),
         child: Center(
-          child: Text((globalSessionList().length-1) == index?"Finish":"Next",style: TextStyle(
-              color:AppColor.white,fontSize: 20,fontFamily: appFontFamily,fontWeight: FontWeight.w400
-          ),),
+          child: Text(
+            (globalSessionList().length - 1) == index ? "Finish" : "Next",
+            style: TextStyle(
+              color: AppColor.white,
+              fontSize: 20,
+              fontFamily: appFontFamily,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
         ),
       ),
     );
